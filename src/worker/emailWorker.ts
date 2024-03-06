@@ -1,7 +1,7 @@
 import { Worker } from 'bullmq';
 import { Resend } from 'resend';
-import { connection } from '../utils/queue';
 import * as dotenv from 'dotenv';
+import { redis } from '../utils/queue';
 
 const MAX_RETRIES = 3;
 
@@ -48,7 +48,9 @@ const emailWorker = new Worker(
 
     await sendEmailWithRetry();
   },
-  { connection: connection },
+  {
+    connection: redis,
+  },
 );
 
 console.log('Email worker started');

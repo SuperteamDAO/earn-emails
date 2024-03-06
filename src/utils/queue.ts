@@ -1,5 +1,8 @@
 import { Queue } from 'bullmq';
-export const connection = { host: '127.0.0.1', port: 6379 };
+import Redis from 'ioredis';
 
-export const emailQueue = new Queue('emailQueue', { connection });
-export const logicQueue = new Queue('logicQueue', { connection });
+const REDIS_URL = process.env.REDIS_URL;
+export const redis = new Redis(REDIS_URL!, { maxRetriesPerRequest: null });
+
+export const emailQueue = new Queue('emailQueue', { connection: redis });
+export const logicQueue = new Queue('logicQueue', { connection: redis });

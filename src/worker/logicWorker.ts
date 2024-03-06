@@ -1,11 +1,14 @@
-import { connection, emailQueue } from '../utils/queue';
+import { emailQueue, redis } from '../utils/queue';
 import { Worker } from 'bullmq';
 import { processLogic } from '../utils/processLogic';
+
+import * as dotenv from 'dotenv';
 
 const logicWorker = new Worker(
   'logicQueue',
   async (job) => {
     try {
+      dotenv.config();
       const { type, id, userId } = job.data;
       const emailDatas = await processLogic({ type, id, userId });
 
@@ -22,7 +25,9 @@ const logicWorker = new Worker(
       console.error(`Failed to process logic for job ${job.id}:`, error);
     }
   },
-  { connection: connection },
+  {
+    connection: redis,
+  },
 );
 
 console.log('Logic worker started');
