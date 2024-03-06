@@ -3,6 +3,9 @@ import { logicQueue } from './utils/queue';
 import * as dotenv from 'dotenv';
 import cors from 'cors';
 
+import './worker/logicWorker';
+import './worker/emailWorker';
+
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 4000;

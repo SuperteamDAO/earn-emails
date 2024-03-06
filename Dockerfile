@@ -1,30 +1,16 @@
-# Step 1: Base Image
-FROM node:16-alpine
+FROM node:20 as builder
 
-# Step 2: Set Working Directory
-WORKDIR /app
+WORKDIR /earn-emails
 
-# Step 3: Dependencies
-COPY package*.json ./
+RUN npm install -g pnpm
 
-# Step 4: Install Dependencies
-RUN npm install
+COPY package.json pnpm-lock.yaml* ./
 
-# If you have build-time environment variables, add them here
-# ARG NODE_ENV=production
-# ENV NODE_ENV=${NODE_ENV}
+RUN pnpm install
 
-# Step 5: Copy Source Code
 COPY . .
 
-# Step 6: Build Application
-# Since you are using tsx for development, ensure your tsx build command is correctly set up in your package.json
-# For this example, I'll assume you need to run `tsx` to build your TypeScript files.
-RUN npm run build
+RUN pnpm run build
 
-# Step 7: Start Command
-# This command depends on how you start your application and workers.
-# Here's an example if you start your server with `node dist/index.js`
-CMD ["node", "dist/index.js"]
 
-# If you use a different command to start your application or manage workers, adjust the CMD accordingly.
+CMD [ "node", "dist/index.js" ]
