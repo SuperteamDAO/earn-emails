@@ -5,7 +5,8 @@
   "main": "src/index.ts",
   "scripts": {
     "dev": "tsx watch src",
-    "build": "npx tsc || exit 0"
+    "build": "prisma generate && npx tsc",
+    "postinstall": "prisma generate"
   },
   "keywords": [],
   "author": "",
