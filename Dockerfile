@@ -12,5 +12,4 @@ COPY . .
 
 RUN pnpm run build
 
-
 CMD [ "node", "dist/index.js" ]
