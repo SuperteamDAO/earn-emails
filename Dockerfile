@@ -10,6 +10,6 @@ RUN pnpm install
 
 COPY . .
 
-RUN pnpm run build
+RUN pnpm run build || (echo "Build failed, reviewing available files:" && ls -la && false)
 
 CMD [ "node", "dist/index.js" ]
