@@ -1,6 +1,6 @@
-import { prisma } from '../utils/prisma';
-import { kashEmail } from '../constants/kashEmail';
-import { WinnersAnnouncedTemplate } from '../emailTemplates';
+import { prisma } from '../../utils/prisma';
+import { kashEmail } from '../../constants/kashEmail';
+import { WinnersAnnouncedTemplate } from '../../emailTemplates';
 import { render } from '@react-email/render';
 
 export async function processAnnounceWinners(id: string) {

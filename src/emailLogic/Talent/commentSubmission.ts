@@ -1,7 +1,7 @@
 import { render } from '@react-email/render';
-import { kashEmail } from '../constants/kashEmail';
-import { CommentSubmissionTemplate } from '../emailTemplates';
-import { prisma } from '../utils/prisma';
+import { kashEmail } from '../../constants/kashEmail';
+import { CommentSubmissionTemplate } from '../../emailTemplates';
+import { prisma } from '../../utils/prisma';
 
 export async function processCommentSubmission(id: string, userId: string) {
   const submission = await prisma.submission.findUnique({

@@ -1,15 +1,14 @@
-import { prisma } from '../utils/prisma';
-import { kashEmail } from '../constants/kashEmail';
-import { DeadlineExceededbyWeekTemplate } from '../emailTemplates';
+import { prisma } from '../../utils/prisma';
+import { kashEmail } from '../../constants/kashEmail';
+import { DeadlineSponsorTemplate } from '../../emailTemplates';
 import { render } from '@react-email/render';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 
-export async function processDeadlineExceededWeek() {
+export async function processDeadlineExceeded() {
   dayjs.extend(utc);
 
-  const sevenDaysAgo = dayjs.utc().subtract(7, 'day').toISOString();
-  const nineDaysAgo = dayjs.utc().subtract(9, 'day').toISOString();
+  const currentTime = dayjs.utc();
 
   const listings = await prisma.bounties.findMany({
     where: {
@@ -18,8 +17,8 @@ export async function processDeadlineExceededWeek() {
       isArchived: false,
       status: 'OPEN',
       deadline: {
-        lt: sevenDaysAgo,
-        gte: nineDaysAgo,
+        lt: currentTime.toISOString(),
+        gte: currentTime.subtract(1, 'day').toISOString(),
       },
       isWinnersAnnounced: false,
     },
@@ -32,14 +31,14 @@ export async function processDeadlineExceededWeek() {
     const checkLogs = await prisma.emailLogs.findFirst({
       where: {
         bountyId: listing.id,
-        type: 'BOUNTY_DEADLINE_WEEK',
+        type: 'BOUNTY_DEADLINE',
       },
     });
 
     if (checkLogs || !listing.poc?.email) return null;
 
     const emailHtml = render(
-      DeadlineExceededbyWeekTemplate({
+      DeadlineSponsorTemplate({
         name: listing.poc.firstName!,
         listingName: listing.title,
         link: `https://earn.superteam.fun/dashboard/listings/${listing?.slug}/submissions/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`,
@@ -48,7 +47,7 @@ export async function processDeadlineExceededWeek() {
 
     await prisma.emailLogs.create({
       data: {
-        type: 'BOUNTY_DEADLINE_WEEK',
+        type: 'BOUNTY_DEADLINE',
         bountyId: listing.id,
       },
     });
@@ -57,7 +56,7 @@ export async function processDeadlineExceededWeek() {
       from: kashEmail,
       to: [listing.poc.email],
       bcc: ['pratikd.earnings@gmail.com'],
-      subject: 'Winner Announcement for Your Earn Bounty Is Due!',
+      subject: 'Your Earn Listing Is Ready to Be Reviewed',
       html: emailHtml,
     };
   });

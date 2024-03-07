@@ -1,9 +1,9 @@
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
-import { MainSkills, Skills } from '../types';
-import { prisma } from '../utils/prisma';
-import { kashEmail } from '../constants/kashEmail';
-import { WeeklyRoundupTemplate } from '../emailTemplates';
+import { MainSkills, Skills } from '../../types';
+import { prisma } from '../../utils/prisma';
+import { kashEmail } from '../../constants/kashEmail';
+import { WeeklyRoundupTemplate } from '../../emailTemplates';
 import { render } from '@react-email/render';
 
 dayjs.extend(utc);

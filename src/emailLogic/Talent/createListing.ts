@@ -1,9 +1,9 @@
 import { Regions } from '@prisma/client';
-import { Superteams } from '../constants/Superteam';
-import { prisma } from '../utils/prisma';
-import { Skills } from '../types';
-import { kashEmail } from '../constants/kashEmail';
-import { NewListingTemplate } from '../emailTemplates';
+import { Superteams } from '../../constants/Superteam';
+import { prisma } from '../../utils/prisma';
+import { Skills } from '../../types';
+import { kashEmail } from '../../constants/kashEmail';
+import { NewListingTemplate } from '../../emailTemplates';
 import { render } from '@react-email/render';
 
 export async function processCreateListing(id: string) {

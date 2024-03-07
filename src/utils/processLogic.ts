@@ -13,7 +13,7 @@ import {
   processTalentSubmission,
   processWeeklyRoundup,
 } from '../emailLogic';
-import { processDeadlineExceeded } from '../emailLogic/deadlineExceeded';
+import { processDeadlineExceeded } from '../emailLogic/Sponsor/deadlineExceeded';
 
 type EmailType =
   | 'addPayment'

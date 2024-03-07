@@ -1,6 +1,6 @@
-import { prisma } from '../utils/prisma';
-import { kashEmail } from '../constants/kashEmail';
-import { DeadlineThreeDaysTemplate } from '../emailTemplates';
+import { prisma } from '../../utils/prisma';
+import { kashEmail } from '../../constants/kashEmail';
+import { DeadlineThreeDaysTemplate } from '../../emailTemplates';
 import { render } from '@react-email/render';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
@@ -16,6 +16,7 @@ export async function processDeadlineThreeDays() {
       isActive: true,
       isArchived: false,
       status: 'OPEN',
+      isPrivate: false,
       deadline: {
         gte: threeDaysFromNowStart.toISOString(),
         lt: threeDaysFromNowEnd.toISOString(),

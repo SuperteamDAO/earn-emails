@@ -1,7 +1,7 @@
 import { render } from '@react-email/render';
-import { kashEmail } from '../constants/kashEmail';
-import { SubmissionSponsorTemplate } from '../emailTemplates';
-import { prisma } from '../utils/prisma';
+import { kashEmail } from '../../constants/kashEmail';
+import { SubmissionSponsorTemplate } from '../../emailTemplates';
+import { prisma } from '../../utils/prisma';
 
 export async function processSponsorSubmission(id: string) {
   const listing = await prisma.bounties.findFirst({

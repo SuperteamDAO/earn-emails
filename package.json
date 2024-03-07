@@ -6,9 +6,7 @@
   "scripts": {
     "dev": "tsx watch src",
     "build": "prisma generate && npx tsc",
-    "postinstall": "prisma generate",
-    "knip": "knip",
-    "find-deadcode": "ts-prune"
+    "postinstall": "prisma generate"
   },
   "keywords": [],
   "author": "",

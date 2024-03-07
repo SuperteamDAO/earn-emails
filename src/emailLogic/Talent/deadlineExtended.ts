@@ -1,6 +1,6 @@
-import { prisma } from '../utils/prisma';
-import { kashEmail } from '../constants/kashEmail';
-import { DeadlineExtendedTemplate } from '../emailTemplates';
+import { prisma } from '../../utils/prisma';
+import { kashEmail } from '../../constants/kashEmail';
+import { DeadlineExtendedTemplate } from '../../emailTemplates';
 import { render } from '@react-email/render';
 
 export async function processDeadlineExtended(id: string) {
