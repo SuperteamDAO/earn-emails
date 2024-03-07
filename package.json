@@ -4,7 +4,8 @@
   "description": "",
   "main": "src/index.ts",
   "scripts": {
-    "dev": "tsx watch src"
+    "dev": "tsx watch src",
+    "build": "npx tsc"
   },
   "keywords": [],
   "author": "",
