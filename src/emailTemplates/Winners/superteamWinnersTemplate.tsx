@@ -23,11 +23,11 @@ export const SuperteamWinnersTemplate = ({
         >
           this form
         </a>{' '}
-        to receive your bounty reward, and select &quot;Pratik Dholani&quot; as
+        to receive your listing reward, and select &quot;Pratik Dholani&quot; as
         the Project Lead.
       </p>
       <p style={styles.textWithMargin}>
-        We follow a weekly payout system. Therefore, your bounty reward might
+        We follow a weekly payout system. Therefore, your listing reward might
         take up to a week to show up in your wallet. If you would like to track
         the status of your payment, you can do so{' '}
         <a

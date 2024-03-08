@@ -32,7 +32,7 @@ export async function processSuperteamWinners(id: string) {
     }[] = winners.map((winner) => {
       const emailHtml = render(
         SuperteamWinnersTemplate({
-          name: winner.user.email,
+          name: winner.user.firstName,
           listingName: listing?.title || '',
         }),
       );
