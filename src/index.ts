@@ -7,6 +7,7 @@ dotenv.config();
 
 import './worker/logicWorker';
 import './worker/emailWorker';
+import './utils/cronJobs';
 
 const app = express();
 const PORT = process.env.PORT || 4000;
