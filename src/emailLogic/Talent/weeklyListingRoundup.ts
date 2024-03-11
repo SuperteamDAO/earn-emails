@@ -5,6 +5,8 @@ import { prisma } from '../../utils/prisma';
 import { kashEmail } from '../../constants/kashEmail';
 import { WeeklyRoundupTemplate } from '../../emailTemplates';
 import { render } from '@react-email/render';
+import { Regions } from '@prisma/client';
+import { Superteams } from '../../constants/Superteam';
 
 dayjs.extend(utc);
 
@@ -12,6 +14,20 @@ type Notifications = {
   label: MainSkills;
   timestamp: string;
 }[];
+
+function userRegionEligibility(region: Regions, userInfo: any) {
+  if (region === Regions.GLOBAL) {
+    return true;
+  }
+
+  const superteam = Superteams.find((st) => st.region === region);
+
+  const isEligible =
+    !!(userInfo?.location && superteam?.country.includes(userInfo?.location)) ||
+    false;
+
+  return isEligible;
+}
 
 export async function processWeeklyRoundup() {
   const users = await prisma.user.findMany({
@@ -34,13 +50,20 @@ export async function processWeeklyRoundup() {
     .filter((user) => user.notifications !== null)
     .map((user) => {
       const userNotifications = user.notifications as Notifications;
+
+      // filter bounties based on user notifications
       const matchingBounties = bounties.filter((bounty) => {
         const bountySkills = bounty.skills as Skills;
-        return userNotifications.some((notification) =>
+
+        const skillsMatch = userNotifications.some((notification) =>
           bountySkills.some((bountySkill) =>
             bountySkill.skills.includes(notification.label),
           ),
         );
+
+        if (!skillsMatch) return false;
+
+        return userRegionEligibility(bounty.region, user);
       });
 
       if (matchingBounties.length === 0) return null;
