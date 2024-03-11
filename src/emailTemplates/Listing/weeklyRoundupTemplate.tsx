@@ -34,8 +34,7 @@ export const WeeklyRoundupTemplate = ({ name, bounties }: TemplateProps) => {
             >
               {bounty.title} by {bounty.sponsor} ($
               {bounty.rewardAmount ?? 'Not specified'})
-            </a>{' '}
-            {bounty.title}
+            </a>
           </li>
         ))}
       </ol>
