@@ -28,13 +28,21 @@ export const WeeklyRoundupTemplate = ({ name, bounties }: TemplateProps) => {
     minRewardAsk,
     rewardAmount,
   }: Reward) {
+    const formatNumber = (number: number) =>
+      new Intl.NumberFormat('en-US', { maximumSignificantDigits: 3 }).format(
+        number,
+      );
     switch (compensationType) {
       case 'fixed':
-        return `${rewardAmount}`;
+        return rewardAmount !== null ? formatNumber(rewardAmount) : 'N/A';
       case 'variable':
         return 'Variable';
       case 'range':
-        return `${minRewardAsk} - ${maxRewardAsk}`;
+        const minFormatted =
+          minRewardAsk !== null ? formatNumber(minRewardAsk) : 'N/A';
+        const maxFormatted =
+          maxRewardAsk !== null ? formatNumber(maxRewardAsk) : 'N/A';
+        return `${minFormatted} - ${maxFormatted}`;
     }
   }
   return (

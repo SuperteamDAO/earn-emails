@@ -41,6 +41,7 @@ export async function processWeeklyRoundup() {
       isArchived: false,
       status: 'OPEN',
       isWinnersAnnounced: false,
+      deadline: { gte: dayjs().add(1, 'day').toISOString() },
     },
     include: { sponsor: true },
   });
@@ -72,11 +73,11 @@ export async function processWeeklyRoundup() {
           name: user.firstName!,
           bounties: matchingBounties.map((bounty) => ({
             title: bounty.title,
-            rewardAmount: bounty.rewardAmount,
             sponsor: bounty.sponsor.name,
             slug: bounty.slug,
             type: bounty.type,
             token: bounty.token,
+            rewardAmount: bounty.rewardAmount,
             compensationType: bounty.compensationType,
             maxRewardAsk: bounty.maxRewardAsk,
             minRewardAsk: bounty.minRewardAsk,
