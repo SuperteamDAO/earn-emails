@@ -16,8 +16,6 @@
     "@types/node": "^20.11.24",
     "@types/node-cron": "^3.0.11",
     "@types/react": "^18.2.63",
-    "@typescript-eslint/eslint-plugin": "^6.4.0",
-    "eslint": "^8.57.0",
     "prisma": "^5.10.2",
     "tsx": "^4.7.1",
     "typescript": "^5.3.3"
@@ -26,16 +24,13 @@
     "@prisma/client": "^5.10.2",
     "@react-email/render": "^0.0.12",
     "@types/express": "^4.17.21",
-    "@typescript-eslint/parser": "^7.1.1",
     "bullmq": "^5.4.1",
     "cors": "^2.8.5",
     "dayjs": "^1.11.10",
     "dotenv": "^16.4.5",
-    "eslint-config-prettier": "^9.1.0",
     "express": "^4.18.3",
     "ioredis": "^5.3.2",
     "node-cron": "^3.0.3",
-    "prettier": "^3.2.5",
     "react": "^18.2.0",
     "resend": "^3.2.0"
   }

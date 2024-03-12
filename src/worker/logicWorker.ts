@@ -14,10 +14,16 @@ const logicWorker = new Worker(
 
       if (Array.isArray(emailDatas)) {
         for (const emailData of emailDatas) {
-          await emailQueue.add('emailQueue', emailData);
+          await emailQueue.add('emailQueue', emailData, {
+            backoff: { type: 'exponential', delay: 1000 },
+            attempts: 3,
+          });
         }
       } else {
-        await emailQueue.add('emailQueue', emailDatas);
+        await emailQueue.add('emailQueue', emailDatas, {
+          backoff: { type: 'exponential', delay: 1000 },
+          attempts: 3,
+        });
       }
 
       console.log(`Logic processed for type ${type}, email queued.`);

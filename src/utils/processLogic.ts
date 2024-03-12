@@ -4,6 +4,7 @@ import {
   processCommentSponsor,
   processCommentSubmission,
   processCreateListing,
+  processDeadlineExceeded,
   processDeadlineExceededWeek,
   processDeadlineExtended,
   processDeadlineThreeDays,
@@ -13,7 +14,6 @@ import {
   processTalentSubmission,
   processWeeklyRoundup,
 } from '../emailLogic';
-import { processDeadlineExceeded } from '../emailLogic/Sponsor/deadlineExceeded';
 
 type EmailType =
   | 'addPayment'
