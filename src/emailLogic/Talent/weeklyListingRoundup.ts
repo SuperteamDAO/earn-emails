@@ -41,7 +41,6 @@ export async function processWeeklyRoundup() {
       isArchived: false,
       status: 'OPEN',
       isWinnersAnnounced: false,
-      deadline: { gte: dayjs().add(1, 'day').toISOString() },
     },
     include: { sponsor: true },
   });
@@ -77,6 +76,10 @@ export async function processWeeklyRoundup() {
             sponsor: bounty.sponsor.name,
             slug: bounty.slug,
             type: bounty.type,
+            token: bounty.token,
+            compensationType: bounty.compensationType,
+            maxRewardAsk: bounty.maxRewardAsk,
+            minRewardAsk: bounty.minRewardAsk,
           })),
         }),
       );

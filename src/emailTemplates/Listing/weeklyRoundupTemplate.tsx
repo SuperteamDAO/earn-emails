@@ -2,12 +2,18 @@ import React from 'react';
 
 import { styles } from '../../utils/styles';
 
-interface Bounty {
+interface Reward {
+  rewardAmount: number | null;
+  compensationType: string;
+  maxRewardAsk: number | null;
+  minRewardAsk: number | null;
+}
+interface Bounty extends Reward {
   title: string;
   sponsor: string;
   slug: string;
-  rewardAmount: number | null;
   type: 'bounty' | 'project' | 'hackathon';
+  token: string | null;
 }
 
 interface TemplateProps {
@@ -16,6 +22,21 @@ interface TemplateProps {
 }
 
 export const WeeklyRoundupTemplate = ({ name, bounties }: TemplateProps) => {
+  function getReward({
+    compensationType,
+    maxRewardAsk,
+    minRewardAsk,
+    rewardAmount,
+  }: Reward) {
+    switch (compensationType) {
+      case 'fixed':
+        return `${rewardAmount}`;
+      case 'variable':
+        return 'Variable';
+      case 'range':
+        return `${minRewardAsk} - ${maxRewardAsk}`;
+    }
+  }
   return (
     <div style={styles.container}>
       <p style={styles.greetings}>Hey there, {name}!</p>
@@ -32,8 +53,14 @@ export const WeeklyRoundupTemplate = ({ name, bounties }: TemplateProps) => {
               }/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`}
               style={styles.link}
             >
-              {bounty.title} by {bounty.sponsor} ($
-              {bounty.rewardAmount ?? 'Not specified'})
+              {bounty.title} by {bounty.sponsor} (
+              {getReward({
+                compensationType: bounty?.compensationType,
+                maxRewardAsk: bounty?.maxRewardAsk,
+                minRewardAsk: bounty?.minRewardAsk,
+                rewardAmount: bounty?.rewardAmount,
+              })}{' '}
+              {bounty?.token})
             </a>
           </li>
         ))}
