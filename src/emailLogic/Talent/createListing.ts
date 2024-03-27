@@ -5,8 +5,24 @@ import { Skills } from '../../types';
 import { kashEmail } from '../../constants/kashEmail';
 import { NewListingTemplate } from '../../emailTemplates';
 import { render } from '@react-email/render';
+import { getCategoryFromEmailType } from '../../utils/getCategoryFromEmailType';
 
-export async function processCreateListing(id: string) {
+export async function processCreateListing(id: string, userId: string) {
+  const category = getCategoryFromEmailType('createListing');
+
+  const userPreference = await prisma.emailSettings.findFirst({
+    where: {
+      userId: userId,
+      isSubscribed: true,
+      category,
+    },
+  });
+
+  if (!userPreference) {
+    console.log(`User ${userId} has opted out of this type of email.`);
+    return;
+  }
+
   const listing = await prisma.bounties.findUnique({
     where: {
       id,

@@ -7,6 +7,7 @@ import { WeeklyRoundupTemplate } from '../../emailTemplates';
 import { render } from '@react-email/render';
 import { Regions } from '@prisma/client';
 import { Superteams } from '../../constants/Superteam';
+import { getCategoryFromEmailType } from '../../utils/getCategoryFromEmailType';
 
 dayjs.extend(utc);
 
@@ -34,6 +35,8 @@ export async function processWeeklyRoundup() {
     where: { isTalentFilled: true },
   });
 
+  const category = getCategoryFromEmailType('weeklyListingRoundup');
+
   const bounties = await prisma.bounties.findMany({
     where: {
       isPublished: true,
@@ -46,15 +49,23 @@ export async function processWeeklyRoundup() {
     include: { sponsor: true },
   });
 
-  const emails = users
-    .filter((user) => user.notifications !== null)
-    .map((user) => {
+  const emails = await Promise.all(
+    users.map(async (user) => {
+      const userPreference = await prisma.emailSettings.findFirst({
+        where: {
+          userId: user.id,
+          isSubscribed: true,
+          category,
+        },
+      });
+
+      if (!userPreference) return null;
+
+      if (!user.notifications) return null;
       const userNotifications = user.notifications as Notifications;
 
-      // filter bounties based on user notifications
       const matchingBounties = bounties.filter((bounty) => {
         const bountySkills = bounty.skills as Skills;
-
         const skillsMatch = userNotifications.some((notification) =>
           bountySkills.some((bountySkill) =>
             bountySkill.skills.includes(notification.label),
@@ -91,8 +102,8 @@ export async function processWeeklyRoundup() {
         subject: 'Your Weekly Bounty Roundup Is Here!',
         html: emailHtml,
       };
-    })
-    .filter(Boolean);
+    }),
+  ).then((results) => results.filter(Boolean));
 
   return emails;
 }

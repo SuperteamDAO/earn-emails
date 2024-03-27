@@ -3,8 +3,24 @@ import { kashEmail } from '../../constants/kashEmail';
 import { WinnersAnnouncedTemplate } from '../../emailTemplates';
 import { render } from '@react-email/render';
 import { getListingTypeLabel } from '../../utils/getListingTypeLabel';
+import { getCategoryFromEmailType } from '../../utils/getCategoryFromEmailType';
 
-export async function processAnnounceWinners(id: string) {
+export async function processAnnounceWinners(id: string, userId: string) {
+  const category = getCategoryFromEmailType('announceWinners');
+
+  const userPreference = await prisma.emailSettings.findFirst({
+    where: {
+      userId: userId,
+      isSubscribed: true,
+      category,
+    },
+  });
+
+  if (!userPreference) {
+    console.log(`User ${userId} has opted out of this type of email.`);
+    return;
+  }
+
   const listing = await prisma.bounties.findUnique({
     where: {
       id,
