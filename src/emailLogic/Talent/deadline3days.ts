@@ -52,7 +52,6 @@ export async function processDeadlineThreeDays() {
       const userPreference = await prisma.emailSettings.findFirst({
         where: {
           userId: sub.userId,
-          isSubscribed: true,
           category,
         },
       });

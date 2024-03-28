@@ -44,7 +44,6 @@ export async function processDeadlineExceededWeek() {
     const pocPreference = await prisma.emailSettings.findFirst({
       where: {
         userId: listing.pocId,
-        isSubscribed: true,
         category,
       },
     });

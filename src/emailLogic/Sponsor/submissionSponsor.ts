@@ -10,7 +10,6 @@ export async function processSponsorSubmission(id: string, userId: string) {
   const userPreference = await prisma.emailSettings.findFirst({
     where: {
       userId: userId,
-      isSubscribed: true,
       category,
     },
   });

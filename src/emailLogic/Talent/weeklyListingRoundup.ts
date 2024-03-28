@@ -54,7 +54,6 @@ export async function processWeeklyRoundup() {
       const userPreference = await prisma.emailSettings.findFirst({
         where: {
           userId: user.id,
-          isSubscribed: true,
           category,
         },
       });
