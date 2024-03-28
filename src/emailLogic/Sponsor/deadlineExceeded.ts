@@ -4,11 +4,14 @@ import { DeadlineSponsorTemplate } from '../../emailTemplates';
 import { render } from '@react-email/render';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
+import { getCategoryFromEmailType } from '../../utils/getCategoryFromEmailType';
 
 export async function processDeadlineExceeded() {
   dayjs.extend(utc);
 
   const currentTime = dayjs.utc();
+
+  const category = getCategoryFromEmailType('deadlineExceeded');
 
   const listings = await prisma.bounties.findMany({
     where: {
@@ -36,6 +39,15 @@ export async function processDeadlineExceeded() {
     });
 
     if (checkLogs || !listing.poc?.email) return null;
+
+    const pocPreference = await prisma.emailSettings.findFirst({
+      where: {
+        userId: listing.pocId,
+        category,
+      },
+    });
+
+    if (!pocPreference) return null;
 
     const emailHtml = render(
       DeadlineSponsorTemplate({
