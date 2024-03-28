@@ -32,7 +32,7 @@ export async function processCreateListing(id: string, userId: string) {
     const superteam = Superteams.find((team) => team.region === listing.region);
     const countries = superteam ? superteam.country : [];
 
-    const skills = listing.skills as Skills;
+    const listingSkills = listing.skills as Skills;
 
     const users = (
       await prisma.user.findMany({
@@ -46,24 +46,17 @@ export async function processCreateListing(id: string, userId: string) {
         },
       })
     ).filter((user) => {
-      if (!user.notifications) return false;
+      const userSkills =
+        typeof user.skills === 'string' ? JSON.parse(user.skills) : user.skills;
 
-      const userNotifications =
-        typeof user.notifications === 'string'
-          ? JSON.parse(user.notifications)
-          : user.notifications;
-
-      return userNotifications.some((notification: { label: string }) =>
-        skills.some((skill) => skill.skills === notification.label),
+      return userSkills.some((userSkill: { skills: string }) =>
+        listingSkills.some(
+          (listingSkill) => listingSkill.skills === userSkill.skills,
+        ),
       );
     });
 
-    const emails: {
-      from: string;
-      to: string;
-      subject: string;
-      html: string;
-    }[] = users.map((user) => {
+    const emails = users.map((user) => {
       const emailHtml = render(
         NewListingTemplate({
           name: user.firstName!,

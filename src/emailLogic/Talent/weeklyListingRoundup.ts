@@ -11,10 +11,10 @@ import { getCategoryFromEmailType } from '../../utils/getCategoryFromEmailType';
 
 dayjs.extend(utc);
 
-type Notifications = {
-  label: MainSkills;
-  timestamp: string;
-}[];
+type UserSkills = {
+  skills: MainSkills;
+  subskills: string[];
+};
 
 function userRegionEligibility(region: Regions, userInfo: any) {
   if (region === Regions.GLOBAL) {
@@ -60,14 +60,16 @@ export async function processWeeklyRoundup() {
 
       if (!userPreference) return null;
 
-      if (!user.notifications) return null;
-      const userNotifications = user.notifications as Notifications;
+      const userSkills =
+        typeof user.skills === 'string'
+          ? JSON.parse(user.skills)
+          : (user.skills as UserSkills[]);
 
       const matchingBounties = bounties.filter((bounty) => {
         const bountySkills = bounty.skills as Skills;
-        const skillsMatch = userNotifications.some((notification) =>
-          bountySkills.some((bountySkill) =>
-            bountySkill.skills.includes(notification.label),
+        const skillsMatch = userSkills.some((userSkill: UserSkills) =>
+          bountySkills.some(
+            (bountySkill) => bountySkill.skills === userSkill.skills,
           ),
         );
 
