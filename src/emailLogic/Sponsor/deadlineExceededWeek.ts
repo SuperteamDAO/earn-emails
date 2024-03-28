@@ -4,12 +4,15 @@ import { DeadlineExceededbyWeekTemplate } from '../../emailTemplates';
 import { render } from '@react-email/render';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
+import { getCategoryFromEmailType } from '../../utils/getCategoryFromEmailType';
 
 export async function processDeadlineExceededWeek() {
   dayjs.extend(utc);
 
   const sevenDaysAgo = dayjs.utc().subtract(7, 'day').toISOString();
   const nineDaysAgo = dayjs.utc().subtract(9, 'day').toISOString();
+
+  const category = getCategoryFromEmailType('deadlineExceededWeek');
 
   const listings = await prisma.bounties.findMany({
     where: {
@@ -37,6 +40,15 @@ export async function processDeadlineExceededWeek() {
     });
 
     if (checkLogs || !listing.poc?.email) return null;
+
+    const pocPreference = await prisma.emailSettings.findFirst({
+      where: {
+        userId: listing.pocId,
+        category,
+      },
+    });
+
+    if (!pocPreference) return null;
 
     const emailHtml = render(
       DeadlineExceededbyWeekTemplate({

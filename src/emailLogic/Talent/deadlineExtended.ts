@@ -2,8 +2,23 @@ import { prisma } from '../../utils/prisma';
 import { kashEmail } from '../../constants/kashEmail';
 import { DeadlineExtendedTemplate } from '../../emailTemplates';
 import { render } from '@react-email/render';
+import { getCategoryFromEmailType } from '../../utils/getCategoryFromEmailType';
 
-export async function processDeadlineExtended(id: string) {
+export async function processDeadlineExtended(id: string, userId: string) {
+  const category = getCategoryFromEmailType('deadlineExtended');
+
+  const userPreference = await prisma.emailSettings.findFirst({
+    where: {
+      userId: userId,
+      category,
+    },
+  });
+
+  if (!userPreference) {
+    console.log(`User ${userId} has opted out of this type of email.`);
+    return;
+  }
+
   const listing = await prisma.bounties.findUnique({
     where: {
       id,

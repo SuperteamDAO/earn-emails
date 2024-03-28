@@ -7,13 +7,14 @@ import { WeeklyRoundupTemplate } from '../../emailTemplates';
 import { render } from '@react-email/render';
 import { Regions } from '@prisma/client';
 import { Superteams } from '../../constants/Superteam';
+import { getCategoryFromEmailType } from '../../utils/getCategoryFromEmailType';
 
 dayjs.extend(utc);
 
-type Notifications = {
-  label: MainSkills;
-  timestamp: string;
-}[];
+type UserSkills = {
+  skills: MainSkills;
+  subskills: string[];
+};
 
 function userRegionEligibility(region: Regions, userInfo: any) {
   if (region === Regions.GLOBAL) {
@@ -34,6 +35,8 @@ export async function processWeeklyRoundup() {
     where: { isTalentFilled: true },
   });
 
+  const category = getCategoryFromEmailType('weeklyListingRoundup');
+
   const bounties = await prisma.bounties.findMany({
     where: {
       isPublished: true,
@@ -46,18 +49,27 @@ export async function processWeeklyRoundup() {
     include: { sponsor: true },
   });
 
-  const emails = users
-    .filter((user) => user.notifications !== null)
-    .map((user) => {
-      const userNotifications = user.notifications as Notifications;
+  const emails = await Promise.all(
+    users.map(async (user) => {
+      const userPreference = await prisma.emailSettings.findFirst({
+        where: {
+          userId: user.id,
+          category,
+        },
+      });
 
-      // filter bounties based on user notifications
+      if (!userPreference) return null;
+
+      const userSkills =
+        typeof user.skills === 'string'
+          ? JSON.parse(user.skills)
+          : (user.skills as UserSkills[]);
+
       const matchingBounties = bounties.filter((bounty) => {
         const bountySkills = bounty.skills as Skills;
-
-        const skillsMatch = userNotifications.some((notification) =>
-          bountySkills.some((bountySkill) =>
-            bountySkill.skills.includes(notification.label),
+        const skillsMatch = userSkills.some((userSkill: UserSkills) =>
+          bountySkills.some(
+            (bountySkill) => bountySkill.skills === userSkill.skills,
           ),
         );
 
@@ -91,8 +103,8 @@ export async function processWeeklyRoundup() {
         subject: 'Your Weekly Bounty Roundup Is Here!',
         html: emailHtml,
       };
-    })
-    .filter(Boolean);
+    }),
+  ).then((results) => results.filter(Boolean));
 
   return emails;
 }

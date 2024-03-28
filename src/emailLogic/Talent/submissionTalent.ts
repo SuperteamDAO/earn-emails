@@ -2,8 +2,23 @@ import { render } from '@react-email/render';
 import { kashEmail } from '../../constants/kashEmail';
 import { SubmissionTemplate } from '../../emailTemplates';
 import { prisma } from '../../utils/prisma';
+import { getCategoryFromEmailType } from '../../utils/getCategoryFromEmailType';
 
 export async function processTalentSubmission(id: string, userId: string) {
+  const category = getCategoryFromEmailType('submissionTalent');
+
+  const userPreference = await prisma.emailSettings.findFirst({
+    where: {
+      userId: userId,
+      category,
+    },
+  });
+
+  if (!userPreference) {
+    console.log(`User ${userId} has opted out of this type of email.`);
+    return;
+  }
+
   const listing = await prisma.bounties.findFirst({
     where: {
       id,
