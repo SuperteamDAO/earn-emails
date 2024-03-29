@@ -1,10 +1,6 @@
 const emailTypeActionMapping: { [key: string]: string } = {
   // talent emails
   createListing: 'createListing',
-  deadline3days: 'updateListing',
-  deadlineExtended: 'updateListing',
-  announceWinners: 'updateListing',
-  submissionTalent: 'updateListing',
   commentSubmission: 'commentOrLikeSubmission',
   submissionLike: 'commentOrLikeSubmission',
   weeklyListingRoundup: 'weeklyListingRoundup',

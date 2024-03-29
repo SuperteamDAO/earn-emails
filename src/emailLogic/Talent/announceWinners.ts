@@ -3,23 +3,8 @@ import { kashEmail } from '../../constants/kashEmail';
 import { WinnersAnnouncedTemplate } from '../../emailTemplates';
 import { render } from '@react-email/render';
 import { getListingTypeLabel } from '../../utils/getListingTypeLabel';
-import { getCategoryFromEmailType } from '../../utils/getCategoryFromEmailType';
 
 export async function processAnnounceWinners(id: string, userId: string) {
-  const category = getCategoryFromEmailType('announceWinners');
-
-  const userPreference = await prisma.emailSettings.findFirst({
-    where: {
-      userId: userId,
-      category,
-    },
-  });
-
-  if (!userPreference) {
-    console.log(`User ${userId} has opted out of this type of email.`);
-    return;
-  }
-
   const listing = await prisma.bounties.findUnique({
     where: {
       id,
@@ -44,7 +29,7 @@ export async function processAnnounceWinners(id: string, userId: string) {
       name: submission?.user?.firstName || '',
     }));
 
-    const subscribedUsers = await prisma.subscribeBounty.findMany({
+    const subscribers = await prisma.subscribeBounty.findMany({
       where: {
         bountyId: id,
       },
@@ -53,31 +38,12 @@ export async function processAnnounceWinners(id: string, userId: string) {
       },
     });
 
-    const allSubscribedUsers = subscribedUsers?.map((subscribedUser) => ({
-      email: subscribedUser?.User?.email || '',
-      name: subscribedUser?.User?.firstName || '',
+    const allSubscribedUsers = subscribers?.map((subscriber) => ({
+      email: subscriber?.User?.email || '',
+      name: subscriber?.User?.firstName || '',
     }));
 
-    const allSubmissionUsersWithType: any[] = allSubmissionUsers.map(
-      (submissionUser) => ({
-        email: submissionUser?.email || '',
-        name: submissionUser?.name || '',
-        userType: 'submissionUser',
-      }),
-    );
-
-    const allSubscribedUsersWithType: any[] = allSubscribedUsers.map(
-      (subscribedUser) => ({
-        email: subscribedUser.email,
-        name: subscribedUser.name,
-        userType: 'subscribedUser',
-      }),
-    );
-
-    const allUsers = [
-      ...allSubmissionUsersWithType,
-      ...allSubscribedUsersWithType,
-    ];
+    const allUsers = [...allSubmissionUsers, ...allSubscribedUsers];
 
     const listingTypeLabel = getListingTypeLabel(listing.type);
 

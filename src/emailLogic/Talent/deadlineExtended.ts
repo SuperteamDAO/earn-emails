@@ -2,28 +2,30 @@ import { prisma } from '../../utils/prisma';
 import { kashEmail } from '../../constants/kashEmail';
 import { DeadlineExtendedTemplate } from '../../emailTemplates';
 import { render } from '@react-email/render';
-import { getCategoryFromEmailType } from '../../utils/getCategoryFromEmailType';
 
 export async function processDeadlineExtended(id: string, userId: string) {
-  const category = getCategoryFromEmailType('deadlineExtended');
-
-  const userPreference = await prisma.emailSettings.findFirst({
-    where: {
-      userId: userId,
-      category,
-    },
-  });
-
-  if (!userPreference) {
-    console.log(`User ${userId} has opted out of this type of email.`);
-    return;
-  }
-
   const listing = await prisma.bounties.findUnique({
     where: {
       id,
     },
   });
+
+  const submissions = await prisma.submission.findMany({
+    where: {
+      listingId: id,
+      isActive: true,
+      isArchived: false,
+    },
+    take: 500,
+    include: {
+      user: true,
+    },
+  });
+
+  const allSubmissionUsers = submissions?.map((submission) => ({
+    email: submission?.user?.email || '',
+    name: submission?.user?.firstName || '',
+  }));
 
   const subscribers = await prisma.subscribeBounty.findMany({
     where: {
@@ -34,13 +36,20 @@ export async function processDeadlineExtended(id: string, userId: string) {
     },
   });
 
+  const allSubscribedUsers = subscribers?.map((subscriber) => ({
+    email: subscriber?.User?.email || '',
+    name: subscriber?.User?.firstName || '',
+  }));
+
+  const allUsers = [...allSubmissionUsers, ...allSubscribedUsers];
+
   if (listing) {
     const emails: {
       from: string;
       to: string;
       subject: string;
       html: string;
-    }[] = subscribers.map((subscriber) => {
+    }[] = allUsers.map((user) => {
       const emailHtml = render(
         DeadlineExtendedTemplate({
           listingName: listing.title,
@@ -49,7 +58,7 @@ export async function processDeadlineExtended(id: string, userId: string) {
       );
       return {
         from: kashEmail,
-        to: subscriber.User.email,
+        to: user.email,
         subject: 'Listing Deadline Extended!',
         html: emailHtml,
       };
