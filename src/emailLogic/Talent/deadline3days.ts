@@ -4,7 +4,6 @@ import { DeadlineThreeDaysTemplate } from '../../emailTemplates';
 import { render } from '@react-email/render';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
-import { getCategoryFromEmailType } from '../../utils/getCategoryFromEmailType';
 
 export async function processDeadlineThreeDays() {
   dayjs.extend(utc);
@@ -31,8 +30,6 @@ export async function processDeadlineThreeDays() {
 
   let emails = [];
 
-  const category = getCategoryFromEmailType('deadline3days');
-
   for (const listing of listings) {
     const checkLogs = await prisma.emailLogs.findFirst({
       where: {
@@ -49,15 +46,6 @@ export async function processDeadlineThreeDays() {
     });
 
     for (const sub of listingSubscriptions) {
-      const userPreference = await prisma.emailSettings.findFirst({
-        where: {
-          userId: sub.userId,
-          category,
-        },
-      });
-
-      if (!userPreference) continue;
-
       const emailHtml = render(
         DeadlineThreeDaysTemplate({
           name: sub?.User?.firstName!,
