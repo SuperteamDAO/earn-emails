@@ -89,7 +89,6 @@ model Bounties {
   compensationType     CompensationType   @default(fixed)
   minRewardAsk         Int?
   maxRewardAsk         Int?
-  winnerBannerUrl      String?
 
   @@index([id, slug])
   @@index([sponsorId])
@@ -288,7 +287,7 @@ model User {
   workPrefernce     String?
   currentEmployer   String?
   pow               String?           @db.VarChar(2000)
-  notifications     Json?
+  notifications     Json? //remove this later
   private           Boolean           @default(false)
   skills            Json?
   currentSponsorId  String?
@@ -331,10 +330,10 @@ model PoW {
 }
 
 model EmailSettings {
-  id           Int           @id @default(autoincrement())
-  user         User          @relation(fields: [userId], references: [id])
-  userId       String
-  category     String
+  id       Int    @id @default(autoincrement())
+  user     User   @relation(fields: [userId], references: [id])
+  userId   String
+  category String
 
   @@index([userId])
 }
