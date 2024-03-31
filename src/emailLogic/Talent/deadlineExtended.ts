@@ -3,12 +3,29 @@ import { kashEmail } from '../../constants/kashEmail';
 import { DeadlineExtendedTemplate } from '../../emailTemplates';
 import { render } from '@react-email/render';
 
-export async function processDeadlineExtended(id: string) {
+export async function processDeadlineExtended(id: string, userId: string) {
   const listing = await prisma.bounties.findUnique({
     where: {
       id,
     },
   });
+
+  const submissions = await prisma.submission.findMany({
+    where: {
+      listingId: id,
+      isActive: true,
+      isArchived: false,
+    },
+    take: 500,
+    include: {
+      user: true,
+    },
+  });
+
+  const allSubmissionUsers = submissions?.map((submission) => ({
+    email: submission?.user?.email || '',
+    name: submission?.user?.firstName || '',
+  }));
 
   const subscribers = await prisma.subscribeBounty.findMany({
     where: {
@@ -19,13 +36,20 @@ export async function processDeadlineExtended(id: string) {
     },
   });
 
+  const allSubscribedUsers = subscribers?.map((subscriber) => ({
+    email: subscriber?.User?.email || '',
+    name: subscriber?.User?.firstName || '',
+  }));
+
+  const allUsers = [...allSubmissionUsers, ...allSubscribedUsers];
+
   if (listing) {
     const emails: {
       from: string;
       to: string;
       subject: string;
       html: string;
-    }[] = subscribers.map((subscriber) => {
+    }[] = allUsers.map((user) => {
       const emailHtml = render(
         DeadlineExtendedTemplate({
           listingName: listing.title,
@@ -34,7 +58,7 @@ export async function processDeadlineExtended(id: string) {
       );
       return {
         from: kashEmail,
-        to: subscriber.User.email,
+        to: user.email,
         subject: 'Listing Deadline Extended!',
         html: emailHtml,
       };

@@ -46,13 +46,13 @@ export async function processLogic({
     case 'addPayment':
       return processAddPayment(id);
     case 'announceWinners':
-      return processAnnounceWinners(id);
+      return processAnnounceWinners(id, userId);
     case 'commentSponsor':
-      return processCommentSponsor(id);
+      return processCommentSponsor(id, userId);
     case 'commentSubmission':
       return processCommentSubmission(id, userId);
     case 'createListing':
-      return processCreateListing(id);
+      return processCreateListing(id, userId);
     case 'deadline3days':
       return processDeadlineThreeDays();
     case 'deadlineExceeded':
@@ -60,11 +60,11 @@ export async function processLogic({
     case 'deadlineExceededWeek':
       return processDeadlineExceededWeek();
     case 'deadlineExtended':
-      return processDeadlineExtended(id);
+      return processDeadlineExtended(id, userId);
     case 'submissionLike':
-      return processSubmissionLike(id);
+      return processSubmissionLike(id, userId);
     case 'submissionSponsor':
-      return processSponsorSubmission(id);
+      return processSponsorSubmission(id, userId);
     case 'submissionTalent':
       return processTalentSubmission(id, userId);
     case 'superteamWinners':

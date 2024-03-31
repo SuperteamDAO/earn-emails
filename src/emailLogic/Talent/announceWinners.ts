@@ -4,7 +4,7 @@ import { WinnersAnnouncedTemplate } from '../../emailTemplates';
 import { render } from '@react-email/render';
 import { getListingTypeLabel } from '../../utils/getListingTypeLabel';
 
-export async function processAnnounceWinners(id: string) {
+export async function processAnnounceWinners(id: string, userId: string) {
   const listing = await prisma.bounties.findUnique({
     where: {
       id,
@@ -29,7 +29,7 @@ export async function processAnnounceWinners(id: string) {
       name: submission?.user?.firstName || '',
     }));
 
-    const subscribedUsers = await prisma.subscribeBounty.findMany({
+    const subscribers = await prisma.subscribeBounty.findMany({
       where: {
         bountyId: id,
       },
@@ -38,31 +38,12 @@ export async function processAnnounceWinners(id: string) {
       },
     });
 
-    const allSubscribedUsers = subscribedUsers?.map((subscribedUser) => ({
-      email: subscribedUser?.User?.email || '',
-      name: subscribedUser?.User?.firstName || '',
+    const allSubscribedUsers = subscribers?.map((subscriber) => ({
+      email: subscriber?.User?.email || '',
+      name: subscriber?.User?.firstName || '',
     }));
 
-    const allSubmissionUsersWithType: any[] = allSubmissionUsers.map(
-      (submissionUser) => ({
-        email: submissionUser?.email || '',
-        name: submissionUser?.name || '',
-        userType: 'submissionUser',
-      }),
-    );
-
-    const allSubscribedUsersWithType: any[] = allSubscribedUsers.map(
-      (subscribedUser) => ({
-        email: subscribedUser.email,
-        name: subscribedUser.name,
-        userType: 'subscribedUser',
-      }),
-    );
-
-    const allUsers = [
-      ...allSubmissionUsersWithType,
-      ...allSubscribedUsersWithType,
-    ];
+    const allUsers = [...allSubmissionUsers, ...allSubscribedUsers];
 
     const listingTypeLabel = getListingTypeLabel(listing.type);
 

@@ -45,7 +45,7 @@ export async function processDeadlineThreeDays() {
       include: { User: true },
     });
 
-    const listingEmails = listingSubscriptions.map((sub) => {
+    for (const sub of listingSubscriptions) {
       const emailHtml = render(
         DeadlineThreeDaysTemplate({
           name: sub?.User?.firstName!,
@@ -54,15 +54,13 @@ export async function processDeadlineThreeDays() {
         }),
       );
 
-      return {
+      emails.push({
         from: kashEmail,
         to: [sub?.User?.email],
         subject: 'This Bounty Is Expiring Soon!',
         html: emailHtml,
-      };
-    });
-
-    emails.push(...listingEmails);
+      });
+    }
 
     await prisma.emailLogs.create({
       data: {
