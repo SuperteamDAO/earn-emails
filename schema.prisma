@@ -416,6 +416,11 @@ model Hackathon {
   @@index([sponsorId])
 }
 
+model UnsubscribedEmail {
+  id    String @id @default(uuid())
+  email String @unique
+}
+
 enum EmailType {
   BOUNTY_REVIEW
   BOUNTY_DEADLINE

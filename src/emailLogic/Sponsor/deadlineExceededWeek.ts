@@ -32,6 +32,14 @@ export async function processDeadlineExceededWeek() {
   });
 
   const emailsPromises = listings.map(async (listing) => {
+    const isUnsubscribed = await prisma.unsubscribedEmail.findUnique({
+      where: {
+        id: listing.pocId,
+      },
+    });
+
+    if (isUnsubscribed) return null;
+
     const checkLogs = await prisma.emailLogs.findFirst({
       where: {
         bountyId: listing.id,
