@@ -46,6 +46,14 @@ export async function processDeadlineThreeDays() {
     });
 
     for (const sub of listingSubscriptions) {
+      const isUnsubscribed = await prisma.unsubscribedEmail.findUnique({
+        where: {
+          id: sub?.User?.id,
+        },
+      });
+
+      if (isUnsubscribed) return null;
+
       const emailHtml = render(
         DeadlineThreeDaysTemplate({
           name: sub?.User?.firstName!,

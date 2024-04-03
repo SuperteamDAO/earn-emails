@@ -14,6 +14,7 @@ import {
   processTalentSubmission,
   processWeeklyRoundup,
 } from '../emailLogic';
+import { prisma } from './prisma';
 
 type EmailType =
   | 'addPayment'
@@ -42,6 +43,17 @@ export async function processLogic({
   id = '',
   userId = '',
 }: processLogicParams) {
+  if (userId) {
+    const isUnsubscribed = await prisma.unsubscribedEmail.findUnique({
+      where: {
+        id: userId,
+      },
+    });
+
+    if (isUnsubscribed) {
+      return;
+    }
+  }
   switch (type) {
     case 'addPayment':
       return processAddPayment(id);

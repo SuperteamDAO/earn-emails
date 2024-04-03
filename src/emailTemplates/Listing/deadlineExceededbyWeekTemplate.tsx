@@ -33,14 +33,20 @@ export const DeadlineExceededbyWeekTemplate = ({
         Superteam Earn
       </p>
       <p style={styles.unsubscribe}>
-        Click{' '}
+        <a
+          href="https://earn.superteam.fun/#emailPreferences"
+          style={styles.unsubscribeLink}
+        >
+          Click here
+        </a>{' '}
+        to update your email preferences on Earn (recommended) or{' '}
         <a
           href="https://airtable.com/appqA0tn8zKv3WJg9/shrsil6vncuj35nHn"
           style={styles.unsubscribeLink}
         >
-          here
+          click here
         </a>{' '}
-        to unsubscribe from all emails from Superteam Earn.
+        to unsubscribe from all future emails from Superteam Earn
       </p>
     </div>
   );
