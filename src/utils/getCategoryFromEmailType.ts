@@ -2,6 +2,8 @@ const emailTypeActionMapping: { [key: string]: string } = {
   // talent emails
   createListing: 'createListing',
   commentSubmission: 'commentOrLikeSubmission',
+  commentReply: 'replyOrTagComment',
+  commentTag: 'replyOrTagComment',
   submissionLike: 'commentOrLikeSubmission',
   weeklyListingRoundup: 'weeklyListingRoundup',
 

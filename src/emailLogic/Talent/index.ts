@@ -8,3 +8,5 @@ export * from './submissionLike';
 export * from './submissionTalent';
 export * from './superteamWinners';
 export * from './weeklyListingRoundup';
+export * from './commentReply';
+export * from './commentTag';

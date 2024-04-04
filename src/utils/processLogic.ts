@@ -1,8 +1,10 @@
 import {
   processAddPayment,
   processAnnounceWinners,
+  processCommentReply,
   processCommentSponsor,
   processCommentSubmission,
+  processCommentTag,
   processCreateListing,
   processDeadlineExceeded,
   processDeadlineExceededWeek,
@@ -19,6 +21,8 @@ import { prisma } from './prisma';
 type EmailType =
   | 'addPayment'
   | 'announceWinners'
+  | 'commentReply'
+  | 'commentTag'
   | 'commentSponsor'
   | 'commentSubmission'
   | 'createListing'
@@ -36,12 +40,14 @@ interface processLogicParams {
   type: EmailType;
   id?: string;
   userId?: string;
+  otherInfo?: any;
 }
 
 export async function processLogic({
   type,
   id = '',
   userId = '',
+  otherInfo,
 }: processLogicParams) {
   if (userId) {
     const isUnsubscribed = await prisma.unsubscribedEmail.findUnique({
@@ -59,6 +65,10 @@ export async function processLogic({
       return processAddPayment(id);
     case 'announceWinners':
       return processAnnounceWinners(id, userId);
+    case 'commentReply':
+      return processCommentReply(id, userId);
+    case 'commentTag':
+      return processCommentTag(id, userId, otherInfo);
     case 'commentSponsor':
       return processCommentSponsor(id, userId);
     case 'commentSubmission':
