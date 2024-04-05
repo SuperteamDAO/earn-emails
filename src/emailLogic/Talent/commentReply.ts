@@ -5,7 +5,7 @@ import { prisma } from '../../utils/prisma';
 import { getCategoryFromEmailType } from '../../utils/getCategoryFromEmailType';
 
 export async function processCommentReply(id: string, userId: string) {
-  const category = getCategoryFromEmailType('replyOrTagComment');
+  const category = getCategoryFromEmailType('commentReply');
 
   const userPreference = await prisma.emailSettings.findFirst({
     where: {

@@ -9,7 +9,7 @@ export async function processCommentTag(
   userId: string,
   otherInfo: any,
 ) {
-  const category = getCategoryFromEmailType('replyOrTagComment');
+  const category = getCategoryFromEmailType('commentTag');
 
   const userPreference = await prisma.emailSettings.findFirst({
     where: {
