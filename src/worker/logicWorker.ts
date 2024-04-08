@@ -9,8 +9,8 @@ const logicWorker = new Worker(
   async (job) => {
     try {
       dotenv.config();
-      const { type, id, userId } = job.data;
-      const emailDatas = await processLogic({ type, id, userId });
+      const { type, id, userId, otherInfo } = job.data;
+      const emailDatas = await processLogic({ type, id, userId, otherInfo });
 
       if (Array.isArray(emailDatas)) {
         for (const emailData of emailDatas) {
