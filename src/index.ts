@@ -16,8 +16,8 @@ app.use(cors());
 app.use(express.json());
 
 app.post('/email', async (req: Request, res: Response) => {
-  const { type, id, userId } = req.body;
-  await logicQueue.add('processLogic', { type, id, userId });
+  const { type, id, userId, otherInfo } = req.body;
+  await logicQueue.add('processLogic', { type, id, userId, otherInfo });
   res.send('Email processing initiated.');
 });
 
