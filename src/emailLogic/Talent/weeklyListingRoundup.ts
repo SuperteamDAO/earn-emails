@@ -51,14 +51,6 @@ export async function processWeeklyRoundup() {
 
   const emails = await Promise.all(
     users.map(async (user) => {
-      const isUnsubscribed = await prisma.unsubscribedEmail.findUnique({
-        where: {
-          id: user.id,
-        },
-      });
-
-      if (isUnsubscribed) return null;
-
       const userPreference = await prisma.emailSettings.findFirst({
         where: {
           userId: user.id,

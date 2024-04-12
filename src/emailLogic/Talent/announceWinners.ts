@@ -4,7 +4,7 @@ import { WinnersAnnouncedTemplate } from '../../emailTemplates';
 import { render } from '@react-email/render';
 import { getListingTypeLabel } from '../../utils/getListingTypeLabel';
 
-export async function processAnnounceWinners(id: string, userId: string) {
+export async function processAnnounceWinners(id: string) {
   const listing = await prisma.bounties.findUnique({
     where: {
       id,
