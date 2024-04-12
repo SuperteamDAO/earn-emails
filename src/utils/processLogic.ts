@@ -49,22 +49,11 @@ export async function processLogic({
   userId = '',
   otherInfo,
 }: processLogicParams) {
-  if (userId) {
-    const isUnsubscribed = await prisma.unsubscribedEmail.findUnique({
-      where: {
-        id: userId,
-      },
-    });
-
-    if (isUnsubscribed) {
-      return;
-    }
-  }
   switch (type) {
     case 'addPayment':
       return processAddPayment(id);
     case 'announceWinners':
-      return processAnnounceWinners(id, userId);
+      return processAnnounceWinners(id);
     case 'commentReply':
       return processCommentReply(id, userId);
     case 'commentTag':
@@ -72,9 +61,9 @@ export async function processLogic({
     case 'commentSponsor':
       return processCommentSponsor(id, userId);
     case 'commentSubmission':
-      return processCommentSubmission(id, userId);
+      return processCommentSubmission(id, otherInfo);
     case 'createListing':
-      return processCreateListing(id, userId);
+      return processCreateListing(id);
     case 'deadline3days':
       return processDeadlineThreeDays();
     case 'deadlineExceeded':
@@ -82,7 +71,7 @@ export async function processLogic({
     case 'deadlineExceededWeek':
       return processDeadlineExceededWeek();
     case 'deadlineExtended':
-      return processDeadlineExtended(id, userId);
+      return processDeadlineExtended(id);
     case 'submissionLike':
       return processSubmissionLike(id, userId);
     case 'submissionSponsor':

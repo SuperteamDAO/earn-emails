@@ -3,7 +3,7 @@ import { kashEmail } from '../../constants/kashEmail';
 import { DeadlineExtendedTemplate } from '../../emailTemplates';
 import { render } from '@react-email/render';
 
-export async function processDeadlineExtended(id: string, userId: string) {
+export async function processDeadlineExtended(id: string) {
   const listing = await prisma.bounties.findUnique({
     where: {
       id,

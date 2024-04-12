@@ -7,20 +7,8 @@ import { NewListingTemplate } from '../../emailTemplates';
 import { render } from '@react-email/render';
 import { getCategoryFromEmailType } from '../../utils/getCategoryFromEmailType';
 
-export async function processCreateListing(id: string, userId: string) {
+export async function processCreateListing(id: string) {
   const category = getCategoryFromEmailType('createListing');
-
-  const userPreference = await prisma.emailSettings.findFirst({
-    where: {
-      userId: userId,
-      category,
-    },
-  });
-
-  if (!userPreference) {
-    console.log(`User ${userId} has opted out of this type of email.`);
-    return;
-  }
 
   const listing = await prisma.bounties.findUnique({
     where: {
@@ -56,7 +44,19 @@ export async function processCreateListing(id: string, userId: string) {
       );
     });
 
-    const emails = users.map((user) => {
+    const emails = users.map(async (user) => {
+      const userPreference = await prisma.emailSettings.findFirst({
+        where: {
+          userId: user.id,
+          category,
+        },
+      });
+
+      if (!userPreference) {
+        console.log(`User ${user.id} has opted out of this type of email.`);
+        return null;
+      }
+
       const emailHtml = render(
         NewListingTemplate({
           name: user.firstName!,
