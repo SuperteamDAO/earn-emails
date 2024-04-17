@@ -31,11 +31,15 @@ function userRegionEligibility(region: Regions, userInfo: any) {
 }
 
 export async function processWeeklyRoundup() {
-  const users = await prisma.user.findMany({
-    where: { isTalentFilled: true },
+  const emailCategory = getCategoryFromEmailType('weeklyListingRoundup');
+  const usersWithEmailSettings = await prisma.emailSettings.findMany({
+    where: {
+      category: emailCategory,
+    },
+    include: {
+      user: true,
+    },
   });
-
-  const category = getCategoryFromEmailType('weeklyListingRoundup');
 
   const bounties = await prisma.bounties.findMany({
     where: {
@@ -50,15 +54,8 @@ export async function processWeeklyRoundup() {
   });
 
   const emails = await Promise.all(
-    users.map(async (user) => {
-      const userPreference = await prisma.emailSettings.findFirst({
-        where: {
-          userId: user.id,
-          category,
-        },
-      });
-
-      if (!userPreference) return null;
+    usersWithEmailSettings.map(async ({ user }) => {
+      if (!user) return null;
 
       const userSkills =
         typeof user.skills === 'string'
@@ -100,7 +97,7 @@ export async function processWeeklyRoundup() {
       return {
         from: kashEmail,
         to: [user.email],
-        subject: 'Your Weekly Bounty Roundup Is Here!',
+        subject: 'Your Weekly Listing Roundup Is Here!',
         html: emailHtml,
       };
     }),
