@@ -18,7 +18,7 @@ export const SuperteamWinnersTemplate = ({
         Congrats on winning the <strong>{listingName}</strong> listing! Please
         fill out{' '}
         <a
-          href={'https://airtable.com/appPZ5nE1OqZiBKx7/shr3g5kAGqvResVCx'}
+          href={'https://airtable.com/appPZ5nE1OqZiBKx7/shrm91wzYYj6i2cbA'}
           style={styles.link}
         >
           this form
