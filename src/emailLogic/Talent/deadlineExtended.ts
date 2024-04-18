@@ -53,7 +53,7 @@ export async function processDeadlineExtended(id: string) {
       const emailHtml = render(
         DeadlineExtendedTemplate({
           listingName: listing.title,
-          link: `https://earn.superteam.fun/listings/${listing.type}/${listing.slug}/`,
+          link: `https://earn.superteam.fun/listings/${listing.type}/${listing.slug}/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`,
         }),
       );
       return {
