@@ -5,15 +5,11 @@ import { prisma } from '../../utils/prisma';
 
 export async function processTalentSubmission(id: string, userId: string) {
   const listing = await prisma.bounties.findFirst({
-    where: {
-      id,
-    },
+    where: { id },
   });
 
   const user = await prisma.user.findFirst({
-    where: {
-      id: userId as string,
-    },
+    where: { id: userId as string },
   });
 
   if (listing && user) {

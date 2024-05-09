@@ -10,9 +10,7 @@ export async function processCommentSubmission(id: string, otherInfo: any) {
   const { personName } = otherInfo;
 
   const submission = await prisma.submission.findUnique({
-    where: {
-      id,
-    },
+    where: { id },
     include: {
       user: true,
       listing: true,

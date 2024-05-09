@@ -6,9 +6,7 @@ import { getListingTypeLabel } from '../../utils/getListingTypeLabel';
 
 export async function processAnnounceWinners(id: string) {
   const listing = await prisma.bounties.findUnique({
-    where: {
-      id,
-    },
+    where: { id },
   });
 
   if (listing) {

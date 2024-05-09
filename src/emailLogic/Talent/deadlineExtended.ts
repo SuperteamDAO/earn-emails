@@ -5,9 +5,7 @@ import { render } from '@react-email/render';
 
 export async function processDeadlineExtended(id: string) {
   const listing = await prisma.bounties.findUnique({
-    where: {
-      id,
-    },
+    where: { id },
   });
 
   const submissions = await prisma.submission.findMany({
