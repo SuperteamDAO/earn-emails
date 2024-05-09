@@ -22,11 +22,6 @@ export async function processDeadlineExtended(id: string) {
     },
   });
 
-  const allSubmissionUsers = submissions?.map((submission) => ({
-    email: submission?.user?.email || '',
-    name: submission?.user?.firstName || '',
-  }));
-
   const subscribers = await prisma.subscribeBounty.findMany({
     where: {
       bountyId: id,
@@ -36,12 +31,27 @@ export async function processDeadlineExtended(id: string) {
     },
   });
 
-  const allSubscribedUsers = subscribers?.map((subscriber) => ({
-    email: subscriber?.User?.email || '',
-    name: subscriber?.User?.firstName || '',
-  }));
+  const emailMap = new Map();
 
-  const allUsers = [...allSubmissionUsers, ...allSubscribedUsers];
+  submissions.forEach((submission) => {
+    if (submission.user && !emailMap.has(submission.user.email)) {
+      emailMap.set(submission.user.email, {
+        email: submission.user.email,
+        name: submission.user.firstName || '',
+      });
+    }
+  });
+
+  subscribers.forEach((subscriber) => {
+    if (subscriber.User && !emailMap.has(subscriber.User.email)) {
+      emailMap.set(subscriber.User.email, {
+        email: subscriber.User.email,
+        name: subscriber.User.firstName || '',
+      });
+    }
+  });
+
+  const allUsers = Array.from(emailMap.values());
 
   if (listing) {
     const emails: {

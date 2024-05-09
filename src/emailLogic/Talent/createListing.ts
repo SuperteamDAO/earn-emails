@@ -10,41 +10,60 @@ import { getCategoryFromEmailType } from '../../utils/getCategoryFromEmailType';
 export async function processCreateListing(id: string) {
   const category = getCategoryFromEmailType('createListing');
 
-  const listing = await prisma.bounties.findUnique({
-    where: {
-      id,
-    },
-  });
+  try {
+    const listing = await prisma.bounties.findUnique({
+      where: {
+        id,
+      },
+    });
 
-  if (listing) {
+    if (!listing) {
+      console.error('No listing found with the provided ID:', id);
+      return;
+    }
+
     const superteam = Superteams.find((team) => team.region === listing.region);
     const countries = superteam ? superteam.country : [];
 
     const listingSkills = listing.skills as Skills;
 
-    const users = (
-      await prisma.user.findMany({
-        where: {
-          isTalentFilled: true,
-          ...(listing.region !== Regions.GLOBAL && {
-            location: {
-              in: countries,
-            },
-          }),
-        },
-      })
-    ).filter((user) => {
-      const userSkills =
-        typeof user.skills === 'string' ? JSON.parse(user.skills) : user.skills;
-
-      return userSkills.some((userSkill: { skills: string }) =>
-        listingSkills.some(
-          (listingSkill) => listingSkill.skills === userSkill.skills,
-        ),
-      );
+    const users = await prisma.user.findMany({
+      where: {
+        isTalentFilled: true,
+        ...(listing.region !== Regions.GLOBAL && {
+          location: {
+            in: countries,
+          },
+        }),
+      },
     });
 
-    const emails = users.map(async (user) => {
+    const interestedUsers = users.filter((user) => {
+      let userSkills: Skills;
+      try {
+        userSkills =
+          typeof user.skills === 'string'
+            ? JSON.parse(user.skills)
+            : user.skills;
+      } catch (e) {
+        console.error(
+          'Failed to parse user skills JSON:',
+          user.skills,
+          'Error:',
+          e,
+        );
+        return false;
+      }
+
+      return userSkills.some((userSkill) => {
+        return listingSkills.some((listingSkill) => {
+          const match = listingSkill.skills === userSkill.skills;
+          return match;
+        });
+      });
+    });
+
+    const emails = interestedUsers.map(async (user) => {
       const userPreference = await prisma.emailSettings.findFirst({
         where: {
           userId: user.id,
@@ -63,6 +82,7 @@ export async function processCreateListing(id: string) {
           link: `https://earn.superteam.fun/listings/${listing?.type}/${listing.slug}/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`,
         }),
       );
+
       return {
         from: kashEmail,
         to: user.email,
@@ -71,8 +91,9 @@ export async function processCreateListing(id: string) {
       };
     });
 
-    return emails;
+    return Promise.all(emails);
+  } catch (error) {
+    console.error('Error in processCreateListing:', error);
+    throw error;
   }
-
-  return;
 }
