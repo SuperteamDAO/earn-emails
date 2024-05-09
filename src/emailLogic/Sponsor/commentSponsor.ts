@@ -20,9 +20,7 @@ export async function processCommentSponsor(id: string, userId: string) {
   }
 
   const listing = await prisma.bounties.findFirst({
-    where: {
-      id,
-    },
+    where: { id },
     include: {
       poc: true,
     },

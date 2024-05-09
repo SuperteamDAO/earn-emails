@@ -26,15 +26,11 @@ export async function processCommentTag(
   const { personName } = otherInfo;
 
   const user = await prisma.user.findUnique({
-    where: {
-      id: userId,
-    },
+    where: { id: userId },
   });
 
   const listing = await prisma.bounties.findFirst({
-    where: {
-      id,
-    },
+    where: { id },
     include: {
       poc: true,
     },

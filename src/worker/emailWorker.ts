@@ -12,12 +12,26 @@ const emailWorker = new Worker(
     const prisma = new PrismaClient();
 
     try {
+      if (
+        !job.data ||
+        typeof job.data !== 'object' ||
+        !job.data.from ||
+        !job.data.to ||
+        !job.data.subject ||
+        !job.data.html
+      ) {
+        console.log(`Skipping job ${job.id} due to missing job properties.`);
+        return;
+      }
+
       const { from, to, subject, html } = job.data;
+
       const isUnsubscribed = await prisma.unsubscribedEmail.findUnique({
         where: {
           email: to[0],
         },
       });
+
       if (!isUnsubscribed) {
         const response = await resend.emails.send({ from, to, subject, html });
         console.log(`Email sent successfully to ${to}:`, response);

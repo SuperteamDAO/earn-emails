@@ -10,38 +10,31 @@ import { getCategoryFromEmailType } from '../../utils/getCategoryFromEmailType';
 export async function processCreateListing(id: string) {
   const category = getCategoryFromEmailType('createListing');
 
-  const listing = await prisma.bounties.findUnique({
-    where: {
-      id,
-    },
-  });
+  try {
+    const listing = await prisma.bounties.findUnique({
+      where: { id },
+    });
 
-  if (listing) {
+    if (!listing) {
+      console.error('No listing found with the provided ID:', id);
+      return;
+    }
+
     const superteam = Superteams.find((team) => team.region === listing.region);
     const countries = superteam ? superteam.country : [];
-
     const listingSkills = listing.skills as Skills;
 
-    const users = (
-      await prisma.user.findMany({
-        where: {
-          isTalentFilled: true,
-          ...(listing.region !== Regions.GLOBAL && {
-            location: {
-              in: countries,
-            },
-          }),
+    const users = await prisma.user.findMany({
+      where: {
+        isTalentFilled: true,
+        ...(listing.region !== Regions.GLOBAL && {
+          location: { in: countries },
+        }),
+        skills: {
+          path: '$[*].skills',
+          array_contains: listingSkills.map((skill) => skill.skills),
         },
-      })
-    ).filter((user) => {
-      const userSkills =
-        typeof user.skills === 'string' ? JSON.parse(user.skills) : user.skills;
-
-      return userSkills.some((userSkill: { skills: string }) =>
-        listingSkills.some(
-          (listingSkill) => listingSkill.skills === userSkill.skills,
-        ),
-      );
+      },
     });
 
     const emails = users.map(async (user) => {
@@ -60,9 +53,10 @@ export async function processCreateListing(id: string) {
       const emailHtml = render(
         NewListingTemplate({
           name: user.firstName!,
-          link: `https://earn.superteam.fun/listings/${listing?.type}/${listing.slug}/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`,
+          link: `https://earn.superteam.fun/listings/${listing.type}/${listing.slug}/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`,
         }),
       );
+
       return {
         from: kashEmail,
         to: user.email,
@@ -71,8 +65,9 @@ export async function processCreateListing(id: string) {
       };
     });
 
-    return emails;
+    return Promise.all(emails);
+  } catch (error) {
+    console.error('Error in processCreateListing:', error);
+    throw error;
   }
-
-  return;
 }
