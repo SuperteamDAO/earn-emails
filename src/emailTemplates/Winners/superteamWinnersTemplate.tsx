@@ -18,7 +18,7 @@ export const SuperteamWinnersTemplate = ({
         Congrats on winning the <strong>{listingName}</strong> listing! Please
         fill out{' '}
         <a
-          href={'https://airtable.com/appPZ5nE1OqZiBKx7/shrm91wzYYj6i2cbA'}
+          href={'https://airtable.com/appmgNmQgJWJeo3x4/shr8fxYLAc3ZY18cQ'}
           style={styles.link}
         >
           this form
@@ -52,7 +52,7 @@ export const SuperteamWinnersTemplate = ({
         </a>{' '}
         to update your email preferences on Earn (recommended) or{' '}
         <a
-          href="https://airtable.com/appmgNmQgJWJeo3x4/shr8fxYLAc3ZY18cQ"
+          href="https://airtable.com/appqA0tn8zKv3WJg9/shrsil6vncuj35nHn"
           style={styles.unsubscribeLink}
         >
           click here
