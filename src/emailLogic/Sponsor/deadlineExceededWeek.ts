@@ -31,7 +31,7 @@ export async function processDeadlineExceededWeek() {
     },
   });
 
-  const emailsPromises = listings.map(async (listing) => {
+  const emailPromises = listings.map(async (listing) => {
     const checkLogs = await prisma.emailLogs.findFirst({
       where: {
         bountyId: listing.id,
@@ -74,9 +74,6 @@ export async function processDeadlineExceededWeek() {
     };
   });
 
-  const emails = (await Promise.all(emailsPromises)).filter(
-    (email) => email !== null,
-  );
-
-  return emails;
+  const emailData = await Promise.all(emailPromises);
+  return emailData.filter(Boolean);
 }
