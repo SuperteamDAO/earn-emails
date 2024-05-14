@@ -37,7 +37,7 @@ export async function processCreateListing(id: string) {
       },
     });
 
-    const emails = users.map(async (user) => {
+    const emailPromises = users.map(async (user) => {
       const userPreference = await prisma.emailSettings.findFirst({
         where: {
           userId: user.id,
@@ -65,7 +65,8 @@ export async function processCreateListing(id: string) {
       };
     });
 
-    return Promise.all(emails);
+    const emailData = await Promise.all(emailPromises);
+    return emailData.filter(Boolean);
   } catch (error) {
     console.error('Error in processCreateListing:', error);
     throw error;
