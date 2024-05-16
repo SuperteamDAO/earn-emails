@@ -23,8 +23,7 @@ export const SuperteamWinnersTemplate = ({
         >
           this form
         </a>{' '}
-        to receive your listing reward, and select &quot;Pratik Dholani&quot; as
-        the Project Lead.
+        to receive your listing reward.
       </p>
       <p style={styles.textWithMargin}>
         We follow a weekly payout system. Therefore, your listing reward might
