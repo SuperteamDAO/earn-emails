@@ -66,7 +66,7 @@ export async function processDeadlineExceeded() {
 
     return {
       from: kashEmail,
-      to: [listing.poc.email],
+      to: listing.poc.email,
       bcc: ['pratikd.earnings@gmail.com'],
       subject: 'Your Earn Listing Is Ready to Be Reviewed',
       html: emailHtml,

@@ -96,7 +96,7 @@ export async function processWeeklyRoundup() {
 
       return {
         from: kashEmail,
-        to: [user.email],
+        to: user.email,
         subject: 'Your Weekly Listing Roundup Is Here!',
         html: emailHtml,
       };

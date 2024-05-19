@@ -64,16 +64,16 @@ model Bounties {
   skills               Json?
   type                 BountyType         @default(bounty)
   requirements         String?            @db.Text
+  isWinnersAnnounced   Boolean            @default(false)
   totalPaymentsMade    Int?               @default(0)
   totalWinnersSelected Int?               @default(0)
-  isWinnersAnnounced   Boolean            @default(false)
   templateId           String?
-  region               Regions            @default(GLOBAL)
+  region               Regions    @default(GLOBAL)
   pocSocials           String?
   hackathonprize       Boolean            @default(false)
   applicationType      ApplicationType    @default(fixed)
-  timeToComplete       String?
   references           Json?
+  timeToComplete       String?
   winners              Json?
   referredBy           String?
   publishedAt          DateTime?
@@ -95,6 +95,10 @@ model Bounties {
   @@index([pocId])
   @@index([templateId])
   @@index([hackathonId])
+  @@index([deadline, updatedAt])
+  @@index([isPublished, isPrivate])
+  @@index([isWinnersAnnounced])
+  @@index([title])
 }
 
 model BountiesTemplates {
@@ -146,28 +150,28 @@ model Comment {
 }
 
 model Grants {
-  id               String   @id @default(uuid())
+  id               String        @id @default(uuid())
   title            String
-  slug             String   @unique
-  description      String?  @db.Text
-  shortDescription String?  @db.VarChar(1000)
+  slug             String        @unique
+  description      String?       @db.Text
+  shortDescription String?       @db.VarChar(1000)
   token            String?
   rewardAmount     Int?
   link             String?
-  source           Source   @default(NATIVE)
+  source           Source        @default(NATIVE)
   sponsorId        String
   pocId            String
-  isPublished      Boolean  @default(false)
-  isFeatured       Boolean  @default(false)
-  isActive         Boolean  @default(true)
-  isArchived       Boolean  @default(false)
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
+  isPublished      Boolean       @default(false)
+  isFeatured       Boolean       @default(false)
+  isActive         Boolean       @default(true)
+  isArchived       Boolean       @default(false)
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
   skills           Json?
   logo             String?
-  region           Regions  @default(GLOBAL)
-  sponsor          Sponsors @relation(fields: [sponsorId], references: [id])
-  poc              User     @relation(fields: [pocId], references: [id])
+  region           Regions       @default(GLOBAL)
+  sponsor          Sponsors      @relation(fields: [sponsorId], references: [id])
+  poc              User          @relation(fields: [pocId], references: [id])
 
   @@index([id, slug])
   @@index([pocId])
@@ -231,6 +235,7 @@ model Sponsors {
   User               User[]
 
   @@index([id, slug])
+  @@index([name])
 }
 
 model Account {
@@ -325,9 +330,9 @@ model PoW {
   title       String
   description String   @db.Text
   skills      Json?
+  subSkills   Json?
   link        String
   createdAt   DateTime @default(now())
-  subSkills   Json?
   updatedAt   DateTime @updatedAt
   user        User     @relation(fields: [userId], references: [id])
 
@@ -361,10 +366,10 @@ model UserInvites {
   id         String   @id @default(uuid())
   email      String
   senderId   String
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
   sponsorId  String
   memberType Role     @default(MEMBER)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
   sender     User     @relation(fields: [senderId], references: [id])
 
   @@index([id])
@@ -407,11 +412,11 @@ model Hackathon {
   slug         String     @unique
   name         String
   logo         String
-  sponsorId    String?    @unique
-  deadline     DateTime?
-  startDate    DateTime?
-  description  String
   altLogo      String?
+  description  String
+  sponsorId    String?    @unique
+  startDate    DateTime?
+  deadline     DateTime?
   announceDate DateTime?
   eligibility  Json?
   listings     Bounties[]
@@ -482,6 +487,19 @@ enum JobType {
   internship
 }
 
+enum CompensationType {
+  fixed
+  range
+  variable
+}
+
+enum SubmissionLabels {
+  Unreviewed
+  Reviewed
+  Shortlisted
+  Spam
+}
+
 enum Regions {
   GLOBAL
   INDIA
@@ -497,17 +515,5 @@ enum Regions {
   MALAYSIA
   BALKAN
   PHILIPPINES
-}
-
-enum CompensationType {
-  fixed
-  range
-  variable
-}
-
-enum SubmissionLabels {
-  Unreviewed
-  Reviewed
-  Shortlisted
-  Spam
+  JAPAN
 }

@@ -28,7 +28,7 @@ export async function processTalentSubmission(id: string, userId: string) {
 
     const emailData = {
       from: kashEmail,
-      to: [user.email],
+      to: user.email,
       subject,
       html: emailHtml,
     };

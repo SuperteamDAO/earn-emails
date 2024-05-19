@@ -16,7 +16,6 @@ import {
   processTalentSubmission,
   processWeeklyRoundup,
 } from '../emailLogic';
-import { prisma } from './prisma';
 
 type EmailType =
   | 'addPayment'

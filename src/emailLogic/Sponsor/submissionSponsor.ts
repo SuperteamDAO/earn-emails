@@ -43,7 +43,7 @@ export async function processSponsorSubmission(id: string, userId: string) {
 
     const emailData = {
       from: kashEmail,
-      to: [pocUser.email],
+      to: pocUser.email,
       subject,
       html: emailHtml,
     };

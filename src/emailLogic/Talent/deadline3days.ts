@@ -56,7 +56,7 @@ export async function processDeadlineThreeDays() {
 
       emails.push({
         from: kashEmail,
-        to: [sub?.User?.email],
+        to: sub?.User?.email,
         subject: 'This Listing Is Expiring Soon!',
         html: emailHtml,
       });

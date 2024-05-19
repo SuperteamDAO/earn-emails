@@ -4,13 +4,13 @@ import * as dotenv from 'dotenv';
 import { redis } from '../utils/queue';
 import { PrismaClient } from '@prisma/client';
 
+dotenv.config();
+const prisma = new PrismaClient();
+const resend = new Resend(process.env.RESEND_API_KEY);
+
 const emailWorker = new Worker(
   'emailQueue',
   async (job) => {
-    dotenv.config();
-    const resend = new Resend(process.env.RESEND_API_KEY);
-    const prisma = new PrismaClient();
-
     try {
       if (
         !job.data ||
@@ -26,18 +26,21 @@ const emailWorker = new Worker(
 
       const { from, to, subject, html } = job.data;
 
+      console.log('to: ', to);
+
       const isUnsubscribed = await prisma.unsubscribedEmail.findUnique({
         where: {
-          email: to[0],
+          email: to,
         },
       });
 
-      if (!isUnsubscribed) {
-        const response = await resend.emails.send({ from, to, subject, html });
-        console.log(`Email sent successfully to ${to}:`, response);
-      } else {
+      if (isUnsubscribed) {
         console.log(`Email not sent. ${to} has unsubscribed.`);
+        return;
       }
+
+      const response = await resend.emails.send({ from, to, subject, html });
+      console.log(`Email sent successfully to ${to}:`, response);
     } catch (error: any) {
       if (error.response && error.response.status === 429) {
         const retryAfter = parseInt(

@@ -26,7 +26,7 @@ export async function processAddPayment(id: string) {
 
     const emailData = {
       from: kashEmail,
-      to: [submission?.user.email],
+      to: submission?.user.email,
       subject: `Payment Confirmation for ${submission.listing.title}`,
       html: emailHtml,
     };
