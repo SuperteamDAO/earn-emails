@@ -41,7 +41,7 @@ export async function processCommentReply(id: string, userId: string) {
 
     const emailData = {
       from: kashEmail,
-      to: [user?.email],
+      to: user?.email,
       subject: 'You have received a reply to your comment on Earn',
       html: emailHtml,
     };

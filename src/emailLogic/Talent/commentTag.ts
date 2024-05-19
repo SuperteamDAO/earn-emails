@@ -47,7 +47,7 @@ export async function processCommentTag(
 
     const emailData = {
       from: kashEmail,
-      to: [user?.email],
+      to: user?.email,
       subject: 'You have been mentioned in a comment on Earn',
       html: emailHtml,
     };

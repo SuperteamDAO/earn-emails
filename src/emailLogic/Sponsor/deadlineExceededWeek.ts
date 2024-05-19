@@ -67,7 +67,7 @@ export async function processDeadlineExceededWeek() {
 
     return {
       from: kashEmail,
-      to: [listing.poc.email],
+      to: listing.poc.email,
       bcc: ['pratikd.earnings@gmail.com'],
       subject: 'Winner Announcement for Your Earn Bounty Is Due!',
       html: emailHtml,
