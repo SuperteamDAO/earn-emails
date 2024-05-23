@@ -48,7 +48,7 @@ model Bounties {
   eligibility          Json?
   status               status             @default(OPEN)
   token                String?
-  rewardAmount         Int?
+  rewardAmount         Float?
   rewards              Json?
   sponsorId            String
   pocId                String
@@ -112,7 +112,7 @@ model BountiesTemplates {
   deadline            DateTime?
   eligibility         Json?
   token               String?
-  rewardAmount        Int?
+  rewardAmount        Float?
   rewards             Json?
   color               String?
   emoji               String?
@@ -147,6 +147,7 @@ model Comment {
 
   @@index([id, listingId])
   @@index([authorId])
+  @@index([replyToId])
 }
 
 model Grants {
@@ -169,7 +170,7 @@ model Grants {
   updatedAt        DateTime      @updatedAt
   skills           Json?
   logo             String?
-  region           Regions       @default(GLOBAL)
+  region           Regions @default(GLOBAL)
   sponsor          Sponsors      @relation(fields: [sponsorId], references: [id])
   poc              User          @relation(fields: [pocId], references: [id])
 
@@ -192,18 +193,24 @@ model Submission {
   createdAt          DateTime         @default(now())
   updatedAt          DateTime         @updatedAt
   like               Json?
-  likes              Int?
   isPaid             Boolean          @default(false)
   paymentDetails     Json?
   otherInfo          String?          @db.VarChar(2000)
   ask                Int?
   label              SubmissionLabels @default(Unreviewed)
+  likeCount          Int              @default(0)
+  rewardInUSD        Int              @default(0)
   listing            Bounties         @relation(fields: [listingId], references: [id])
   user               User             @relation(fields: [userId], references: [id])
 
   @@index([id, listingId])
   @@index([userId])
   @@index([listingId])
+  @@index([createdAt])
+  @@index([createdAt, isWinner])
+  @@index([createdAt, listingId])
+  @@index([isWinner])
+  @@index([likeCount])
 }
 
 model Otp {
@@ -334,9 +341,13 @@ model PoW {
   link        String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  like        Json?
+  likeCount   Int      @default(0)
   user        User     @relation(fields: [userId], references: [id])
 
   @@index([userId])
+  @@index([createdAt])
+  @@index([likeCount])
 }
 
 model EmailSettings {
@@ -431,6 +442,21 @@ model UnsubscribedEmail {
   email String @unique
 }
 
+model TalentRankings {
+  id               String                   @id
+  userId           String
+  skill            TalentRankings_skill     @default(ALL)
+  timeframe        TalentRankings_timeframe @default(ALL_TIME)
+  rank             Int
+  submissions      Int                      @default(0)
+  winRate          Int                      @default(0)
+  wins             Int                      @default(0)
+  totalEarnedInUSD Int
+
+  @@unique([userId, skill, timeframe])
+  @@index([userId, skill, timeframe])
+}
+
 enum EmailType {
   BOUNTY_REVIEW
   BOUNTY_DEADLINE
@@ -500,6 +526,22 @@ enum SubmissionLabels {
   Spam
 }
 
+enum TalentRankings_skill {
+  DEVELOPMENT
+  DESIGN
+  CONTENT
+  OTHER
+  ALL
+}
+
+enum TalentRankings_timeframe {
+  THIS_YEAR
+  LAST_30_DAYS
+  LAST_7_DAYS
+  ALL_TIME
+}
+
+
 enum Regions {
   GLOBAL
   INDIA
@@ -516,4 +558,5 @@ enum Regions {
   BALKAN
   PHILIPPINES
   JAPAN
+  FRANCE
 }
