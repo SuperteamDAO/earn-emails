@@ -49,6 +49,7 @@ export async function processWeeklyRoundup() {
       status: 'OPEN',
       isWinnersAnnounced: false,
       deadline: { gte: dayjs().add(1, 'day').toISOString() },
+      isPrivate: false,
     },
     include: { sponsor: true },
   });
