@@ -6,6 +6,7 @@ const emailTypeActionMapping: { [key: string]: string } = {
   commentTag: 'replyOrTagComment',
   submissionLike: 'commentOrLikeSubmission',
   weeklyListingRoundup: 'weeklyListingRoundup',
+  scoutInvitation: 'scoutInvitation',
 
   // sponsor emails
   commentSponsor: 'commentSponsor',
