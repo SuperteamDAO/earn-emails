@@ -20,7 +20,7 @@ export const ScoutInviteTemplate = ({
       <p style={styles.greetings}>Hey {name},</p>
       <p style={styles.textWithMargin}>
         {sponsorName} is impressed with your profile and thinks you’d be perfect
-        for their new listing called
+        for their new listing called{' '}
         <a href={link} style={styles.link}>
           "{listingName}"
         </a>
