@@ -24,9 +24,7 @@ const emailWorker = new Worker(
         return;
       }
 
-      const { from, to, subject, html } = job.data;
-
-      console.log('to: ', to);
+      const { from, to, subject, html, bcc, cc } = job.data;
 
       const isUnsubscribed = await prisma.unsubscribedEmail.findUnique({
         where: {
@@ -39,7 +37,14 @@ const emailWorker = new Worker(
         return;
       }
 
-      const response = await resend.emails.send({ from, to, subject, html });
+      const response = await resend.emails.send({
+        from,
+        to,
+        subject,
+        html,
+        bcc,
+        cc,
+      });
       console.log(`Email sent successfully to ${to}:`, response);
     } catch (error: any) {
       if (error.response && error.response.status === 429) {
