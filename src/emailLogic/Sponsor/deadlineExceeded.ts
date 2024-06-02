@@ -1,5 +1,4 @@
 import { prisma } from '../../utils/prisma';
-import { kashEmail } from '../../constants/kashEmail';
 import { DeadlineSponsorTemplate } from '../../emailTemplates';
 import { render } from '@react-email/render';
 import dayjs from 'dayjs';
@@ -65,7 +64,6 @@ export async function processDeadlineExceeded() {
     });
 
     return {
-      from: kashEmail,
       to: listing.poc.email,
       bcc: ['pratikd.earnings@gmail.com'],
       subject: 'Your Earn Listing Is Ready to Be Reviewed',

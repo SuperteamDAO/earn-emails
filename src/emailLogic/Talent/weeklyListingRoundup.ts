@@ -2,7 +2,6 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import { MainSkills, Skills } from '../../types';
 import { prisma } from '../../utils/prisma';
-import { kashEmail } from '../../constants/kashEmail';
 import { WeeklyRoundupTemplate } from '../../emailTemplates';
 import { render } from '@react-email/render';
 import { Regions } from '@prisma/client';
@@ -96,7 +95,6 @@ export async function processWeeklyRoundup() {
       );
 
       return {
-        from: kashEmail,
         to: user.email,
         subject: 'Your Weekly Listing Roundup Is Here!',
         html: emailHtml,

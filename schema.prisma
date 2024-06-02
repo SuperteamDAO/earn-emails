@@ -64,16 +64,16 @@ model Bounties {
   skills               Json?
   type                 BountyType         @default(bounty)
   requirements         String?            @db.Text
-  isWinnersAnnounced   Boolean            @default(false)
   totalPaymentsMade    Int?               @default(0)
   totalWinnersSelected Int?               @default(0)
+  isWinnersAnnounced   Boolean            @default(false)
   templateId           String?
-  region               Regions    @default(GLOBAL)
+  region               Regions            @default(GLOBAL)
   pocSocials           String?
   hackathonprize       Boolean            @default(false)
   applicationType      ApplicationType    @default(fixed)
-  references           Json?
   timeToComplete       String?
+  references           Json?
   winners              Json?
   referredBy           String?
   publishedAt          DateTime?
@@ -89,14 +89,16 @@ model Bounties {
   Submission           Submission[]
   SubscribeBounty      SubscribeBounty[]
   Hackathon            Hackathon?         @relation(fields: [hackathonId], references: [id])
+  winnersAnnouncedAt   DateTime?
+  Scouts               Scouts[]
 
   @@index([id, slug])
   @@index([sponsorId])
   @@index([pocId])
   @@index([templateId])
   @@index([hackathonId])
-  @@index([deadline, updatedAt])
   @@index([isPublished, isPrivate])
+  @@index([deadline, updatedAt])
   @@index([isWinnersAnnounced])
   @@index([title])
 }
@@ -151,28 +153,28 @@ model Comment {
 }
 
 model Grants {
-  id               String        @id @default(uuid())
+  id               String   @id @default(uuid())
   title            String
-  slug             String        @unique
-  description      String?       @db.Text
-  shortDescription String?       @db.VarChar(1000)
+  slug             String   @unique
+  description      String?  @db.Text
+  shortDescription String?  @db.VarChar(1000)
   token            String?
   rewardAmount     Int?
   link             String?
-  source           Source        @default(NATIVE)
+  source           Source   @default(NATIVE)
   sponsorId        String
   pocId            String
-  isPublished      Boolean       @default(false)
-  isFeatured       Boolean       @default(false)
-  isActive         Boolean       @default(true)
-  isArchived       Boolean       @default(false)
-  createdAt        DateTime      @default(now())
-  updatedAt        DateTime      @updatedAt
+  isPublished      Boolean  @default(false)
+  isFeatured       Boolean  @default(false)
+  isActive         Boolean  @default(true)
+  isArchived       Boolean  @default(false)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
   skills           Json?
   logo             String?
-  region           Regions @default(GLOBAL)
-  sponsor          Sponsors      @relation(fields: [sponsorId], references: [id])
-  poc              User          @relation(fields: [pocId], references: [id])
+  region           Regions  @default(GLOBAL)
+  sponsor          Sponsors @relation(fields: [sponsorId], references: [id])
+  poc              User     @relation(fields: [pocId], references: [id])
 
   @@index([id, slug])
   @@index([pocId])
@@ -193,31 +195,25 @@ model Submission {
   createdAt          DateTime         @default(now())
   updatedAt          DateTime         @updatedAt
   like               Json?
+  likeCount          Int              @default(0)
   isPaid             Boolean          @default(false)
   paymentDetails     Json?
   otherInfo          String?          @db.VarChar(2000)
   ask                Int?
   label              SubmissionLabels @default(Unreviewed)
-  likeCount          Int              @default(0)
   rewardInUSD        Int              @default(0)
   listing            Bounties         @relation(fields: [listingId], references: [id])
   user               User             @relation(fields: [userId], references: [id])
+  ogImage            String?          @db.Text
 
   @@index([id, listingId])
   @@index([userId])
   @@index([listingId])
   @@index([createdAt])
+  @@index([isWinner])
   @@index([createdAt, isWinner])
   @@index([createdAt, listingId])
-  @@index([isWinner])
   @@index([likeCount])
-}
-
-model Otp {
-  id        String   @id @map("_id")
-  email     String
-  otp       Int
-  timestamp DateTime @default(now())
 }
 
 model Sponsors {
@@ -312,6 +308,7 @@ model User {
   hackathonId       String?
   featureModalShown Boolean           @default(false)
   surveysShown      Json?
+  stRecommended     Boolean           @default(false)
   currentSponsor    Sponsors?         @relation(fields: [currentSponsorId], references: [id])
   UserSponsors      UserSponsors[]
   poc               Bounties[]        @relation("poc")
@@ -325,10 +322,43 @@ model User {
   sessions          Session[]
   Hackathon         Hackathon?        @relation(fields: [hackathonId], references: [id])
   emailSettings     EmailSettings[]
+  TalentRankings    TalentRankings[]
+  Scouts            Scouts[]
 
   @@index([email, publicKey, username])
   @@index([currentSponsorId])
   @@index([hackathonId])
+}
+
+model Scouts {
+  id            String   @id @default(uuid())
+  userId        String
+  listingId     String
+  dollarsEarned Int
+  score         Decimal  @db.Decimal(9, 2)
+  invited       Boolean
+  skills        Json
+  createdAt     DateTime @default(now())
+  listing       Bounties @relation(fields: [listingId], references: [id])
+  user          User     @relation(fields: [userId], references: [id])
+
+  @@unique([userId, listingId])
+}
+
+model TalentRankings {
+  id               String                 @id @default(uuid())
+  userId           String
+  skill            TalentRankingSkills    @default(ALL)
+  timeframe        TalentRankingTimeframe @default(ALL_TIME)
+  rank             Int
+  submissions      Int                    @default(0)
+  winRate          Int                    @default(0)
+  wins             Int                    @default(0)
+  totalEarnedInUSD Int
+  user             User                   @relation(fields: [userId], references: [id])
+
+  @@unique([userId, skill, timeframe])
+  @@index([userId, skill, timeframe])
 }
 
 model PoW {
@@ -337,13 +367,14 @@ model PoW {
   title       String
   description String   @db.Text
   skills      Json?
-  subSkills   Json?
   link        String
   createdAt   DateTime @default(now())
+  subSkills   Json?
   updatedAt   DateTime @updatedAt
   like        Json?
   likeCount   Int      @default(0)
   user        User     @relation(fields: [userId], references: [id])
+  ogImage     String?  @db.Text
 
   @@index([userId])
   @@index([createdAt])
@@ -377,10 +408,10 @@ model UserInvites {
   id         String   @id @default(uuid())
   email      String
   senderId   String
-  sponsorId  String
-  memberType Role     @default(MEMBER)
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
+  sponsorId  String
+  memberType Role     @default(MEMBER)
   sender     User     @relation(fields: [senderId], references: [id])
 
   @@index([id])
@@ -423,11 +454,11 @@ model Hackathon {
   slug         String     @unique
   name         String
   logo         String
-  altLogo      String?
-  description  String
   sponsorId    String?    @unique
-  startDate    DateTime?
   deadline     DateTime?
+  startDate    DateTime?
+  description  String
+  altLogo      String?
   announceDate DateTime?
   eligibility  Json?
   listings     Bounties[]
@@ -442,19 +473,12 @@ model UnsubscribedEmail {
   email String @unique
 }
 
-model TalentRankings {
-  id               String                   @id
-  userId           String
-  skill            TalentRankings_skill     @default(ALL)
-  timeframe        TalentRankings_timeframe @default(ALL_TIME)
-  rank             Int
-  submissions      Int                      @default(0)
-  winRate          Int                      @default(0)
-  wins             Int                      @default(0)
-  totalEarnedInUSD Int
-
-  @@unique([userId, skill, timeframe])
-  @@index([userId, skill, timeframe])
+enum TalentRankingSkills {
+  DEVELOPMENT
+  DESIGN
+  CONTENT
+  OTHER
+  ALL
 }
 
 enum EmailType {
@@ -513,35 +537,6 @@ enum JobType {
   internship
 }
 
-enum CompensationType {
-  fixed
-  range
-  variable
-}
-
-enum SubmissionLabels {
-  Unreviewed
-  Reviewed
-  Shortlisted
-  Spam
-}
-
-enum TalentRankings_skill {
-  DEVELOPMENT
-  DESIGN
-  CONTENT
-  OTHER
-  ALL
-}
-
-enum TalentRankings_timeframe {
-  THIS_YEAR
-  LAST_30_DAYS
-  LAST_7_DAYS
-  ALL_TIME
-}
-
-
 enum Regions {
   GLOBAL
   INDIA
@@ -559,4 +554,24 @@ enum Regions {
   PHILIPPINES
   JAPAN
   FRANCE
+}
+
+enum CompensationType {
+  fixed
+  range
+  variable
+}
+
+enum SubmissionLabels {
+  Unreviewed
+  Reviewed
+  Shortlisted
+  Spam
+}
+
+enum TalentRankingTimeframe {
+  THIS_YEAR
+  LAST_30_DAYS
+  LAST_7_DAYS
+  ALL_TIME
 }

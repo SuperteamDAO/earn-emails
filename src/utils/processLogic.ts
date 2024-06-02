@@ -10,13 +10,13 @@ import {
   processDeadlineExceededWeek,
   processDeadlineExtended,
   processDeadlineThreeDays,
+  processScoutInvite,
   processSponsorSubmission,
   processSubmissionLike,
   processSuperteamWinners,
   processTalentSubmission,
   processWeeklyRoundup,
 } from '../emailLogic';
-import { processScoutInvite } from '../emailLogic/Talent/scoutInvite';
 
 type EmailType =
   | 'addPayment'

@@ -10,3 +10,4 @@ export * from './superteamWinners';
 export * from './weeklyListingRoundup';
 export * from './commentReply';
 export * from './commentTag';
+export * from './scoutInvite';

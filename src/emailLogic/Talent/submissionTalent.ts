@@ -1,5 +1,4 @@
 import { render } from '@react-email/render';
-import { kashEmail } from '../../constants/kashEmail';
 import { SubmissionTemplate } from '../../emailTemplates';
 import { prisma } from '../../utils/prisma';
 
@@ -27,7 +26,6 @@ export async function processTalentSubmission(id: string, userId: string) {
     );
 
     const emailData = {
-      from: kashEmail,
       to: user.email,
       subject,
       html: emailHtml,

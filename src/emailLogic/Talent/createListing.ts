@@ -2,7 +2,6 @@ import { Regions } from '@prisma/client';
 import { Superteams } from '../../constants/Superteam';
 import { prisma } from '../../utils/prisma';
 import { Skills } from '../../types';
-import { kashEmail } from '../../constants/kashEmail';
 import { NewListingTemplate } from '../../emailTemplates';
 import { render } from '@react-email/render';
 import { getCategoryFromEmailType } from '../../utils/getCategoryFromEmailType';
@@ -58,7 +57,6 @@ export async function processCreateListing(id: string) {
       );
 
       return {
-        from: kashEmail,
         to: user.email,
         subject: 'Here’s a New Listing You’d Be Interested In..',
         html: emailHtml,

@@ -1,5 +1,4 @@
 import { render } from '@react-email/render';
-import { kashEmail } from '../../constants/kashEmail';
 import { CommentTagTemplate } from '../../emailTemplates';
 import { prisma } from '../../utils/prisma';
 import { getCategoryFromEmailType } from '../../utils/getCategoryFromEmailType';
@@ -46,7 +45,6 @@ export async function processCommentTag(
     );
 
     const emailData = {
-      from: kashEmail,
       to: user?.email,
       subject: 'You have been mentioned in a comment on Earn',
       html: emailHtml,
