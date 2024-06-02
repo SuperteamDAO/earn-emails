@@ -42,8 +42,8 @@ const emailWorker = new Worker(
         to,
         subject,
         html,
-        bcc,
-        cc,
+        ...(bcc && { bcc }),
+        ...(cc && { cc }),
       });
       console.log(`Email sent successfully to ${to}:`, response);
     } catch (error: any) {
