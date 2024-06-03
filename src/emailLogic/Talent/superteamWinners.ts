@@ -1,5 +1,4 @@
 import { prisma } from '../../utils/prisma';
-import { kashEmail } from '../../constants/kashEmail';
 import { SuperteamWinnersTemplate } from '../../emailTemplates';
 import { render } from '@react-email/render';
 
@@ -23,7 +22,6 @@ export async function processSuperteamWinners(id: string) {
 
   if (listing) {
     const emails: {
-      from: string;
       to: string;
       subject: string;
       html: string;
@@ -35,7 +33,6 @@ export async function processSuperteamWinners(id: string) {
         }),
       );
       return {
-        from: kashEmail,
         to: winner.user.email,
         subject: 'Submit This Form to Claim Your Reward',
         html: emailHtml,

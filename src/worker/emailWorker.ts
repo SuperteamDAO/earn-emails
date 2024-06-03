@@ -3,6 +3,7 @@ import { Resend } from 'resend';
 import * as dotenv from 'dotenv';
 import { redis } from '../utils/queue';
 import { PrismaClient } from '@prisma/client';
+import { kashEmail } from '../constants/kashEmail';
 
 dotenv.config();
 const prisma = new PrismaClient();
@@ -12,21 +13,12 @@ const emailWorker = new Worker(
   'emailQueue',
   async (job) => {
     try {
-      if (
-        !job.data ||
-        typeof job.data !== 'object' ||
-        !job.data.from ||
-        !job.data.to ||
-        !job.data.subject ||
-        !job.data.html
-      ) {
+      if (!job.data.to || !job.data.subject || !job.data.html) {
         console.log(`Skipping job ${job.id} due to missing job properties.`);
         return;
       }
 
-      const { from, to, subject, html } = job.data;
-
-      console.log('to: ', to);
+      const { to, subject, html, cc, bcc } = job.data;
 
       const isUnsubscribed = await prisma.unsubscribedEmail.findUnique({
         where: {
@@ -39,7 +31,14 @@ const emailWorker = new Worker(
         return;
       }
 
-      const response = await resend.emails.send({ from, to, subject, html });
+      const response = await resend.emails.send({
+        from: kashEmail,
+        to,
+        subject,
+        html,
+        ...(bcc && { bcc }),
+        ...(cc && { cc }),
+      });
       console.log(`Email sent successfully to ${to}:`, response);
     } catch (error: any) {
       if (error.response && error.response.status === 429) {

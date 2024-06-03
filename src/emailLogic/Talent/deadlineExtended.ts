@@ -1,5 +1,4 @@
 import { prisma } from '../../utils/prisma';
-import { kashEmail } from '../../constants/kashEmail';
 import { DeadlineExtendedTemplate } from '../../emailTemplates';
 import { render } from '@react-email/render';
 
@@ -53,7 +52,6 @@ export async function processDeadlineExtended(id: string) {
 
   if (listing) {
     const emails: {
-      from: string;
       to: string;
       subject: string;
       html: string;
@@ -65,7 +63,6 @@ export async function processDeadlineExtended(id: string) {
         }),
       );
       return {
-        from: kashEmail,
         to: user.email,
         subject: 'Listing Deadline Extended!',
         html: emailHtml,

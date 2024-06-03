@@ -1,5 +1,4 @@
 import { render } from '@react-email/render';
-import { kashEmail } from '../../constants/kashEmail';
 import { SubmissionLikeTemplate } from '../../emailTemplates';
 import { prisma } from '../../utils/prisma';
 import { getCategoryFromEmailType } from '../../utils/getCategoryFromEmailType';
@@ -36,7 +35,6 @@ export async function processSubmissionLike(id: string, userId: string) {
       }),
     );
     const emailData = {
-      from: kashEmail,
       to: submission?.user.email,
       subject: 'People Love Your Superteam Earn Submission!',
       html: emailHtml,

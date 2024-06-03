@@ -1,5 +1,4 @@
 import { prisma } from '../../utils/prisma';
-import { kashEmail } from '../../constants/kashEmail';
 import { WinnersAnnouncedTemplate } from '../../emailTemplates';
 import { render } from '@react-email/render';
 import { getListingTypeLabel } from '../../utils/getListingTypeLabel';
@@ -56,7 +55,6 @@ export async function processAnnounceWinners(id: string) {
     const listingTypeLabel = getListingTypeLabel(listing.type);
 
     const emails: {
-      from: string;
       to: string;
       subject: string;
       html: string;
@@ -71,7 +69,6 @@ export async function processAnnounceWinners(id: string) {
         }),
       );
       return {
-        from: kashEmail,
         to: user.email,
         subject: `${listingTypeLabel} Winners Announced!`,
         html: emailHtml,

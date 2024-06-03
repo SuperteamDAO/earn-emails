@@ -1,5 +1,4 @@
 import { prisma } from '../../utils/prisma';
-import { kashEmail } from '../../constants/kashEmail';
 import { DeadlineExceededbyWeekTemplate } from '../../emailTemplates';
 import { render } from '@react-email/render';
 import dayjs from 'dayjs';
@@ -66,7 +65,6 @@ export async function processDeadlineExceededWeek() {
     });
 
     return {
-      from: kashEmail,
       to: listing.poc.email,
       bcc: ['pratikd.earnings@gmail.com'],
       subject: 'Winner Announcement for Your Earn Bounty Is Due!',

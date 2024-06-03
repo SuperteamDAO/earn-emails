@@ -10,6 +10,7 @@ import {
   processDeadlineExceededWeek,
   processDeadlineExtended,
   processDeadlineThreeDays,
+  processScoutInvite,
   processSponsorSubmission,
   processSubmissionLike,
   processSuperteamWinners,
@@ -29,6 +30,7 @@ type EmailType =
   | 'deadlineExceeded'
   | 'deadlineExceededWeek'
   | 'deadlineExtended'
+  | 'scoutInvite'
   | 'submissionLike'
   | 'submissionSponsor'
   | 'submissionTalent'
@@ -71,6 +73,8 @@ export async function processLogic({
       return processDeadlineExceededWeek();
     case 'deadlineExtended':
       return processDeadlineExtended(id);
+    case 'scoutInvite':
+      return processScoutInvite(id, userId);
     case 'submissionLike':
       return processSubmissionLike(id, userId);
     case 'submissionSponsor':

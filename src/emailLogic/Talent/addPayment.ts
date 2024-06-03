@@ -1,5 +1,4 @@
 import { render } from '@react-email/render';
-import { kashEmail } from '../../constants/kashEmail';
 import { PaymentReceivedTemplate } from '../../emailTemplates';
 import { prisma } from '../../utils/prisma';
 
@@ -25,7 +24,6 @@ export async function processAddPayment(id: string) {
     );
 
     const emailData = {
-      from: kashEmail,
       to: submission?.user.email,
       subject: `Payment Confirmation for ${submission.listing.title}`,
       html: emailHtml,
