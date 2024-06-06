@@ -112,5 +112,5 @@ export async function processWeeklyRoundup() {
     }),
   ).then((results) => results.filter(Boolean));
 
-  return null;
+  return emails;
 }
