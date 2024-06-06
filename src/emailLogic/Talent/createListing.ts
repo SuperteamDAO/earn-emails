@@ -37,6 +37,26 @@ export async function processCreateListing(id: string) {
     });
 
     const emailPromises = users.map(async (user) => {
+      if (!user.skills) {
+        console.log(`User ${user.id} has no skills information.`);
+        return null;
+      }
+
+      let userSkills: Skills[] | null = null;
+
+      if (typeof user.skills === 'string') {
+        try {
+          userSkills = JSON.parse(user.skills);
+        } catch (error) {
+          console.error(`Failed to parse skills for user ${user.id}:`, error);
+          return null;
+        }
+      } else {
+        userSkills = user.skills as Skills[];
+      }
+
+      if (!userSkills) return null;
+
       const userPreference = await prisma.emailSettings.findFirst({
         where: {
           userId: user.id,

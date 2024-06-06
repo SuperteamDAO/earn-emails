@@ -57,14 +57,24 @@ export async function processWeeklyRoundup() {
     usersWithEmailSettings.map(async ({ user }) => {
       if (!user) return null;
 
-      const userSkills =
-        typeof user.skills === 'string'
-          ? JSON.parse(user.skills)
-          : (user.skills as UserSkills[]);
+      let userSkills: UserSkills[] | null = null;
+
+      if (typeof user.skills === 'string') {
+        try {
+          userSkills = JSON.parse(user.skills);
+        } catch (error) {
+          console.error('Failed to parse user skills:', error);
+          return null;
+        }
+      } else {
+        userSkills = user.skills as UserSkills[];
+      }
+
+      if (!userSkills) return null;
 
       const matchingBounties = bounties.filter((bounty) => {
         const bountySkills = bounty.skills as Skills;
-        const skillsMatch = userSkills.some((userSkill: UserSkills) =>
+        const skillsMatch = userSkills!.some((userSkill: UserSkills) =>
           bountySkills.some(
             (bountySkill) => bountySkill.skills === userSkill.skills,
           ),
