@@ -16,7 +16,7 @@ cron.schedule('50 * * * *', () => {
   logicQueue.add('processLogic', { type: 'deadlineExceededWeek' });
 });
 
-cron.schedule('0 16 * * 4', () => {
-  console.log('Triggering weeklyListingRoundup email job');
-  logicQueue.add('processLogic', { type: 'weeklyListingRoundup' });
-});
+// cron.schedule('0 12 * * 4', () => {
+//   console.log('Triggering weeklyListingRoundup email job');
+//   logicQueue.add('processLogic', { type: 'weeklyListingRoundup' });
+// });
