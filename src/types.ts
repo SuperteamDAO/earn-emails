@@ -55,4 +55,6 @@ type SubSkillsType =
   | 'Illustration'
   | 'Game Design'
   | 'Presentation Design'
-  | 'CPP';
+  | 'CPP'
+  | 'Product Feedback'
+  | 'Product Manager';
