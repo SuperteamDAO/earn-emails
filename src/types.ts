@@ -1,3 +1,22 @@
+export type EmailType =
+  | 'addPayment'
+  | 'announceWinners'
+  | 'commentReply'
+  | 'commentTag'
+  | 'commentSponsor'
+  | 'commentSubmission'
+  | 'createListing'
+  | 'deadline3days'
+  | 'deadlineExceeded'
+  | 'deadlineExceededWeek'
+  | 'deadlineExtended'
+  | 'scoutInvite'
+  | 'submissionLike'
+  | 'submissionSponsor'
+  | 'submissionTalent'
+  | 'superteamWinners'
+  | 'weeklyListingRoundup';
+
 export type Skills = {
   skills: MainSkills;
   subskills: SubSkillsType[];

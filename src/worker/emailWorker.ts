@@ -4,6 +4,8 @@ import * as dotenv from 'dotenv';
 import { redis } from '../utils/queue';
 import { PrismaClient } from '@prisma/client';
 import { kashEmail } from '../constants/kashEmail';
+import { AlertTemplate } from '../emailTemplates';
+import { render } from '@react-email/render';
 
 dotenv.config();
 const prisma = new PrismaClient();
@@ -12,13 +14,14 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 const emailWorker = new Worker(
   'emailQueue',
   async (job) => {
+    const { to, subject, html, cc, bcc, id, type, userId, otherInfo } =
+      job.data;
+
     try {
       if (!job.data.to || !job.data.subject || !job.data.html) {
         console.log(`Skipping job ${job.id} due to missing job properties.`);
         return;
       }
-
-      const { to, subject, html, cc, bcc } = job.data;
 
       const isUnsubscribed = await prisma.unsubscribedEmail.findUnique({
         where: {
@@ -50,6 +53,21 @@ const emailWorker = new Worker(
         throw Worker.RateLimitError();
       } else {
         console.error('Failed to send email (non-rate-limit error):', error);
+        await resend.emails.send({
+          from: kashEmail,
+          to: ['abhwshek@gmail.com', 'pratik.dholani1@gmail.com'],
+          subject: 'Email Error',
+          html: render(
+            AlertTemplate({
+              type,
+              id,
+              otherInfo,
+              userId,
+              errorMessage: error.message || 'Unknown Error',
+            }),
+          ),
+        });
+
         throw error;
       }
     }
