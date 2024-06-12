@@ -9,7 +9,6 @@
     "postinstall": "prisma generate",
     "check-types": "tsc --noEmit"
   },
-  "type": "module",
   "keywords": [],
   "author": "",
   "license": "ISC",
