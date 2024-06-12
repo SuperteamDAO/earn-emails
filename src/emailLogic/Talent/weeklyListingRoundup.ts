@@ -53,64 +53,64 @@ export async function processWeeklyRoundup() {
     include: { sponsor: true },
   });
 
-  const emails = await Promise.all(
-    usersWithEmailSettings.map(async ({ user }) => {
-      if (!user) return null;
+  const emails = [];
 
-      let userSkills: UserSkills[] | null = null;
+  for (const { user } of usersWithEmailSettings) {
+    if (!user) continue;
 
-      if (typeof user.skills === 'string') {
-        try {
-          userSkills = JSON.parse(user.skills);
-        } catch (error) {
-          console.error('Failed to parse user skills:', error);
-          return null;
-        }
-      } else {
-        userSkills = user.skills as UserSkills[];
+    let userSkills: UserSkills[] | null = null;
+
+    if (typeof user.skills === 'string') {
+      try {
+        userSkills = JSON.parse(user.skills);
+      } catch (error) {
+        console.error('Failed to parse user skills:', error);
+        continue;
       }
+    } else {
+      userSkills = user.skills as UserSkills[];
+    }
 
-      if (!userSkills) return null;
+    if (!userSkills) continue;
 
-      const matchingBounties = bounties.filter((bounty) => {
-        const bountySkills = bounty.skills as Skills;
-        const skillsMatch = userSkills!.some((userSkill: UserSkills) =>
-          bountySkills.some(
-            (bountySkill) => bountySkill.skills === userSkill.skills,
-          ),
-        );
-
-        if (!skillsMatch) return false;
-
-        return userRegionEligibility(bounty.region, user);
-      });
-
-      if (matchingBounties.length === 0) return null;
-
-      const emailHtml = render(
-        WeeklyRoundupTemplate({
-          name: user.firstName!,
-          bounties: matchingBounties.map((bounty) => ({
-            title: bounty.title,
-            sponsor: bounty.sponsor.name,
-            slug: bounty.slug,
-            type: bounty.type,
-            token: bounty.token,
-            rewardAmount: bounty.rewardAmount,
-            compensationType: bounty.compensationType,
-            maxRewardAsk: bounty.maxRewardAsk,
-            minRewardAsk: bounty.minRewardAsk,
-          })),
-        }),
+    const matchingBounties = bounties.filter((bounty) => {
+      const bountySkills = bounty.skills as Skills;
+      const skillsMatch = userSkills!.some((userSkill: UserSkills) =>
+        bountySkills.some(
+          (bountySkill) => bountySkill.skills === userSkill.skills,
+        ),
       );
 
-      return {
-        to: user.email,
-        subject: 'Your Weekly Listing Roundup Is Here!',
-        html: emailHtml,
-      };
-    }),
-  ).then((results) => results.filter(Boolean));
+      if (!skillsMatch) return false;
+
+      return userRegionEligibility(bounty.region, user);
+    });
+
+    if (matchingBounties.length === 0) continue;
+
+    const emailHtml = render(
+      WeeklyRoundupTemplate({
+        name: user.firstName!,
+        bounties: matchingBounties.map((bounty) => ({
+          title: bounty.title,
+          sponsor: bounty.sponsor.name,
+          slug: bounty.slug,
+          type: bounty.type,
+          token: bounty.token,
+          rewardAmount: bounty.rewardAmount,
+          compensationType: bounty.compensationType,
+          maxRewardAsk: bounty.maxRewardAsk,
+          minRewardAsk: bounty.minRewardAsk,
+        })),
+      }),
+    );
+
+    emails.push({
+      to: user.email,
+      subject: 'Your Weekly Listing Roundup Is Here!',
+      html: emailHtml,
+    });
+  }
 
   return emails;
 }

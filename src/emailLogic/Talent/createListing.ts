@@ -36,10 +36,12 @@ export async function processCreateListing(id: string) {
       },
     });
 
-    const emailPromises = users.map(async (user) => {
+    const emailData = [];
+
+    for (const user of users) {
       if (!user.skills) {
         console.log(`User ${user.id} has no skills information.`);
-        return null;
+        continue;
       }
 
       let userSkills: Skills[] | null = null;
@@ -49,13 +51,13 @@ export async function processCreateListing(id: string) {
           userSkills = JSON.parse(user.skills);
         } catch (error) {
           console.error(`Failed to parse skills for user ${user.id}:`, error);
-          return null;
+          continue;
         }
       } else {
         userSkills = user.skills as Skills[];
       }
 
-      if (!userSkills) return null;
+      if (!userSkills) continue;
 
       const userPreference = await prisma.emailSettings.findFirst({
         where: {
@@ -66,7 +68,7 @@ export async function processCreateListing(id: string) {
 
       if (!userPreference) {
         console.log(`User ${user.id} has opted out of this type of email.`);
-        return null;
+        continue;
       }
 
       const emailHtml = render(
@@ -76,15 +78,14 @@ export async function processCreateListing(id: string) {
         }),
       );
 
-      return {
+      emailData.push({
         to: user.email,
         subject: 'Here’s a New Listing You’d Be Interested In..',
         html: emailHtml,
-      };
-    });
+      });
+    }
 
-    const emailData = await Promise.all(emailPromises);
-    return emailData.filter(Boolean);
+    return emailData;
   } catch (error) {
     console.error('Error in processCreateListing:', error);
     throw error;

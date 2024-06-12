@@ -29,7 +29,9 @@ export async function processDeadlineExceeded() {
     },
   });
 
-  const emailPromises = listings.map(async (listing) => {
+  const emailData = [];
+
+  for (const listing of listings) {
     const checkLogs = await prisma.emailLogs.findFirst({
       where: {
         bountyId: listing.id,
@@ -37,7 +39,7 @@ export async function processDeadlineExceeded() {
       },
     });
 
-    if (checkLogs || !listing.poc?.email) return null;
+    if (checkLogs || !listing.poc?.email) continue;
 
     const pocPreference = await prisma.emailSettings.findFirst({
       where: {
@@ -46,7 +48,7 @@ export async function processDeadlineExceeded() {
       },
     });
 
-    if (!pocPreference) return null;
+    if (!pocPreference) continue;
 
     const emailHtml = render(
       DeadlineSponsorTemplate({
@@ -63,14 +65,13 @@ export async function processDeadlineExceeded() {
       },
     });
 
-    return {
+    emailData.push({
       to: listing.poc.email,
       bcc: ['pratikd.earnings@gmail.com'],
       subject: 'Your Earn Listing Is Ready to Be Reviewed',
       html: emailHtml,
-    };
-  });
+    });
+  }
 
-  const emailData = await Promise.all(emailPromises);
   return emailData.filter(Boolean);
 }

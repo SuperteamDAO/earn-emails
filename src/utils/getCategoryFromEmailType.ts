@@ -15,6 +15,6 @@ const emailTypeActionMapping: { [key: string]: string } = {
   deadlineExceededWeek: 'deadlineSponsor',
 };
 
-export function getCategoryFromEmailType(emailType: string): string {
+export function getCategoryFromEmailType(emailType: string) {
   return emailTypeActionMapping[emailType];
 }
