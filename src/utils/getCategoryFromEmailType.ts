@@ -1,4 +1,6 @@
-const emailTypeActionMapping: { [key: string]: string } = {
+import { EmailType } from '../types';
+
+const emailTypeActionMapping = {
   // talent emails
   createListing: 'createListing',
   commentSubmission: 'commentOrLikeSubmission',
@@ -13,8 +15,12 @@ const emailTypeActionMapping: { [key: string]: string } = {
   submissionSponsor: 'submissionSponsor',
   deadlineExceeded: 'deadlineSponsor',
   deadlineExceededWeek: 'deadlineSponsor',
-};
+} as const;
 
-export function getCategoryFromEmailType(emailType: string) {
+type EmailTypeActionMappingKeys = keyof typeof emailTypeActionMapping;
+
+type ValidEmailType = EmailType & EmailTypeActionMappingKeys;
+
+export function getCategoryFromEmailType(emailType: ValidEmailType) {
   return emailTypeActionMapping[emailType];
 }

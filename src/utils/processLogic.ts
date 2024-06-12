@@ -17,25 +17,7 @@ import {
   processTalentSubmission,
   processWeeklyRoundup,
 } from '../emailLogic';
-
-type EmailType =
-  | 'addPayment'
-  | 'announceWinners'
-  | 'commentReply'
-  | 'commentTag'
-  | 'commentSponsor'
-  | 'commentSubmission'
-  | 'createListing'
-  | 'deadline3days'
-  | 'deadlineExceeded'
-  | 'deadlineExceededWeek'
-  | 'deadlineExtended'
-  | 'scoutInvite'
-  | 'submissionLike'
-  | 'submissionSponsor'
-  | 'submissionTalent'
-  | 'superteamWinners'
-  | 'weeklyListingRoundup';
+import { EmailType } from '../types';
 
 interface processLogicParams {
   type: EmailType;
@@ -50,42 +32,78 @@ export async function processLogic({
   userId = '',
   otherInfo,
 }: processLogicParams) {
+  let result;
   switch (type) {
     case 'addPayment':
-      return processAddPayment(id);
+      result = await processAddPayment(id);
+      break;
     case 'announceWinners':
-      return processAnnounceWinners(id);
+      result = await processAnnounceWinners(id);
+      break;
     case 'commentReply':
-      return processCommentReply(id, userId);
+      result = await processCommentReply(id, userId);
+      break;
     case 'commentTag':
-      return processCommentTag(id, userId, otherInfo);
+      result = await processCommentTag(id, userId, otherInfo);
+      break;
     case 'commentSponsor':
-      return processCommentSponsor(id, userId);
+      result = await processCommentSponsor(id, userId);
+      break;
     case 'commentSubmission':
-      return processCommentSubmission(id, otherInfo);
+      result = await processCommentSubmission(id, otherInfo);
+      break;
     case 'createListing':
-      return processCreateListing(id);
+      result = await processCreateListing(id);
+      break;
     case 'deadline3days':
-      return processDeadlineThreeDays();
+      result = await processDeadlineThreeDays();
+      break;
     case 'deadlineExceeded':
-      return processDeadlineExceeded();
+      result = await processDeadlineExceeded();
+      break;
     case 'deadlineExceededWeek':
-      return processDeadlineExceededWeek();
+      result = await processDeadlineExceededWeek();
+      break;
     case 'deadlineExtended':
-      return processDeadlineExtended(id);
+      result = await processDeadlineExtended(id);
+      break;
     case 'scoutInvite':
-      return processScoutInvite(id, userId);
+      result = await processScoutInvite(id, userId);
+      break;
     case 'submissionLike':
-      return processSubmissionLike(id, userId);
+      result = await processSubmissionLike(id, userId);
+      break;
     case 'submissionSponsor':
-      return processSponsorSubmission(id, userId);
+      result = await processSponsorSubmission(id, userId);
+      break;
     case 'submissionTalent':
-      return processTalentSubmission(id, userId);
+      result = await processTalentSubmission(id, userId);
+      break;
     case 'superteamWinners':
-      return processSuperteamWinners(id);
+      result = await processSuperteamWinners(id);
+      break;
     case 'weeklyListingRoundup':
-      return processWeeklyRoundup();
+      result = await processWeeklyRoundup();
+      break;
     default:
       throw new Error('Invalid email type');
+  }
+
+  if (Array.isArray(result)) {
+    return result.map((emailData) => ({
+      ...emailData,
+      type,
+      id,
+      userId,
+      otherInfo,
+    }));
+  } else {
+    return {
+      ...result,
+      type,
+      id,
+      userId,
+      otherInfo,
+    };
   }
 }
