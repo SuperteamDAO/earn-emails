@@ -1,2 +1,5 @@
-export * from './Sponsor';
-export * from './Talent';
+export * from './Comment';
+export * from './Deadline';
+export * from './Listing';
+export * from './Submission';
+export * from './Winners';
