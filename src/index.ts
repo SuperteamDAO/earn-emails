@@ -1,13 +1,13 @@
 import express, { Request, Response } from 'express';
-import { logicQueue } from './utils/queue';
+import { getPriority, logicQueue } from './utils';
 import * as dotenv from 'dotenv';
 import cors from 'cors';
 
 dotenv.config();
 
-import './worker/logicWorker';
-import './worker/emailWorker';
-import './utils/cronJobs';
+import './workers/logicWorker';
+import './workers/emailWorker';
+import './jobs';
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -17,7 +17,14 @@ app.use(express.json());
 
 app.post('/email', async (req: Request, res: Response) => {
   const { type, id, userId, otherInfo } = req.body;
-  await logicQueue.add('processLogic', { type, id, userId, otherInfo });
+  const priority = getPriority(type);
+  await logicQueue.add('processLogic', {
+    type,
+    id,
+    userId,
+    otherInfo,
+    priority,
+  });
   res.send('Email processing initiated.');
 });
 
