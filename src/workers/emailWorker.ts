@@ -1,13 +1,13 @@
 import { Worker } from 'bullmq';
 import { Resend } from 'resend';
-import dotenv from 'dotenv';
+import { config } from 'dotenv';
 import { redis } from '../utils';
 import { PrismaClient } from '@prisma/client';
 import { kashEmail } from '../constants';
 import { AlertTemplate } from '../email-templates';
 import { render } from '@react-email/render';
 
-dotenv.config();
+config();
 
 const prisma = new PrismaClient();
 const resend = new Resend(process.env.RESEND_API_KEY);

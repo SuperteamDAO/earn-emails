@@ -1,9 +1,9 @@
 import express, { Request, Response } from 'express';
 import { getPriority, logicQueue } from './utils';
-import * as dotenv from 'dotenv';
+import { config } from 'dotenv';
 import cors from 'cors';
 
-dotenv.config();
+config();
 
 import './workers/logicWorker';
 import './workers/emailWorker';

@@ -1,14 +1,15 @@
 import { emailQueue, redis } from '../utils';
 import { Worker } from 'bullmq';
 
-import * as dotenv from 'dotenv';
+import { config } from 'dotenv';
 import { getPriority, processLogic } from '../utils';
+
+config();
 
 const logicWorker = new Worker(
   'logicQueue',
   async (job) => {
     try {
-      dotenv.config();
       const { type, id, userId, otherInfo } = job.data;
       const emailDatas = await processLogic({ type, id, userId, otherInfo });
 
