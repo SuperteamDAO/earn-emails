@@ -1,0 +1,18 @@
+export type EmailActionType =
+  | 'addPayment'
+  | 'announceWinners'
+  | 'commentReply'
+  | 'commentTag'
+  | 'commentSponsor'
+  | 'commentSubmission'
+  | 'createListing'
+  | 'deadline3days'
+  | 'deadlineExceeded'
+  | 'deadlineExceededWeek'
+  | 'deadlineExtended'
+  | 'scoutInvite'
+  | 'submissionLike'
+  | 'submissionSponsor'
+  | 'submissionTalent'
+  | 'superteamWinners'
+  | 'weeklyListingRoundup';

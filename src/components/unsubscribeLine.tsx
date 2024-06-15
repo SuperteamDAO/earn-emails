@@ -1,19 +1,18 @@
 import React from 'react';
-import { styles } from '../utils/styles';
 
 export const UnsubscribeLine = () => {
   return (
-    <p style={styles.unsubscribe}>
+    <p style={{ fontSize: '11px', lineHeight: '20px', marginTop: '16px' }}>
       <a
         href="https://earn.superteam.fun/#emailPreferences"
-        style={styles.unsubscribeLink}
+        style={{ fontSize: '11px', color: '#007BFF' }}
       >
         Click here
       </a>{' '}
       to update your email preferences on Earn (recommended) or{' '}
       <a
         href="https://airtable.com/appqA0tn8zKv3WJg9/shrsil6vncuj35nHn"
-        style={styles.unsubscribeLink}
+        style={{ fontSize: '11px', color: '#007BFF' }}
       >
         click here
       </a>{' '}
