@@ -7,7 +7,7 @@ const scheduleJob = (time: string, type: EmailActionType) => {
 
   cron.schedule(time, () => {
     console.log(`Triggering ${type} email job`);
-    logicQueue.add('processLogic', { type, priority });
+    logicQueue.add('processLogic', { type }, { priority });
   });
 };
 

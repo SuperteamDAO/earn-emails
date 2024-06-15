@@ -4,12 +4,18 @@ import { prisma } from '../../prisma';
 import { Skills } from '../../types';
 import { NewListingTemplate } from '../../email-templates';
 import { render } from '@react-email/render';
-import { getUserEmailPreference } from '../../utils';
 
 export async function processCreateListing(id: string) {
   try {
     const listing = await prisma.bounties.findUnique({
       where: { id },
+      select: {
+        id: true,
+        region: true,
+        skills: true,
+        type: true,
+        slug: true,
+      },
     });
 
     if (!listing) {
@@ -21,6 +27,8 @@ export async function processCreateListing(id: string) {
     const countries = superteam ? superteam.country : [];
     const listingSkills = listing.skills as Skills;
 
+    const listingSkillNames = listingSkills.map((skill) => skill.skills);
+
     const users = await prisma.user.findMany({
       where: {
         isTalentFilled: true,
@@ -29,57 +37,53 @@ export async function processCreateListing(id: string) {
         }),
         skills: {
           path: '$[*].skills',
-          array_contains: listingSkills.map((skill) => skill.skills),
+          array_contains: listingSkillNames,
         },
+        emailSettings: {
+          some: {
+            category: 'createListing',
+          },
+        },
+      },
+      select: {
+        id: true,
+        firstName: true,
+        email: true,
+        skills: true,
       },
     });
 
-    const emailData = [];
+    const emailData = users
+      .map((user) => {
+        let userSkills: Skills[] | null = null;
 
-    for (const user of users) {
-      if (!user.skills) {
-        console.log(`User ${user.id} has no skills information.`);
-        continue;
-      }
-
-      let userSkills: Skills[] | null = null;
-
-      if (typeof user.skills === 'string') {
-        try {
-          userSkills = JSON.parse(user.skills);
-        } catch (error) {
-          console.error(`Failed to parse skills for user ${user.id}:`, error);
-          continue;
+        if (typeof user.skills === 'string') {
+          try {
+            userSkills = JSON.parse(user.skills);
+          } catch (error) {
+            console.error(`Failed to parse skills for user ${user.id}:`, error);
+            return null;
+          }
+        } else {
+          userSkills = user.skills as Skills[];
         }
-      } else {
-        userSkills = user.skills as Skills[];
-      }
 
-      if (!userSkills) continue;
+        if (!userSkills) return null;
 
-      const userPreference = await getUserEmailPreference(
-        user.id,
-        'createListing',
-      );
+        const emailHtml = render(
+          NewListingTemplate({
+            name: user.firstName!,
+            link: `https://earn.superteam.fun/listings/${listing.type}/${listing.slug}/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`,
+          }),
+        );
 
-      if (!userPreference) {
-        console.log(`User ${user.id} has opted out of this type of email.`);
-        continue;
-      }
-
-      const emailHtml = render(
-        NewListingTemplate({
-          name: user.firstName!,
-          link: `https://earn.superteam.fun/listings/${listing.type}/${listing.slug}/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`,
-        }),
-      );
-
-      emailData.push({
-        to: user.email,
-        subject: 'Here’s a New Listing You’d Be Interested In..',
-        html: emailHtml,
-      });
-    }
+        return {
+          to: user.email,
+          subject: 'Here’s a New Listing You’d Be Interested In..',
+          html: emailHtml,
+        };
+      })
+      .filter((data) => data !== null);
 
     return emailData;
   } catch (error) {

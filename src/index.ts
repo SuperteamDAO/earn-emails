@@ -18,13 +18,17 @@ app.use(express.json());
 app.post('/email', async (req: Request, res: Response) => {
   const { type, id, userId, otherInfo } = req.body;
   const priority = getPriority(type);
-  await logicQueue.add('processLogic', {
-    type,
-    id,
-    userId,
-    otherInfo,
-    priority,
-  });
+
+  await logicQueue.add(
+    'processLogic',
+    {
+      type,
+      id,
+      userId,
+      otherInfo,
+    },
+    { priority },
+  );
   res.send('Email processing initiated.');
 });
 
