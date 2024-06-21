@@ -1,6 +1,7 @@
 import { prisma } from '../../prisma';
 import { DeadlineExtendedTemplate } from '../../email-templates';
 import { render } from '@react-email/render';
+import { alertsEmail } from '../../constants';
 
 export async function processDeadlineExtended(id: string) {
   const listing = await prisma.bounties.findUnique({
@@ -63,6 +64,7 @@ export async function processDeadlineExtended(id: string) {
         }),
       );
       return {
+        from: alertsEmail,
         to: user.email,
         subject: 'Listing Deadline Extended!',
         html: emailHtml,

@@ -1,3 +1,3 @@
 export * from './emailConfig';
-export * from './kashEmail';
+export * from './emails';
 export * from './Superteam';

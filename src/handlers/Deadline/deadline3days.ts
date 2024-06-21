@@ -3,6 +3,7 @@ import { DeadlineThreeDaysTemplate } from '../../email-templates';
 import { render } from '@react-email/render';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
+import { alertsEmail } from '../../constants';
 
 export async function processDeadlineThreeDays() {
   dayjs.extend(utc);
@@ -54,6 +55,7 @@ export async function processDeadlineThreeDays() {
       );
 
       emails.push({
+        from: alertsEmail,
         to: sub?.User?.email,
         subject: 'This Listing Is Expiring Soon!',
         html: emailHtml,

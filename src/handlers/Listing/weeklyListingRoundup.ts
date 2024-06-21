@@ -5,7 +5,7 @@ import { prisma } from '../../prisma';
 import { WeeklyRoundupTemplate } from '../../email-templates';
 import { render } from '@react-email/render';
 import { Regions } from '@prisma/client';
-import { Superteams } from '../../constants';
+import { Superteams, listingsEmail } from '../../constants';
 
 dayjs.extend(utc);
 
@@ -104,6 +104,7 @@ export async function processWeeklyRoundup() {
     );
 
     emails.push({
+      from: listingsEmail,
       to: user.email,
       subject: 'Your Weekly Listing Roundup Is Here!',
       html: emailHtml,

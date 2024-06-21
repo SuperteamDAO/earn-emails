@@ -4,6 +4,7 @@ import { render } from '@react-email/render';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import { getUserEmailPreference } from '../../utils';
+import { alertsEmail } from '../../constants';
 
 export async function processDeadlineExceeded() {
   dayjs.extend(utc);
@@ -62,6 +63,7 @@ export async function processDeadlineExceeded() {
     });
 
     emailData.push({
+      from: alertsEmail,
       to: listing.poc.email,
       bcc: ['pratikd.earnings@gmail.com'],
       subject: 'Your Earn Listing Is Ready to Be Reviewed',

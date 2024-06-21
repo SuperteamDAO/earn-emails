@@ -2,6 +2,7 @@ import { prisma } from '../../prisma';
 import { WinnersAnnouncedTemplate } from '../../email-templates';
 import { render } from '@react-email/render';
 import { getListingTypeLabel } from '../../utils';
+import { alertsEmail } from '../../constants';
 
 export async function processAnnounceWinners(id: string) {
   const listing = await prisma.bounties.findUnique({
@@ -69,6 +70,7 @@ export async function processAnnounceWinners(id: string) {
         }),
       );
       return {
+        from: alertsEmail,
         to: user.email,
         subject: `${listingTypeLabel} Winners Announced!`,
         html: emailHtml,
