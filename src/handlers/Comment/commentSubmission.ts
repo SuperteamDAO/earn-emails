@@ -34,7 +34,7 @@ export async function processCommentSubmission(id: string, otherInfo: any) {
       const emailData = {
         from: alertsEmail,
         to: submission?.user.email,
-        subject: 'Comment Received on Your Superteam Earn Submission',
+        subject: 'Comment Received on Your Submission',
         html: emailHtml,
       };
       return emailData;

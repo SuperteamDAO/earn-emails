@@ -22,12 +22,11 @@ export const SubmissionLikeTemplate = ({
         listing. Keep it up!
       </p>
       <p style={styles.textWithMargin}>
-        Check out the other submissions and spread some love to the other
-        participants!
+        Return the love by liking{' '}
+        <a href={link} style={styles.link}>
+          other submissions.
+        </a>
       </p>
-      <a href={link} style={styles.link}>
-        View Other Submissions
-      </a>
       <p style={styles.salutation}>
         Best,
         <br />

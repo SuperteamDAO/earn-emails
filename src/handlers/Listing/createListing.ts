@@ -15,6 +15,7 @@ export async function processCreateListing(id: string) {
         skills: true,
         type: true,
         slug: true,
+        sponsor: true,
       },
     });
 
@@ -74,13 +75,14 @@ export async function processCreateListing(id: string) {
           NewListingTemplate({
             name: user.firstName!,
             link: `https://earn.superteam.fun/listings/${listing.type}/${listing.slug}/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`,
+            sponsorName: `${listing.sponsor.name}`,
           }),
         );
 
         return {
           from: listingsEmail,
           to: user.email,
-          subject: 'Here’s a New Listing You’d Be Interested In..',
+          subject: `${listing.sponsor.name} Has a New Listing Just for You!`,
           html: emailHtml,
         };
       })

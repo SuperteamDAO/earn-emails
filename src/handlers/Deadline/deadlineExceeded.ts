@@ -66,7 +66,7 @@ export async function processDeadlineExceeded() {
       from: alertsEmail,
       to: listing.poc.email,
       bcc: ['pratikd.earnings@gmail.com'],
-      subject: 'Your Earn Listing Is Ready to Be Reviewed',
+      subject: 'Your Listing Is Ready to Be Reviewed',
       html: emailHtml,
     });
   }

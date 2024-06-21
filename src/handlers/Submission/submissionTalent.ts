@@ -15,8 +15,8 @@ export async function processTalentSubmission(id: string, userId: string) {
   if (listing && user) {
     const subject =
       listing.type !== 'project'
-        ? 'Submission Received!'
-        : 'Application Received';
+        ? 'We Have Received Your Submission'
+        : 'We Have Received Your Application';
 
     const emailHtml = render(
       SubmissionTemplate({

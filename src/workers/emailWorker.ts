@@ -40,7 +40,7 @@ const emailWorker = new Worker(
         html,
         ...(bcc && { bcc }),
         ...(cc && { cc }),
-        reply_to: 'support@superteamearn.com',
+        reply_to: process.env.REPLY_TO_EMAIL,
       });
       console.log(`Email sent successfully to ${to}:`, response);
     } catch (error: any) {

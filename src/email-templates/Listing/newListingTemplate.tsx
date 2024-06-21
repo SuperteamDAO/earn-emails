@@ -6,22 +6,26 @@ import { UnsubscribeLine } from '../../components';
 interface NewListingProps {
   name: string;
   link: string;
+  sponsorName: string;
 }
 
-export const NewListingTemplate = ({ name, link }: NewListingProps) => {
+export const NewListingTemplate = ({
+  name,
+  link,
+  sponsorName,
+}: NewListingProps) => {
   return (
     <div style={styles.container}>
       <p style={styles.greetings}>Hey {name},</p>
       <p style={styles.textWithMargin}>
-        Good news &mdash; a new&nbsp;listing has just arrived with your name on
-        it. It&apos;s like finding extra money in your pocket, but way more
-        exciting!
+        Good news &mdash; there&apos;s a new listing by {sponsorName}, made just
+        for you.
       </p>
       <p style={styles.textWithMargin}>
         <a href={link} style={styles.link}>
           Click here
         </a>{' '}
-        to learn more about this listing.
+        to learn more.
       </p>
       <p style={styles.salutation}>
         Best,

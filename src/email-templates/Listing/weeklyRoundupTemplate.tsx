@@ -50,8 +50,7 @@ export const WeeklyRoundupTemplate = ({ name, bounties }: TemplateProps) => {
     <div style={styles.container}>
       <p style={styles.greetings}>Hey there, {name}!</p>
       <p style={styles.textWithMargin}>
-        Here&apos;s a weekly round-up of all live listings, curated just for
-        you:
+        Here&apos;s a weekly round-up of live listings, curated just for you:
       </p>
       <ol>
         {bounties?.map((bounty, i) => (
