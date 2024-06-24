@@ -35,7 +35,6 @@ model Jobs {
   updatedAt     DateTime @updatedAt
   sponsor       Sponsors @relation(fields: [sponsorId], references: [id])
 
-  @@index([id])
   @@index([sponsorId])
 }
 
@@ -50,6 +49,7 @@ model Bounties {
   token                String?
   rewardAmount         Float?
   rewards              Json?
+  usdValue             Float?
   sponsorId            String
   pocId                String
   source               Source             @default(NATIVE)
@@ -79,7 +79,6 @@ model Bounties {
   publishedAt          DateTime?
   isPrivate            Boolean            @default(false)
   hackathonId          String?
-  usdValue             Int?
   compensationType     CompensationType   @default(fixed)
   maxRewardAsk         Int?
   minRewardAsk         Int?
@@ -91,6 +90,7 @@ model Bounties {
   Hackathon            Hackathon?         @relation(fields: [hackathonId], references: [id])
   winnersAnnouncedAt   DateTime?
   Scouts               Scouts[]
+  Comments             Comment[]
 
   @@index([id, slug])
   @@index([sponsorId])
@@ -126,8 +126,6 @@ model BountiesTemplates {
   skills              Json?
   type                BountyType @default(bounty)
   Bounties            Bounties[]
-
-  @@index([id])
 }
 
 model Comment {
@@ -146,10 +144,12 @@ model Comment {
   author       User        @relation(fields: [authorId], references: [id])
   repliedTo    Comment?    @relation("CommentReplies", fields: [replyToId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   replies      Comment[]   @relation("CommentReplies")
+  listing      Bounties    @relation(fields: [listingId], references: [id])
 
   @@index([id, listingId])
   @@index([authorId])
   @@index([replyToId])
+  @@index([listingId])
 }
 
 model Grants {
@@ -201,7 +201,7 @@ model Submission {
   otherInfo          String?          @db.VarChar(2000)
   ask                Int?
   label              SubmissionLabels @default(Unreviewed)
-  rewardInUSD        Int              @default(0)
+  rewardInUSD        Float            @default(0)
   listing            Bounties         @relation(fields: [listingId], references: [id])
   user               User             @relation(fields: [userId], references: [id])
   ogImage            String?          @db.Text
@@ -209,7 +209,6 @@ model Submission {
   @@index([id, listingId])
   @@index([userId])
   @@index([listingId])
-  @@index([createdAt])
   @@index([isWinner])
   @@index([createdAt, isWinner])
   @@index([createdAt, listingId])
@@ -217,28 +216,27 @@ model Submission {
 }
 
 model Sponsors {
-  id                 String         @id @default(uuid())
-  name               String         @unique
-  slug               String         @unique
-  logo               String?
-  url                String?
-  industry           String
-  twitter            String?
-  bio                String?
-  createdAt          DateTime       @default(now())
-  updatedAt          DateTime       @updatedAt
-  isArchived         Boolean        @default(false)
-  isActive           Boolean        @default(true)
-  totalRewardedInUSD Int            @default(0)
-  Hackathon          Hackathon?
-  UserSponsors       UserSponsors[]
-  Bounties           Bounties[]
-  Grants             Grants[]
-  Jobs               Jobs[]
-  User               User[]
+  id           String         @id @default(uuid())
+  name         String         @unique
+  slug         String         @unique
+  logo         String?
+  url          String?
+  industry     String
+  twitter      String?
+  bio          String?
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  isArchived   Boolean        @default(false)
+  isActive     Boolean        @default(true)
+  entityName   String?
+  Hackathon    Hackathon?
+  UserSponsors UserSponsors[]
+  Bounties     Bounties[]
+  Grants       Grants[]
+  Jobs         Jobs[]
+  User         User[]
 
   @@index([id, slug])
-  @@index([name])
 }
 
 model Account {
@@ -282,7 +280,6 @@ model User {
   updatedAt         DateTime          @updatedAt
   isVerified        Boolean           @default(false)
   role              String            @default("USER")
-  totalEarnedInUSD  Int               @default(0)
   isTalentFilled    Boolean           @default(false)
   interests         String?           @db.Text
   bio               String?           @db.Text
@@ -301,6 +298,7 @@ model User {
   currentEmployer   String?
   notifications     Json?
   private           Boolean           @default(false)
+  totalEarnedInUSD  Float             @default(0)
   skills            Json?
   currentSponsorId  String?
   emailVerified     DateTime?
@@ -308,6 +306,7 @@ model User {
   featureModalShown Boolean           @default(false)
   surveysShown      Json?
   stRecommended     Boolean           @default(false)
+  acceptedTOS       Boolean           @default(false)
   currentSponsor    Sponsors?         @relation(fields: [currentSponsorId], references: [id])
   UserSponsors      UserSponsors[]
   poc               Bounties[]        @relation("poc")
@@ -342,6 +341,7 @@ model Scouts {
   user          User     @relation(fields: [userId], references: [id])
 
   @@unique([userId, listingId])
+  @@index([listingId])
 }
 
 model TalentRankings {
@@ -357,7 +357,6 @@ model TalentRankings {
   user             User                   @relation(fields: [userId], references: [id])
 
   @@unique([userId, skill, timeframe])
-  @@index([userId, skill, timeframe])
 }
 
 model PoW {
@@ -386,7 +385,7 @@ model EmailSettings {
   category String
   user     User   @relation(fields: [userId], references: [id])
 
-  @@index([userId])
+  @@index([userId, category])
 }
 
 model UserSponsors {
@@ -399,7 +398,6 @@ model UserSponsors {
   sponsor   Sponsors @relation(fields: [sponsorId], references: [id])
 
   @@id([userId, sponsorId])
-  @@index([userId, sponsorId])
   @@index([sponsorId])
 }
 
@@ -413,7 +411,6 @@ model UserInvites {
   memberType Role     @default(MEMBER)
   sender     User     @relation(fields: [senderId], references: [id])
 
-  @@index([id])
   @@index([senderId])
 }
 
@@ -463,8 +460,6 @@ model Hackathon {
   listings     Bounties[]
   Sponsor      Sponsors?  @relation(fields: [sponsorId], references: [id])
   User         User[]
-
-  @@index([sponsorId])
 }
 
 model UnsubscribedEmail {

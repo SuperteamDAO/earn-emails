@@ -20,11 +20,12 @@ export const CommentSubmissionTemplate = ({
     <div style={styles.container}>
       <p style={styles.greetings}>Hello&nbsp;{name},</p>
       <p style={styles.textWithMargin}>
-        {personName} just left a new comment on your submission to the{' '}
-        <strong>{listingName}</strong> listing.
+        {personName} just left a new
         <a href={link} style={styles.link}>
-          Click here to see what they said!
-        </a>{' '}
+          {' '}
+          comment{' '}
+        </a>
+        on your submission to the <strong>{listingName}</strong> listing.
       </p>
       <p style={styles.salutation}>
         Best,
