@@ -2,7 +2,7 @@ import { render } from '@react-email/render';
 import { CommentSubmissionTemplate } from '../../email-templates';
 import { prisma } from '../../prisma';
 import { getUserEmailPreference } from '../../utils';
-import { alertsEmail } from '../../constants';
+import { kashEmail } from '../../constants';
 
 export async function processCommentSubmission(id: string, otherInfo: any) {
   const { personName } = otherInfo;
@@ -32,7 +32,7 @@ export async function processCommentSubmission(id: string, otherInfo: any) {
       );
 
       const emailData = {
-        from: alertsEmail,
+        from: kashEmail,
         to: submission?.user.email,
         subject: 'Comment Received on Your Submission',
         html: emailHtml,

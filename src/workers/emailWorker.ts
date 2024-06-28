@@ -5,7 +5,7 @@ import { redis } from '../utils';
 import { PrismaClient } from '@prisma/client';
 import { AlertTemplate } from '../email-templates';
 import { render } from '@react-email/render';
-import { alertsEmail } from '../constants';
+import { kashEmail } from '../constants';
 
 config();
 
@@ -54,7 +54,7 @@ const emailWorker = new Worker(
       } else {
         console.error('Failed to send email (non-rate-limit error):', error);
         await resend.emails.send({
-          from: alertsEmail,
+          from: kashEmail,
           to: ['abhwshek@gmail.com', 'pratik.dholani1@gmail.com'],
           subject: 'Email Error',
           html: render(

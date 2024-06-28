@@ -2,7 +2,7 @@ import { render } from '@react-email/render';
 import { CommentTagTemplate } from '../../email-templates';
 import { prisma } from '../../prisma';
 import { getUserEmailPreference } from '../../utils';
-import { alertsEmail } from '../../constants';
+import { kashEmail } from '../../constants';
 
 export async function processCommentTag(
   id: string,
@@ -39,7 +39,7 @@ export async function processCommentTag(
     );
 
     const emailData = {
-      from: alertsEmail,
+      from: kashEmail,
       to: user?.email,
       subject: 'You have been mentioned in a comment on Earn',
       html: emailHtml,

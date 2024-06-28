@@ -4,7 +4,7 @@ import { render } from '@react-email/render';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import { getUserEmailPreference } from '../../utils';
-import { alertsEmail } from '../../constants';
+import { kashEmail } from '../../constants';
 
 export async function processDeadlineExceededWeek() {
   dayjs.extend(utc);
@@ -64,7 +64,7 @@ export async function processDeadlineExceededWeek() {
     });
 
     emailData.push({
-      from: alertsEmail,
+      from: kashEmail,
       to: listing.poc.email,
       bcc: ['pratikd.earnings@gmail.com'],
       subject: 'Please Announce the Winners of Your Listing ASAP',

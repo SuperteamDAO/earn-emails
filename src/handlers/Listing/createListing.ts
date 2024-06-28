@@ -1,5 +1,5 @@
 import { Regions } from '@prisma/client';
-import { Superteams, listingsEmail } from '../../constants';
+import { Superteams, kashEmail, listingsEmail } from '../../constants';
 import { prisma } from '../../prisma';
 import { Skills } from '../../types';
 import { NewListingTemplate } from '../../email-templates';
@@ -80,7 +80,7 @@ export async function processCreateListing(id: string) {
         );
 
         return {
-          from: listingsEmail,
+          from: kashEmail,
           to: user.email,
           subject: `${listing.sponsor.name} Has a New Listing Just for You!`,
           html: emailHtml,

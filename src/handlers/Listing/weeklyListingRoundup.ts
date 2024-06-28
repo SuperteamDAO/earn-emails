@@ -5,7 +5,7 @@ import { prisma } from '../../prisma';
 import { WeeklyRoundupTemplate } from '../../email-templates';
 import { render } from '@react-email/render';
 import { Regions } from '@prisma/client';
-import { Superteams, listingsEmail } from '../../constants';
+import { Superteams, kashEmail } from '../../constants';
 import isoWeek from 'dayjs/plugin/isoWeek';
 
 dayjs.extend(utc);
@@ -109,7 +109,7 @@ export async function processWeeklyRoundup() {
     );
 
     emails.push({
-      from: listingsEmail,
+      from: kashEmail,
       to: user.email,
       subject: `Listings of Week, Handpicked for You (Week ${currentWeekNumber}, ${currentYear})`,
       html: emailHtml,

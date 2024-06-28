@@ -2,7 +2,7 @@ import { render } from '@react-email/render';
 import { CommentReplyTemplate } from '../../email-templates';
 import { prisma } from '../../prisma';
 import { getUserEmailPreference } from '../../utils';
-import { alertsEmail } from '../../constants';
+import { kashEmail } from '../../constants';
 
 export async function processCommentReply(id: string, userId: string) {
   const userPreference = await getUserEmailPreference(userId, 'commentReply');
@@ -33,7 +33,7 @@ export async function processCommentReply(id: string, userId: string) {
     );
 
     const emailData = {
-      from: alertsEmail,
+      from: kashEmail,
       to: user?.email,
       subject: 'You have received a reply to your comment on Earn',
       html: emailHtml,

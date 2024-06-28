@@ -2,7 +2,7 @@ import { render } from '@react-email/render';
 import { SubmissionSponsorTemplate } from '../../email-templates';
 import { prisma } from '../../prisma';
 import { getUserEmailPreference } from '../../utils';
-import { alertsEmail } from '../../constants';
+import { kashEmail } from '../../constants';
 
 export async function processSponsorSubmission(id: string, userId: string) {
   const userPreference = await getUserEmailPreference(
@@ -38,7 +38,7 @@ export async function processSponsorSubmission(id: string, userId: string) {
     );
 
     const emailData = {
-      from: alertsEmail,
+      from: kashEmail,
       to: pocUser.email,
       subject,
       html: emailHtml,
