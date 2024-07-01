@@ -3,9 +3,9 @@ import { Resend } from 'resend';
 import { config } from 'dotenv';
 import { redis } from '../utils';
 import { PrismaClient } from '@prisma/client';
-import { kashEmail } from '../constants';
 import { AlertTemplate } from '../email-templates';
 import { render } from '@react-email/render';
+import { kashEmail } from '../constants';
 
 config();
 
@@ -15,7 +15,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 const emailWorker = new Worker(
   'emailQueue',
   async (job) => {
-    const { to, subject, html, cc, bcc, id, type, userId, otherInfo } =
+    const { from, to, subject, html, cc, bcc, id, type, userId, otherInfo } =
       job.data;
 
     try {
@@ -34,12 +34,13 @@ const emailWorker = new Worker(
       }
 
       const response = await resend.emails.send({
-        from: kashEmail,
+        from,
         to,
         subject,
         html,
         ...(bcc && { bcc }),
         ...(cc && { cc }),
+        reply_to: 'support@superteamearn.com',
       });
       console.log(`Email sent successfully to ${to}:`, response);
     } catch (error: any) {

@@ -1,6 +1,7 @@
 import { prisma } from '../../prisma';
 import { SuperteamWinnersTemplate } from '../../email-templates';
 import { render } from '@react-email/render';
+import { kashEmail } from '../../constants';
 
 export async function processSuperteamWinners(id: string) {
   const listing = await prisma.bounties.findUnique({
@@ -33,6 +34,7 @@ export async function processSuperteamWinners(id: string) {
         }),
       );
       return {
+        from: kashEmail,
         to: winner.user.email,
         subject: 'Submit This Form to Claim Your Reward',
         html: emailHtml,

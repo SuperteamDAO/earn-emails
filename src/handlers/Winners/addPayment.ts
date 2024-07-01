@@ -1,6 +1,7 @@
 import { render } from '@react-email/render';
 import { PaymentReceivedTemplate } from '../../email-templates';
 import { prisma } from '../../prisma';
+import { kashEmail } from '../../constants';
 
 export async function processAddPayment(id: string) {
   const submission = await prisma.submission.findUnique({
@@ -24,6 +25,7 @@ export async function processAddPayment(id: string) {
     );
 
     const emailData = {
+      from: kashEmail,
       to: submission?.user.email,
       subject: `Payment Confirmation for ${submission.listing.title}`,
       html: emailHtml,
