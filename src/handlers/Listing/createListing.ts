@@ -1,5 +1,5 @@
 import { Regions } from '@prisma/client';
-import { Superteams, kashEmail, listingsEmail } from '../../constants';
+import { Superteams, kashEmail } from '../../constants';
 import { prisma } from '../../prisma';
 import { Skills } from '../../types';
 import { NewListingTemplate } from '../../email-templates';
