@@ -31,7 +31,7 @@ export async function processSubmissionLike(id: string, userId: string) {
     const emailData = {
       from: kashEmail,
       to: submission?.user.email,
-      subject: 'People Love Your Submission!',
+      subject: 'People Love Your Superteam Earn Submission!',
       html: emailHtml,
     };
     return emailData;

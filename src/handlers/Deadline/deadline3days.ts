@@ -25,7 +25,6 @@ export async function processDeadlineThreeDays() {
     },
     include: {
       poc: true,
-      sponsor: true,
     },
   });
 
@@ -58,7 +57,7 @@ export async function processDeadlineThreeDays() {
       emails.push({
         from: kashEmail,
         to: sub?.User?.email,
-        subject: `This ${listing.sponsor.name} Listing Is Expiring Soon!`,
+        subject: 'This Listing Is Expiring Soon!',
         html: emailHtml,
       });
     }

@@ -26,7 +26,7 @@ export const DeadlineExceededbyWeekTemplate = ({
         <a href={link} style={styles.link}>
           Click here
         </a>{' '}
-        to review your submissions.
+        to review the submissions.
       </p>
       <p style={styles.salutation}>
         Best,

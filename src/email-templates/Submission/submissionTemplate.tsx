@@ -26,7 +26,8 @@ export const SubmissionTemplate = ({
             you&apos;ve earned it 🥳
           </p>
           <p style={styles.textWithMargin}>
-            We&rsquo;ll notify you via email once the winner (hopefully you) is
+            The sponsor will soon review all other applications. We’ll then send
+            you an email when the winners (hopefully including you) are
             announced!
           </p>
         </>
@@ -38,8 +39,9 @@ export const SubmissionTemplate = ({
             you&rsquo;ve earned it 🥳
           </p>
           <p style={styles.textWithMargin}>
-            We&rsquo;ll notify you via email once the winners (hopefully
-            including you) are announced!
+            Once the deadline passes, you&rsquo;ll be able to see all the other
+            submissions on the listing page. We&rsquo;ll then send you an email
+            once the winners (hopefully including you) are announced!
           </p>
         </>
       )}

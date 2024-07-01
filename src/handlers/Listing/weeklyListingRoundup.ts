@@ -6,18 +6,13 @@ import { WeeklyRoundupTemplate } from '../../email-templates';
 import { render } from '@react-email/render';
 import { Regions } from '@prisma/client';
 import { Superteams, kashEmail } from '../../constants';
-import isoWeek from 'dayjs/plugin/isoWeek';
 
 dayjs.extend(utc);
-dayjs.extend(isoWeek);
 
 type UserSkills = {
   skills: MainSkills;
   subskills: string[];
 };
-
-const currentWeekNumber = dayjs().isoWeek();
-const currentYear = dayjs().year();
 
 function userRegionEligibility(region: Regions, userInfo: any) {
   if (region === Regions.GLOBAL) {
@@ -111,7 +106,7 @@ export async function processWeeklyRoundup() {
     emails.push({
       from: kashEmail,
       to: user.email,
-      subject: `Listings of Week, Handpicked for You (Week ${currentWeekNumber}, ${currentYear})`,
+      subject: 'Your Weekly Listing Roundup Is Here!',
       html: emailHtml,
     });
   }

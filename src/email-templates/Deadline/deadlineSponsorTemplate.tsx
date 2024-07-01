@@ -20,7 +20,7 @@ export const DeadlineSponsorTemplate = ({
       <p style={styles.textWithMargin}>
         The deadline for your listing <strong>{listingName}</strong>
         &nbsp; has expired. Please review the submissions and announce the
-        winners on Superteam Earn&nbsp;within 5 days.
+        winners on Superteam Earn&nbsp;within 5 to 7 days.
       </p>
       <p style={styles.textWithMargin}>
         <a href={link} style={styles.link}>

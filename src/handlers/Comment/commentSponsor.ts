@@ -33,7 +33,7 @@ export async function processCommentSponsor(id: string, userId: string) {
     const emailData = {
       from: kashEmail,
       to: pocUser.email,
-      subject: 'Comment Received on Your Listing',
+      subject: 'Comment Received on Your Superteam Earn Listing',
       html: emailHtml,
     };
     return emailData;
