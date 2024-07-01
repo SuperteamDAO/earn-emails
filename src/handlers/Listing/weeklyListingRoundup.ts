@@ -29,9 +29,27 @@ function userRegionEligibility(region: Regions, userInfo: any) {
 }
 
 export async function processWeeklyRoundup() {
+  const dateThreshold = dayjs('2024-06-21').toISOString();
+
   const usersWithEmailSettings = await prisma.emailSettings.findMany({
     where: {
       category: 'weeklyListingRoundup',
+      OR: [
+        {
+          user: {
+            createdAt: {
+              gt: new Date(dateThreshold),
+            },
+          },
+        },
+        {
+          user: {
+            Submission: {
+              some: {},
+            },
+          },
+        },
+      ],
     },
     include: {
       user: true,
