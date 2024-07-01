@@ -33,6 +33,8 @@ const emailWorker = new Worker(
         return;
       }
 
+      const unsubscribeUrl = `https://airtable.com/appqA0tn8zKv3WJg9/shrsil6vncuj35nHn`;
+
       const response = await resend.emails.send({
         from,
         to,
@@ -41,6 +43,9 @@ const emailWorker = new Worker(
         ...(bcc && { bcc }),
         ...(cc && { cc }),
         reply_to: 'support@superteamearn.com',
+        headers: {
+          'List-Unsubscribe': `<${unsubscribeUrl}>`,
+        },
       });
       console.log(`Email sent successfully to ${to}:`, response);
     } catch (error: any) {
@@ -52,7 +57,7 @@ const emailWorker = new Worker(
         await emailWorker.rateLimit(retryAfter * 1000);
         throw Worker.RateLimitError();
       } else {
-        console.error('Failed to send email (non-rate-limit error):', error);
+        console.error('Failed to send email:', error);
         await resend.emails.send({
           from: kashEmail,
           to: ['abhwshek@gmail.com', 'pratik.dholani1@gmail.com'],
