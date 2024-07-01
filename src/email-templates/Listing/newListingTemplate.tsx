@@ -18,14 +18,14 @@ export const NewListingTemplate = ({
     <div style={styles.container}>
       <p style={styles.greetings}>Hey {name},</p>
       <p style={styles.textWithMargin}>
-        Good news &mdash; there&apos;s a newly added listing by {sponsorName},
-        made just for you.
+        Good news &mdash; there&apos;s a new listing by {sponsorName}, made just
+        for you.
       </p>
       <p style={styles.textWithMargin}>
         <a href={link} style={styles.link}>
           Click here
         </a>{' '}
-        to learn about it.
+        to learn more.
       </p>
       <p style={styles.salutation}>
         Best,

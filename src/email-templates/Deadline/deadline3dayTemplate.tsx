@@ -19,12 +19,12 @@ export const DeadlineThreeDaysTemplate = ({
       <p style={styles.greetings}>Hey {name},</p>
       <p style={styles.textWithMargin}>
         Friendly reminder that &quot;
-        <span style={{ fontWeight: 400 }}>
-          <a href={link} style={styles.link}>
-            {listingName}
-          </a>
-        </span>
-        &quot; you&nbsp;had indicated&nbsp; will close in 3 days!
+        <span style={{ fontWeight: 400 }}>{listingName}&quot;</span>{' '}
+        you&nbsp;had indicated&nbsp; will close in 3 days!{' '}
+        <a href={link} style={styles.link}>
+          Click here
+        </a>{' '}
+        to take another look.
       </p>
       <p style={styles.salutation}>
         Best,

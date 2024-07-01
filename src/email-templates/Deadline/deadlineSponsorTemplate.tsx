@@ -6,31 +6,27 @@ import { UnsubscribeLine } from '../../components';
 interface TemplateProps {
   name: string;
   listingName: string;
-  submissionReviewLink: string;
-  listingLink: string;
+  link: string;
 }
 
 export const DeadlineSponsorTemplate = ({
   name,
   listingName,
-  submissionReviewLink,
-  listingLink,
+  link,
 }: TemplateProps) => {
   return (
     <div style={styles.container}>
       <p style={styles.greetings}>Hey {name},</p>
       <p style={styles.textWithMargin}>
-        The deadline for your listing{' '}
-        <strong>
-          <a href={listingLink} style={styles.link}>
-            {listingName}
-          </a>
-        </strong>
-        &nbsp; has expired. Please
-        <a href={submissionReviewLink} style={styles.link}>
-          review the submissions and announce the
-        </a>
+        The deadline for your listing <strong>{listingName}</strong>
+        &nbsp; has expired. Please review the submissions and announce the
         winners on Superteam Earn&nbsp;within 5 days.
+      </p>
+      <p style={styles.textWithMargin}>
+        <a href={link} style={styles.link}>
+          Click here
+        </a>{' '}
+        to review&nbsp;the submissions. &nbsp;
       </p>
       <p style={styles.salutation}>
         Best,

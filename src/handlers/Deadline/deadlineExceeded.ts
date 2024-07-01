@@ -51,8 +51,7 @@ export async function processDeadlineExceeded() {
       DeadlineSponsorTemplate({
         name: listing.poc.firstName!,
         listingName: listing.title,
-        submissionReviewLink: `https://earn.superteam.fun/dashboard/listings/${listing?.slug}/submissions/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`,
-        listingLink: `https://earn.superteam.fun/listings/${listing?.type}/${listing?.slug}/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`,
+        link: `https://earn.superteam.fun/dashboard/listings/${listing?.slug}/submissions/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`,
       }),
     );
 
