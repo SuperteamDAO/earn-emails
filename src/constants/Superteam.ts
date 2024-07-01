@@ -78,4 +78,22 @@ export const Superteams = [
     displayValue: 'Philippines',
     country: ['Philippines'],
   },
+  {
+    name: 'Superteam Japan',
+    region: Regions.JAPAN,
+    displayValue: 'Japan',
+    country: ['Japan'],
+  },
+  {
+    name: 'Superteam France',
+    region: Regions.FRANCE,
+    displayValue: 'France',
+    country: ['France'],
+  },
+  {
+    name: 'Superteam Mexico',
+    region: Regions.MEXICO,
+    displayValue: 'Mexico',
+    country: ['Mexico'],
+  },
 ];
