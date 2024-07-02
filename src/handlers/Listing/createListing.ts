@@ -1,7 +1,7 @@
 import { Regions } from '@prisma/client';
 import { Superteams, kashEmail } from '../../constants';
 import { prisma } from '../../prisma';
-import { Skills } from '../../types';
+import { Skills, MainSkills } from '../../types';
 import { NewListingTemplate } from '../../email-templates';
 import { render } from '@react-email/render';
 
@@ -27,7 +27,22 @@ export async function processCreateListing(id: string) {
     const countries = superteam ? superteam.country : [];
     const listingSkills = listing.skills as Skills;
 
-    const listingSkillNames = listingSkills.map((skill) => skill.skills);
+    const developmentMainSkills: MainSkills[] = [
+      'Frontend',
+      'Backend',
+      'Blockchain',
+      'Mobile',
+    ];
+    const otherMainSkills: MainSkills[] = [
+      'Design',
+      'Community',
+      'Growth',
+      'Content',
+      'Other',
+    ];
+
+    const listingMainSkills = listingSkills.map((skill) => skill.skills);
+    const listingSubSkills = listingSkills.flatMap((skill) => skill.subskills);
 
     const users = await prisma.user.findMany({
       where: {
@@ -35,10 +50,40 @@ export async function processCreateListing(id: string) {
         ...(listing.region !== Regions.GLOBAL && {
           location: { in: countries },
         }),
-        skills: {
-          path: '$[*].skills',
-          array_contains: listingSkillNames,
-        },
+        OR: [
+          {
+            AND: [
+              {
+                skills: {
+                  path: '$[*].skills',
+                  array_contains: developmentMainSkills,
+                },
+              },
+              {
+                skills: {
+                  path: '$[*].skills',
+                  array_contains: listingMainSkills,
+                },
+              },
+            ],
+          },
+          {
+            AND: [
+              {
+                skills: {
+                  path: '$[*].skills',
+                  array_contains: otherMainSkills,
+                },
+              },
+              {
+                skills: {
+                  path: '$[*].subskills',
+                  array_contains: listingSubSkills,
+                },
+              },
+            ],
+          },
+        ],
         emailSettings: {
           some: {
             category: 'createListing',
