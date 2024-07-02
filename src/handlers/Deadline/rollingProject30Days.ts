@@ -9,8 +9,8 @@ import { Rolling30DaysTemplate } from '../../email-templates';
 export async function processRollingProject30Days() {
   dayjs.extend(utc);
 
-  const thirtyDaysFromNowStart = dayjs.utc().add(30, 'day').startOf('day');
-  const thirtyDaysFromNowEnd = dayjs.utc().add(30, 'day').endOf('day');
+  const thirtyDaysAgoStart = dayjs.utc().subtract(30, 'day').startOf('day');
+  const thirtyDaysAgoEnd = dayjs.utc().subtract(30, 'day').endOf('day');
 
   const listings = await prisma.bounties.findMany({
     where: {
@@ -19,8 +19,8 @@ export async function processRollingProject30Days() {
       isArchived: false,
       status: 'OPEN',
       publishedAt: {
-        lt: thirtyDaysFromNowStart.toISOString(),
-        gte: thirtyDaysFromNowEnd.toISOString(),
+        gte: thirtyDaysAgoStart.toISOString(),
+        lt: thirtyDaysAgoEnd.toISOString(),
       },
       isWinnersAnnounced: false,
       type: 'project',
