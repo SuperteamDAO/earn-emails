@@ -10,6 +10,8 @@ export type EmailActionType =
   | 'deadlineExceeded'
   | 'deadlineExceededWeek'
   | 'deadlineExtended'
+  | 'rolling15Days'
+  | 'rolling30Days'
   | 'scoutInvite'
   | 'submissionLike'
   | 'submissionSponsor'

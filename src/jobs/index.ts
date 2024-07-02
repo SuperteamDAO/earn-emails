@@ -14,4 +14,7 @@ const scheduleJob = (time: string, type: EmailActionType) => {
 scheduleJob('30 * * * *', 'deadline3days');
 scheduleJob('45 * * * *', 'deadlineExceeded');
 scheduleJob('50 * * * *', 'deadlineExceededWeek');
+scheduleJob('55 * * * *', 'rolling15Days');
+scheduleJob('56 * * * *', 'rolling30Days');
+
 // scheduleJob('0 12 * * 4', 'weeklyListingRoundup');

@@ -184,7 +184,6 @@ model Grants {
   requirements     String?            @db.Text
   GrantApplication GrantApplication[]
   airtableId       String?
-  externalLink     String?
   avgResponseTime  String?            @default("24h")
 
   @@index([id, slug])
@@ -526,6 +525,8 @@ enum EmailType {
   NO_ACTIVITY
   NO_REVIEW_SPONSOR_1
   NO_REVIEW_SPONSOR_2
+  ROLLING_15_DAYS
+  ROLLING_30_DAYS
 }
 
 enum Role {
