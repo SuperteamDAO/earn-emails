@@ -6,11 +6,16 @@ import { PrismaClient } from '@prisma/client';
 import { AlertTemplate } from '../email-templates';
 import { render } from '@react-email/render';
 import { kashEmail } from '../constants';
+import crypto from 'crypto';
 
 config();
 
 const prisma = new PrismaClient();
 const resend = new Resend(process.env.RESEND_API_KEY);
+
+const generateUnsubscribeToken = () => {
+  return crypto.randomBytes(32).toString('hex');
+};
 
 const emailWorker = new Worker(
   'emailQueue',
@@ -33,7 +38,15 @@ const emailWorker = new Worker(
         return;
       }
 
-      const unsubscribeUrl = `https://airtable.com/appqA0tn8zKv3WJg9/shrsil6vncuj35nHn`;
+      const unsubscribeToken = generateUnsubscribeToken();
+      const unsubscribeUrl = `https://beta.earn.superteam.fun/api/unsubscribe?token=${unsubscribeToken}`;
+
+      await prisma.unsubscribeToken.create({
+        data: {
+          token: unsubscribeToken,
+          email: to,
+        },
+      });
 
       const response = await resend.emails.send({
         from,
@@ -45,6 +58,7 @@ const emailWorker = new Worker(
         reply_to: 'support@superteamearn.com',
         headers: {
           'List-Unsubscribe': `<${unsubscribeUrl}>`,
+          'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click',
         },
       });
       console.log(`Email sent successfully to ${to}:`, response);

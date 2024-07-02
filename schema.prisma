@@ -508,6 +508,12 @@ model UnsubscribedEmail {
   email String @unique
 }
 
+model UnsubscribeToken {
+  token     String   @id @unique
+  email     String   @unique
+  createdAt DateTime @default(now())
+}
+
 enum TalentRankingSkills {
   DEVELOPMENT
   DESIGN
