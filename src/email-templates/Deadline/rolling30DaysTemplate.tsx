@@ -28,9 +28,10 @@ export const Rolling30DaysTemplate = ({
             &quot;{listingName}&quot;
           </a>
         </span>{' '}
-        for {sponsorName}. The listing has {applicationNumber} applications. We
-        request you to announce the winner as soon as possible — this will help{' '}
-        {sponsorName} retain the trust of Earn's users for any future listings.
+        for {sponsorName}. The listing has received {applicationNumber}{' '}
+        applications. We request you to announce the winner as soon as possible
+        — this will help {sponsorName} retain the trust of Earn's users for any
+        future listings.
       </p>
       <p style={styles.text}>
         If you have any questions, please get in touch with{' '}

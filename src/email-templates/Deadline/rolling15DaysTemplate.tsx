@@ -28,9 +28,9 @@ export const Rolling15DaysTemplate = ({
             &quot;{listingName}&quot;
           </a>
         </span>{' '}
-        for {sponsorName}. The listing has {applicationNumber} applications
-        right now &mdash; this is a good time to review the applications and
-        hopefully announce the winner!
+        for {sponsorName}. The listing has received {applicationNumber}{' '}
+        applications right now &mdash; this is a good time to review the
+        applications and hopefully announce the winner!
       </p>
       <p style={styles.text}>
         If you have any questions, please get in touch with{' '}
