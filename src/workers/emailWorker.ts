@@ -39,7 +39,7 @@ const emailWorker = new Worker(
       }
 
       const unsubscribeToken = generateUnsubscribeToken();
-      const unsubscribeUrl = `https://beta.earn.superteam.fun/api/unsubscribe?token=${unsubscribeToken}`;
+      const unsubscribeUrl = `https://beta.earn.superteam.fun/api/email/unsubscribe?token=${unsubscribeToken}`;
 
       await prisma.unsubscribeToken.create({
         data: {
