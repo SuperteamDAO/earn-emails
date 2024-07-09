@@ -57,6 +57,8 @@ export async function processRollingProject30Days() {
       },
     });
 
+    if (submissionCount === 0) continue;
+
     const emailHtml = render(
       Rolling30DaysTemplate({
         name: listing.poc.firstName!,

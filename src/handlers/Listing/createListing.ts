@@ -25,7 +25,9 @@ export async function processCreateListing(id: string) {
 
     const superteam = Superteams.find((team) => team.region === listing.region);
     const countries = superteam ? superteam.country : [];
+
     const listingSkills = listing.skills as Skills;
+    const listingSubSkills = listingSkills.flatMap((skill) => skill.subskills);
 
     const developmentMainSkills: MainSkills[] = [
       'Frontend',
@@ -33,16 +35,6 @@ export async function processCreateListing(id: string) {
       'Blockchain',
       'Mobile',
     ];
-    const otherMainSkills: MainSkills[] = [
-      'Design',
-      'Community',
-      'Growth',
-      'Content',
-      'Other',
-    ];
-
-    const listingMainSkills = listingSkills.map((skill) => skill.skills);
-    const listingSubSkills = listingSkills.flatMap((skill) => skill.subskills);
 
     const users = await prisma.user.findMany({
       where: {
@@ -52,36 +44,16 @@ export async function processCreateListing(id: string) {
         }),
         OR: [
           {
-            AND: [
-              {
-                skills: {
-                  path: '$[*].skills',
-                  array_contains: developmentMainSkills,
-                },
-              },
-              {
-                skills: {
-                  path: '$[*].skills',
-                  array_contains: listingMainSkills,
-                },
-              },
-            ],
+            skills: {
+              path: '$[*].skills',
+              array_contains: developmentMainSkills,
+            },
           },
           {
-            AND: [
-              {
-                skills: {
-                  path: '$[*].skills',
-                  array_contains: otherMainSkills,
-                },
-              },
-              {
-                skills: {
-                  path: '$[*].subskills',
-                  array_contains: listingSubSkills,
-                },
-              },
-            ],
+            skills: {
+              path: '$[*].subskills',
+              array_contains: listingSubSkills,
+            },
           },
         ],
         emailSettings: {
