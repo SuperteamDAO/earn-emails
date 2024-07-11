@@ -1,9 +1,15 @@
 import { Regions } from '@prisma/client';
 import { Superteams, kashEmail } from '../../constants';
 import { prisma } from '../../prisma';
-import { Skills, MainSkills } from '../../types';
+import {
+  developmentSkills,
+  nonDevelopmentSubSkills,
+  Skills,
+  skillSubSkillMap,
+} from '../../types';
 import { NewListingTemplate } from '../../email-templates';
 import { render } from '@react-email/render';
+import { getUserEmailPreference } from '../../utils';
 
 export async function processCreateListing(id: string) {
   try {
@@ -27,14 +33,33 @@ export async function processCreateListing(id: string) {
     const countries = superteam ? superteam.country : [];
 
     const listingSkills = listing.skills as Skills;
+    const listingMainSkills = listingSkills.map((skill) => skill.skills);
     const listingSubSkills = listingSkills.flatMap((skill) => skill.subskills);
 
-    const developmentMainSkills: MainSkills[] = [
-      'Frontend',
-      'Backend',
-      'Blockchain',
-      'Mobile',
-    ];
+    const listingDevelopmentSkills = listingMainSkills.filter((skill) =>
+      developmentSkills.includes(skill as keyof typeof skillSubSkillMap),
+    );
+    const listingNonDevelopmentSubSkills = listingSubSkills.filter((subskill) =>
+      nonDevelopmentSubSkills.includes(subskill),
+    );
+
+    const developmentSkillConditions = listingDevelopmentSkills.map(
+      (skill) => ({
+        skills: {
+          path: '$[*].skills',
+          array_contains: skill,
+        },
+      }),
+    );
+
+    const nonDevelopmentSubSkillConditions = listingNonDevelopmentSubSkills.map(
+      (subskill) => ({
+        skills: {
+          path: '$[*].subskills',
+          array_contains: subskill,
+        },
+      }),
+    );
 
     const users = await prisma.user.findMany({
       where: {
@@ -43,18 +68,8 @@ export async function processCreateListing(id: string) {
           location: { in: countries },
         }),
         OR: [
-          {
-            skills: {
-              path: '$[*].skills',
-              array_contains: developmentMainSkills,
-            },
-          },
-          {
-            skills: {
-              path: '$[*].subskills',
-              array_contains: listingSubSkills,
-            },
-          },
+          ...developmentSkillConditions,
+          ...nonDevelopmentSubSkillConditions,
         ],
         emailSettings: {
           some: {
@@ -72,6 +87,13 @@ export async function processCreateListing(id: string) {
 
     const emailData = users
       .map((user) => {
+        const emailPreference = getUserEmailPreference(
+          user.id,
+          'createListing',
+        );
+
+        if (!emailPreference) return null;
+
         let userSkills: Skills[] | null = null;
 
         if (typeof user.skills === 'string') {

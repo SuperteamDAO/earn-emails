@@ -75,4 +75,27 @@ type Skills = {
 type MainSkills = keyof typeof skillSubSkillMap;
 type SubSkillsType = (typeof skillSubSkillMap)[MainSkills][number]['value'];
 
-export { Skills, MainSkills, SubSkillsType };
+const developmentSkills: MainSkills[] = [
+  'Frontend',
+  'Backend',
+  'Blockchain',
+  'Mobile',
+];
+
+const nonDevelopmentSubSkills: SubSkillsType[] = Object.entries(
+  skillSubSkillMap,
+).reduce((acc, [key, value]) => {
+  if (!developmentSkills.includes(key as MainSkills)) {
+    return acc.concat(value.map((subSkill) => subSkill.value));
+  }
+  return acc;
+}, [] as SubSkillsType[]);
+
+export {
+  Skills,
+  MainSkills,
+  SubSkillsType,
+  developmentSkills,
+  nonDevelopmentSubSkills,
+  skillSubSkillMap,
+};
