@@ -6,6 +6,7 @@ import { WeeklyRoundupTemplate } from '../../email-templates';
 import { render } from '@react-email/render';
 import { Regions } from '@prisma/client';
 import { Superteams, kashEmail } from '../../constants';
+import { getUserEmailPreference } from '../../utils';
 
 dayjs.extend(utc);
 
@@ -73,6 +74,13 @@ export async function processWeeklyRoundup() {
 
   for (const { user } of usersWithEmailSettings) {
     if (!user) continue;
+
+    const emailPreference = getUserEmailPreference(
+      user.id,
+      'weeklyListingRoundup',
+    );
+
+    if (!emailPreference) continue;
 
     let userSkills: UserSkills[] | null = null;
 
