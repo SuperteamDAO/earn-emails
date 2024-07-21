@@ -20,7 +20,16 @@ const emailWorker = new Worker(
 
     try {
       if (!to || !subject || !html) {
-        console.log(`Skipping job ${job.id} due to missing job properties.`);
+        const missingProperties = [];
+        if (!to) missingProperties.push('to');
+        if (!subject) missingProperties.push('subject');
+        if (!html) missingProperties.push('html');
+
+        console.log(
+          `Skipping job ${
+            job.id
+          } due to missing properties: ${missingProperties.join(', ')}.`,
+        );
         return;
       }
 
