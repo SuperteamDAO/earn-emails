@@ -24,6 +24,7 @@ export async function processGrantPayment(id: string, userId: string) {
       GrantPaymentReceivedTemplate({
         applicationTitle: grantApplication.projectTitle,
         sponsorName: grantApplication.grant.sponsor.name,
+        walletAddress: grantApplication.walletAddress,
       }),
     );
 
