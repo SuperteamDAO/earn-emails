@@ -20,18 +20,20 @@ export async function processApplicationTalent(id: string, userId: string) {
   });
 
   if (grantApplication && user) {
+    const sponsorName = grantApplication.grant.sponsor.name;
+
     const emailHtml = render(
       ApplicationTemplate({
         name: user.firstName!,
         applicationTitle: grantApplication.projectTitle,
-        sponsorName: grantApplication.grant.sponsor.name,
+        sponsorName,
       }),
     );
 
     const emailData = {
       from: kashEmail,
       to: user.email,
-      subject: 'New Grant Application Received',
+      subject: `${sponsorName} Has Received Your Grant Application`,
       html: emailHtml,
     };
     return emailData;

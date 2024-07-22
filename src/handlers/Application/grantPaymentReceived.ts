@@ -30,7 +30,7 @@ export async function processGrantPayment(id: string, userId: string) {
     const emailData = {
       from: kashEmail,
       to: user.email,
-      subject: 'New Grant Application Received',
+      subject: 'Ka-ching! You have received a grant payment',
       html: emailHtml,
     };
     return emailData;
