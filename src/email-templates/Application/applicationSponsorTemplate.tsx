@@ -27,7 +27,7 @@ export const ApplicationSponsorTemplate = ({
       <p style={styles.textWithMargin}>
         <a href={link} style={styles.link}>
           Click here
-        </a>
+        </a>{' '}
         to check all applications.
       </p>
 
