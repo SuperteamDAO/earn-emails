@@ -15,3 +15,8 @@ scheduleJob('30 * * * *', 'deadline3days');
 scheduleJob('45 * * * *', 'deadlineExceeded');
 scheduleJob('50 * * * *', 'deadlineExceededWeek');
 // scheduleJob('0 12 * * 4', 'weeklyListingRoundup');
+
+// cron.schedule(time, () => {
+//   console.log(`Triggering ${type} email job`);
+//   logicQueue.add('processLogic', { type }, { priority });
+// });

@@ -1,10 +1,9 @@
 import {
   processAddPayment,
   processAnnounceWinners,
-  processApplicationTalent,
+  processApplication,
   processApplicationApproval,
   processApplicationRejection,
-  processApplicationSponsor,
   processCommentReply,
   processCommentSponsor,
   processCommentSubmission,
@@ -37,20 +36,19 @@ export const emailActionCategoryMapping = {
   // sponsor emails
   commentSponsor: 'commentSponsor',
   submissionSponsor: 'submissionSponsor',
-  applicationSponsor: 'submissionSponsor',
+  application: 'submissionSponsor',
   deadlineExceeded: 'deadlineSponsor',
   deadlineExceededWeek: 'deadlineSponsor',
 } as const;
 
 export const emailTypePriority: Record<EmailActionType, number> = {
   submissionTalent: 1,
-  applicationTalent: 1,
+  application: 1,
   commentReply: 1,
   commentSponsor: 1,
   commentTag: 1,
   scoutInvite: 1,
   submissionSponsor: 2,
-  applicationSponsor: 2,
   announceWinners: 2,
   superteamWinners: 2,
   addPayment: 2,
@@ -70,8 +68,7 @@ export const emailTypePriority: Record<EmailActionType, number> = {
 export const emailProcessors: Record<EmailActionType, Function> = {
   addPayment: processAddPayment,
   announceWinners: processAnnounceWinners,
-  applicationSponsor: processApplicationSponsor,
-  applicationTalent: processApplicationTalent,
+  application: processApplication,
   commentReply: processCommentReply,
   commentSponsor: processCommentSponsor,
   commentSubmission: processCommentSubmission,

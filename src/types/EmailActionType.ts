@@ -1,8 +1,7 @@
 export type EmailActionType =
   | 'addPayment'
   | 'announceWinners'
-  | 'applicationSponsor'
-  | 'applicationTalent'
+  | 'application'
   | 'commentReply'
   | 'commentSponsor'
   | 'commentSubmission'
