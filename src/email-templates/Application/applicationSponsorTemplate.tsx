@@ -21,8 +21,8 @@ export const ApplicationSponsorTemplate = ({
       <p style={styles.greetings}>Hey {name},</p>
 
       <p style={styles.textWithMargin}>
-        Your listing {grantName} has received a new grant application with the
-        title {applicationTitle}.
+        Your listing <strong>{grantName}</strong> has received a new grant
+        application with the title <strong>{applicationTitle}</strong>.
       </p>
       <p style={styles.textWithMargin}>
         <a href={link} style={styles.link}>

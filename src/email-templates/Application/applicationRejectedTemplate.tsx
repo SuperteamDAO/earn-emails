@@ -17,9 +17,10 @@ export const ApplicationRejectedTemplate = ({
       <p style={styles.greetings}>Hey {name},</p>
 
       <p style={styles.textWithMargin}>
-        Unfortunately, your grant application for {applicationTitle} has been
-        rejected. Please note that it is not possible for us or the sponsor to
-        share individual feedback on your grant application.
+        Unfortunately, your grant application for{' '}
+        <strong>{applicationTitle}</strong> has been rejected. Please note that
+        it is not possible for us or the sponsor to share individual feedback on
+        your grant application.
       </p>
       <p style={styles.textWithMargin}>
         We hope you continue adding to your proof of work by submitting to

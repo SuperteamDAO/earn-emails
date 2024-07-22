@@ -20,9 +20,8 @@ export const ApplicationTemplate = ({
 
       <p style={styles.textWithMargin}>
         You have successfully submitted your grant application for{' '}
-        <strong>{applicationTitle}</strong> has been received. The team at{' '}
-        {sponsorName} will review your application and get back to you if it is
-        accepted.
+        <strong>{applicationTitle}</strong>. The team at {sponsorName} will
+        review your application and get back to you if it is accepted.
       </p>
 
       <p style={styles.salutation}>

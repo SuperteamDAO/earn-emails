@@ -19,8 +19,8 @@ export const ApplicationApprovedTemplate = ({
       <p style={styles.greetings}>Hey {name},</p>
 
       <p style={styles.textWithMargin}>
-        Your grant application for {applicationTitle} has been approved.{' '}
-        {sponsorName} will reach out to you for the next steps.
+        Your grant application for <strong>{applicationTitle}</strong> has been
+        approved. {sponsorName} will reach out to you for the next steps.
       </p>
 
       <p style={styles.salutation}>
