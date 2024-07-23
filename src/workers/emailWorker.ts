@@ -6,11 +6,16 @@ import { PrismaClient } from '@prisma/client';
 import { AlertTemplate } from '../email-templates';
 import { render } from '@react-email/render';
 import { kashEmail } from '../constants';
+import crypto from 'crypto';
 
 config();
 
 const prisma = new PrismaClient();
 const resend = new Resend(process.env.RESEND_API_KEY);
+
+const generateUnsubscribeToken = () => {
+  return crypto.randomBytes(32).toString('hex');
+};
 
 const emailWorker = new Worker(
   'emailQueue',
@@ -20,7 +25,16 @@ const emailWorker = new Worker(
 
     try {
       if (!to || !subject || !html) {
-        console.log(`Skipping job ${job.id} due to missing job properties.`);
+        const missingProperties = [];
+        if (!to) missingProperties.push('to');
+        if (!subject) missingProperties.push('subject');
+        if (!html) missingProperties.push('html');
+
+        console.log(
+          `Skipping job ${
+            job.id
+          } due to missing properties: ${missingProperties.join(', ')}.`,
+        );
         return;
       }
 
@@ -33,6 +47,16 @@ const emailWorker = new Worker(
         return;
       }
 
+      const unsubscribeToken = generateUnsubscribeToken();
+      const unsubscribeUrl = `https://beta.earn.superteam.fun/api/email/unsubscribe?token=${unsubscribeToken}`;
+
+      await prisma.unsubscribeToken.create({
+        data: {
+          token: unsubscribeToken,
+          email: to,
+        },
+      });
+
       const response = await resend.emails.send({
         from,
         to,
@@ -41,6 +65,10 @@ const emailWorker = new Worker(
         ...(bcc && { bcc }),
         ...(cc && { cc }),
         reply_to: 'support@superteamearn.com',
+        headers: {
+          'List-Unsubscribe': `<${unsubscribeUrl}>`,
+          'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click',
+        },
       });
       console.log(`Email sent successfully to ${to}:`, response);
     } catch (error: any) {
@@ -52,7 +80,7 @@ const emailWorker = new Worker(
         await emailWorker.rateLimit(retryAfter * 1000);
         throw Worker.RateLimitError();
       } else {
-        console.error('Failed to send email (non-rate-limit error):', error);
+        console.error('Failed to send email:', error);
         await resend.emails.send({
           from: kashEmail,
           to: ['abhwshek@gmail.com', 'pratik.dholani1@gmail.com'],
