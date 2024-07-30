@@ -2,7 +2,7 @@ import { render } from '@react-email/render';
 import { CommentSubmissionTemplate } from '../../email-templates';
 import { prisma } from '../../prisma';
 import { getUserEmailPreference } from '../../utils';
-import { kashEmail } from '../../constants';
+import { basePath, kashEmail } from '../../constants';
 
 export async function processCommentSubmission(id: string, otherInfo: any) {
   const { personName } = otherInfo;
@@ -27,7 +27,7 @@ export async function processCommentSubmission(id: string, otherInfo: any) {
           name: submission?.user.firstName as string,
           listingName: submission?.listing.title as string,
           personName,
-          link: `https://earn.superteam.fun/listings/${submission?.listing.type}/${submission?.listing.slug}/submission/${submission?.id}/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`,
+          link: `${basePath}/listings/${submission?.listing.type}/${submission?.listing.slug}/submission/${submission?.id}/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`,
         }),
       );
 

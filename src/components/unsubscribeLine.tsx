@@ -1,10 +1,11 @@
 import React from 'react';
+import { basePath } from '../constants';
 
 export const UnsubscribeLine = () => {
   return (
     <p style={{ fontSize: '11px', lineHeight: '20px', marginTop: '16px' }}>
       <a
-        href="https://earn.superteam.fun/#emailPreferences"
+        href={`${basePath}/#emailPreferences`}
         style={{ fontSize: '11px', color: '#007BFF' }}
       >
         Click here

@@ -2,7 +2,7 @@ import { render } from '@react-email/render';
 import { SubmissionLikeTemplate } from '../../email-templates';
 import { prisma } from '../../prisma';
 import { getUserEmailPreference } from '../../utils';
-import { kashEmail } from '../../constants';
+import { basePath, kashEmail } from '../../constants';
 
 export async function processSubmissionLike(id: string, userId: string) {
   const userPreference = await getUserEmailPreference(userId, 'submissionLike');
@@ -25,7 +25,7 @@ export async function processSubmissionLike(id: string, userId: string) {
       SubmissionLikeTemplate({
         name: submission.user.firstName!,
         listingName: submission.listing.title,
-        link: `https://earn.superteam.fun/listings/${submission.listing.type}/${submission.listing.slug}/submission/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`,
+        link: `${basePath}/listings/${submission.listing.type}/${submission.listing.slug}/submission/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`,
       }),
     );
     const emailData = {

@@ -2,7 +2,7 @@ import { render } from '@react-email/render';
 import { CommentSponsorTemplate } from '../../email-templates';
 import { prisma } from '../../prisma';
 import { getUserEmailPreference } from '../../utils';
-import { kashEmail } from '../../constants';
+import { basePath, kashEmail } from '../../constants';
 
 export async function processCommentSponsor(id: string, userId: string) {
   const userPreference = await getUserEmailPreference(userId, 'commentSponsor');
@@ -26,7 +26,7 @@ export async function processCommentSponsor(id: string, userId: string) {
       CommentSponsorTemplate({
         name: pocUser.firstName!,
         listingName: listing.title,
-        link: `https://earn.superteam.fun/listings/${listing?.type}/${listing?.slug}/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`,
+        link: `${basePath}/listings/${listing?.type}/${listing?.slug}/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`,
       }),
     );
 

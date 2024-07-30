@@ -1,7 +1,7 @@
 import { prisma } from '../../prisma';
 import { DeadlineExtendedTemplate } from '../../email-templates';
 import { render } from '@react-email/render';
-import { kashEmail } from '../../constants';
+import { basePath, kashEmail } from '../../constants';
 
 export async function processDeadlineExtended(id: string) {
   const listing = await prisma.bounties.findUnique({
@@ -60,7 +60,7 @@ export async function processDeadlineExtended(id: string) {
       const emailHtml = render(
         DeadlineExtendedTemplate({
           listingName: listing.title,
-          link: `https://earn.superteam.fun/listings/${listing.type}/${listing.slug}/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`,
+          link: `${basePath}/listings/${listing.type}/${listing.slug}/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`,
         }),
       );
       return {
