@@ -17,6 +17,5 @@ scheduleJob('50 * * * *', 'deadlineExceededWeek');
 scheduleJob('55 * * * *', 'rolling15Days');
 scheduleJob('56 * * * *', 'rolling30Days');
 
-scheduleJob('* * * * *', 'createListing');
-
+scheduleJob('0 * * * *', 'createListing');
 // scheduleJob('0 12 * * 4', 'weeklyListingRoundup');

@@ -56,8 +56,6 @@ export async function processCreateListing() {
       },
     });
 
-    console.log(listings);
-
     if (listings.length === 0) {
       console.error('No listing found');
       return;
