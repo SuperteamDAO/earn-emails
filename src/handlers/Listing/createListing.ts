@@ -14,7 +14,7 @@ import dayjs from 'dayjs';
 export async function processCreateListing() {
   try {
     const eighteenHoursAgo = dayjs().subtract(18, 'hours').toISOString();
-    const july27th2024 = dayjs('2024-07-27').toISOString();
+    const lastWeek = dayjs().subtract(7, 'days').toISOString();
 
     console.log(eighteenHoursAgo);
 
@@ -26,9 +26,10 @@ export async function processCreateListing() {
           not: 'hackathon',
         },
         publishedAt: {
-          gte: july27th2024,
+          gte: lastWeek,
           lt: eighteenHoursAgo,
         },
+        shouldSendEmail: true,
         OR: [
           {
             compensationType: 'variable',
