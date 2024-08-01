@@ -6,15 +6,20 @@ import { PrismaClient } from '@prisma/client';
 import { AlertTemplate } from '../email-templates';
 import { render } from '@react-email/render';
 import { kashEmail } from '../constants';
-import crypto from 'crypto';
+import { createHmac } from 'crypto';
 
 config();
 
 const prisma = new PrismaClient();
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-const generateUnsubscribeToken = () => {
-  return crypto.randomBytes(32).toString('hex');
+const generateSignedUnsubscribeUrl = (email: string) => {
+  const signature = createHmac('sha256', process.env.UNSUB_SECRET!)
+    .update(email)
+    .digest('hex');
+  return `https://earn-git-feat-one-click-unsubscribe-superteam-earn.vercel.app/api/email/unsubscribe?email=${encodeURIComponent(
+    email,
+  )}&signature=${signature}`;
 };
 
 const emailWorker = new Worker(
@@ -47,27 +52,18 @@ const emailWorker = new Worker(
         return;
       }
 
-      const unsubscribeToken = generateUnsubscribeToken();
-      const unsubscribeUrl = `https://beta.earn.superteam.fun/api/email/unsubscribe?token=${unsubscribeToken}`;
-
-      await prisma.unsubscribeToken.create({
-        data: {
-          token: unsubscribeToken,
-          email: to,
-        },
-      });
+      const unsubscribeUrl = generateSignedUnsubscribeUrl(to);
 
       const response = await resend.emails.send({
         from,
         to,
         subject,
-        html,
+        html: html.replace('{{unsubscribeUrl}}', unsubscribeUrl),
         ...(bcc && { bcc }),
         ...(cc && { cc }),
         reply_to: 'support@superteamearn.com',
         headers: {
           'List-Unsubscribe': `<${unsubscribeUrl}>`,
-          'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click',
         },
       });
       console.log(`Email sent successfully to ${to}:`, response);
@@ -103,3 +99,5 @@ const emailWorker = new Worker(
 );
 
 console.log('Email worker started');
+
+export { emailWorker };

@@ -12,7 +12,7 @@ export const UnsubscribeLine = () => {
       </a>{' '}
       to update your email preferences on Earn (recommended) or{' '}
       <a
-        href="https://airtable.com/appqA0tn8zKv3WJg9/shrsil6vncuj35nHn"
+        href="{{unsubscribeUrl}}"
         style={{ fontSize: '11px', color: '#007BFF' }}
       >
         click here
