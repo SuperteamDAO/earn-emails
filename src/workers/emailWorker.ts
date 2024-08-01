@@ -13,13 +13,17 @@ config();
 const prisma = new PrismaClient();
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-const generateSignedUnsubscribeData = (email: string) => {
+const generateUnsubscribeURL = (email: string) => {
   const signature = createHmac('sha256', process.env.UNSUB_SECRET!)
     .update(email)
     .digest('hex');
   return {
-    url: `https://earn-git-feat-one-click-unsubscribe-superteam-earn.vercel.app/api/email/unsubscribe`,
-    signature,
+    POST: `https://earn-git-feat-one-click-unsubscribe-superteam-earn.vercel.app/api/email/unsubscribe?method=POST&email=${encodeURIComponent(
+      email,
+    )}&signature=${encodeURIComponent(signature)}`,
+    GET: `https://earn-git-feat-one-click-unsubscribe-superteam-earn.vercel.app/api/email/unsubscribe?email=${encodeURIComponent(
+      email,
+    )}&signature=${signature}`,
   };
 };
 
@@ -53,28 +57,18 @@ const emailWorker = new Worker(
         return;
       }
 
-      const { url: unsubscribeUrl, signature } =
-        generateSignedUnsubscribeData(to);
+      const { POST: postURL, GET: getURL } = generateUnsubscribeURL(to);
 
       const response = await resend.emails.send({
         from,
         to,
         subject,
-        html: html.replace(
-          '{{unsubscribeUrl}}',
-          `<form action="${unsubscribeUrl}" method="POST">
-            <input type="hidden" name="email" value="${to}">
-            <input type="hidden" name="signature" value="${signature}">
-            <button type="submit">Unsubscribe</button>
-          </form>`,
-        ),
+        html: html.replace('{{unsubscribeUrl}}', getURL),
         ...(bcc && { bcc }),
         ...(cc && { cc }),
         reply_to: 'support@superteamearn.com',
         headers: {
-          'List-Unsubscribe': `<mailto:support@superteamearn.com>, <${unsubscribeUrl}>, <https:${unsubscribeUrl}?method=POST&email=${encodeURIComponent(
-            to,
-          )}&signature=${encodeURIComponent(signature)}>`,
+          'List-Unsubscribe': `<${postURL}>`,
           'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click',
         },
       });
