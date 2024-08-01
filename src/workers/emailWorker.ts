@@ -13,13 +13,14 @@ config();
 const prisma = new PrismaClient();
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-const generateSignedUnsubscribeUrl = (email: string) => {
+const generateSignedUnsubscribeData = (email: string) => {
   const signature = createHmac('sha256', process.env.UNSUB_SECRET!)
     .update(email)
     .digest('hex');
-  return `https://earn-git-feat-one-click-unsubscribe-superteam-earn.vercel.app/api/email/unsubscribe?email=${encodeURIComponent(
-    email,
-  )}&signature=${signature}`;
+  return {
+    url: `https://earn-git-feat-one-click-unsubscribe-superteam-earn.vercel.app/api/email/unsubscribe`,
+    signature,
+  };
 };
 
 const emailWorker = new Worker(
@@ -52,18 +53,29 @@ const emailWorker = new Worker(
         return;
       }
 
-      const unsubscribeUrl = generateSignedUnsubscribeUrl(to);
+      const { url: unsubscribeUrl, signature } =
+        generateSignedUnsubscribeData(to);
 
       const response = await resend.emails.send({
         from,
         to,
         subject,
-        html: html.replace('{{unsubscribeUrl}}', unsubscribeUrl),
+        html: html.replace(
+          '{{unsubscribeUrl}}',
+          `<form action="${unsubscribeUrl}" method="POST">
+            <input type="hidden" name="email" value="${to}">
+            <input type="hidden" name="signature" value="${signature}">
+            <button type="submit">Unsubscribe</button>
+          </form>`,
+        ),
         ...(bcc && { bcc }),
         ...(cc && { cc }),
         reply_to: 'support@superteamearn.com',
         headers: {
-          'List-Unsubscribe': `<${unsubscribeUrl}>`,
+          'List-Unsubscribe': `<mailto:support@superteamearn.com>, <${unsubscribeUrl}>, <https:${unsubscribeUrl}?method=POST&email=${encodeURIComponent(
+            to,
+          )}&signature=${encodeURIComponent(signature)}>`,
+          'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click',
         },
       });
       console.log(`Email sent successfully to ${to}:`, response);
