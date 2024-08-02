@@ -3,7 +3,7 @@ import { DeadlineThreeDaysTemplate } from '../../email-templates';
 import { render } from '@react-email/render';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
-import { kashEmail } from '../../constants';
+import { basePath, kashEmail } from '../../constants';
 
 export async function processDeadlineThreeDays() {
   dayjs.extend(utc);
@@ -50,7 +50,7 @@ export async function processDeadlineThreeDays() {
         DeadlineThreeDaysTemplate({
           name: sub?.User?.firstName!,
           listingName: listing.title,
-          link: `https://earn.superteam.fun/listings/${listing.type}/${listing.slug}/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`,
+          link: `${basePath}/listings/${listing.type}/${listing.slug}/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`,
         }),
       );
 

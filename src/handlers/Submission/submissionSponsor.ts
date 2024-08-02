@@ -2,7 +2,7 @@ import { render } from '@react-email/render';
 import { SubmissionSponsorTemplate } from '../../email-templates';
 import { prisma } from '../../prisma';
 import { getUserEmailPreference } from '../../utils';
-import { kashEmail } from '../../constants';
+import { basePath, kashEmail } from '../../constants';
 
 export async function processSponsorSubmission(id: string, userId: string) {
   const userPreference = await getUserEmailPreference(
@@ -33,7 +33,7 @@ export async function processSponsorSubmission(id: string, userId: string) {
       SubmissionSponsorTemplate({
         name: pocUser.firstName!,
         listingName: listing.title,
-        link: `https://earn.superteam.fun/dashboard/listings/${listing?.slug}/submissions/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`,
+        link: `${basePath}/dashboard/listings/${listing?.slug}/submissions/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`,
       }),
     );
 

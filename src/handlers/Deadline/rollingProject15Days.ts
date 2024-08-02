@@ -3,7 +3,7 @@ import { render } from '@react-email/render';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import { getUserEmailPreference } from '../../utils';
-import { kashEmail } from '../../constants';
+import { basePath, kashEmail } from '../../constants';
 import { Rolling15DaysTemplate } from '../../email-templates';
 
 export async function processRollingProject15Days() {
@@ -63,7 +63,7 @@ export async function processRollingProject15Days() {
       Rolling15DaysTemplate({
         name: listing.poc.firstName!,
         listingName: listing.title,
-        link: `https://earn.superteam.fun/dashboard/listings/${listing?.slug}/submissions/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`,
+        link: `${basePath}/dashboard/listings/${listing?.slug}/submissions/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`,
         sponsorName: listing.sponsor.name,
         applicationNumber: submissionCount,
       }),

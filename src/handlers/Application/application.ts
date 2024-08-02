@@ -1,6 +1,6 @@
 import { render } from '@react-email/render';
 import { prisma } from '../../prisma';
-import { kashEmail } from '../../constants';
+import { basePath, kashEmail } from '../../constants';
 import {
   ApplicationSponsorTemplate,
   ApplicationTemplate,
@@ -50,7 +50,7 @@ export async function processApplication(id: string, userId: string) {
         name: grantApplication?.grant?.poc?.firstName!,
         applicationTitle: grantApplication.projectTitle,
         grantName: grantApplication.grant.title,
-        link: `https://earn.superteam.fun/dashboard/grants/${grantApplication.grant.slug}/applications/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`,
+        link: `${basePath}/dashboard/grants/${grantApplication.grant.slug}/applications/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`,
       }),
     );
 

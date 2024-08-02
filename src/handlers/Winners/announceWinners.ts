@@ -2,7 +2,7 @@ import { prisma } from '../../prisma';
 import { WinnersAnnouncedTemplate } from '../../email-templates';
 import { render } from '@react-email/render';
 import { getListingTypeLabel } from '../../utils';
-import { kashEmail } from '../../constants';
+import { basePath, kashEmail } from '../../constants';
 
 export async function processAnnounceWinners(id: string) {
   const listing = await prisma.bounties.findUnique({
@@ -64,7 +64,7 @@ export async function processAnnounceWinners(id: string) {
         WinnersAnnouncedTemplate({
           name: user.name,
           listingName: listing?.title || '',
-          link: `https://earn.superteam.fun/listings/${listing?.type}/${
+          link: `${basePath}/listings/${listing?.type}/${
             listing?.slug || ''
           }/?utm_source=superteamearn&utm_medium=email&utm_campaign=winnerannouncement`,
         }),

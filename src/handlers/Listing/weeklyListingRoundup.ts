@@ -75,7 +75,7 @@ export async function processWeeklyRoundup() {
   for (const { user } of usersWithEmailSettings) {
     if (!user) continue;
 
-    const emailPreference = getUserEmailPreference(
+    const emailPreference = await getUserEmailPreference(
       user.id,
       'weeklyListingRoundup',
     );

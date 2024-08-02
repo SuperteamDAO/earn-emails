@@ -2,6 +2,7 @@ import React from 'react';
 
 import { styles } from '../styles';
 import { UnsubscribeLine } from '../../components';
+import { basePath } from '../../constants';
 
 interface Reward {
   rewardAmount: number | null;
@@ -57,7 +58,7 @@ export const WeeklyRoundupTemplate = ({ name, bounties }: TemplateProps) => {
         {bounties?.map((bounty, i) => (
           <li key={i} style={styles.text}>
             <a
-              href={`https://earn.superteam.fun/listings/${bounty.type}/${
+              href={`${basePath}/listings/${bounty.type}/${
                 bounty?.slug || ''
               }/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`}
               style={styles.link}

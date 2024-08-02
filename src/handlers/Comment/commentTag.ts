@@ -2,7 +2,7 @@ import { render } from '@react-email/render';
 import { CommentTagTemplate } from '../../email-templates';
 import { prisma } from '../../prisma';
 import { getUserEmailPreference } from '../../utils';
-import { kashEmail } from '../../constants';
+import { basePath, kashEmail } from '../../constants';
 
 export async function processCommentTag(
   id: string,
@@ -34,7 +34,7 @@ export async function processCommentTag(
       CommentTagTemplate({
         name: user?.firstName!,
         personName: `@${personName}`,
-        link: `https://earn.superteam.fun/listings/${listing?.type}/${listing?.slug}/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`,
+        link: `${basePath}/listings/${listing?.type}/${listing?.slug}/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`,
       }),
     );
 

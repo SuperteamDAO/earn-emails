@@ -1,17 +1,18 @@
 import React from 'react';
+import { basePath } from '../constants';
 
 export const UnsubscribeLine = () => {
   return (
     <p style={{ fontSize: '11px', lineHeight: '20px', marginTop: '16px' }}>
       <a
-        href="https://earn.superteam.fun/#emailPreferences"
+        href={`${basePath}/#emailPreferences`}
         style={{ fontSize: '11px', color: '#007BFF' }}
       >
         Click here
       </a>{' '}
       to update your email preferences on Earn (recommended) or{' '}
       <a
-        href="https://airtable.com/appqA0tn8zKv3WJg9/shrsil6vncuj35nHn"
+        href="{{unsubscribeUrl}}"
         style={{ fontSize: '11px', color: '#007BFF' }}
       >
         click here

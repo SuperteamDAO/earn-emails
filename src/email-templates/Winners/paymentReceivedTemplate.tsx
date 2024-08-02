@@ -2,6 +2,7 @@ import React from 'react';
 
 import { styles } from '../styles';
 import { UnsubscribeLine } from '../../components';
+import { basePath } from '../../constants';
 
 interface TemplateProps {
   name: string | null;
@@ -34,7 +35,7 @@ export const PaymentReceivedTemplate = ({
         Also, we bet your network would love to hear about your success. Why not
         take a moment to admire the win on your profile and share it on Twitter?{' '}
         <a
-          href={`https://earn.superteam.fun/t/${username}/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`}
+          href={`${basePath}/t/${username}/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`}
           style={styles.link}
         >
           Click here
