@@ -15,6 +15,7 @@ export async function processCreateListing() {
   try {
     const eighteenHoursAgo = dayjs().subtract(18, 'hours').toISOString();
     const lastWeek = dayjs().subtract(7, 'days').toISOString();
+    const now = dayjs().toISOString();
 
     console.log(eighteenHoursAgo);
 
@@ -22,6 +23,10 @@ export async function processCreateListing() {
       where: {
         isPublished: true,
         isPrivate: false,
+        isWinnersAnnounced: false,
+        deadline: {
+          gt: now,
+        },
         type: {
           not: 'hackathon',
         },
