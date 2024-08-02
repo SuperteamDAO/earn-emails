@@ -5,7 +5,7 @@ import { redis } from '../utils';
 import { PrismaClient } from '@prisma/client';
 import { AlertTemplate } from '../email-templates';
 import { render } from '@react-email/render';
-import { kashEmail } from '../constants';
+import { basePath, kashEmail } from '../constants';
 import { createHmac } from 'crypto';
 
 config();
@@ -17,14 +17,9 @@ const generateUnsubscribeURL = (email: string) => {
   const signature = createHmac('sha256', process.env.UNSUB_SECRET!)
     .update(email)
     .digest('hex');
-  return {
-    POST: `https://earn-git-feat-one-click-unsubscribe-superteam-earn.vercel.app/api/email/unsubscribe?method=POST&email=${encodeURIComponent(
-      email,
-    )}&signature=${encodeURIComponent(signature)}`,
-    GET: `https://earn-git-feat-one-click-unsubscribe-superteam-earn.vercel.app/api/email/unsubscribe?email=${encodeURIComponent(
-      email,
-    )}&signature=${signature}`,
-  };
+  return `${basePath}/api/email/unsubscribe?email=${encodeURIComponent(
+    email,
+  )}&signature=${signature}`;
 };
 
 const emailWorker = new Worker(
@@ -57,19 +52,18 @@ const emailWorker = new Worker(
         return;
       }
 
-      const { POST: postURL, GET: getURL } = generateUnsubscribeURL(to);
+      const unsubscribeURL = generateUnsubscribeURL(to);
 
       const response = await resend.emails.send({
         from,
         to,
         subject,
-        html: html.replace('{{unsubscribeUrl}}', getURL),
+        html: html.replace('{{unsubscribeUrl}}', unsubscribeURL),
         ...(bcc && { bcc }),
         ...(cc && { cc }),
         reply_to: 'support@superteamearn.com',
         headers: {
-          'List-Unsubscribe': `<${postURL}>`,
-          'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click',
+          'List-Unsubscribe': `<${unsubscribeURL}>`,
         },
       });
       console.log(`Email sent successfully to ${to}:`, response);
