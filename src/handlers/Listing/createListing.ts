@@ -59,6 +59,9 @@ export async function processCreateListing() {
           },
         },
       },
+      orderBy: {
+        publishedAt: 'asc',
+      },
     });
 
     if (listings.length === 0) {
@@ -147,13 +150,6 @@ export async function processCreateListing() {
 
     const emailData = await Promise.all(
       users.map(async (user) => {
-        const emailPreference = await getUserEmailPreference(
-          user.id,
-          'createListing',
-        );
-
-        if (!emailPreference) return null;
-
         let userSkills: Skills | null = null;
 
         if (typeof user.skills === 'string') {
