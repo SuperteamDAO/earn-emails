@@ -17,5 +17,10 @@ scheduleJob('50 * * * *', 'deadlineExceededWeek');
 scheduleJob('55 * * * *', 'rolling15Days');
 scheduleJob('56 * * * *', 'rolling30Days');
 
-scheduleJob('0 */8 * * *', 'createListing');
+if (process.env.SERVER_ENV === 'development') {
+  scheduleJob('*/5 * * * *', 'createListing');
+} else {
+  scheduleJob('0 */6 * * *', 'createListing');
+}
+
 // scheduleJob('0 12 * * 4', 'weeklyListingRoundup');
