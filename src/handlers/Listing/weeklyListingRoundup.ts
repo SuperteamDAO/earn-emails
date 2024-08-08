@@ -36,7 +36,7 @@ function userRegionEligibility(region: Regions, userInfo: any) {
 }
 
 export async function processWeeklyRoundup() {
-  const users = await prisma.user.findMany({
+  const query = await prisma.user.findMany({
     where: {
       emailSettings: {
         some: {
@@ -65,20 +65,13 @@ export async function processWeeklyRoundup() {
     },
   });
 
-  const result = users
+  const users = query
     .map((user) => ({
       email: user.email,
       firstName: user.firstName,
       lastName: user.lastName,
+      skills: user.skills,
       totalSubmissions: user.Submission.length,
-      totalRewardInUSD: Number(
-        user.Submission.reduce((total, submission) => {
-          if (submission.isWinner && submission.listing.isWinnersAnnounced) {
-            return total + submission.rewardInUSD;
-          }
-          return total;
-        }, 0).toFixed(2),
-      ),
     }))
     .sort((a, b) => b.totalSubmissions - a.totalSubmissions)
     .slice(0, ALLOWED_USERS);
@@ -153,6 +146,7 @@ export async function processWeeklyRoundup() {
       WeeklyRoundupTemplate({
         name: user.firstName!,
         bounties: matchingBounties.map((bounty) => ({
+          id: bounty.id,
           title: bounty.title,
           sponsor: bounty.sponsor.name,
           slug: bounty.slug,
@@ -162,7 +156,10 @@ export async function processWeeklyRoundup() {
           compensationType: bounty.compensationType,
           maxRewardAsk: bounty.maxRewardAsk,
           minRewardAsk: bounty.minRewardAsk,
+          usdValue: bounty.usdValue,
+          skills: bounty.skills,
         })),
+        userSkills: userSkills,
       }),
     );
 
