@@ -76,7 +76,7 @@ export async function processWeeklyRoundup() {
     .sort((a, b) => b.totalSubmissions - a.totalSubmissions)
     .slice(0, ALLOWED_USERS);
 
-  const bounties = await prisma.bounties.findMany({
+  const listings = await prisma.bounties.findMany({
     where: {
       isPublished: true,
       isActive: true,
@@ -109,26 +109,28 @@ export async function processWeeklyRoundup() {
 
     if (!userSkills) continue;
 
-    const matchingBounties = bounties.filter((bounty) => {
-      const bountySkills = bounty.skills as Skills;
-      const bountyMainSkills = bountySkills.map((skill) => skill.skills);
-      const bountySubSkills = bountySkills.flatMap((skill) => skill.subskills);
+    const matchingListings = listings.filter((listing) => {
+      const listingSkills = listing.skills as Skills;
+      const listingMainSkills = listingSkills.map((skill) => skill.skills);
+      const listingSubSkills = listingSkills.flatMap(
+        (skill) => skill.subskills,
+      );
 
-      const bountyDevelopmentSkills = bountyMainSkills.filter((skill) =>
+      const listingDevelopmentSkills = listingMainSkills.filter((skill) =>
         developmentSkills.includes(skill),
       );
-      const bountyNonDevelopmentSubSkills = bountySubSkills.filter((subskill) =>
-        nonDevelopmentSubSkills.includes(subskill),
+      const listingNonDevelopmentSubSkills = listingSubSkills.filter(
+        (subskill) => nonDevelopmentSubSkills.includes(subskill),
       );
 
       const skillsMatch = userSkills!.some((userSkill: UserSkills) => {
         const userMainSkills = userSkill.skills;
         const userSubSkills = userSkill.subskills;
 
-        const developmentSkillMatch = bountyDevelopmentSkills.some((skill) =>
+        const developmentSkillMatch = listingDevelopmentSkills.some((skill) =>
           userMainSkills.includes(skill),
         );
-        const nonDevelopmentSubSkillMatch = bountyNonDevelopmentSubSkills.some(
+        const nonDevelopmentSubSkillMatch = listingNonDevelopmentSubSkills.some(
           (subskill) => userSubSkills.includes(subskill),
         );
 
@@ -137,27 +139,27 @@ export async function processWeeklyRoundup() {
 
       if (!skillsMatch) return false;
 
-      return userRegionEligibility(bounty.region, user);
+      return userRegionEligibility(listing.region, user);
     });
 
-    if (matchingBounties.length === 0) continue;
+    if (matchingListings.length === 0) continue;
 
     const emailHtml = render(
       WeeklyRoundupTemplate({
         name: user.firstName!,
-        bounties: matchingBounties.map((bounty) => ({
-          id: bounty.id,
-          title: bounty.title,
-          sponsor: bounty.sponsor.name,
-          slug: bounty.slug,
-          type: bounty.type,
-          token: bounty.token,
-          rewardAmount: bounty.rewardAmount,
-          compensationType: bounty.compensationType,
-          maxRewardAsk: bounty.maxRewardAsk,
-          minRewardAsk: bounty.minRewardAsk,
-          usdValue: bounty.usdValue,
-          skills: bounty.skills,
+        listings: matchingListings.map((listing) => ({
+          id: listing.id,
+          title: listing.title,
+          sponsor: listing.sponsor.name,
+          slug: listing.slug,
+          type: listing.type,
+          token: listing.token,
+          rewardAmount: listing.rewardAmount,
+          compensationType: listing.compensationType,
+          maxRewardAsk: listing.maxRewardAsk,
+          minRewardAsk: listing.minRewardAsk,
+          usdValue: listing.usdValue,
+          skills: listing.skills,
         })),
         userSkills: userSkills,
       }),
