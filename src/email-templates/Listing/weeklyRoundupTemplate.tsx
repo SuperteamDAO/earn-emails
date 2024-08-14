@@ -3,19 +3,19 @@ import { styles } from '../styles';
 import { UnsubscribeLine } from '../../components';
 import { basePath } from '../../constants';
 import { CompensationType } from '@prisma/client';
-import { JsonValue } from '@prisma/client/runtime/library';
+import { getListingTypeLabel } from '../../utils';
 
 interface Skill {
   skills: string;
   subskills: string[];
 }
 
-interface Bounty {
+interface Listing {
   id: string;
   title: string;
   sponsor: string;
   slug: string;
-  type: 'bounty' | 'project' | 'hackathon';
+  type: string;
   token: string | null;
   skills: any;
   usdValue: number | null;
@@ -27,73 +27,74 @@ interface Bounty {
 
 interface TemplateProps {
   name: string;
-  bounties: Bounty[];
+  listings: Listing[];
   userSkills: Skill[];
 }
 
-const getReward = (bounty: Bounty) => {
+const getReward = (listing: Listing) => {
   const formatNumber = (number: number) =>
     new Intl.NumberFormat('en-US', { maximumSignificantDigits: 3 }).format(
       number,
     );
 
-  switch (bounty.compensationType) {
+  switch (listing.compensationType) {
     case 'fixed':
-      return bounty.rewardAmount !== null
-        ? formatNumber(bounty.rewardAmount)
+      return listing.rewardAmount !== null
+        ? formatNumber(listing.rewardAmount)
         : 'N/A';
     case 'variable':
       return 'Variable';
     case 'range':
       const minFormatted =
-        bounty.minRewardAsk !== null
-          ? formatNumber(bounty.minRewardAsk)
+        listing.minRewardAsk !== null
+          ? formatNumber(listing.minRewardAsk)
           : 'N/A';
       const maxFormatted =
-        bounty.maxRewardAsk !== null
-          ? formatNumber(bounty.maxRewardAsk)
+        listing.maxRewardAsk !== null
+          ? formatNumber(listing.maxRewardAsk)
           : 'N/A';
       return `${minFormatted} - ${maxFormatted}`;
   }
 };
 
-const BountyItem = ({ bounty }: { bounty: Bounty }) => (
+const ListingItem = ({ listing }: { listing: Listing }) => (
   <li style={styles.text}>
     <div>
       <a
-        href={`${basePath}/listings/${bounty.type}/${
-          bounty.slug || ''
+        href={`${basePath}/listings/${listing.type}/${
+          listing.slug || ''
         }/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`}
         style={styles.link}
       >
-        {bounty.title}
+        {listing.title}
       </a>{' '}
-      by {bounty.sponsor} ({getReward(bounty)} {bounty.token})
+      by {listing.sponsor} ({getReward(listing)} {listing.token}{' '}
+      {getListingTypeLabel(listing.type)})
     </div>
   </li>
 );
 
 export const WeeklyRoundupTemplate = ({
   name,
-  bounties,
+  listings,
   userSkills,
 }: TemplateProps) => {
-  const groupedBounties: Record<string, Bounty[]> = {};
-  const usedBounties = new Set<string>();
+  const groupedListings: Record<string, Listing[]> = {};
+  const usedListings = new Set<string>();
 
   userSkills.forEach((userSkill) => {
-    const skillBounties = bounties.filter(
-      (bounty) =>
-        bounty.skills.some(
+    const skillListings = listings.filter(
+      (listing) =>
+        listing.skills.some(
           (skill: Skill) => skill.skills === userSkill.skills,
-        ) && !usedBounties.has(bounty.id),
+        ) && !usedListings.has(listing.id),
     );
 
-    if (skillBounties.length > 0) {
-      groupedBounties[userSkill.skills] = skillBounties.sort(
+    if (skillListings.length > 0) {
+      groupedListings[userSkill.skills] = skillListings.sort(
         (a, b) => (b.usdValue || 0) - (a.usdValue || 0),
       );
-      skillBounties.forEach((bounty) => usedBounties.add(bounty.id));
+      skillListings.forEach((listing) => usedListings.add(listing.id));
     }
   });
 
@@ -104,7 +105,7 @@ export const WeeklyRoundupTemplate = ({
         Here's a weekly round-up of all live listings, curated just for you:
       </p>
 
-      {Object.entries(groupedBounties).map(([skill, skillBounties]) => (
+      {Object.entries(groupedListings).map(([skill, skillListings]) => (
         <div key={skill}>
           <h2
             style={{
@@ -117,8 +118,8 @@ export const WeeklyRoundupTemplate = ({
             {skill}
           </h2>
           <ol>
-            {skillBounties.map((bounty) => (
-              <BountyItem key={bounty.id} bounty={bounty} />
+            {skillListings.map((listing) => (
+              <ListingItem key={listing.id} listing={listing} />
             ))}
           </ol>
         </div>
