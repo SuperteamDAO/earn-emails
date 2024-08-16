@@ -45,6 +45,9 @@ export async function processCreateListing() {
             },
           },
         ],
+        sponsor: {
+          isVerified: true,
+        },
       },
       select: {
         id: true,
