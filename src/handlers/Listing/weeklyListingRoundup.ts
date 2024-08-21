@@ -19,7 +19,7 @@ type UserSkills = {
   subskills: string[];
 };
 
-const ALLOWED_USERS = 6000;
+const ALLOWED_USERS = 9000;
 
 function userRegionEligibility(region: Regions, userInfo: any) {
   if (region === Regions.GLOBAL) {
