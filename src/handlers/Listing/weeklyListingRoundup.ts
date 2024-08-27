@@ -1,25 +1,38 @@
-import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';
+import { prisma } from '../../prisma';
+import { Prisma, Regions } from '@prisma/client';
+import { kashEmail, Superteams } from '../../constants';
 import {
   developmentSkills,
-  nonDevelopmentSubSkills,
   MainSkills,
+  nonDevelopmentSubSkills,
   Skills,
 } from '../../types';
-import { prisma } from '../../prisma';
-import { WeeklyRoundupTemplate } from '../../email-templates';
 import { render } from '@react-email/render';
-import { Regions } from '@prisma/client';
-import { Superteams, kashEmail } from '../../constants';
+import { WeeklyRoundupTemplate } from '../../email-templates';
+import dayjs from 'dayjs';
 
-dayjs.extend(utc);
+const ALLOWED_USERS = 13500;
 
 type UserSkills = {
   skills: MainSkills;
   subskills: string[];
 };
 
-const ALLOWED_USERS = 13500;
+type UserWithSubmissions = {
+  id: string;
+  skills: string | Prisma.JsonValue;
+  email: string | null;
+  firstName: string | null;
+  lastName: string | null;
+  Submission: {
+    id: string;
+    rewardInUSD: number | null;
+    isWinner: boolean;
+    listing: {
+      isWinnersAnnounced: boolean;
+    } | null;
+  }[];
+};
 
 function userRegionEligibility(region: Regions, userInfo: any) {
   if (region === Regions.GLOBAL) {
@@ -28,44 +41,70 @@ function userRegionEligibility(region: Regions, userInfo: any) {
 
   const superteam = Superteams.find((st) => st.region === region);
 
-  const isEligible =
+  return (
     !!(userInfo?.location && superteam?.country.includes(userInfo?.location)) ||
-    false;
-
-  return isEligible;
+    false
+  );
 }
 
 export async function processWeeklyRoundup() {
-  const query = await prisma.user.findMany({
-    where: {
-      emailSettings: {
-        some: {
-          category: 'weeklyListingRoundup',
+  async function getAllUsers() {
+    let allUsers: UserWithSubmissions[] = [];
+    let cursor = null;
+    const batchSize = 1000;
+
+    while (true) {
+      const batch: UserWithSubmissions[] = await prisma.user.findMany({
+        where: {
+          emailSettings: {
+            some: {
+              category: 'weeklyListingRoundup',
+            },
+          },
+          isTalentFilled: true,
         },
-      },
-      isTalentFilled: true,
-    },
-    select: {
-      skills: true,
-      email: true,
-      firstName: true,
-      lastName: true,
-      Submission: {
         select: {
           id: true,
-          rewardInUSD: true,
-          isWinner: true,
-          listing: {
+          skills: true,
+          email: true,
+          firstName: true,
+          lastName: true,
+          Submission: {
             select: {
-              isWinnersAnnounced: true,
+              id: true,
+              rewardInUSD: true,
+              isWinner: true,
+              listing: {
+                select: {
+                  isWinnersAnnounced: true,
+                },
+              },
             },
           },
         },
-      },
-    },
-  });
+        take: batchSize,
+        skip: cursor ? 1 : 0,
+        cursor: cursor ? { id: cursor } : undefined,
+        orderBy: {
+          id: 'asc',
+        },
+      });
 
-  const users = query
+      allUsers = allUsers.concat(batch);
+
+      if (batch.length < batchSize) {
+        break;
+      }
+
+      cursor = batch[batch.length - 1].id;
+    }
+
+    return allUsers;
+  }
+
+  const users = await getAllUsers();
+
+  const processedUsers = users
     .map((user) => ({
       email: user.email,
       firstName: user.firstName,
@@ -91,7 +130,7 @@ export async function processWeeklyRoundup() {
 
   const emails = [];
 
-  for (const user of users) {
+  for (const user of processedUsers) {
     if (!user) continue;
 
     let userSkills: UserSkills[] | null = null;
