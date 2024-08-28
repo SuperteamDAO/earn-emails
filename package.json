@@ -26,6 +26,7 @@
   "dependencies": {
     "@prisma/client": "^5.15.0",
     "@react-email/render": "^0.0.15",
+    "@types/uuid": "^10.0.0",
     "bullmq": "^5.4.1",
     "cors": "^2.8.5",
     "dayjs": "^1.11.11",
@@ -35,6 +36,7 @@
     "jsonwebtoken": "^9.0.2",
     "node-cron": "^3.0.3",
     "react": "^18.2.0",
-    "resend": "^3.2.0"
+    "resend": "^3.2.0",
+    "uuid": "^10.0.0"
   }
 }
