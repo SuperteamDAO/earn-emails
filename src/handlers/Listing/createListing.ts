@@ -1,4 +1,4 @@
-import { Regions } from '@prisma/client';
+import { BountyType, Prisma, Regions } from '@prisma/client';
 import { Superteams, basePath, kashEmail } from '../../constants';
 import { prisma } from '../../prisma';
 import {
@@ -10,6 +10,25 @@ import { NewListingTemplate } from '../../email-templates';
 import { render } from '@react-email/render';
 import { getListingTypeLabel, getUserEmailPreference } from '../../utils';
 import dayjs from 'dayjs';
+
+type UserWithSkills = {
+  id: string;
+  firstName: string | null;
+  email: string | null;
+  skills: string | Prisma.JsonValue;
+};
+
+type Listing = {
+  id: string;
+  title: string;
+  region: Regions;
+  skills: string | Prisma.JsonValue;
+  type: BountyType;
+  slug: string;
+  sponsor: {
+    name: string;
+  };
+};
 
 export async function processCreateListing() {
   try {
@@ -72,7 +91,7 @@ export async function processCreateListing() {
       return;
     }
 
-    let selectedListing = null;
+    let selectedListing: Listing | null = null;
 
     for (const listing of listings) {
       const emailLogExists = await prisma.emailLogs.findFirst({
@@ -82,7 +101,7 @@ export async function processCreateListing() {
         },
       });
 
-      if (!emailLogExists) {
+      if (!emailLogExists && listing) {
         selectedListing = listing;
         break;
       }
@@ -127,29 +146,60 @@ export async function processCreateListing() {
       }),
     );
 
-    const users = await prisma.user.findMany({
-      where: {
-        isTalentFilled: true,
-        ...(selectedListing.region !== Regions.GLOBAL && {
-          location: { in: countries },
-        }),
-        OR: [
-          ...developmentSkillConditions,
-          ...nonDevelopmentSubSkillConditions,
-        ],
-        emailSettings: {
-          some: {
-            category: 'createListing',
+    async function getAllUsers(): Promise<UserWithSkills[]> {
+      let allUsers: UserWithSkills[] = [];
+      let cursor: string | null = null;
+      const batchSize = 1000;
+
+      if (!selectedListing) {
+        console.error('No suitable listing found for email notification');
+        return [];
+      }
+
+      while (true) {
+        const batch: UserWithSkills[] = await prisma.user.findMany({
+          where: {
+            isTalentFilled: true,
+            ...(selectedListing.region !== Regions.GLOBAL && {
+              location: { in: countries },
+            }),
+            OR: [
+              ...developmentSkillConditions,
+              ...nonDevelopmentSubSkillConditions,
+            ],
+            emailSettings: {
+              some: {
+                category: 'createListing',
+              },
+            },
           },
-        },
-      },
-      select: {
-        id: true,
-        firstName: true,
-        email: true,
-        skills: true,
-      },
-    });
+          select: {
+            id: true,
+            firstName: true,
+            email: true,
+            skills: true,
+          },
+          take: batchSize,
+          skip: cursor ? 1 : 0,
+          cursor: cursor ? { id: cursor } : undefined,
+          orderBy: {
+            id: 'asc',
+          },
+        });
+
+        allUsers = allUsers.concat(batch);
+
+        if (batch.length < batchSize) {
+          break;
+        }
+
+        cursor = batch[batch.length - 1].id;
+      }
+
+      return allUsers;
+    }
+
+    const users = await getAllUsers();
 
     const emailData = await Promise.all(
       users.map(async (user) => {

@@ -69,6 +69,7 @@ export const emailTypePriority: Record<EmailActionType, number> = {
   deadline3days: 3,
   createListing: 4,
   weeklyListingRoundup: 5,
+  // dupe: 1,
 };
 
 export const emailProcessors: Record<EmailActionType, Function> = {
@@ -95,4 +96,5 @@ export const emailProcessors: Record<EmailActionType, Function> = {
   submissionTalent: processTalentSubmission,
   superteamWinners: processSuperteamWinners,
   weeklyListingRoundup: processWeeklyRoundup,
+  // dupe: processDupe,
 };
