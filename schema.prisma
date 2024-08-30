@@ -214,6 +214,7 @@ model Submission {
   listing            Bounties         @relation(fields: [listingId], references: [id])
   user               User             @relation(fields: [userId], references: [id])
   ogImage            String?          @db.Text
+  notes              String?          @db.VarChar(500)
 
   @@index([id, listingId])
   @@index([userId])
@@ -491,8 +492,9 @@ model Hackathon {
 }
 
 model UnsubscribedEmail {
-  id    String @id @default(uuid())
-  email String @unique
+  id        String   @id @default(uuid())
+  email     String   @unique
+  createdAt DateTime @default(now())
 }
 
 enum TalentRankingSkills {
