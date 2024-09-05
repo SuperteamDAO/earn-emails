@@ -4,9 +4,10 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import { getUserEmailPreference } from '../../utils';
 import { basePath, kashEmail } from '../../constants';
-import { Rolling30DaysTemplate } from '../../email-templates';
+import { RollingUnpublishTemplate } from '../../email-templates';
 
 export async function processRollingProjectUnpublish() {
+  console.log('starting rolling project unpublish');
   dayjs.extend(utc);
 
   const twoMonthsAgoStart = dayjs.utc().subtract(2, 'month').startOf('day');
@@ -38,7 +39,7 @@ export async function processRollingProjectUnpublish() {
     const checkLogs = await prisma.emailLogs.findFirst({
       where: {
         bountyId: listing.id,
-        type: 'rollingUnpublish',
+        type: 'ROLLING_UNPUBLISH',
       },
     });
 
@@ -60,7 +61,7 @@ export async function processRollingProjectUnpublish() {
     if (submissionCount === 0) continue;
 
     const emailHtml = render(
-      Rolling30DaysTemplate({
+      RollingUnpublishTemplate({
         name: listing.poc.firstName!,
         listingName: listing.title,
         link: `${basePath}/dashboard/listings/${listing?.slug}/submissions/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`,
@@ -71,7 +72,7 @@ export async function processRollingProjectUnpublish() {
 
     await prisma.emailLogs.create({
       data: {
-        type: 'ROLLING_30_DAYS',
+        type: 'ROLLING_UNPUBLISH',
         bountyId: listing.id,
       },
     });
@@ -79,7 +80,7 @@ export async function processRollingProjectUnpublish() {
     emailData.push({
       from: kashEmail,
       to: listing.poc.email,
-      subject: 'Good Time to Announce the Winner?',
+      subject: 'Unpublishing Your Listing on Earn',
       html: emailHtml,
     });
   }
