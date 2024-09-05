@@ -7,7 +7,6 @@ import { basePath, kashEmail } from '../../constants';
 import { RollingUnpublishTemplate } from '../../email-templates';
 
 export async function processRollingProjectUnpublish() {
-  console.log('starting rolling project unpublish');
   dayjs.extend(utc);
 
   const twoMonthsAgoStart = dayjs.utc().subtract(2, 'month').startOf('day');
@@ -32,6 +31,17 @@ export async function processRollingProjectUnpublish() {
       sponsor: true,
     },
   });
+  // console.log('listing IDs', listings.map((l) => l.id))
+  await prisma.bounties.updateMany({
+    where: {
+      id: {
+        in: listings.map((l) => l.id),
+      }
+    },
+    data: {
+      isPublished: false
+    }
+  })
 
   const emailData = [];
 
@@ -52,21 +62,11 @@ export async function processRollingProjectUnpublish() {
 
     if (!pocPreference) continue;
 
-    const submissionCount = await prisma.submission.count({
-      where: {
-        listingId: listing.id,
-      },
-    });
-
-    if (submissionCount === 0) continue;
-
     const emailHtml = render(
       RollingUnpublishTemplate({
         name: listing.poc.firstName!,
         listingName: listing.title,
         link: `${basePath}/dashboard/listings/${listing?.slug}/submissions/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`,
-        sponsorName: listing.sponsor.name,
-        applicationNumber: submissionCount,
       }),
     );
 
