@@ -18,7 +18,7 @@ scheduleJob('55 * * * *', 'rolling15Days');
 scheduleJob('56 * * * *', 'rolling30Days');
 
 if (process.env.SERVER_ENV === 'development') {
-  scheduleJob('*/5 * * * *', 'createListing');
+  scheduleJob('*/2 * * * *', 'createListing');
 } else {
   scheduleJob('0 */6 * * *', 'createListing');
 }

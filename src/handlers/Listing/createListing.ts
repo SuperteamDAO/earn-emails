@@ -149,7 +149,7 @@ export async function processCreateListing() {
     async function getAllUsers(): Promise<UserWithSkills[]> {
       let allUsers: UserWithSkills[] = [];
       let cursor: string | null = null;
-      const batchSize = 1000;
+      const batchSize = 1;
 
       if (!selectedListing) {
         console.error('No suitable listing found for email notification');
@@ -157,6 +157,7 @@ export async function processCreateListing() {
       }
 
       while (true) {
+        console.log(allUsers);
         const batch: UserWithSkills[] = await prisma.user.findMany({
           where: {
             isTalentFilled: true,
@@ -186,6 +187,8 @@ export async function processCreateListing() {
             id: 'asc',
           },
         });
+
+        console.log(batch);
 
         allUsers = allUsers.concat(batch);
 
