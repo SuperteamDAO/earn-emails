@@ -9,7 +9,6 @@ import { RollingUnpublishTemplate } from '../../email-templates';
 export async function processRollingProjectUnpublish() {
   dayjs.extend(utc);
 
-  const twoMonthsAgoStart = dayjs.utc().subtract(2, 'month').startOf('day');
   const twoMonthsAgoEnd = dayjs.utc().subtract(2, 'month').endOf('day');
 
   const listings = await prisma.bounties.findMany({
@@ -19,7 +18,6 @@ export async function processRollingProjectUnpublish() {
       isArchived: false,
       status: 'OPEN',
       publishedAt: {
-        gte: twoMonthsAgoStart.toISOString(),
         lt: twoMonthsAgoEnd.toISOString(),
       },
       isWinnersAnnounced: false,
@@ -46,21 +44,19 @@ export async function processRollingProjectUnpublish() {
   const emailData = [];
 
   for (const listing of listings) {
-    const checkLogs = await prisma.emailLogs.findFirst({
-      where: {
-        bountyId: listing.id,
-        type: 'ROLLING_UNPUBLISH',
-      },
-    });
-
-    if (checkLogs || !listing.poc?.email) continue;
-
+    if (!listing.poc?.email) {
+      console.log('POC has no email')
+      continue
+    }
     const pocPreference = await getUserEmailPreference(
       listing.pocId,
       'rollingUnpublish',
     );
 
-    if (!pocPreference) continue;
+    if (!pocPreference) {
+      console.log('POC has disabled preference for the `deadlineSponsor`')
+      continue
+    };
 
     const emailHtml = render(
       RollingUnpublishTemplate({
