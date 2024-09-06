@@ -21,11 +21,13 @@ export const RollingUnpublishTemplate = ({
         Hope {"you're"} doing well!
       </p>
       <p style={styles.text}>
-        It’s been 2 months or more since your rolling listing <span style={{ fontWeight: 400 }}><a href={link} style={styles.link}> &quot;{listingName}&quot; </a></span> was published, and we noticed that the winners haven’t been announced yet. To keep the platform up to date and ensure applicants are informed about their status, we’ll be unpublishing your listing for now due to inactivity.
+        It’s been over 2 months since your rolling Project
+        {" "}<span style={{ fontWeight: 400 }}><a href={link} style={styles.link}> {`"`}{listingName}{`"`}</a></span>{" "}
+        was published, and we noticed that the winners haven’t been announced yet. To keep the platform up to date and ensure applicants are informed about their status, we’ll be unpublishing your listing for now due to inactivity.
       </p>
       <p style={styles.text}>
         If you have any updates about the listing, feel free to reach out to
-        <a style={styles.link} href="https://t.me/pratikdholani">
+        {" "}<a style={styles.link} href="https://t.me/pratikdholani">
           Pratik
         </a>{' '}
         on Telegram.
