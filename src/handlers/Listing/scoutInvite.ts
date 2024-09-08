@@ -6,6 +6,7 @@ import { basePath, kashEmail } from '../../constants';
 
 export async function processScoutInvite(id: string, userId: string) {
   try {
+    console.log('scout');
     const userPreference = await getUserEmailPreference(userId, 'scoutInvite');
 
     if (!userPreference) {
