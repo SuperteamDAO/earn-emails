@@ -1,3 +1,4 @@
+import { application } from 'express';
 import {
   processAddPayment,
   processAnnounceWinners,
@@ -22,6 +23,7 @@ import {
   processSuperteamWinners,
   processTalentSubmission,
   processWeeklyRoundup,
+  processApplicationLike,
 } from '../handlers';
 import { EmailActionType } from '../types';
 
@@ -32,6 +34,7 @@ export const emailActionCategoryMapping = {
   commentReply: 'replyOrTagComment',
   commentTag: 'replyOrTagComment',
   submissionLike: 'commentOrLikeSubmission',
+  applicationLike: 'commentOrLikeSubmission',
   weeklyListingRoundup: 'weeklyListingRoundup',
   scoutInvite: 'scoutInvite',
 
@@ -59,6 +62,7 @@ export const emailTypePriority: Record<EmailActionType, number> = {
   grantPaymentReceived: 2,
   commentSubmission: 2,
   submissionLike: 2,
+  applicationLike: 2,
   deadlineExceededWeek: 2,
   deadlineExceeded: 2,
   deadlineExtended: 2,
@@ -91,6 +95,7 @@ export const emailProcessors: Record<EmailActionType, Function> = {
   rolling30Days: processRollingProject30Days,
   scoutInvite: processScoutInvite,
   submissionLike: processSubmissionLike,
+  applicationLike: processApplicationLike,
   submissionSponsor: processSponsorSubmission,
   submissionTalent: processTalentSubmission,
   superteamWinners: processSuperteamWinners,

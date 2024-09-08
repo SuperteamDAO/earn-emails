@@ -18,6 +18,7 @@ export type EmailActionType =
   | 'rolling30Days'
   | 'scoutInvite'
   | 'submissionLike'
+  | 'applicationLike'
   | 'submissionSponsor'
   | 'submissionTalent'
   | 'superteamWinners'
