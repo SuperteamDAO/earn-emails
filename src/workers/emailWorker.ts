@@ -77,20 +77,22 @@ const emailWorker = new Worker(
         throw Worker.RateLimitError();
       } else {
         console.error('Failed to send email:', error);
-        await resend.emails.send({
-          from: kashEmail,
-          to: ['abhwshek@gmail.com', 'pratik.dholani1@gmail.com'],
-          subject: 'Email Error',
-          html: render(
-            AlertTemplate({
-              type,
-              id,
-              otherInfo,
-              userId,
-              errorMessage: error.message || 'Unknown Error',
-            }),
-          ),
-        });
+        if (process.env.SERVER_ENV === 'production') {
+          await resend.emails.send({
+            from: kashEmail,
+            to: ['abhwshek@gmail.com', 'pratik.dholani1@gmail.com'],
+            subject: 'Email Error',
+            html: render(
+              AlertTemplate({
+                type,
+                id,
+                otherInfo,
+                userId,
+                errorMessage: error.message || 'Unknown Error',
+              }),
+            ),
+          });
+        }
         throw error;
       }
     }

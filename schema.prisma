@@ -245,6 +245,7 @@ model Sponsors {
   Bounties     Bounties[]
   Grants       Grants[]
   User         User[]
+  UserInvites  UserInvites[]
 
   @@index([id, slug])
 }
@@ -423,9 +424,13 @@ model UserInvites {
   updatedAt  DateTime @updatedAt
   sponsorId  String
   memberType Role     @default(MEMBER)
+  token      String   @unique
+  expires    DateTime
   sender     User     @relation(fields: [senderId], references: [id])
+  sponsor    Sponsors @relation(fields: [sponsorId], references: [id])
 
   @@index([senderId])
+  @@index([sponsorId])
 }
 
 model emailLogs {
@@ -517,6 +522,7 @@ enum EmailType {
   ROLLING_15_DAYS
   ROLLING_30_DAYS
   NEW_LISTING
+  ROLLING_UNPUBLISH
 }
 
 enum Role {
