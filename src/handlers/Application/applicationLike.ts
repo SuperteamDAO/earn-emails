@@ -30,6 +30,7 @@ export async function processApplicationLike(id: string, userId: string) {
         name: application.user.firstName!,
         sponsorName: application.grant.sponsor.name,
         link: `${basePath}/feed/`,
+        title: application.projectTitle,
       }),
     );
     const emailData = {

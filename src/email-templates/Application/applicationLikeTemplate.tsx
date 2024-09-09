@@ -7,18 +7,21 @@ interface TemplateProps {
   name: string;
   sponsorName: string;
   link: string;
+  title: string;
 }
 
 export const ApplicationLikeTemplate = ({
   name,
   sponsorName,
   link,
+  title,
 }: TemplateProps) => {
   return (
     <div style={styles.container}>
       <p style={styles.greetings}>Hey {name},</p>
       <p style={styles.textWithMargin}>
-        People are digging that you won a grant by <strong>{sponsorName}</strong>{' '}
+        People are digging that you won a grant by <strong>{sponsorName}</strong>{' '}for{' '}
+        <strong>{title}!</strong>
       </p>
       <p style={styles.textWithMargin}>
         Check out our{" "}
