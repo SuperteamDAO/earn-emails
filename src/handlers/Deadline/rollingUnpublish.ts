@@ -62,7 +62,7 @@ export async function processRollingProjectUnpublish() {
       RollingUnpublishTemplate({
         name: listing.poc.firstName!,
         listingName: listing.title,
-        link: `${basePath}/dashboard/listings/${listing?.slug}/submissions/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`,
+        link: `${basePath}/listings/${listing?.type}/${listing?.slug}/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`,
       }),
     );
 
