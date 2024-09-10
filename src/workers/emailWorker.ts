@@ -36,8 +36,7 @@ const emailWorker = new Worker(
         if (!html) missingProperties.push('html');
 
         console.log(
-          `Skipping job ${
-            job.id
+          `Skipping job ${job.id
           } due to missing properties: ${missingProperties.join(', ')}.`,
         );
         return;
