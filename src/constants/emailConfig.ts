@@ -23,6 +23,7 @@ import {
   processTalentSubmission,
   processWeeklyRoundup,
   processRollingProjectUnpublish,
+  processVerifiedStatus,
 } from '../handlers';
 import { EmailActionType } from '../types';
 
@@ -55,6 +56,7 @@ export const emailTypePriority: Record<EmailActionType, number> = {
   commentTag: 1,
   scoutInvite: 1,
   rollingUnpublish: 1,
+  verifiedListingStatus: 1,
   submissionSponsor: 2,
   announceWinners: 2,
   superteamWinners: 2,
@@ -100,5 +102,6 @@ export const emailProcessors: Record<EmailActionType, Function> = {
   submissionTalent: processTalentSubmission,
   superteamWinners: processSuperteamWinners,
   weeklyListingRoundup: processWeeklyRoundup,
+  verifiedListingStatus: processVerifiedStatus
   // dupe: processDupe,
 };

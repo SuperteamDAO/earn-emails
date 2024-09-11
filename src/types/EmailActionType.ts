@@ -22,5 +22,6 @@ export type EmailActionType =
   | 'submissionSponsor'
   | 'submissionTalent'
   | 'superteamWinners'
-  | 'weeklyListingRoundup';
+  | 'weeklyListingRoundup'
+  | 'verifiedListingStatus';
 // | 'dupe'
