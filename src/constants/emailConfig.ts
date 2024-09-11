@@ -1,4 +1,3 @@
-import { application } from 'express';
 import {
   processAddPayment,
   processAnnounceWinners,
@@ -24,6 +23,7 @@ import {
   processTalentSubmission,
   processWeeklyRoundup,
   processApplicationLike,
+  processRollingProjectUnpublish,
 } from '../handlers';
 import { EmailActionType } from '../types';
 
@@ -46,6 +46,7 @@ export const emailActionCategoryMapping = {
   deadlineExceededWeek: 'deadlineSponsor',
   rolling15Days: 'deadlineSponsor',
   rolling30Days: 'deadlineSponsor',
+  rollingUnpublish: 'deadlineSponsor',
 } as const;
 
 export const emailTypePriority: Record<EmailActionType, number> = {
@@ -55,6 +56,7 @@ export const emailTypePriority: Record<EmailActionType, number> = {
   commentSponsor: 1,
   commentTag: 1,
   scoutInvite: 1,
+  rollingUnpublish: 1,
   submissionSponsor: 2,
   announceWinners: 2,
   superteamWinners: 2,
@@ -73,6 +75,7 @@ export const emailTypePriority: Record<EmailActionType, number> = {
   deadline3days: 3,
   createListing: 4,
   weeklyListingRoundup: 5,
+  // dupe: 1,
 };
 
 export const emailProcessors: Record<EmailActionType, Function> = {
@@ -93,6 +96,7 @@ export const emailProcessors: Record<EmailActionType, Function> = {
   grantRejected: processApplicationRejection,
   rolling15Days: processRollingProject15Days,
   rolling30Days: processRollingProject30Days,
+  rollingUnpublish: processRollingProjectUnpublish,
   scoutInvite: processScoutInvite,
   submissionLike: processSubmissionLike,
   applicationLike: processApplicationLike,
@@ -100,4 +104,5 @@ export const emailProcessors: Record<EmailActionType, Function> = {
   submissionTalent: processTalentSubmission,
   superteamWinners: processSuperteamWinners,
   weeklyListingRoundup: processWeeklyRoundup,
+  // dupe: processDupe,
 };
