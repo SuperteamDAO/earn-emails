@@ -19,6 +19,7 @@ export type EmailActionType =
   | 'rollingUnpublish'
   | 'scoutInvite'
   | 'submissionLike'
+  | 'applicationLike'
   | 'submissionSponsor'
   | 'submissionTalent'
   | 'superteamWinners'
