@@ -26,6 +26,7 @@ import {
   processApplicationLike,
   processRollingProjectUnpublish,
   processVerifiedStatus,
+  processApplicationCompleted,
 } from '../handlers';
 import { EmailActionType } from '../types';
 
@@ -72,6 +73,7 @@ export const emailTypePriority: Record<EmailActionType, number> = {
   deadlineExceededWeek: 2,
   deadlineExceeded: 2,
   deadlineExtended: 2,
+  grantCompleted: 2,
   grantApproved: 2,
   grantRejected: 2,
   rolling15Days: 2,
@@ -96,6 +98,7 @@ export const emailProcessors: Record<EmailActionType, Function> = {
   deadlineExceededWeek: processDeadlineExceededWeek,
   deadlineExtended: processDeadlineExtended,
   grantApproved: processApplicationApproval,
+  grantCompleted: processApplicationCompleted,
   grantPaymentReceived: processGrantPayment,
   grantRejected: processApplicationRejection,
   rolling15Days: processRollingProject15Days,

@@ -12,6 +12,7 @@ export type EmailActionType =
   | 'deadlineExceededWeek'
   | 'deadlineExtended'
   | 'grantApproved'
+  | 'grantCompleted'
   | 'grantPaymentReceived'
   | 'grantRejected'
   | 'rolling15Days'
