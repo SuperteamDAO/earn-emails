@@ -3,48 +3,87 @@ import { SubmissionSponsorTemplate } from '../../email-templates';
 import { prisma } from '../../prisma';
 import { getUserEmailPreference } from '../../utils';
 import { basePath, kashEmail } from '../../constants';
+import dayjs from 'dayjs';
 
-export async function processSponsorSubmission(id: string, userId: string) {
-  const userPreference = await getUserEmailPreference(
-    userId,
-    'submissionSponsor',
-  );
+export async function processSponsorSubmissions() {
+  console.log('subspo');
+  const now = dayjs();
+  const twentyFourHoursAgo = now.subtract(24, 'hours');
 
-  if (!userPreference) {
-    console.log(`User ${userId} has opted out of this type of email.`);
-    return;
-  }
-
-  const listing = await prisma.bounties.findFirst({
-    where: { id },
+  const listings = await prisma.bounties.findMany({
+    where: {
+      type: { not: 'hackathon' },
+      isPublished: true,
+      isArchived: false,
+      isActive: true,
+      status: 'OPEN',
+      isPrivate: false,
+      isWinnersAnnounced: false,
+      deadline: {
+        gte: twentyFourHoursAgo.toDate(),
+      },
+    },
     include: {
       poc: true,
+      Submission: {
+        where: {
+          createdAt: {
+            gte: twentyFourHoursAgo.toDate(),
+          },
+        },
+      },
     },
   });
 
-  if (listing && listing?.type !== 'hackathon') {
-    const subject =
-      listing.type !== 'project'
-        ? 'New Bounty Submission Received'
-        : 'Project Application Received';
-    const pocUser = listing?.poc;
+  console.log(listings);
 
-    const emailHtml = render(
-      SubmissionSponsorTemplate({
-        name: pocUser.firstName!,
-        listingName: listing.title,
-        link: `${basePath}/dashboard/listings/${listing?.slug}/submissions/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`,
-      }),
+  const emailPromises = listings.map(async (listing) => {
+    const userPreference = await getUserEmailPreference(
+      listing.pocId,
+      'submissionSponsor',
     );
 
-    const emailData = {
-      from: kashEmail,
-      to: pocUser.email,
-      subject,
-      html: emailHtml,
-    };
-    return emailData;
-  }
+    if (!userPreference) {
+      console.log(`User ${listing.pocId} has opted out of this type of email.`);
+      return null;
+    }
 
-  return;
+    const submissionCount = listing.Submission.length;
+
+    if (submissionCount > 0) {
+      const subject =
+        listing.type !== 'project'
+          ? `Your Bounty Received ${submissionCount} submissions in the last 24H`
+          : `Your Project received ${submissionCount} applications in the last 24H`;
+      const pocUser = listing.poc;
+
+      const emailHtml = render(
+        SubmissionSponsorTemplate({
+          name: pocUser.firstName!,
+          listingName: listing.title,
+          link: `${basePath}/dashboard/listings/${listing.slug}/submissions/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`,
+          submissionCount: submissionCount,
+          listingLink: `${basePath}/listings/${listing.type}/${listing.slug}`,
+          listingType: listing.type,
+        }),
+      );
+
+      const emailData = {
+        from: kashEmail,
+        to: pocUser.email,
+        subject,
+        html: emailHtml,
+      };
+
+      return emailData;
+    }
+
+    return null;
+  });
+
+  const emailsToSend = (await Promise.all(emailPromises)).filter(
+    (email) => email !== null,
+  );
+
+  return emailsToSend;
 }

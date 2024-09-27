@@ -17,13 +17,13 @@ import {
   processRollingProject30Days,
   processGrantPayment,
   processScoutInvite,
-  processSponsorSubmission,
   processSubmissionLike,
   processSuperteamWinners,
   processTalentSubmission,
   processWeeklyRoundup,
   processApplicationLike,
   processRollingProjectUnpublish,
+  processSponsorSubmissions,
   processVerifiedStatus,
 } from '../handlers';
 import { EmailActionType } from '../types';
@@ -102,10 +102,10 @@ export const emailProcessors: Record<EmailActionType, Function> = {
   scoutInvite: processScoutInvite,
   submissionLike: processSubmissionLike,
   applicationLike: processApplicationLike,
-  submissionSponsor: processSponsorSubmission,
+  submissionSponsor: processSponsorSubmissions,
   submissionTalent: processTalentSubmission,
   superteamWinners: processSuperteamWinners,
   weeklyListingRoundup: processWeeklyRoundup,
-  verifiedListingStatus: processVerifiedStatus
+  verifiedListingStatus: processVerifiedStatus,
   // dupe: processDupe,
 };
