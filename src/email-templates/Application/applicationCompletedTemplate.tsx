@@ -24,7 +24,7 @@ export const ApplicationCompletedTemplate = ({
       <p style={styles.greetings}>Hey {name},</p>
 
       <p style={styles.textWithMargin}>
-        Your grant application <strong>{applicationTitle}</strong> has been
+        Your grant project <strong>{applicationTitle}</strong> has been
         marked as completed by {sponsorName}. This means you can send in another application for {grantName}!
       </p>
 
