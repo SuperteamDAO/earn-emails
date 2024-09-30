@@ -3,44 +3,73 @@ import { ApplicationLikeTemplate } from '../../email-templates';
 import { prisma } from '../../prisma';
 import { getUserEmailPreference } from '../../utils';
 import { basePath, kashEmail } from '../../constants';
+import dayjs from 'dayjs';
 
 export async function processApplicationLike(id: string, userId: string) {
-  const userPreference = await getUserEmailPreference(userId, 'submissionLike');
+  const now = dayjs();
+  const twentyFourHoursAgo = now.subtract(24, 'hours');
+  const twentyFourHoursAgoEpoch = twentyFourHoursAgo.valueOf();
 
-  if (!userPreference) {
-    console.log(`User ${userId} has opted out of this type of email.`);
-    return;
-  }
-
-  const application = await prisma.grantApplication.findUnique({
-    where: { id },
-    include: {
-      user: true,
+  const applications = await prisma.grantApplication.findMany({
+    where: {
+      likeCount: {
+        gt: 0
+      },
+      updatedAt: {
+        gte: twentyFourHoursAgo.toDate()
+      }
+    },
+    select: {
+      userId: true,
+      like: true,
+      likeCount: true,
+      user: {
+        select: {
+          firstName: true,
+          email: true
+        }
+      },
       grant: {
-        include: {
-          sponsor: true
+        select: {
+          title: true
         }
       }
     },
   });
 
-  if (application) {
+  console.log('applications', applications);
+  const emailPromises = applications.map(async (application) => {
+    const userPreference = await getUserEmailPreference(application.userId, 'submissionLike');
+    if (!userPreference) {
+      console.log(`User ${application.userId} has opted out of this type of email.`);
+      return null;
+    }
+
+    const likes = (application.like as Array<{ date: number }> | null) || []
+    const newLikesCount = likes.filter((like: { date: number }) =>
+      like.date >= twentyFourHoursAgoEpoch
+    ).length;
+
+    console.log('new like count - ', newLikesCount)
+    if (newLikesCount === 0) return null;
+
     const emailHtml = render(
       ApplicationLikeTemplate({
         name: application.user.firstName!,
-        sponsorName: application.grant.sponsor.name,
-        link: `${basePath}/feed/`,
-        title: application.projectTitle,
-      }),
+        grantName: application.grant.title,
+        newLikesCount,
+        link: `${basePath}/feed?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`,
+      })
     );
-    const emailData = {
+
+    return {
       from: kashEmail,
-      to: application?.user.email,
-      subject: 'People are loving your grant win!',
+      to: application.user.email,
+      subject: `${newLikesCount} New ${newLikesCount === 1 ? 'Like' : 'Likes'} on Your Superteam Earn Grant Win!`,
       html: emailHtml,
     };
-    return emailData;
-  }
+  });
 
-  return;
+  const emailsToSend = (await Promise.all(emailPromises)).filter(Boolean);
+  return emailsToSend;
 }

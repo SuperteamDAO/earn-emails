@@ -5,29 +5,29 @@ import { UnsubscribeLine } from '../../components';
 
 interface TemplateProps {
   name: string;
-  sponsorName: string;
+  grantName: string;
+  newLikesCount: number;
   link: string;
-  title: string;
 }
 
 export const ApplicationLikeTemplate = ({
   name,
-  sponsorName,
+  grantName,
   link,
-  title,
+  newLikesCount,
 }: TemplateProps) => {
   return (
     <div style={styles.container}>
       <p style={styles.greetings}>Hey {name},</p>
       <p style={styles.textWithMargin}>
-        People are digging that you won a grant by <strong>{sponsorName}</strong>{' '}for{' '}
-        <strong>{title}!</strong>
+        The community loves your <strong>{grantName}</strong>{' '}
+        listing.{" "}{newLikesCount}{" "}{newLikesCount === 1 ? 'person has' : 'people have'}{" "} liked your work in the last 24 hours. Keep it up!
       </p>
       <p style={styles.textWithMargin}>
-        Check out our{" "}
+        Check out other contributions on our{" "}
         <a href={link} style={styles.link}>
           Activity Feed
-        </a>{" "}and give back some love to the community :)
+        </a>{" "}and spread some love to the other contributors :)
       </p>
       <p style={styles.salutation}>
         Best,
