@@ -11,8 +11,9 @@ const scheduleJob = (time: string, type: EmailActionType) => {
   });
 };
 
-scheduleJob('*/1 * * * *', 'submissionLike');
-scheduleJob('*/1 * * * *', 'applicationLike');
+// scheduleJob('*/1 * * * *', 'submissionLike');
+// scheduleJob('*/1 * * * *', 'applicationLike');
+scheduleJob('*/1 * * * *', 'powLike');
 
 // if (process.env.SERVER_ENV !== 'preview') {
 //   scheduleJob('30 * * * *', 'deadline3days');

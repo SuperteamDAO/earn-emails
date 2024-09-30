@@ -7,25 +7,35 @@ interface TemplateProps {
   name: string;
   listingName: string;
   newLikesCount: number;
-  link: string;
+  type: string;
+  listingLink: string;
+  feedLink: string;
 }
 
 export const SubmissionLikeTemplate = ({
   name,
   listingName,
   newLikesCount,
-  link,
+  type,
+  listingLink,
+  feedLink,
 }: TemplateProps) => {
   return (
     <div style={styles.container}>
       <p style={styles.greetings}>Hey {name},</p>
       <p style={styles.textWithMargin}>
-        The community loves your <strong>{listingName}</strong>{' '}
-        listing.{" "}{newLikesCount}{" "}{newLikesCount === 1 ? 'person has' : 'people have'}{" "} liked your work in the last 24 hours. Keep it up!
+        The community loves your{' '}
+        <a href={listingLink} style={styles.link}>
+          {listingName}
+        </a>{' '}
+        <strong>
+          {type}
+        </strong>
+        .{" "}{newLikesCount}{" "}{newLikesCount === 1 ? 'person has' : 'people have'}{" "} liked your work in the last 24 hours. Keep it up!
       </p>
       <p style={styles.textWithMargin}>
         Check out other contributions on our{" "}
-        <a href={link} style={styles.link}>
+        <a href={feedLink} style={styles.link}>
           Activity Feed
         </a>{" "}
         and spread some love to the other contributors :)

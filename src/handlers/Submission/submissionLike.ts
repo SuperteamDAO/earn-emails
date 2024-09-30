@@ -4,8 +4,15 @@ import { prisma } from '../../prisma';
 import { getUserEmailPreference } from '../../utils';
 import { basePath, kashEmail } from '../../constants';
 import dayjs from 'dayjs';
+import { BountyType } from '@prisma/client';
 
-export async function processSubmissionLike(id: string, userId: string) {
+function createFeedCardCopy(type: BountyType, isWinnersAnnounced: boolean) {
+  const status = isWinnersAnnounced ? 'Win' : type === 'project' ? 'Application' : 'Submission';
+  const prefix = type === 'project' ? 'Project' : type === 'bounty' ? 'Bounty' : 'Hackathon';
+  return `${prefix} ${status}`
+}
+
+export async function processSubmissionLike() {
   const now = dayjs();
   const twentyFourHoursAgo = now.subtract(24, 'hours');
   const twentyFourHoursAgoEpoch = twentyFourHoursAgo.valueOf();
@@ -23,6 +30,7 @@ export async function processSubmissionLike(id: string, userId: string) {
       userId: true,
       like: true,
       likeCount: true,
+      isWinner: true,
       user: {
         select: {
           firstName: true,
@@ -31,13 +39,14 @@ export async function processSubmissionLike(id: string, userId: string) {
       },
       listing: {
         select: {
-          title: true
+          title: true,
+          isWinnersAnnounced: true,
+          type: true,
+          slug: true
         }
       }
     }
   });
-
-  console.log('submissions', submissions);
 
   const emailPromises = submissions.map(async (submission) => {
     const userPreference = await getUserEmailPreference(submission.userId, 'submissionLike');
@@ -51,22 +60,25 @@ export async function processSubmissionLike(id: string, userId: string) {
       like.date >= twentyFourHoursAgoEpoch
     ).length;
 
-    console.log('new like count - ', newLikesCount)
     if (newLikesCount === 0) return null;
+
+    const type = createFeedCardCopy(submission.listing.type, submission.listing.isWinnersAnnounced);
 
     const emailHtml = render(
       SubmissionLikeTemplate({
         name: submission.user.firstName!,
         listingName: submission.listing.title,
         newLikesCount,
-        link: `${basePath}/feed?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`,
+        type,
+        listingLink: `${basePath}/listings/${submission.listing.type}/${submission.listing.slug}/submission/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`,
+        feedLink: `${basePath}/feed?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`,
       })
     );
 
     return {
       from: kashEmail,
       to: submission.user.email,
-      subject: `${newLikesCount} New ${newLikesCount === 1 ? 'Like' : 'Likes'} on Your Superteam Earn Submission!`,
+      subject: `${newLikesCount} New ${newLikesCount === 1 ? 'Like' : 'Likes'} on Your ${type}`,
       html: emailHtml,
     };
   });
