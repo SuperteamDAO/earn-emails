@@ -14,7 +14,8 @@ function createFeedCardCopy(type: BountyType, isWinnersAnnounced: boolean) {
 
 export async function processSubmissionLike() {
   const now = dayjs();
-  const twentyFourHoursAgo = now.subtract(24, 'hours');
+  // const twentyFourHoursAgo = now.subtract(24, 'hours');
+  const twentyFourHoursAgo = now.subtract(30, 'minutes');
   const twentyFourHoursAgoEpoch = twentyFourHoursAgo.valueOf();
 
   const submissions = await prisma.submission.findMany({
