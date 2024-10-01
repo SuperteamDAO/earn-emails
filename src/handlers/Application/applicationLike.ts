@@ -7,8 +7,7 @@ import dayjs from 'dayjs';
 
 export async function processApplicationLike() {
   const now = dayjs();
-  // const twentyFourHoursAgo = now.subtract(24, 'hours');
-  const twentyFourHoursAgo = now.subtract(2, 'minutes');
+  const twentyFourHoursAgo = now.subtract(24, 'hours');
   const twentyFourHoursAgoEpoch = twentyFourHoursAgo.valueOf();
 
   const applications = await prisma.grantApplication.findMany({
