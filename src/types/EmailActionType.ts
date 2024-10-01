@@ -21,6 +21,7 @@ export type EmailActionType =
   | 'submissionRejected'
   | 'submissionLike'
   | 'applicationLike'
+  | 'powLike'
   | 'submissionSponsor'
   | 'submissionTalent'
   | 'superteamWinners'

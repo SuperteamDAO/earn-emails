@@ -1,17 +1,17 @@
 import { render } from '@react-email/render';
-import { ApplicationLikeTemplate } from '../../email-templates';
+import { PoWLikeTemplate } from '../../email-templates';
 import { prisma } from '../../prisma';
 import { getUserEmailPreference } from '../../utils';
 import { basePath, kashEmail } from '../../constants';
 import dayjs from 'dayjs';
 
-export async function processApplicationLike() {
+export async function processPoWLike() {
   const now = dayjs();
   // const twentyFourHoursAgo = now.subtract(24, 'hours');
   const twentyFourHoursAgo = now.subtract(2, 'minutes');
   const twentyFourHoursAgoEpoch = twentyFourHoursAgo.valueOf();
 
-  const applications = await prisma.grantApplication.findMany({
+  const proofOfWorks = await prisma.poW.findMany({
     where: {
       likeCount: {
         gt: 0
@@ -24,49 +24,44 @@ export async function processApplicationLike() {
       userId: true,
       like: true,
       likeCount: true,
+      title: true,
       user: {
         select: {
           firstName: true,
           email: true
         }
       },
-      grant: {
-        select: {
-          title: true,
-          slug: true
-        }
-      }
     },
   });
 
-  const emailPromises = applications.map(async (application) => {
-    const userPreference = await getUserEmailPreference(application.userId, 'applicationLike');
+  const emailPromises = proofOfWorks.map(async (proofOfWork) => {
+    const userPreference = await getUserEmailPreference(proofOfWork.userId, 'powLike');
     if (!userPreference) {
-      console.log(`User ${application.userId} has opted out of this type of email.`);
+      console.log(`User ${proofOfWork.userId} has opted out of this type of email.`);
       return null;
     }
 
-    const likes = (application.like as Array<{ date: number }> | null) || []
+    const likes = (proofOfWork.like as Array<{ date: number }> | null) || []
     const newLikesCount = likes.filter((like: { date: number }) =>
       like.date >= twentyFourHoursAgoEpoch
     ).length;
 
+    console.log('new like count - ', newLikesCount)
     if (newLikesCount === 0) return null;
 
     const emailHtml = render(
-      ApplicationLikeTemplate({
-        name: application.user.firstName!,
-        grantName: application.grant.title,
+      PoWLikeTemplate({
+        name: proofOfWork.user.firstName!,
+        powName: proofOfWork.title,
         newLikesCount,
-        grantLink: `${basePath}/grants/${application.grant.slug}?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`,
         feedLink: `${basePath}/feed?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`,
       })
     );
 
     return {
       from: kashEmail,
-      to: application.user.email,
-      subject: `${newLikesCount} New ${newLikesCount === 1 ? 'Like' : 'Likes'} on Your Grant Win!`,
+      to: proofOfWork.user.email,
+      subject: `${newLikesCount} New ${newLikesCount === 1 ? 'Like' : 'Likes'} on Your Personal Project!`,
       html: emailHtml,
     };
   });

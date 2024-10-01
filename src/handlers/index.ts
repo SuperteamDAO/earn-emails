@@ -4,3 +4,4 @@ export * from './Listing';
 export * from './Submission';
 export * from './Winners';
 export * from './Application';
+export * from './PoW'
