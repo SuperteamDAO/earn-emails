@@ -19,6 +19,9 @@ if (process.env.SERVER_ENV !== 'preview') {
   scheduleJob('56 * * * *', 'rolling30Days');
   scheduleJob('30 12 * * *', 'rollingUnpublish');
   scheduleJob('0 12 * * *', 'submissionSponsor');
+  scheduleJob('0 12 * * *', 'submissionLike');
+  scheduleJob('0 12 * * *', 'applicationLike');
+  scheduleJob('0 12 * * *', 'powLike');
 }
 
 if (process.env.SERVER_ENV === 'development') {

@@ -26,6 +26,7 @@ import {
   processRollingProjectUnpublish,
   processSponsorSubmissions,
   processVerifiedStatus,
+  processPoWLike,
 } from '../handlers';
 import { EmailActionType } from '../types';
 
@@ -37,6 +38,7 @@ export const emailActionCategoryMapping = {
   commentTag: 'replyOrTagComment',
   submissionLike: 'commentOrLikeSubmission',
   applicationLike: 'commentOrLikeSubmission',
+  powLike: 'commentOrLikeSubmission',
   weeklyListingRoundup: 'weeklyListingRoundup',
   scoutInvite: 'scoutInvite',
 
@@ -79,6 +81,7 @@ export const emailTypePriority: Record<EmailActionType, number> = {
   deadline3days: 3,
   createListing: 4,
   weeklyListingRoundup: 5,
+  powLike: 2,
   // dupe: 1,
 };
 
@@ -110,5 +113,6 @@ export const emailProcessors: Record<EmailActionType, Function> = {
   superteamWinners: processSuperteamWinners,
   weeklyListingRoundup: processWeeklyRoundup,
   verifiedListingStatus: processVerifiedStatus,
+  powLike: processPoWLike,
   // dupe: processDupe,
 };

@@ -5,16 +5,14 @@ import { UnsubscribeLine } from '../../components';
 
 interface TemplateProps {
   name: string;
-  grantName: string;
+  powName: string;
   newLikesCount: number;
-  grantLink: string;
   feedLink: string;
 }
 
-export const ApplicationLikeTemplate = ({
+export const PoWLikeTemplate = ({
   name,
-  grantName,
-  grantLink,
+  powName,
   feedLink,
   newLikesCount,
 }: TemplateProps) => {
@@ -23,11 +21,11 @@ export const ApplicationLikeTemplate = ({
       <p style={styles.greetings}>Hey {name},</p>
       <p style={styles.textWithMargin}>
         The community loves your{' '}
-        <a href={grantLink} style={styles.link}>
-          {grantName}
-        </a>{' '}
         <strong>
-          Grant Win
+          {powName}
+        </strong>{' '}
+        <strong>
+          Personal Project
         </strong>
         .{" "}{newLikesCount}{" "}{newLikesCount === 1 ? 'person has' : 'people have'}{" "} liked your work in the last 24 hours. Keep it up!
       </p>
