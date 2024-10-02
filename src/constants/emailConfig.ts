@@ -27,6 +27,7 @@ import {
   processSponsorSubmissions,
   processVerifiedStatus,
   processPoWLike,
+  processScoutReminder,
 } from '../handlers';
 import { EmailActionType } from '../types';
 
@@ -62,6 +63,7 @@ export const emailTypePriority: Record<EmailActionType, number> = {
   scoutInvite: 1,
   rollingUnpublish: 1,
   verifiedListingStatus: 1,
+  scoutReminder: 2,
   submissionSponsor: 2,
   announceWinners: 2,
   superteamWinners: 2,
@@ -105,6 +107,7 @@ export const emailProcessors: Record<EmailActionType, Function> = {
   rolling30Days: processRollingProject30Days,
   rollingUnpublish: processRollingProjectUnpublish,
   scoutInvite: processScoutInvite,
+  scoutReminder: processScoutReminder,
   submissionLike: processSubmissionLike,
   submissionRejected: processSubmissionRejected,
   applicationLike: processApplicationLike,
