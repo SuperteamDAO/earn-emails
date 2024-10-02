@@ -22,7 +22,7 @@ if (process.env.SERVER_ENV !== 'preview') {
   // scheduleJob('10 12 * * *', 'submissionLike');
   // scheduleJob('15 12 * * *', 'applicationLike');
   // scheduleJob('20 12 * * *', 'powLike');
-  scheduleJob('*/1 * * * *', 'scoutReminder');
+  scheduleJob('*/4 * * * *', 'scoutReminder');
 }
 
 // if (process.env.SERVER_ENV === 'development') {

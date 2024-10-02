@@ -2,18 +2,19 @@ import dayjs from "dayjs";
 import { prisma } from '../../prisma';
 import { render } from "@react-email/render";
 import { ScoutReminderTemplate } from "../../email-templates";
-import { MAX_SCOUTS_INVITES, basePath, kashEmail } from "../../constants";
+import { basePath, kashEmail } from "../../constants";
 
 export async function processScoutReminder() {
   const now = dayjs();
-  const threeDaysAgo = now.subtract(1, 'day');
+  const threeDaysAgo = now.subtract(4, 'minutes');
   // const threeDaysAgo = now.subtract(3, 'days');
   try {
     const listings = await prisma.bounties.findMany({
       where: {
         publishedAt: {
-          lte: threeDaysAgo.endOf('day').toDate(),
-          gte: threeDaysAgo.startOf('day').toDate(),
+          // lte: threeDaysAgo.endOf('day').toDate(),
+          // gte: threeDaysAgo.startOf('day').toDate(),
+          gte: threeDaysAgo.toDate(),
         },
         isPublished: true,
         isPrivate: false,
