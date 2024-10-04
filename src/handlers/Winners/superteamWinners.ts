@@ -31,12 +31,13 @@ export async function processSuperteamWinners(id: string) {
         SuperteamWinnersTemplate({
           name: winner.user.firstName,
           listingName: listing?.title || '',
+          listingType: listing?.type || '',
         }),
       );
       return {
         from: kashEmail,
         to: winner.user.email,
-        subject: 'Submit This Form to Claim Your Reward',
+        subject: 'Congrats! Submit This Form to Claim Your Reward',
         html: emailHtml,
       };
     });

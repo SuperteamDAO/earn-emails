@@ -2,29 +2,36 @@ import React from 'react';
 
 import { styles } from '../styles';
 import { UnsubscribeLine } from '../../components';
+import { get } from 'http';
+import { getListingTypeLabel } from '../../utils';
 
 interface TemplateProps {
   name: string | null;
   listingName: string;
+  listingType: string;
 }
 
 export const SuperteamWinnersTemplate = ({
   name,
   listingName,
+  listingType,
 }: TemplateProps) => {
+  const type = getListingTypeLabel(listingType);
   return (
     <div style={styles.container}>
       <p style={styles.greetings}>Hey {name},</p>
       <p style={styles.textWithMargin}>
-        Congrats on winning the <strong>{listingName}</strong> listing! Please
-        fill out{' '}
+        Congrats on winning the <strong>{listingName}</strong> {type}!
+      </p>
+      <p style={styles.text}>
+        Since you have won a {type} sponsored by a Superteam, you must fill out
         <a
           href={'https://airtable.com/appmgNmQgJWJeo3x4/shr8fxYLAc3ZY18cQ'}
           style={styles.link}
         >
           this form
         </a>{' '}
-        to receive your listing reward.
+        to receive your reward.
       </p>
       <p style={styles.textWithMargin}>
         We follow a weekly payout system. Therefore, your listing reward might
