@@ -78,6 +78,7 @@ export async function processSuperteamWinners(id: string) {
           walletAddress: winner.user.publicKey,
           totalEarnings,
           position,
+          pocSocials: listing.pocSocials,
         }),
       );
 

@@ -11,6 +11,7 @@ interface TemplateProps {
   walletAddress: string | null;
   totalEarnings: number;
   position: number;
+  pocSocials: string | null;
 }
 
 export const PaymentSTWinnersTemplate = ({
@@ -21,6 +22,7 @@ export const PaymentSTWinnersTemplate = ({
   walletAddress,
   totalEarnings,
   position,
+  pocSocials,
 }: TemplateProps) => {
   const suffix =
     position === 1
@@ -42,7 +44,7 @@ export const PaymentSTWinnersTemplate = ({
         {walletAddress}). No action is needed from your end. If you need to
         contact the sponsor, you can do so from
         <a
-          href={'https://airtable.com/appmgNmQgJWJeo3x4/shr8fxYLAc3ZY18cQ'}
+          href={`${pocSocials}/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`}
           style={styles.link}
         >
           here
