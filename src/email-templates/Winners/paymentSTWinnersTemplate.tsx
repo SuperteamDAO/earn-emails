@@ -2,19 +2,35 @@ import React from 'react';
 
 import { styles } from '../styles';
 import { UnsubscribeLine } from '../../components';
-import { getListingTypeLabel } from '../../utils';
 
 interface TemplateProps {
   name: string | null;
   listingName: string;
   listingType: string;
+  sponsorName: string;
+  walletAddress: string | null;
+  totalEarnings: number;
+  position: number;
 }
 
-export const SuperteamWinnersTemplate = ({
+export const PaymentSTWinnersTemplate = ({
   name,
   listingName,
   listingType,
+  sponsorName,
+  walletAddress,
+  totalEarnings,
+  position,
 }: TemplateProps) => {
+  const suffix =
+    position === 1
+      ? 'st'
+      : position === 2
+      ? 'nd'
+      : position === 3
+      ? 'rd'
+      : 'th';
+
   return (
     <div style={styles.container}>
       <p style={styles.greetings}>Hey {name},</p>
@@ -22,27 +38,21 @@ export const SuperteamWinnersTemplate = ({
         Congrats on winning the <strong>{listingName}</strong> {listingType}!
       </p>
       <p style={styles.text}>
-        Since you have won a {listingType} sponsored by a Superteam, you must
-        fill out
+        {sponsorName} will be sending your reward directly into your wallet (
+        {walletAddress}). No action is needed from your end. If you need to
+        contact the sponsor, you can do so from
         <a
           href={'https://airtable.com/appmgNmQgJWJeo3x4/shr8fxYLAc3ZY18cQ'}
-          style={styles.link}
-        >
-          this form
-        </a>{' '}
-        to receive your reward.
-      </p>
-      <p style={styles.textWithMargin}>
-        We follow a weekly payout system. Therefore, your listing reward might
-        take up to a week to show up in your wallet. If you would like to track
-        the status of your payment, you can do so{' '}
-        <a
-          href={'https://in.superteam.fun/payment-pipeline'}
           style={styles.link}
         >
           here
         </a>{' '}
         .
+      </p>
+      <p style={styles.textWithMargin}>
+        With this win, your earnings have increased to ${totalEarnings} and your
+        leaderboard position has jumped to {position}
+        {suffix} position! We hope you continue winning :)
       </p>
       <p style={styles.salutation}>
         Best,
