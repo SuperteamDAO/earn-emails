@@ -2,7 +2,6 @@ import React from 'react';
 
 import { styles } from '../styles';
 import { UnsubscribeLine } from '../../components';
-import { getListingTypeLabel } from '../../utils';
 
 interface TemplateProps {
   name: string | null;
@@ -20,10 +19,7 @@ export const STWinnersTemplate = ({
       <p style={styles.greetings}>Hey {name},</p>
       <p style={styles.textWithMargin}>
         Congrats on winning the <strong>{listingName}</strong> {listingType}!
-      </p>
-      <p style={styles.text}>
-        Since you have won a {listingType} sponsored by a Superteam, you must
-        fill out
+        You must fill out{' '}
         <a
           href={'https://airtable.com/appmgNmQgJWJeo3x4/shr8fxYLAc3ZY18cQ'}
           style={styles.link}
