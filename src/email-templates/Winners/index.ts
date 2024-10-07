@@ -1,4 +1,4 @@
 export * from './paymentReceivedTemplate';
-export * from './superteamWinnersTemplate';
+export * from './STWinnersTemplate';
 export * from './winnersAnnouncedTemplate';
-export * from './paymentSTWinnersTemplate';
+export * from './nonSTWinnersTemplate';

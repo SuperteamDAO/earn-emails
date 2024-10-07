@@ -14,7 +14,7 @@ interface TemplateProps {
   pocSocials: string | null;
 }
 
-export const PaymentSTWinnersTemplate = ({
+export const NonSTWinnersTemplate = ({
   name,
   listingName,
   listingType,

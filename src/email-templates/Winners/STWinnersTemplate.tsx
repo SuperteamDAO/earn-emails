@@ -10,7 +10,7 @@ interface TemplateProps {
   listingType: string;
 }
 
-export const SuperteamWinnersTemplate = ({
+export const STWinnersTemplate = ({
   name,
   listingName,
   listingType,

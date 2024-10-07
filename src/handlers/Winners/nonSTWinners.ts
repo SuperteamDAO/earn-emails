@@ -1,13 +1,10 @@
 import { prisma } from '../../prisma';
-import {
-  PaymentSTWinnersTemplate,
-  SuperteamWinnersTemplate,
-} from '../../email-templates';
+import { NonSTWinnersTemplate } from '../../email-templates';
 import { render } from '@react-email/render';
 import { kashEmail } from '../../constants';
 import { getListingTypeLabel } from '../../utils';
 
-export async function processSuperteamWinners(id: string) {
+export async function processNonSTWinners(id: string) {
   const listing = await prisma.bounties.findUnique({
     where: { id },
     include: { sponsor: true },
@@ -40,8 +37,7 @@ export async function processSuperteamWinners(id: string) {
       orderBy: { totalEarnedInUSD: 'desc' },
     });
 
-    const winnerEmails = [];
-    const paymentEmails = [];
+    const emails = [];
 
     for (const winner of winners) {
       const totalEarnings = winner.user.Submission.reduce(
@@ -54,23 +50,8 @@ export async function processSuperteamWinners(id: string) {
           (ranking) => ranking.totalEarnedInUSD <= totalEarnings,
         ) + 1;
 
-      const winnerEmailHtml = render(
-        SuperteamWinnersTemplate({
-          name: winner.user.firstName,
-          listingName,
-          listingType,
-        }),
-      );
-
-      winnerEmails.push({
-        from: kashEmail,
-        to: winner.user.email,
-        subject: 'Congrats! Submit This Form to Claim Your Reward',
-        html: winnerEmailHtml,
-      });
-
-      const paymentEmailHtml = render(
-        PaymentSTWinnersTemplate({
+      const emailHtml = render(
+        NonSTWinnersTemplate({
           name: winner.user.firstName,
           listingName,
           listingType,
@@ -82,15 +63,15 @@ export async function processSuperteamWinners(id: string) {
         }),
       );
 
-      paymentEmails.push({
+      emails.push({
         from: kashEmail,
         to: winner.user.email,
         subject: `Congratulations! ${sponsorName} will send you the rewards soon`,
-        html: paymentEmailHtml,
+        html: emailHtml,
       });
     }
 
-    return { winnerEmails, paymentEmails };
+    return emails;
   }
 
   return;
