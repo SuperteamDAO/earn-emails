@@ -33,6 +33,13 @@ export const NonSTWinnersTemplate = ({
       ? 'rd'
       : 'th';
 
+  const formattedEarnings = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(totalEarnings);
+
   return (
     <div style={styles.container}>
       <p style={styles.greetings}>Hey {name},</p>
@@ -52,8 +59,8 @@ export const NonSTWinnersTemplate = ({
         .
       </p>
       <p style={styles.textWithMargin}>
-        With this win, your earnings have increased to ${totalEarnings} and your
-        leaderboard position has jumped to {position}
+        With this win, your earnings have increased to {formattedEarnings} and
+        your leaderboard position has jumped to {position}
         {suffix} position! We hope you continue winning :)
       </p>
       <p style={styles.salutation}>
