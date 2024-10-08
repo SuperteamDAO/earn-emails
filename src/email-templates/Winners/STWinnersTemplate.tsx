@@ -37,7 +37,7 @@ export const STWinnersTemplate = ({
           style={styles.link}
         >
           here
-        </a>{' '}
+        </a>
         .
       </p>
       <p style={styles.salutation}>

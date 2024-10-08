@@ -49,13 +49,13 @@ export const NonSTWinnersTemplate = ({
       <p style={styles.text}>
         {sponsorName} will be sending your reward directly into your wallet (
         {walletAddress}). No action is needed from your end. If you need to
-        contact the sponsor, you can do so from
+        contact the sponsor, you can do so from{' '}
         <a
           href={`${pocSocials}/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`}
           style={styles.link}
         >
           here
-        </a>{' '}
+        </a>
         .
       </p>
       <p style={styles.textWithMargin}>
