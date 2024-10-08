@@ -24,7 +24,8 @@ export type EmailActionType =
   | 'powLike'
   | 'submissionSponsor'
   | 'submissionTalent'
-  | 'superteamWinners'
+  | 'STWinners'
+  | 'nonSTWinners'
   | 'weeklyListingRoundup'
   | 'verifiedListingStatus';
 // | 'dupe'
