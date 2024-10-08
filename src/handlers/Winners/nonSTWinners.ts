@@ -21,7 +21,23 @@ export async function processNonSTWinners(id: string) {
     include: {
       user: {
         include: {
-          Submission: true,
+          Submission: {
+            select: {
+              isWinner: true,
+              rewardInUSD: true,
+              listing: {
+                select: {
+                  isWinnersAnnounced: true,
+                },
+              },
+            },
+          },
+          GrantApplication: {
+            select: {
+              approvedAmountInUSD: true,
+              applicationStatus: true,
+            },
+          },
         },
       },
     },
@@ -40,10 +56,18 @@ export async function processNonSTWinners(id: string) {
     const emails = [];
 
     for (const winner of winners) {
-      const totalEarnings = winner.user.Submission.reduce(
-        (total, submission) => total + submission.rewardInUSD,
+      const listingWinnings = winner.user.Submission.filter(
+        (s) => s.isWinner && s.listing.isWinnersAnnounced,
+      ).reduce((sum, submission) => sum + (submission.rewardInUSD || 0), 0);
+
+      const grantWinnings = winner.user.GrantApplication.filter(
+        (g) => g.applicationStatus === 'Approved',
+      ).reduce(
+        (sum, application) => sum + (application.approvedAmountInUSD || 0),
         0,
       );
+
+      const totalEarnings = listingWinnings + grantWinnings;
 
       const position =
         allRankings.findIndex(
