@@ -6,15 +6,13 @@ import { basePath, kashEmail } from "../../constants";
 
 export async function processScoutReminder() {
   const now = dayjs();
-  const threeDaysAgo = now.subtract(4, 'minutes');
-  // const threeDaysAgo = now.subtract(3, 'days');
+  const threeDaysAgo = now.subtract(3, 'days');
   try {
     const listings = await prisma.bounties.findMany({
       where: {
         publishedAt: {
-          // lte: threeDaysAgo.endOf('day').toDate(),
-          // gte: threeDaysAgo.startOf('day').toDate(),
-          gte: threeDaysAgo.toDate(),
+          lte: threeDaysAgo.endOf('day').toDate(),
+          gte: threeDaysAgo.startOf('day').toDate(),
         },
         isPublished: true,
         isPrivate: false,
@@ -63,12 +61,10 @@ export async function processScoutReminder() {
         },
       }
     })
-    console.log('listings', listings)
 
     const filteredListings = listings.filter(listing => {
       return listing._count.Scouts < listing.Scouts.length;
     });
-    console.log('filteredListings', filteredListings)
 
     const emailPromises = filteredListings.map(async (listing) => {
       const totalMatchedUSD = listing.Scouts.reduce((total, scout) => total + scout.dollarsEarned, 0);
