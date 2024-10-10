@@ -12,7 +12,7 @@ import { render } from '@react-email/render';
 import { WeeklyRoundupTemplate } from '../../email-templates';
 import dayjs from 'dayjs';
 
-const ALLOWED_USERS = 13500;
+const ALLOWED_USERS = 20250;
 
 type UserSkills = {
   skills: MainSkills;
