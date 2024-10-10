@@ -31,4 +31,4 @@ if (process.env.SERVER_ENV === 'development') {
   scheduleJob('0 */6 * * *', 'createListing');
 }
 
-// scheduleJob('0 12 * * 4', 'weeklyListingRoundup');
+scheduleJob('0 12 * * 4', 'weeklyListingRoundup');
