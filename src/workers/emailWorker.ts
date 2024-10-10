@@ -51,6 +51,15 @@ const emailWorker = new Worker(
         return;
       }
 
+      const isBlocked = await prisma.blockedEmail.findUnique({
+        where: { email: to },
+      });
+
+      if (isBlocked) {
+        console.log(`Email not sent. ${to} is blocked.`);
+        return;
+      }
+
       const unsubscribeURL = generateUnsubscribeURL(to);
 
       const response = await resend.emails.send({
