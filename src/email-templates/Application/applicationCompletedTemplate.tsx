@@ -36,6 +36,7 @@ export const ApplicationCompletedTemplate = ({
         <a href={otherGrantsLink} style={styles.link}>
           other grants
         </a>
+        .
       </p>
 
       <p style={styles.salutation}>
