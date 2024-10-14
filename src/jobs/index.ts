@@ -17,7 +17,12 @@ if (process.env.SERVER_ENV !== 'preview') {
   scheduleJob('50 * * * *', 'deadlineExceededWeek');
   scheduleJob('55 * * * *', 'rolling15Days');
   scheduleJob('56 * * * *', 'rolling30Days');
-  scheduleJob('0 12 * * *', 'rollingUnpublish');
+  scheduleJob('0 12 * * *', 'submissionSponsor');
+  scheduleJob('5 12 * * *', 'rollingUnpublish');
+  scheduleJob('10 12 * * *', 'submissionLike');
+  scheduleJob('15 12 * * *', 'applicationLike');
+  scheduleJob('20 12 * * *', 'powLike');
+  scheduleJob('25 12 * * *', 'scoutReminder');
 }
 
 if (process.env.SERVER_ENV === 'development') {
@@ -26,4 +31,4 @@ if (process.env.SERVER_ENV === 'development') {
   scheduleJob('0 */6 * * *', 'createListing');
 }
 
-// scheduleJob('0 12 * * 4', 'weeklyListingRoundup');
+scheduleJob('0 12 * * 4', 'weeklyListingRoundup');

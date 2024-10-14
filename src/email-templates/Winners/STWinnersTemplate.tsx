@@ -6,25 +6,27 @@ import { UnsubscribeLine } from '../../components';
 interface TemplateProps {
   name: string | null;
   listingName: string;
+  listingType: string;
 }
 
-export const SuperteamWinnersTemplate = ({
+export const STWinnersTemplate = ({
   name,
   listingName,
+  listingType,
 }: TemplateProps) => {
   return (
     <div style={styles.container}>
       <p style={styles.greetings}>Hey {name},</p>
       <p style={styles.textWithMargin}>
-        Congrats on winning the <strong>{listingName}</strong> listing! Please
-        fill out{' '}
+        Congrats on winning the <strong>{listingName}</strong> {listingType}!
+        You must fill out{' '}
         <a
           href={'https://airtable.com/appmgNmQgJWJeo3x4/shr8fxYLAc3ZY18cQ'}
           style={styles.link}
         >
           this form
         </a>{' '}
-        to receive your listing reward.
+        to receive your reward.
       </p>
       <p style={styles.textWithMargin}>
         We follow a weekly payout system. Therefore, your listing reward might
@@ -35,7 +37,7 @@ export const SuperteamWinnersTemplate = ({
           style={styles.link}
         >
           here
-        </a>{' '}
+        </a>
         .
       </p>
       <p style={styles.salutation}>

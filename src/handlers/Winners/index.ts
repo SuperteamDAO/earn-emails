@@ -1,3 +1,4 @@
 export * from './addPayment';
 export * from './announceWinners';
-export * from './superteamWinners';
+export * from './STWinners';
+export * from './nonSTWinners';
