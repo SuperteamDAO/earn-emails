@@ -44,6 +44,7 @@ export async function processSTWinners(id: string) {
         to: winner.user.email,
         subject: 'Congrats! Submit This Form to Claim Your Reward',
         html: emailHtml,
+        checkUnsubscribe: false,
       };
     });
 

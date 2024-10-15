@@ -29,6 +29,7 @@ export async function processAddPayment(id: string) {
       to: submission?.user.email,
       subject: `Payment Confirmation for ${submission.listing.title}`,
       html: emailHtml,
+      checkUnsubscribe: false,
     };
     return emailData;
   }

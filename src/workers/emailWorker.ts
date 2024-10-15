@@ -25,8 +25,19 @@ const generateUnsubscribeURL = (email: string) => {
 const emailWorker = new Worker(
   'emailQueue',
   async (job) => {
-    const { from, to, subject, html, cc, bcc, id, type, userId, otherInfo } =
-      job.data;
+    const {
+      from,
+      to,
+      subject,
+      html,
+      cc,
+      bcc,
+      id,
+      type,
+      userId,
+      otherInfo,
+      checkUnsubscribe = true,
+    } = job.data;
 
     try {
       if (!to || !subject || !html) {
@@ -36,18 +47,10 @@ const emailWorker = new Worker(
         if (!html) missingProperties.push('html');
 
         console.log(
-          `Skipping job ${job.id
+          `Skipping job ${
+            job.id
           } due to missing properties: ${missingProperties.join(', ')}.`,
         );
-        return;
-      }
-
-      const isUnsubscribed = await prisma.unsubscribedEmail.findUnique({
-        where: { email: to },
-      });
-
-      if (isUnsubscribed) {
-        console.log(`Email not sent. ${to} has unsubscribed.`);
         return;
       }
 
@@ -58,6 +61,17 @@ const emailWorker = new Worker(
       if (isBlocked) {
         console.log(`Email not sent. ${to} is blocked.`);
         return;
+      }
+
+      if (checkUnsubscribe) {
+        const isUnsubscribed = await prisma.unsubscribedEmail.findUnique({
+          where: { email: to },
+        });
+
+        if (isUnsubscribed) {
+          console.log(`Email not sent. ${to} has unsubscribed.`);
+          return;
+        }
       }
 
       const unsubscribeURL = generateUnsubscribeURL(to);

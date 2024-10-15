@@ -6,13 +6,13 @@ import { basePath, kashEmail } from '../../constants';
 export async function processVerifiedStatus(
   id: string,
   _: string,
-  otherInfo: any
+  otherInfo: any,
 ) {
-  const { decision } = otherInfo as { decision: 'approve' | 'reject' }
+  const { decision } = otherInfo as { decision: 'approve' | 'reject' };
 
   if (decision !== 'approve' && decision !== 'reject') {
     console.error('Decision must be approve or reject');
-    return null
+    return null;
   }
 
   const listing = await prisma.bounties.findFirst({
@@ -30,22 +30,26 @@ export async function processVerifiedStatus(
     listingName: listing.title,
     listingType: listing.type,
     link: `${basePath}/listings/${listing.type}/${listing.slug}/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`,
-    decision
-  })
+    decision,
+  });
 
   if (!verifiedStatusRender) {
-    console.error('VerifiedStatusTemplate did not return valid template')
-    return null
+    console.error('VerifiedStatusTemplate did not return valid template');
+    return null;
   }
   const emailHtml = render(verifiedStatusRender);
 
-  const subject = decision === 'approve' ? 'Your Earn listing has been verified and published' : 'Your Earn listing could not be published'
+  const subject =
+    decision === 'approve'
+      ? 'Your Earn listing has been verified and published'
+      : 'Your Earn listing could not be published';
   const emailData = {
     from: kashEmail,
     to: listing.poc.email,
     subject,
     html: emailHtml,
-  }
+    checkUnsubscribe: false,
+  };
 
-  return emailData
+  return emailData;
 }

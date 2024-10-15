@@ -2,7 +2,6 @@ import { prisma } from '../../prisma';
 import { render } from '@react-email/render';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
-import { getUserEmailPreference } from '../../utils';
 import { basePath, kashEmail } from '../../constants';
 import { Rolling30DaysTemplate } from '../../email-templates';
 
@@ -43,13 +42,6 @@ export async function processRollingProject30Days() {
     });
 
     if (checkLogs || !listing.poc?.email) continue;
-
-    const pocPreference = await getUserEmailPreference(
-      listing.pocId,
-      'rolling30Days',
-    );
-
-    if (!pocPreference) continue;
 
     const submissionCount = await prisma.submission.count({
       where: {
