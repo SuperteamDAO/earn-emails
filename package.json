@@ -7,7 +7,8 @@
     "dev": "tsx watch src",
     "build": "prisma generate && npx tsc",
     "postinstall": "prisma generate",
-    "check-types": "tsc --noEmit"
+    "check-types": "tsc --noEmit",
+    "prepare": "husky"
   },
   "keywords": [],
   "author": "",
@@ -19,6 +20,7 @@
     "@types/node": "^20.11.24",
     "@types/node-cron": "^3.0.11",
     "@types/react": "^18.2.63",
+    "lint-staged": "^15.2.10",
     "prisma": "^5.15.0",
     "tsx": "^4.7.1",
     "typescript": "^5.3.3"
@@ -32,6 +34,7 @@
     "dayjs": "^1.11.11",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
+    "husky": "^9.1.6",
     "ioredis": "^5.4.1",
     "jsonwebtoken": "^9.0.2",
     "node-cron": "^3.0.3",
