@@ -3,6 +3,8 @@ import {
   processAnnounceWinners,
   processApplication,
   processApplicationApproval,
+  processApplicationCompleted,
+  processApplicationLike,
   processApplicationRejection,
   processCommentReply,
   processCommentSponsor,
@@ -13,25 +15,23 @@ import {
   processDeadlineExceededWeek,
   processDeadlineExtended,
   processDeadlineThreeDays,
+  processGrantPayment,
+  processNonSTWinners,
+  processPoWLike,
   processRollingProject15Days,
   processRollingProject30Days,
-  processGrantPayment,
+  processRollingProjectUnpublish,
   processScoutInvite,
+  processScoutReminder,
+  processSponsorSubmissions,
+  processSTWinners,
   processSubmissionLike,
   processSubmissionRejected,
-  processSTWinners,
-  processNonSTWinners,
   processTalentSubmission,
-  processWeeklyRoundup,
-  processApplicationLike,
-  processRollingProjectUnpublish,
-  processSponsorSubmissions,
   processVerifiedStatus,
-  processApplicationCompleted,
-  processPoWLike,
-  processScoutReminder,
+  processWeeklyRoundup,
 } from '../handlers';
-import { EmailActionType } from '../types';
+import { type EmailActionType } from '../types';
 
 export const emailActionCategoryMapping = {
   // talent emails
@@ -91,7 +91,7 @@ export const emailTypePriority: Record<EmailActionType, number> = {
   // dupe: 1,
 };
 
-export const emailProcessors: Record<EmailActionType, Function> = {
+export const emailProcessors: Record<EmailActionType, any> = {
   addPayment: processAddPayment,
   announceWinners: processAnnounceWinners,
   application: processApplication,

@@ -1,1 +1,1 @@
-export * from './powLike'
+export * from './powLike';

@@ -1,12 +1,13 @@
-import { Worker } from 'bullmq';
-import { Resend } from 'resend';
-import { config } from 'dotenv';
-import { redis } from '../utils';
 import { PrismaClient } from '@prisma/client';
-import { AlertTemplate } from '../email-templates';
 import { render } from '@react-email/render';
-import { basePath, kashEmail } from '../constants';
+import { Worker } from 'bullmq';
 import { createHmac } from 'crypto';
+import { config } from 'dotenv';
+import { Resend } from 'resend';
+
+import { basePath, kashEmail } from '../constants';
+import { AlertTemplate } from '../email-templates';
+import { redis } from '../utils';
 
 config();
 
