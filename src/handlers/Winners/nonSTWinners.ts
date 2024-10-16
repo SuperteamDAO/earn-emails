@@ -92,6 +92,7 @@ export async function processNonSTWinners(id: string) {
         to: winner.user.email,
         subject: `Congratulations! ${sponsorName} will send you the rewards soon`,
         html: emailHtml,
+        checkUnsubscribe: false,
       });
     }
 

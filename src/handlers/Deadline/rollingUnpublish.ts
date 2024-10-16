@@ -2,7 +2,6 @@ import { prisma } from '../../prisma';
 import { render } from '@react-email/render';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
-import { getUserEmailPreference } from '../../utils';
 import { basePath, kashEmail } from '../../constants';
 import { RollingUnpublishTemplate } from '../../email-templates';
 
@@ -34,29 +33,20 @@ export async function processRollingProjectUnpublish() {
     where: {
       id: {
         in: listings.map((l) => l.id),
-      }
+      },
     },
     data: {
-      isPublished: false
-    }
-  })
+      isPublished: false,
+    },
+  });
 
   const emailData = [];
 
   for (const listing of listings) {
     if (!listing.poc?.email) {
-      console.log('POC has no email')
-      continue
+      console.log('POC has no email');
+      continue;
     }
-    const pocPreference = await getUserEmailPreference(
-      listing.pocId,
-      'rollingUnpublish',
-    );
-
-    if (!pocPreference) {
-      console.log('POC has disabled preference for the `deadlineSponsor`')
-      continue
-    };
 
     const emailHtml = render(
       RollingUnpublishTemplate({
