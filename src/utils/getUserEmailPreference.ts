@@ -1,6 +1,6 @@
-import { emailActionCategoryMapping } from '@/constants';
-import { prisma } from '@/prisma';
-import { type EmailActionType } from '@/types';
+import { emailActionCategoryMapping } from '../constants';
+import { prisma } from '../prisma';
+import { type EmailActionType } from '../types';
 
 type EmailTypeActionMappingKeys = keyof typeof emailActionCategoryMapping;
 type ValidEmailType = EmailActionType & EmailTypeActionMappingKeys;

@@ -2,9 +2,9 @@ import { render } from '@react-email/render';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 
-import { basePath, kashEmail } from '@/constants';
-import { Rolling30DaysTemplate } from '@/email-templates';
-import { prisma } from '@/prisma';
+import { basePath, kashEmail } from '../../constants';
+import { Rolling30DaysTemplate } from '../../email-templates';
+import { prisma } from '../../prisma';
 
 export async function processRollingProject30Days() {
   dayjs.extend(utc);

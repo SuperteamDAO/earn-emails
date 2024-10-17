@@ -30,8 +30,8 @@ import {
   processTalentSubmission,
   processVerifiedStatus,
   processWeeklyRoundup,
-} from '@/handlers';
-import { type EmailActionType } from '@/types';
+} from '../handlers';
+import { type EmailActionType } from '../types';
 
 export const emailActionCategoryMapping = {
   // talent emails

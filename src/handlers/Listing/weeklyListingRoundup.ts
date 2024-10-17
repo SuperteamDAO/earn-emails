@@ -2,16 +2,16 @@ import { Regions } from '@prisma/client';
 import { render } from '@react-email/render';
 import dayjs from 'dayjs';
 
-import { kashEmail, Superteams } from '@/constants';
-import { WeeklyRoundupTemplate } from '@/email-templates';
-import { prisma } from '@/prisma';
+import { kashEmail, Superteams } from '../../constants';
+import { WeeklyRoundupTemplate } from '../../email-templates';
+import { prisma } from '../../prisma';
 import {
   developmentSkills,
   type MainSkills,
   nonDevelopmentSubSkills,
   type Skills,
   type SubSkillsType,
-} from '@/types';
+} from '../../types';
 
 const ALLOWED_USERS = 20250;
 

@@ -1,8 +1,8 @@
 import { render } from '@react-email/render';
 
-import { basePath, kashEmail } from '@/constants';
-import { VerifiedStatusTemplate } from '@/email-templates';
-import { prisma } from '@/prisma';
+import { basePath, kashEmail } from '../../constants';
+import { VerifiedStatusTemplate } from '../../email-templates';
+import { prisma } from '../../prisma';
 
 export async function processVerifiedStatus(
   id: string,

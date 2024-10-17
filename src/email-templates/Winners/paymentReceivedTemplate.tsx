@@ -1,8 +1,7 @@
 import React from 'react';
 
-import { UnsubscribeLine } from '@/components';
-import { basePath } from '@/constants';
-
+import { UnsubscribeLine } from '../../components';
+import { basePath } from '../../constants';
 import { styles } from '../styles';
 
 interface TemplateProps {
