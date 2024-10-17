@@ -1,10 +1,10 @@
 import { render } from '@react-email/render';
 import dayjs from 'dayjs';
 
-import { basePath, kashEmail } from '../../constants';
-import { ApplicationLikeTemplate } from '../../email-templates';
-import { prisma } from '../../prisma';
-import { getUserEmailPreference } from '../../utils';
+import { basePath, kashEmail } from '@/constants';
+import { ApplicationLikeTemplate } from '@/email-templates';
+import { prisma } from '@/prisma';
+import { getUserEmailPreference } from '@/utils';
 
 export async function processApplicationLike() {
   const now = dayjs();

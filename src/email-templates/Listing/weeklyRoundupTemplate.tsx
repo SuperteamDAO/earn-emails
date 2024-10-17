@@ -1,9 +1,10 @@
 import { type CompensationType } from '@prisma/client';
 import React from 'react';
 
-import { UnsubscribeLine } from '../../components';
-import { basePath } from '../../constants';
-import { getListingTypeLabel } from '../../utils';
+import { UnsubscribeLine } from '@/components';
+import { basePath } from '@/constants';
+import { getListingTypeLabel } from '@/utils';
+
 import { styles } from '../styles';
 
 interface Skill {

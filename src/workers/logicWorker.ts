@@ -1,8 +1,8 @@
 import { Worker } from 'bullmq';
 import { config } from 'dotenv';
 
-import { emailQueue, redis } from '../utils';
-import { getPriority, processLogic } from '../utils';
+import { emailQueue, redis } from '@/utils';
+import { getPriority, processLogic } from '@/utils';
 
 config();
 

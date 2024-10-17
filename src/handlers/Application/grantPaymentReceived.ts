@@ -1,8 +1,8 @@
 import { render } from '@react-email/render';
 
-import { kashEmail } from '../../constants';
-import { GrantPaymentReceivedTemplate } from '../../email-templates';
-import { prisma } from '../../prisma';
+import { kashEmail } from '@/constants';
+import { GrantPaymentReceivedTemplate } from '@/email-templates';
+import { prisma } from '@/prisma';
 
 export async function processGrantPayment(id: string, userId: string) {
   const grantApplication = await prisma.grantApplication.findFirst({

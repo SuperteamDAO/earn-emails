@@ -1,9 +1,9 @@
 import { render } from '@react-email/render';
 
-import { basePath, kashEmail } from '../../constants';
-import { CommentReplyTemplate } from '../../email-templates';
-import { prisma } from '../../prisma';
-import { getUserEmailPreference } from '../../utils';
+import { basePath, kashEmail } from '@/constants';
+import { CommentReplyTemplate } from '@/email-templates';
+import { prisma } from '@/prisma';
+import { getUserEmailPreference } from '@/utils';
 
 export async function processCommentReply(id: string, userId: string) {
   const userPreference = await getUserEmailPreference(userId, 'commentReply');

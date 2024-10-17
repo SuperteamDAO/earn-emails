@@ -1,8 +1,8 @@
 import { render } from '@react-email/render';
 
-import { kashEmail } from '../../constants';
-import { PaymentReceivedTemplate } from '../../email-templates';
-import { prisma } from '../../prisma';
+import { kashEmail } from '@/constants';
+import { PaymentReceivedTemplate } from '@/email-templates';
+import { prisma } from '@/prisma';
 
 export async function processAddPayment(id: string) {
   const submission = await prisma.submission.findUnique({

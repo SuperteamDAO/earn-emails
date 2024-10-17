@@ -2,10 +2,10 @@ import { type BountyType } from '@prisma/client';
 import { render } from '@react-email/render';
 import dayjs from 'dayjs';
 
-import { basePath, kashEmail } from '../../constants';
-import { SubmissionLikeTemplate } from '../../email-templates';
-import { prisma } from '../../prisma';
-import { getUserEmailPreference } from '../../utils';
+import { basePath, kashEmail } from '@/constants';
+import { SubmissionLikeTemplate } from '@/email-templates';
+import { prisma } from '@/prisma';
+import { getUserEmailPreference } from '@/utils';
 
 function createFeedCardCopy(type: BountyType, isWinnersAnnounced: boolean) {
   const status = isWinnersAnnounced
