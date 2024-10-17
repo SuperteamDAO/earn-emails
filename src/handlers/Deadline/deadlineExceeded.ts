@@ -1,10 +1,11 @@
-import { prisma } from '../../prisma';
-import { DeadlineSponsorTemplate } from '../../email-templates';
 import { render } from '@react-email/render';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
-import { getUserEmailPreference } from '../../utils';
+
 import { basePath, kashEmail } from '../../constants';
+import { DeadlineSponsorTemplate } from '../../email-templates';
+import { prisma } from '../../prisma';
+import { getUserEmailPreference } from '../../utils';
 
 export async function processDeadlineExceeded() {
   dayjs.extend(utc);

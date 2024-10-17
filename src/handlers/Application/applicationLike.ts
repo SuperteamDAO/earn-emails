@@ -1,9 +1,10 @@
 import { render } from '@react-email/render';
+import dayjs from 'dayjs';
+
+import { basePath, kashEmail } from '../../constants';
 import { ApplicationLikeTemplate } from '../../email-templates';
 import { prisma } from '../../prisma';
 import { getUserEmailPreference } from '../../utils';
-import { basePath, kashEmail } from '../../constants';
-import dayjs from 'dayjs';
 
 export async function processApplicationLike() {
   const now = dayjs();
@@ -13,11 +14,11 @@ export async function processApplicationLike() {
   const applications = await prisma.grantApplication.findMany({
     where: {
       likeCount: {
-        gt: 0
+        gt: 0,
       },
       updatedAt: {
-        gte: twentyFourHoursAgo.toDate()
-      }
+        gte: twentyFourHoursAgo.toDate(),
+      },
     },
     select: {
       userId: true,
@@ -26,28 +27,33 @@ export async function processApplicationLike() {
       user: {
         select: {
           firstName: true,
-          email: true
-        }
+          email: true,
+        },
       },
       grant: {
         select: {
           title: true,
-          slug: true
-        }
-      }
+          slug: true,
+        },
+      },
     },
   });
 
   const emailPromises = applications.map(async (application) => {
-    const userPreference = await getUserEmailPreference(application.userId, 'applicationLike');
+    const userPreference = await getUserEmailPreference(
+      application.userId,
+      'applicationLike',
+    );
     if (!userPreference) {
-      console.log(`User ${application.userId} has opted out of this type of email.`);
+      console.log(
+        `User ${application.userId} has opted out of this type of email.`,
+      );
       return null;
     }
 
-    const likes = (application.like as Array<{ date: number }> | null) || []
-    const newLikesCount = likes.filter((like: { date: number }) =>
-      like.date >= twentyFourHoursAgoEpoch
+    const likes = (application.like as Array<{ date: number }> | null) || [];
+    const newLikesCount = likes.filter(
+      (like: { date: number }) => like.date >= twentyFourHoursAgoEpoch,
     ).length;
 
     if (newLikesCount === 0) return null;
@@ -59,7 +65,7 @@ export async function processApplicationLike() {
         newLikesCount,
         grantLink: `${basePath}/grants/${application.grant.slug}?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`,
         feedLink: `${basePath}/feed?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`,
-      })
+      }),
     );
 
     return {

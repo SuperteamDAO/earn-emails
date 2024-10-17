@@ -1,6 +1,7 @@
 import cron from 'node-cron';
+
+import { type EmailActionType } from '../types';
 import { getPriority, logicQueue } from '../utils';
-import { EmailActionType } from '../types';
 
 const scheduleJob = (time: string, type: EmailActionType) => {
   const priority = getPriority(type);

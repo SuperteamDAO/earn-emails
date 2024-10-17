@@ -1,15 +1,21 @@
+import { type BountyType } from '@prisma/client';
 import { render } from '@react-email/render';
+import dayjs from 'dayjs';
+
+import { basePath, kashEmail } from '../../constants';
 import { SubmissionLikeTemplate } from '../../email-templates';
 import { prisma } from '../../prisma';
 import { getUserEmailPreference } from '../../utils';
-import { basePath, kashEmail } from '../../constants';
-import dayjs from 'dayjs';
-import { BountyType } from '@prisma/client';
 
 function createFeedCardCopy(type: BountyType, isWinnersAnnounced: boolean) {
-  const status = isWinnersAnnounced ? 'Win' : type === 'project' ? 'Application' : 'Submission';
-  const prefix = type === 'project' ? 'Project' : type === 'bounty' ? 'Bounty' : 'Hackathon';
-  return `${prefix} ${status}`
+  const status = isWinnersAnnounced
+    ? 'Win'
+    : type === 'project'
+      ? 'Application'
+      : 'Submission';
+  const prefix =
+    type === 'project' ? 'Project' : type === 'bounty' ? 'Bounty' : 'Hackathon';
+  return `${prefix} ${status}`;
 }
 
 export async function processSubmissionLike() {
@@ -20,11 +26,11 @@ export async function processSubmissionLike() {
   const submissions = await prisma.submission.findMany({
     where: {
       likeCount: {
-        gt: 0
+        gt: 0,
       },
       updatedAt: {
-        gte: twentyFourHoursAgo.toDate()
-      }
+        gte: twentyFourHoursAgo.toDate(),
+      },
     },
     select: {
       userId: true,
@@ -34,35 +40,43 @@ export async function processSubmissionLike() {
       user: {
         select: {
           firstName: true,
-          email: true
-        }
+          email: true,
+        },
       },
       listing: {
         select: {
           title: true,
           isWinnersAnnounced: true,
           type: true,
-          slug: true
-        }
-      }
-    }
+          slug: true,
+        },
+      },
+    },
   });
 
   const emailPromises = submissions.map(async (submission) => {
-    const userPreference = await getUserEmailPreference(submission.userId, 'submissionLike');
+    const userPreference = await getUserEmailPreference(
+      submission.userId,
+      'submissionLike',
+    );
     if (!userPreference) {
-      console.log(`User ${submission.userId} has opted out of this type of email.`);
+      console.log(
+        `User ${submission.userId} has opted out of this type of email.`,
+      );
       return null;
     }
 
-    const likes = (submission.like as Array<{ date: number }> | null) || []
-    const newLikesCount = likes.filter((like: { date: number }) =>
-      like.date >= twentyFourHoursAgoEpoch
+    const likes = (submission.like as Array<{ date: number }> | null) || [];
+    const newLikesCount = likes.filter(
+      (like: { date: number }) => like.date >= twentyFourHoursAgoEpoch,
     ).length;
 
     if (newLikesCount === 0) return null;
 
-    const type = createFeedCardCopy(submission.listing.type, submission.listing.isWinnersAnnounced);
+    const type = createFeedCardCopy(
+      submission.listing.type,
+      submission.listing.isWinnersAnnounced,
+    );
 
     const emailHtml = render(
       SubmissionLikeTemplate({
@@ -72,7 +86,7 @@ export async function processSubmissionLike() {
         type,
         listingLink: `${basePath}/listings/${submission.listing.type}/${submission.listing.slug}/submission/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`,
         feedLink: `${basePath}/feed?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`,
-      })
+      }),
     );
 
     return {

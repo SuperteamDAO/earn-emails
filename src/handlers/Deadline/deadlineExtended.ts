@@ -1,7 +1,8 @@
-import { prisma } from '../../prisma';
-import { DeadlineExtendedTemplate } from '../../email-templates';
 import { render } from '@react-email/render';
+
 import { basePath, kashEmail } from '../../constants';
+import { DeadlineExtendedTemplate } from '../../email-templates';
+import { prisma } from '../../prisma';
 
 export async function processDeadlineExtended(id: string) {
   const listing = await prisma.bounties.findUnique({

@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { styles } from '../styles';
 import { UnsubscribeLine } from '../../components';
+import { styles } from '../styles';
 
 interface Props {
   decision: 'approve' | 'reject';
@@ -29,9 +29,7 @@ export const VerifiedStatusTemplate = ({
           </a>{' '}
           has been verified by our team and published.
         </p>
-        <p style={styles.text}>
-          Thanks for your patience!
-        </p>
+        <p style={styles.text}>Thanks for your patience!</p>
 
         <p style={styles.salutation}>
           Best,
@@ -42,8 +40,7 @@ export const VerifiedStatusTemplate = ({
         <UnsubscribeLine />
       </div>
     );
-  }
-  else if (decision === 'reject') {
+  } else if (decision === 'reject') {
     return (
       <div style={styles.container}>
         <p style={styles.greetings}>Hi {name},</p>
@@ -52,11 +49,13 @@ export const VerifiedStatusTemplate = ({
           <a href={link} style={styles.link}>
             {listingName}
           </a>{' '}
-          did not pass our due diligence review and, therefore, could not be published.
+          did not pass our due diligence review and, therefore, could not be
+          published.
         </p>
         <p style={styles.text}>
-          If you believe this decision was made in error, please don’t hesitate to contact us at{' '}
-          <a href='mailto:support@superteamearn.com' style={styles.link}>
+          If you believe this decision was made in error, please don’t hesitate
+          to contact us at{' '}
+          <a href="mailto:support@superteamearn.com" style={styles.link}>
             support@superteamearn.com
           </a>
           . We’re here to help.

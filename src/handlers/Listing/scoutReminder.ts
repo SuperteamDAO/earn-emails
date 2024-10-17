@@ -1,8 +1,9 @@
-import dayjs from "dayjs";
+import { render } from '@react-email/render';
+import dayjs from 'dayjs';
+
+import { basePath, kashEmail } from '../../constants';
+import { ScoutReminderTemplate } from '../../email-templates';
 import { prisma } from '../../prisma';
-import { render } from "@react-email/render";
-import { ScoutReminderTemplate } from "../../email-templates";
-import { basePath, kashEmail } from "../../constants";
 
 export async function processScoutReminder() {
   const now = dayjs();
@@ -42,13 +43,13 @@ export async function processScoutReminder() {
         poc: {
           select: {
             email: true,
-            firstName: true
+            firstName: true,
           },
         },
         Scouts: {
           select: {
-            dollarsEarned: true
-          }
+            dollarsEarned: true,
+          },
         },
         _count: {
           select: {
@@ -56,18 +57,21 @@ export async function processScoutReminder() {
               where: {
                 invited: true,
               },
-            }
-          }
+            },
+          },
         },
-      }
-    })
+      },
+    });
 
-    const filteredListings = listings.filter(listing => {
+    const filteredListings = listings.filter((listing) => {
       return listing._count.Scouts < listing.Scouts.length;
     });
 
     const emailPromises = filteredListings.map(async (listing) => {
-      const totalMatchedUSD = listing.Scouts.reduce((total, scout) => total + scout.dollarsEarned, 0);
+      const totalMatchedUSD = listing.Scouts.reduce(
+        (total, scout) => total + scout.dollarsEarned,
+        0,
+      );
 
       const emailHtml = render(
         ScoutReminderTemplate({
@@ -76,8 +80,8 @@ export async function processScoutReminder() {
           listingName: listing.title,
           type: listing.type,
           invitesLeft: listing.Scouts.length - listing._count.Scouts,
-          totalMatchedUSD
-        })
+          totalMatchedUSD,
+        }),
       );
 
       return {
@@ -86,7 +90,7 @@ export async function processScoutReminder() {
         subject: `Do you want better ${listing.type === 'project' ? 'applications' : 'submissions'} for your ${listing.type}?`,
         html: emailHtml,
       };
-    })
+    });
 
     const emailsToSend = (await Promise.all(emailPromises)).filter(Boolean);
     return emailsToSend;

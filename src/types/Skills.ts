@@ -112,10 +112,10 @@ const nonDevelopmentSubSkills: SubSkillsType[] = Object.entries(
 }, [] as SubSkillsType[]);
 
 export {
-  Skills,
-  MainSkills,
-  SubSkillsType,
   developmentSkills,
+  MainSkills,
   nonDevelopmentSubSkills,
+  Skills,
   skillSubSkillMap,
+  SubSkillsType,
 };

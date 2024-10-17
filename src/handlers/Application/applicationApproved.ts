@@ -1,7 +1,8 @@
 import { render } from '@react-email/render';
-import { prisma } from '../../prisma';
+
 import { kashEmail } from '../../constants';
 import { ApplicationApprovedTemplate } from '../../email-templates';
+import { prisma } from '../../prisma';
 
 export async function processApplicationApproval(id: string, userId: string) {
   const grantApplication = await prisma.grantApplication.findFirst({
