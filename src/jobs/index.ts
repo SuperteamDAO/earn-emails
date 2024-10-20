@@ -16,10 +16,7 @@ if (process.env.SERVER_ENV !== 'preview') {
   scheduleJob('30 * * * *', 'deadline3days');
   scheduleJob('45 * * * *', 'deadlineExceeded');
   scheduleJob('50 * * * *', 'deadlineExceededWeek');
-  scheduleJob('55 * * * *', 'rolling15Days');
-  scheduleJob('56 * * * *', 'rolling30Days');
   scheduleJob('0 12 * * *', 'submissionSponsor');
-  scheduleJob('5 12 * * *', 'rollingUnpublish');
   scheduleJob('10 12 * * *', 'submissionLike');
   scheduleJob('15 12 * * *', 'applicationLike');
   scheduleJob('20 12 * * *', 'powLike');
