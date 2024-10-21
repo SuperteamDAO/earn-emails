@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { styles } from '../styles';
 import { UnsubscribeLine } from '../../components';
+import { styles } from '../styles';
 
 interface SubmissionProps {
   name: string;

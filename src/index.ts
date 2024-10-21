@@ -1,8 +1,13 @@
-import express, { NextFunction, Request, Response } from 'express';
-import { getPriority, logicQueue } from './utils';
-import { config } from 'dotenv';
 import cors from 'cors';
+import { config } from 'dotenv';
+import express, {
+  type NextFunction,
+  type Request,
+  type Response,
+} from 'express';
 import jwt from 'jsonwebtoken';
+
+import { getPriority, logicQueue } from './utils';
 
 config();
 
@@ -22,7 +27,7 @@ const authenticateToken = (req: Request, res: Response, next: NextFunction) => {
 
   if (!token) return res.sendStatus(401);
 
-  jwt.verify(token, process.env.AUTH_SECRET as string, (err, user) => {
+  jwt.verify(token, process.env.AUTH_SECRET as string, (err, _user) => {
     if (err) {
       console.log('Token verification failed:', err);
       return res.sendStatus(403);

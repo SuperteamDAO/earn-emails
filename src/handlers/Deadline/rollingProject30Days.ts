@@ -1,80 +1,81 @@
-import { prisma } from '../../prisma';
-import { render } from '@react-email/render';
-import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';
-import { basePath, kashEmail } from '../../constants';
-import { Rolling30DaysTemplate } from '../../email-templates';
+// import { render } from '@react-email/render';
+// import dayjs from 'dayjs';
+// import utc from 'dayjs/plugin/utc';
 
-export async function processRollingProject30Days() {
-  dayjs.extend(utc);
+// import { basePath, kashEmail } from '../../constants';
+// import { Rolling30DaysTemplate } from '../../email-templates';
+// import { prisma } from '../../prisma';
 
-  const thirtyDaysAgoStart = dayjs.utc().subtract(30, 'day').startOf('day');
-  const thirtyDaysAgoEnd = dayjs.utc().subtract(30, 'day').endOf('day');
+// export async function processRollingProject30Days() {
+//   dayjs.extend(utc);
 
-  const listings = await prisma.bounties.findMany({
-    where: {
-      isPublished: true,
-      isActive: true,
-      isArchived: false,
-      status: 'OPEN',
-      publishedAt: {
-        gte: thirtyDaysAgoStart.toISOString(),
-        lt: thirtyDaysAgoEnd.toISOString(),
-      },
-      isWinnersAnnounced: false,
-      type: 'project',
-      applicationType: 'rolling',
-    },
-    include: {
-      poc: true,
-      sponsor: true,
-    },
-  });
+//   const thirtyDaysAgoStart = dayjs.utc().subtract(30, 'day').startOf('day');
+//   const thirtyDaysAgoEnd = dayjs.utc().subtract(30, 'day').endOf('day');
 
-  const emailData = [];
+//   const listings = await prisma.bounties.findMany({
+//     where: {
+//       isPublished: true,
+//       isActive: true,
+//       isArchived: false,
+//       status: 'OPEN',
+//       publishedAt: {
+//         gte: thirtyDaysAgoStart.toISOString(),
+//         lt: thirtyDaysAgoEnd.toISOString(),
+//       },
+//       isWinnersAnnounced: false,
+//       type: 'project',
+//       applicationType: 'rolling',
+//     },
+//     include: {
+//       poc: true,
+//       sponsor: true,
+//     },
+//   });
 
-  for (const listing of listings) {
-    const checkLogs = await prisma.emailLogs.findFirst({
-      where: {
-        bountyId: listing.id,
-        type: 'ROLLING_30_DAYS',
-      },
-    });
+//   const emailData = [];
 
-    if (checkLogs || !listing.poc?.email) continue;
+//   for (const listing of listings) {
+//     const checkLogs = await prisma.emailLogs.findFirst({
+//       where: {
+//         bountyId: listing.id,
+//         type: 'ROLLING_30_DAYS',
+//       },
+//     });
 
-    const submissionCount = await prisma.submission.count({
-      where: {
-        listingId: listing.id,
-      },
-    });
+//     if (checkLogs || !listing.poc?.email) continue;
 
-    if (submissionCount === 0) continue;
+//     const submissionCount = await prisma.submission.count({
+//       where: {
+//         listingId: listing.id,
+//       },
+//     });
 
-    const emailHtml = render(
-      Rolling30DaysTemplate({
-        name: listing.poc.firstName!,
-        listingName: listing.title,
-        link: `${basePath}/dashboard/listings/${listing?.slug}/submissions/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`,
-        sponsorName: listing.sponsor.name,
-        applicationNumber: submissionCount,
-      }),
-    );
+//     if (submissionCount === 0) continue;
 
-    await prisma.emailLogs.create({
-      data: {
-        type: 'ROLLING_30_DAYS',
-        bountyId: listing.id,
-      },
-    });
+//     const emailHtml = render(
+//       Rolling30DaysTemplate({
+//         name: listing.poc.firstName!,
+//         listingName: listing.title,
+//         link: `${basePath}/dashboard/listings/${listing?.slug}/submissions/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`,
+//         sponsorName: listing.sponsor.name,
+//         applicationNumber: submissionCount,
+//       }),
+//     );
 
-    emailData.push({
-      from: kashEmail,
-      to: listing.poc.email,
-      subject: 'Good Time to Announce the Winner?',
-      html: emailHtml,
-    });
-  }
+//     await prisma.emailLogs.create({
+//       data: {
+//         type: 'ROLLING_30_DAYS',
+//         bountyId: listing.id,
+//       },
+//     });
 
-  return emailData.filter(Boolean);
-}
+//     emailData.push({
+//       from: kashEmail,
+//       to: listing.poc.email,
+//       subject: 'Good Time to Announce the Winner?',
+//       html: emailHtml,
+//     });
+//   }
+
+//   return emailData.filter(Boolean);
+// }

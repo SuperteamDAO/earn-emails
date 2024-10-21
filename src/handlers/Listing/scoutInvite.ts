@@ -1,8 +1,9 @@
 import { render } from '@react-email/render';
-import { prisma } from '../../prisma';
-import { ScoutInviteTemplate } from '../../email-templates';
-import { getUserEmailPreference } from '../../utils';
+
 import { basePath, kashEmail } from '../../constants';
+import { ScoutInviteTemplate } from '../../email-templates';
+import { prisma } from '../../prisma';
+import { getUserEmailPreference } from '../../utils';
 
 export async function processScoutInvite(id: string, userId: string) {
   try {

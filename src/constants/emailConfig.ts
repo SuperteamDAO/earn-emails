@@ -3,6 +3,8 @@ import {
   processAnnounceWinners,
   processApplication,
   processApplicationApproval,
+  processApplicationCompleted,
+  processApplicationLike,
   processApplicationRejection,
   processCommentReply,
   processCommentSponsor,
@@ -13,25 +15,20 @@ import {
   processDeadlineExceededWeek,
   processDeadlineExtended,
   processDeadlineThreeDays,
-  processRollingProject15Days,
-  processRollingProject30Days,
   processGrantPayment,
+  processNonSTWinners,
+  processPoWLike,
   processScoutInvite,
+  processScoutReminder,
+  processSponsorSubmissions,
+  processSTWinners,
   processSubmissionLike,
   processSubmissionRejected,
-  processSTWinners,
-  processNonSTWinners,
   processTalentSubmission,
-  processWeeklyRoundup,
-  processApplicationLike,
-  processRollingProjectUnpublish,
-  processSponsorSubmissions,
   processVerifiedStatus,
-  processApplicationCompleted,
-  processPoWLike,
-  processScoutReminder,
+  processWeeklyRoundup,
 } from '../handlers';
-import { EmailActionType } from '../types';
+import { type EmailActionType } from '../types';
 
 export const emailActionCategoryMapping = {
   // talent emails
@@ -51,9 +48,6 @@ export const emailActionCategoryMapping = {
   application: 'submissionSponsor',
   deadlineExceeded: 'deadlineSponsor',
   deadlineExceededWeek: 'deadlineSponsor',
-  rolling15Days: 'deadlineSponsor',
-  rolling30Days: 'deadlineSponsor',
-  rollingUnpublish: 'deadlineSponsor',
 } as const;
 
 export const emailTypePriority: Record<EmailActionType, number> = {
@@ -63,7 +57,6 @@ export const emailTypePriority: Record<EmailActionType, number> = {
   commentSponsor: 1,
   commentTag: 1,
   scoutInvite: 1,
-  rollingUnpublish: 1,
   verifiedListingStatus: 1,
   scoutReminder: 2,
   submissionSponsor: 2,
@@ -82,8 +75,6 @@ export const emailTypePriority: Record<EmailActionType, number> = {
   grantCompleted: 2,
   grantApproved: 2,
   grantRejected: 2,
-  rolling15Days: 2,
-  rolling30Days: 2,
   deadline3days: 3,
   createListing: 4,
   weeklyListingRoundup: 5,
@@ -91,7 +82,7 @@ export const emailTypePriority: Record<EmailActionType, number> = {
   // dupe: 1,
 };
 
-export const emailProcessors: Record<EmailActionType, Function> = {
+export const emailProcessors: Record<EmailActionType, any> = {
   addPayment: processAddPayment,
   announceWinners: processAnnounceWinners,
   application: processApplication,
@@ -108,9 +99,6 @@ export const emailProcessors: Record<EmailActionType, Function> = {
   grantCompleted: processApplicationCompleted,
   grantPaymentReceived: processGrantPayment,
   grantRejected: processApplicationRejection,
-  rolling15Days: processRollingProject15Days,
-  rolling30Days: processRollingProject30Days,
-  rollingUnpublish: processRollingProjectUnpublish,
   scoutInvite: processScoutInvite,
   scoutReminder: processScoutReminder,
   submissionLike: processSubmissionLike,

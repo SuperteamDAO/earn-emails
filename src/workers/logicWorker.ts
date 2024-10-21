@@ -1,7 +1,7 @@
-import { emailQueue, redis } from '../utils';
 import { Worker } from 'bullmq';
-
 import { config } from 'dotenv';
+
+import { emailQueue, redis } from '../utils';
 import { getPriority, processLogic } from '../utils';
 
 config();
@@ -42,3 +42,5 @@ const logicWorker = new Worker(
 );
 
 console.log('Logic worker started');
+
+export { logicWorker };

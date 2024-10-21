@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { styles } from '../styles';
 import { UnsubscribeLine } from '../../components';
+import { styles } from '../styles';
 
 interface TemplateProps {
   name: string | null;
@@ -28,10 +28,10 @@ export const NonSTWinnersTemplate = ({
     position === 1
       ? 'st'
       : position === 2
-      ? 'nd'
-      : position === 3
-      ? 'rd'
-      : 'th';
+        ? 'nd'
+        : position === 3
+          ? 'rd'
+          : 'th';
 
   const formattedEarnings = new Intl.NumberFormat('en-US', {
     style: 'currency',

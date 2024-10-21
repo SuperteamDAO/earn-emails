@@ -1,10 +1,11 @@
 import { render } from '@react-email/render';
-import { prisma } from '../../prisma';
+
 import { basePath, kashEmail } from '../../constants';
 import {
   ApplicationSponsorTemplate,
   ApplicationTemplate,
 } from '../../email-templates';
+import { prisma } from '../../prisma';
 import { getUserEmailPreference } from '../../utils';
 
 export async function processApplication(id: string, userId: string) {

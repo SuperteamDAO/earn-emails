@@ -1,10 +1,10 @@
 import { render } from '@react-email/render';
+
+import { basePath, kashEmail } from '../../constants';
 import { SubmissionRejectedTemplate } from '../../email-templates';
 import { prisma } from '../../prisma';
-import { basePath, kashEmail } from '../../constants';
 
 export async function processSubmissionRejected(id: string) {
-
   const submission = await prisma.submission.findUnique({
     where: { id },
     include: {
@@ -12,7 +12,7 @@ export async function processSubmissionRejected(id: string) {
       listing: {
         include: {
           sponsor: true,
-        }
+        },
       },
     },
   });

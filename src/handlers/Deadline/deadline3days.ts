@@ -1,9 +1,10 @@
-import { prisma } from '../../prisma';
-import { DeadlineThreeDaysTemplate } from '../../email-templates';
 import { render } from '@react-email/render';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
+
 import { basePath, kashEmail } from '../../constants';
+import { DeadlineThreeDaysTemplate } from '../../email-templates';
+import { prisma } from '../../prisma';
 
 export async function processDeadlineThreeDays() {
   dayjs.extend(utc);
@@ -28,7 +29,7 @@ export async function processDeadlineThreeDays() {
     },
   });
 
-  let emails = [];
+  const emails = [];
 
   for (const listing of listings) {
     const checkLogs = await prisma.emailLogs.findFirst({

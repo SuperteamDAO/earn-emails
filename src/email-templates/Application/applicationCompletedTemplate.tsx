@@ -1,6 +1,7 @@
 import React from 'react';
-import { styles } from '../styles';
+
 import { UnsubscribeLine } from '../../components';
+import { styles } from '../styles';
 
 interface ApplicationCompletedProps {
   name: string;
@@ -17,22 +18,23 @@ export const ApplicationCompletedTemplate = ({
   applicationTitle,
   sponsorName,
   grantLink,
-  otherGrantsLink
+  otherGrantsLink,
 }: ApplicationCompletedProps) => {
   return (
     <div style={styles.container}>
       <p style={styles.greetings}>Hey {name},</p>
 
       <p style={styles.textWithMargin}>
-        Your grant project <strong>{applicationTitle}</strong> has been
-        marked as completed by {sponsorName}. This means you can send in another application for {grantName}!
+        Your grant project <strong>{applicationTitle}</strong> has been marked
+        as completed by {sponsorName}. This means you can send in another
+        application for {grantName}!
       </p>
 
       <p style={styles.textWithMargin}>
         <a href={grantLink} style={styles.link}>
           Click here
-        </a>{" "}
-        to apply again, or check out{" "}
+        </a>{' '}
+        to apply again, or check out{' '}
         <a href={otherGrantsLink} style={styles.link}>
           other grants
         </a>
@@ -47,4 +49,4 @@ export const ApplicationCompletedTemplate = ({
       <UnsubscribeLine />
     </div>
   );
-}
+};

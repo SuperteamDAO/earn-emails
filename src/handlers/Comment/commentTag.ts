@@ -1,8 +1,9 @@
 import { render } from '@react-email/render';
+
+import { basePath, kashEmail } from '../../constants';
 import { CommentTagTemplate } from '../../email-templates';
 import { prisma } from '../../prisma';
 import { getUserEmailPreference } from '../../utils';
-import { basePath, kashEmail } from '../../constants';
 
 export async function processCommentTag(
   id: string,
