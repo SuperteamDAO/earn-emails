@@ -3,7 +3,8 @@ import { render } from '@react-email/render';
 import { basePath, kashEmail } from '../../constants';
 import { CommentTagTemplate } from '../../email-templates';
 import { prisma } from '../../prisma';
-import { getUserEmailPreference } from '../../utils';
+import { getCommentSourceURL, getUserEmailPreference } from '../../utils';
+import { CommentRefType } from '@prisma/client';
 
 export async function processCommentTag(
   id: string,
@@ -11,6 +12,11 @@ export async function processCommentTag(
   otherInfo: any,
 ) {
   const userPreference = await getUserEmailPreference(userId, 'commentTag');
+  const type = otherInfo.type as CommentRefType;
+  if(!CommentRefType[type]) {
+    console.log('Invalid comment ref type', type);
+    return
+  }
 
   if (!userPreference) {
     console.log(`User ${userId} has opted out of this type of email.`);
@@ -30,12 +36,14 @@ export async function processCommentTag(
     },
   });
 
-  if (listing) {
+  const link = getCommentSourceURL(basePath, type, listing, id).toString()
+
+  if (user) {
     const emailHtml = render(
       CommentTagTemplate({
         name: user?.firstName!,
         personName: `@${personName}`,
-        link: `${basePath}/listings/${listing?.type}/${listing?.slug}/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`,
+        link,
       }),
     );
 

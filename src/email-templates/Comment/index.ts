@@ -1,4 +1,4 @@
 export * from './commentSponsorTemplate';
-export * from './commentSubmissionTemplate';
+export * from './commentActivityTemplate';
 export * from './commentReplyTemplate';
 export * from './commentTagTemplate';

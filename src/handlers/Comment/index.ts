@@ -1,4 +1,4 @@
 export * from './commentReply';
 export * from './commentSponsor';
-export * from './commentSubmission';
+export * from './commentActivity';
 export * from './commentTag';
