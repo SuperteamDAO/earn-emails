@@ -3,7 +3,7 @@ import { render } from '@react-email/render';
 import { basePath, kashEmail } from '../../constants';
 import { CommentActivityTemplate } from '../../email-templates';
 import { prisma } from '../../prisma';
-import { getCommentSourceURL, getUserEmailPreference } from '../../utils';
+import { capitalizeWords, getCommentSourceURL, getUserEmailPreference } from '../../utils';
 import { CommentRefType } from '@prisma/client';
 import { getFeedURLType } from '../../utils/feed';
 
@@ -106,7 +106,7 @@ export async function processCommentActivity(id: string,_: string, otherInfo: an
       const emailHtml = render(
         CommentActivityTemplate({
           name: firstName || 'Someone',
-          personName,
+          personName: capitalizeWords(personName),
           link,
           type
         }),

@@ -3,7 +3,7 @@ import { render } from '@react-email/render';
 import { basePath, kashEmail } from '../../constants';
 import { CommentTagTemplate } from '../../email-templates';
 import { prisma } from '../../prisma';
-import { getCommentSourceURL, getUserEmailPreference } from '../../utils';
+import { capitalizeWords, getCommentSourceURL, getUserEmailPreference } from '../../utils';
 import { CommentRefType } from '@prisma/client';
 
 export async function processCommentTag(
@@ -42,7 +42,7 @@ export async function processCommentTag(
     const emailHtml = render(
       CommentTagTemplate({
         name: user?.firstName!,
-        personName: `@${personName}`,
+        personName: capitalizeWords(personName),
         link,
       }),
     );
