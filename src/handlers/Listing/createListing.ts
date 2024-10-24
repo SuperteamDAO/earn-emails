@@ -54,6 +54,8 @@ export async function processCreateListing() {
         skills: true,
         type: true,
         slug: true,
+        rewardAmount: true,
+        token: true,
         sponsor: {
           select: {
             name: true,
@@ -172,8 +174,7 @@ export async function processCreateListing() {
           NewListingTemplate({
             name: user.firstName!,
             link: `${basePath}/listings/${selectedListing.type}/${selectedListing.slug}/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`,
-            listingTitle: selectedListing.title,
-            listingType: selectedListing.type,
+            listing: selectedListing,
           }),
         );
 

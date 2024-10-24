@@ -1,37 +1,53 @@
+import { type $Enums, type Prisma } from '@prisma/client';
 import React from 'react';
 
 import { UnsubscribeLine } from '../../components';
+import { getListingTypeLabel } from '../../utils';
 import { styles } from '../styles';
 
 interface NewListingProps {
   name: string;
   link: string;
-  listingTitle: string;
-  listingType: string;
+  listing: {
+    id: string;
+    title: string;
+    region: string;
+    skills: Prisma.JsonValue;
+    type: $Enums.BountyType;
+    slug: string;
+    token: string | null;
+    rewardAmount: number | null;
+    sponsor: {
+      name: string;
+    };
+  };
 }
 
 export const NewListingTemplate = ({
   name,
   link,
-  listingTitle,
-  listingType,
+  listing,
 }: NewListingProps) => {
+  const listingType = getListingTypeLabel(listing.type);
+  const submitOrApply = listing.type === 'project' ? 'apply' : 'submit';
   return (
     <div style={styles.container}>
       <p style={styles.greetings}>Hey {name},</p>
       <p style={styles.textWithMargin}>
-        Good news &mdash; a new&nbsp;{listingType} called{' '}
+        {listing.sponsor.name} just posted a new {listingType} called{' '}
         <a href={link} style={styles.link}>
-          {listingTitle}
+          {listing.title} ({listing.rewardAmount?.toLocaleString()}{' '}
+          {listing.token})
         </a>{' '}
-        has just arrived with your name on it. It&apos;s like finding extra
-        money in your pocket, but way more exciting!
+        that looks like a great match for your skills! Have a quick look at the
+        scope of the {listingType} and make sure to {submitOrApply} before the
+        deadline.
       </p>
       <p style={styles.textWithMargin}>
-        <a href={link} style={styles.link}>
-          Click here
-        </a>{' '}
-        to learn more about this {listingType}.
+        Pro tip: Subscribe to the {listingType} to get relevant updates on it.
+      </p>
+      <p style={styles.textWithMargin}>
+        Looking forward to seeing your submission!
       </p>
       <p style={styles.salutation}>
         Best,
