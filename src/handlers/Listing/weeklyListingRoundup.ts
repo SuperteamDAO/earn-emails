@@ -143,7 +143,7 @@ export async function processWeeklyRoundup() {
       return userRegionEligibility(listing.region, user);
     });
 
-    console.log(matchingListings);
+    // console.log(matchingListings);
 
     if (matchingListings.length === 0) continue;
 
