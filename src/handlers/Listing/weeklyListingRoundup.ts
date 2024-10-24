@@ -20,7 +20,7 @@ type UserSkills = {
   subskills: string[];
 };
 
-function userRegionEligibility(region: Regions, user: any) {
+function userRegionEligibility(region: string, user: any) {
   if (region === Regions.GLOBAL) {
     return true;
   }
