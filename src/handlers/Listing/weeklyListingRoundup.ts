@@ -20,7 +20,7 @@ type UserSkills = {
   subskills: string[];
 };
 
-function userRegionEligibility(region: Regions, user: any) {
+function userRegionEligibility(region: string, user: any) {
   if (region === Regions.GLOBAL) {
     return true;
   }
@@ -143,7 +143,7 @@ export async function processWeeklyRoundup() {
       return userRegionEligibility(listing.region, user);
     });
 
-    console.log(matchingListings);
+    // console.log(matchingListings);
 
     if (matchingListings.length === 0) continue;
 
