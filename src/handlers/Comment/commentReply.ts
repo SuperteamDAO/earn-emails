@@ -3,10 +3,17 @@ import { render } from '@react-email/render';
 import { basePath, kashEmail } from '../../constants';
 import { CommentReplyTemplate } from '../../email-templates';
 import { prisma } from '../../prisma';
-import { getUserEmailPreference } from '../../utils';
+import { getCommentSourceURL, getUserEmailPreference } from '../../utils';
+import { CommentRefType } from '@prisma/client';
+import { getFeedURLType } from '../../utils/feed';
 
-export async function processCommentReply(id: string, userId: string) {
+export async function processCommentReply(id: string, userId: string, otherInfo: any) {
   const userPreference = await getUserEmailPreference(userId, 'commentReply');
+  const type = otherInfo.type as CommentRefType;
+  if(!CommentRefType[type]) {
+    console.log('Invalid comment ref type', type);
+    return
+  }
 
   if (!userPreference) {
     console.log(`User ${userId} has opted out of this type of email.`);
@@ -24,12 +31,13 @@ export async function processCommentReply(id: string, userId: string) {
     },
   });
 
-  if (listing) {
+  const link = getCommentSourceURL(basePath, type, listing, id).toString()
+
+  if (user) {
     const emailHtml = render(
       CommentReplyTemplate({
         name: user?.firstName!,
-        listingName: listing.title,
-        link: `${basePath}/listings/${listing?.type}/${listing?.slug}/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`,
+        link,
       }),
     );
 
