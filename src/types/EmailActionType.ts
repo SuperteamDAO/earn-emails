@@ -4,7 +4,7 @@ export type EmailActionType =
   | 'application'
   | 'commentReply'
   | 'commentSponsor'
-  | 'commentSubmission'
+  | 'commentActivity'
   | 'commentTag'
   | 'createListing'
   | 'deadline3days'
