@@ -29,9 +29,8 @@ export const STWinnersTemplate = ({
         to receive your reward.
       </p>
       <p style={styles.textWithMargin}>
-        We follow a weekly payout system. Therefore, your listing reward might
-        take up to a week to show up in your wallet. If you would like to track
-        the status of your payment, you can do so{' '}
+        We verify payment requests on Mondays. If verified, payments should reach you by the following Friday (UTC). Therefore, your rewards might
+        take a week or so to show up in your wallet. Once your payment request is verified, you can track the status of your payment {' '}
         <a
           href={'https://in.superteam.fun/payment-pipeline'}
           style={styles.link}
