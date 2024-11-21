@@ -119,6 +119,13 @@ export async function processTalentReminder() {
       }),
     );
 
+    await prisma.emailLogs.create({
+      data: {
+        type: 'UNFILLED_PROFILE',
+        userId: user.id,
+      },
+    });
+
     emails.push({
       from: kashEmail,
       to: user.email,
