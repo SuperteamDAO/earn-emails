@@ -3,15 +3,15 @@ import { render } from '@react-email/render';
 import dayjs from 'dayjs';
 
 import { kashEmail } from '../../constants';
-import { MonthlyRoundupTemplate } from '../../email-templates/Listing';
+import { TalentReminderTemplate } from '../../email-templates/Listing';
 import { prisma } from '../../prisma';
 
-export async function processMonthlyRoundup() {
+export async function processTalentReminder() {
   const users = await prisma.user.findMany({
     where: {
       isTalentFilled: false,
       createdAt: {
-        gte: dayjs().add(3, 'day').toISOString(),
+        lte: dayjs().subtract(3, 'day').toISOString(),
       },
     },
     take: 3000,
@@ -100,7 +100,7 @@ export async function processMonthlyRoundup() {
     if (checkLogs) continue;
 
     const emailHtml = render(
-      MonthlyRoundupTemplate({
+      TalentReminderTemplate({
         name: user.firstName,
         TVE: totalTVEInMillions,
         listings: listings.map((listing) => ({

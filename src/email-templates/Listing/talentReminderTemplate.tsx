@@ -69,7 +69,7 @@ const ListingItem = ({ listing }: { listing: Listing }) => (
   </li>
 );
 
-export const MonthlyRoundupTemplate = ({
+export const TalentReminderTemplate = ({
   name,
   listings,
   TVE,
