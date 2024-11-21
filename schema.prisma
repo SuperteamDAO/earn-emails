@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
 }
 
 datasource db {
@@ -176,7 +177,7 @@ model Grants {
   updatedAt              DateTime           @updatedAt
   skills                 Json?
   logo                   String?
-  region                 Regions            @default(GLOBAL)
+  region                 String            @default("GLOBAL")
   sponsor                Sponsors           @relation(fields: [sponsorId], references: [id])
   poc                    User               @relation(fields: [pocId], references: [id])
   questions              Json?
@@ -201,14 +202,14 @@ model GrantApplication {
   applicationStatus   GrantApplicationStatus @default(Pending)
   projectTitle        String
   projectOneLiner     String
-  projectDetails      String                 @db.VarChar(3000)
+  projectDetails      String                 @db.Text
   projectTimeline     String
-  proofOfWork         String                 @db.VarChar(3000)
+  proofOfWork         String                 @db.Text
   walletAddress       String
   twitter             String?
-  milestones          String?                @db.VarChar(3000)
-  kpi                 String?                @db.VarChar(3000)
-  answers             Json?
+  milestones          String?                @db.Text
+  kpi                 String?                @db.Text
+  answers             Json?                  @default("[]")
   createdAt           DateTime               @default(now())
   updatedAt           DateTime               @updatedAt
   user                User                   @relation(fields: [userId], references: [id])
@@ -236,7 +237,7 @@ model Submission {
   link               String?          @db.VarChar(500)
   tweet              String?          @db.VarChar(500)
   status             SubmissionStatus @default(Pending)
-  eligibilityAnswers Json?
+  eligibilityAnswers Json?            @default("[]")
   userId             String
   listingId          String
   isWinner           Boolean          @default(false)
@@ -249,7 +250,7 @@ model Submission {
   likeCount          Int              @default(0)
   isPaid             Boolean          @default(false)
   paymentDetails     Json?
-  otherInfo          String?          @db.VarChar(2000)
+  otherInfo          String?          @db.Text
   ask                Int?
   label              SubmissionLabels @default(Unreviewed)
   rewardInUSD        Float            @default(0)
@@ -486,6 +487,7 @@ model emailLogs {
   email     String?
   type      EmailType
   bountyId  String?
+  userId  String?
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 }
@@ -586,6 +588,7 @@ enum EmailType {
   ROLLING_30_DAYS
   NEW_LISTING
   ROLLING_UNPUBLISH
+  UNFILLED_PROFILE
 }
 
 enum Role {
@@ -609,7 +612,6 @@ enum status {
   CLOSED
   VERIFYING
   VERIFY_FAIL
-  PREVIEW
 }
 
 enum GrantStatus {

@@ -1,0 +1,131 @@
+import { Regions } from '@prisma/client';
+import { render } from '@react-email/render';
+import dayjs from 'dayjs';
+
+import { kashEmail } from '../../constants';
+import { MonthlyRoundupTemplate } from '../../email-templates/Listing';
+import { prisma } from '../../prisma';
+
+export async function processMonthlyRoundup() {
+  const users = await prisma.user.findMany({
+    where: {
+      isTalentFilled: false,
+      createdAt: {
+        gte: dayjs().add(3, 'day').toISOString(),
+      },
+    },
+    take: 3000,
+    orderBy: {
+      createdAt: 'asc',
+    },
+  });
+
+  const listings = await prisma.bounties.findMany({
+    where: {
+      isPublished: true,
+      isActive: true,
+      isArchived: false,
+      status: 'OPEN',
+      isWinnersAnnounced: false,
+      region: Regions.GLOBAL,
+      deadline: {
+        gte: dayjs().add(3, 'day').toISOString(),
+      },
+      isPrivate: false,
+    },
+    take: 3,
+    orderBy: {
+      usdValue: 'desc',
+    },
+    select: {
+      id: true,
+      title: true,
+      slug: true,
+      type: true,
+      token: true,
+      rewardAmount: true,
+      compensationType: true,
+      maxRewardAsk: true,
+      minRewardAsk: true,
+      usdValue: true,
+      sponsor: {
+        select: {
+          name: true,
+        },
+      },
+    },
+  });
+
+  const emails = [];
+
+  const totalRewardAmountResult = await prisma.bounties.aggregate({
+    _sum: {
+      usdValue: true,
+    },
+    where: {
+      isWinnersAnnounced: true,
+      isPublished: true,
+      status: 'OPEN',
+    },
+  });
+
+  const totalApprovedGrantAmountResult =
+    await prisma.grantApplication.aggregate({
+      _sum: {
+        approvedAmountInUSD: true,
+      },
+      where: {
+        applicationStatus: 'Approved',
+      },
+    });
+
+  const totalTVEInMillions = `$${(
+    Math.ceil(
+      ((totalRewardAmountResult._sum.usdValue || 0) +
+        (totalApprovedGrantAmountResult._sum.approvedAmountInUSD || 0)) /
+        1000000,
+    ) / 10
+  ).toFixed(1)}M`;
+
+  for (const user of users) {
+    if (!user) continue;
+
+    const checkLogs = await prisma.emailLogs.findFirst({
+      where: {
+        userId: user.id,
+        type: 'UNFILLED_PROFILE',
+      },
+    });
+
+    if (checkLogs) continue;
+
+    const emailHtml = render(
+      MonthlyRoundupTemplate({
+        name: user.firstName,
+        TVE: totalTVEInMillions,
+        listings: listings.map((listing) => ({
+          id: listing.id,
+          title: listing.title,
+          sponsor: listing.sponsor.name,
+          slug: listing.slug,
+          type: listing.type,
+          token: listing.token,
+          rewardAmount: listing.rewardAmount,
+          compensationType: listing.compensationType,
+          maxRewardAsk: listing.maxRewardAsk,
+          minRewardAsk: listing.minRewardAsk,
+          usdValue: listing.usdValue,
+        })),
+      }),
+    );
+
+    emails.push({
+      from: kashEmail,
+      to: user.email,
+      subject: "Here's how you can earn in global standards:",
+      html: emailHtml,
+    });
+  }
+
+  return emails;
+}
