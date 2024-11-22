@@ -93,7 +93,10 @@ export const TalentReminderTemplate = ({
         the <b>start of something great for your career</b>.
       </p>
 
-      <button
+      <a
+        href={link}
+        target="_blank"
+        rel="noopener noreferrer"
         style={{
           backgroundColor: '#6366F1',
           color: 'white',
@@ -103,14 +106,16 @@ export const TalentReminderTemplate = ({
           fontWeight: 500,
           cursor: 'pointer',
           boxShadow: '0 1px 2px rgba(0, 0, 0, 0.05)',
+          textDecoration: 'none',
+          display: 'inline-block',
+          textAlign: 'center',
           transition: 'opacity 0.2s',
         }}
         onMouseOver={(e) => (e.currentTarget.style.opacity = '0.9')}
         onMouseOut={(e) => (e.currentTarget.style.opacity = '1')}
-        onClick={() => window.open(link, '_blank')}
       >
         Complete Profile
-      </button>
+      </a>
       <p style={styles.salutation}>
         Best,
         <br />
