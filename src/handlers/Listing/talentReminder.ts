@@ -79,12 +79,10 @@ export async function processTalentReminder() {
       },
     });
 
-  const totalTVEInMillions = `$${(
-    Math.ceil(
-      ((totalRewardAmountResult._sum.usdValue || 0) +
-        (totalApprovedGrantAmountResult._sum.approvedAmountInUSD || 0)) /
-        1000000,
-    ) / 10
+  const totalTVEInMillions = `$${Math.ceil(
+    ((totalRewardAmountResult._sum.usdValue || 0) +
+      (totalApprovedGrantAmountResult._sum.approvedAmountInUSD || 0)) /
+      1000000,
   ).toFixed(1)}M`;
 
   for (const user of users) {

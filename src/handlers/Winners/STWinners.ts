@@ -43,7 +43,7 @@ export async function processSTWinners(id: string) {
       return {
         from: kashEmail,
         to: winner.user.email,
-        subject: 'Congrats! Submit This Form to Claim Your Reward',
+        subject: '[Important] Submit This Form to Claim Your Reward',
         html: emailHtml,
         checkUnsubscribe: false,
       };

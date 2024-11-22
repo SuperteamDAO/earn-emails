@@ -3,7 +3,6 @@ import React from 'react';
 
 import { UnsubscribeLine } from '../../components';
 import { basePath } from '../../constants';
-import { getListingTypeLabel } from '../../utils';
 import { styles } from '../styles';
 
 interface Listing {
@@ -26,48 +25,34 @@ interface TemplateProps {
   TVE: string | null;
 }
 
-const getReward = (listing: Listing) => {
-  const formatNumber = (number: number) =>
-    new Intl.NumberFormat('en-US', { maximumSignificantDigits: 3 }).format(
-      number,
-    );
+const ListingItem = ({ listing }: { listing: Listing }) => {
+  const roundedValue = Math.round(listing.usdValue ?? 0 / 10) * 10;
 
-  switch (listing.compensationType) {
-    case 'fixed':
-      return listing.rewardAmount !== null
-        ? formatNumber(listing.rewardAmount)
-        : 'N/A';
-    case 'variable':
-      return 'Variable';
-    case 'range':
-      const minFormatted =
-        listing.minRewardAsk !== null
-          ? formatNumber(listing.minRewardAsk)
-          : 'N/A';
-      const maxFormatted =
-        listing.maxRewardAsk !== null
-          ? formatNumber(listing.maxRewardAsk)
-          : 'N/A';
-      return `${minFormatted} - ${maxFormatted}`;
-  }
+  const formattedUSD = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(roundedValue);
+
+  return (
+    <li style={styles.text}>
+      <div>
+        <a
+          href={`${basePath}/listings/${listing.type}/${
+            listing.slug || ''
+          }/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`}
+          style={styles.link}
+        >
+          {listing.title}
+        </a>{' '}
+        by {listing.sponsor} ({formattedUSD})
+      </div>
+    </li>
+  );
 };
 
-const ListingItem = ({ listing }: { listing: Listing }) => (
-  <li style={styles.text}>
-    <div>
-      <a
-        href={`${basePath}/listings/${listing.type}/${
-          listing.slug || ''
-        }/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`}
-        style={styles.link}
-      >
-        {listing.title}
-      </a>{' '}
-      by {listing.sponsor} ({getReward(listing)} {listing.token}{' '}
-      {getListingTypeLabel(listing.type)})
-    </div>
-  </li>
-);
+const link = `https://earn.superteam.fun/new/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`;
 
 export const TalentReminderTemplate = ({
   name,
@@ -82,18 +67,19 @@ export const TalentReminderTemplate = ({
         standards. Superteam Earn is the easiest way to do it!
       </p>
       <p style={styles.textWithMargin}>
-        Take the next step by completing your profile from here — it helps
-        sponsors understand your skills better and increases your chances of
-        winning bounties and projects. It’s easy and quick to set up.
+        People like you have earned over {TVE} on Superteam Earn.
+      </p>
+      <p style={styles.textWithMargin}>
+        Take the final step by completing your profile from{' '}
+        <a href={link} style={styles.link}>
+          here
+        </a>{' '}
+        — having a profile increases your chances of winning gigs. It’s easy and
+        quick to set up.
       </p>
 
       <p style={styles.textWithMargin}>
-        You're missing out. People like you have earned over {TVE} on Superteam
-        Earn!
-      </p>
-
-      <p style={styles.textWithMargin}>
-        Here's a sneak peak:
+        Here's a sneak peek of the kind of opportunities you're missing out on:
         <br />
         <ol>
           {listings.map((listing) => (
@@ -121,16 +107,10 @@ export const TalentReminderTemplate = ({
         }}
         onMouseOver={(e) => (e.currentTarget.style.opacity = '0.9')}
         onMouseOut={(e) => (e.currentTarget.style.opacity = '1')}
-        onClick={() =>
-          window.open(
-            'https://earn.superteam.fun/new/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications',
-            '_blank',
-          )
-        }
+        onClick={() => window.open(link, '_blank')}
       >
         Complete Profile
       </button>
-
       <p style={styles.salutation}>
         Best,
         <br />
