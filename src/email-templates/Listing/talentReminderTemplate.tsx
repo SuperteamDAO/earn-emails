@@ -26,7 +26,7 @@ interface TemplateProps {
 }
 
 const ListingItem = ({ listing }: { listing: Listing }) => {
-  const roundedValue = Math.round(listing.usdValue ?? 0 / 10) * 10;
+  const roundedValue = Math.round((listing.usdValue ?? 0) / 10) * 10;
 
   const formattedUSD = new Intl.NumberFormat('en-US', {
     style: 'currency',
