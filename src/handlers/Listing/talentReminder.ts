@@ -3,7 +3,7 @@ import { render } from '@react-email/render';
 import dayjs from 'dayjs';
 
 import { kashEmail } from '../../constants';
-import { TalentReminderTemplate } from '../../email-templates/Listing';
+import { TalentReminderTemplate } from '../../email-templates';
 import { prisma } from '../../prisma';
 
 export async function processTalentReminder() {
@@ -14,9 +14,13 @@ export async function processTalentReminder() {
         lte: dayjs().subtract(3, 'day').toISOString(),
       },
     },
-    take: 3000,
     orderBy: {
       createdAt: 'asc',
+    },
+    select: {
+      id: true,
+      firstName: true,
+      email: true,
     },
   });
 
@@ -86,6 +90,7 @@ export async function processTalentReminder() {
   ).toFixed(1)}M`;
 
   for (const user of users) {
+    if (emails.length >= 3000) break;
     if (!user) continue;
 
     const checkLogs = await prisma.emailLogs.findFirst({
