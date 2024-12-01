@@ -1,11 +1,14 @@
+import { CommentRefType } from '@prisma/client';
 import { render } from '@react-email/render';
 
 import { basePath, kashEmail } from '../../constants';
 import { CommentActivityTemplate } from '../../email-templates';
 import { prisma } from '../../prisma';
-import { capitalizeWords, getCommentSourceURL, getUserEmailPreference } from '../../utils';
-import { CommentRefType } from '@prisma/client';
-import { getFeedURLType } from '../../utils/feed';
+import {
+  capitalizeWords,
+  getCommentSourceURL,
+  getUserEmailPreference,
+} from '../../utils';
 
 function typeToLabel(ref: CommentRefType, isProject?: boolean) {
   switch (ref) {
@@ -19,44 +22,48 @@ function typeToLabel(ref: CommentRefType, isProject?: boolean) {
   }
 }
 
-export async function processCommentActivity(id: string,_: string, otherInfo: any) {
+export async function processCommentActivity(
+  id: string,
+  _: string,
+  otherInfo: any,
+) {
   const type = otherInfo.type as CommentRefType;
-  const {personName} = otherInfo
-  if(!CommentRefType[type]) {
+  const { personName } = otherInfo;
+  if (!CommentRefType[type]) {
     console.log('Invalid comment ref type', type);
-    return
+    return;
   }
 
-  let firstName: string | null = null
-  let userEmail: string | null = null
-  let userId: string | null = null
-  let isProject = false
-  if(type === 'SUBMISSION') {
+  let firstName: string | null = null;
+  let userEmail: string | null = null;
+  let userId: string | null = null;
+  let isProject = false;
+  if (type === 'SUBMISSION') {
     const submission = await prisma.submission.findUnique({
       where: { id },
       select: {
         userId: true,
         listing: {
           select: {
-            type: true
-          }
+            type: true,
+          },
         },
         user: {
           select: {
             email: true,
-            firstName: true
-          }
-        }
-      }
+            firstName: true,
+          },
+        },
+      },
     });
-    if(submission) {
-      firstName = submission.user.firstName
-      userEmail = submission.user.email
-      userId = submission.userId
-      isProject = submission.listing.type === 'project'
+    if (submission) {
+      firstName = submission.user.firstName;
+      userEmail = submission.user.email;
+      userId = submission.userId;
+      isProject = submission.listing.type === 'project';
     }
   }
-  if(type === 'POW') {
+  if (type === 'POW') {
     const pow = await prisma.poW.findUnique({
       where: { id },
       select: {
@@ -64,18 +71,18 @@ export async function processCommentActivity(id: string,_: string, otherInfo: an
         user: {
           select: {
             email: true,
-            firstName: true
-          }
-        }
-      }
-    })
-    if(pow) {
-      firstName = pow.user.firstName
-      userEmail = pow.user.email
-      userId = pow.userId
+            firstName: true,
+          },
+        },
+      },
+    });
+    if (pow) {
+      firstName = pow.user.firstName;
+      userEmail = pow.user.email;
+      userId = pow.userId;
     }
   }
-  if(type === 'GRANT_APPLICATION') {
+  if (type === 'GRANT_APPLICATION') {
     const grantApplication = await prisma.grantApplication.findUnique({
       where: { id },
       select: {
@@ -83,15 +90,15 @@ export async function processCommentActivity(id: string,_: string, otherInfo: an
         user: {
           select: {
             email: true,
-            firstName: true
-          }
-        }
-      }
-    })
-    if(grantApplication) {
-      firstName = grantApplication.user.firstName
-      userEmail = grantApplication.user.email
-      userId = grantApplication.userId
+            firstName: true,
+          },
+        },
+      },
+    });
+    if (grantApplication) {
+      firstName = grantApplication.user.firstName;
+      userEmail = grantApplication.user.email;
+      userId = grantApplication.userId;
     }
   }
 
@@ -101,14 +108,14 @@ export async function processCommentActivity(id: string,_: string, otherInfo: an
       'commentActivity',
     );
 
-  const link = getCommentSourceURL(basePath, type, null, id).toString()
+    const link = getCommentSourceURL(basePath, type, null, id).toString();
     if (userPreference) {
-      const emailHtml = render(
+      const emailHtml = await render(
         CommentActivityTemplate({
           name: firstName || 'Someone',
           personName: capitalizeWords(personName),
           link,
-          type
+          type,
         }),
       );
 
@@ -120,9 +127,7 @@ export async function processCommentActivity(id: string,_: string, otherInfo: an
       };
       return emailData;
     }
-    console.log(
-      `User ${userId} has opted out of this type of email.`,
-    );
+    console.log(`User ${userId} has opted out of this type of email.`);
     return;
   }
 }

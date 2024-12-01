@@ -46,7 +46,7 @@ export async function processApplication(id: string, userId: string) {
   );
 
   if (userPreferenceSponsor) {
-    const sponsorEmailHtml = render(
+    const sponsorEmailHtml = await render(
       ApplicationSponsorTemplate({
         name: grantApplication?.grant?.poc?.firstName!,
         applicationTitle: grantApplication.projectTitle,
@@ -66,7 +66,7 @@ export async function processApplication(id: string, userId: string) {
   }
 
   const sponsorName = grantApplication.grant.sponsor.name;
-  const talentEmailHtml = render(
+  const talentEmailHtml = await render(
     ApplicationTemplate({
       name: user.firstName!,
       applicationTitle: grantApplication.projectTitle,

@@ -1,18 +1,21 @@
+import { CommentRefType } from '@prisma/client';
 import { render } from '@react-email/render';
 
 import { basePath, kashEmail } from '../../constants';
 import { CommentReplyTemplate } from '../../email-templates';
 import { prisma } from '../../prisma';
 import { getCommentSourceURL, getUserEmailPreference } from '../../utils';
-import { CommentRefType } from '@prisma/client';
-import { getFeedURLType } from '../../utils/feed';
 
-export async function processCommentReply(id: string, userId: string, otherInfo: any) {
+export async function processCommentReply(
+  id: string,
+  userId: string,
+  otherInfo: any,
+) {
   const userPreference = await getUserEmailPreference(userId, 'commentReply');
   const type = otherInfo.type as CommentRefType;
-  if(!CommentRefType[type]) {
+  if (!CommentRefType[type]) {
     console.log('Invalid comment ref type', type);
-    return
+    return;
   }
 
   if (!userPreference) {
@@ -31,10 +34,10 @@ export async function processCommentReply(id: string, userId: string, otherInfo:
     },
   });
 
-  const link = getCommentSourceURL(basePath, type, listing, id).toString()
+  const link = getCommentSourceURL(basePath, type, listing, id).toString();
 
   if (user) {
-    const emailHtml = render(
+    const emailHtml = await render(
       CommentReplyTemplate({
         name: user?.firstName!,
         link,
