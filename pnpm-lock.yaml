@@ -8,12 +8,6 @@ importers:
 
   .:
     dependencies:
-      '@planetscale/database':
-        specifier: ^1.19.0
-        version: 1.19.0
-      '@prisma/adapter-planetscale':
-        specifier: ^6.0.0
-        version: 6.0.0(@planetscale/database@1.19.0)
       '@prisma/client':
         specifier: ^5.15.0
         version: 5.22.0(prisma@5.22.0)
@@ -358,15 +352,6 @@ packages:
     resolution: {integrity: sha512-cq8o4cWH0ibXh9VGi5P20Tu9XF/0fFXl9EUinr9QfTM7a7p0oTA4iJRCQWppXR1Pg8dSM0UCItCkPwsk9qWWYA==}
     engines: {node: ^12.20.0 || ^14.18.0 || >=16.0.0}
 
-  '@planetscale/database@1.19.0':
-    resolution: {integrity: sha512-Tv4jcFUFAFjOWrGSio49H6R2ijALv0ZzVBfJKIdm+kl9X046Fh4LLawrF9OMsglVbK6ukqMJsUCeucGAFTBcMA==}
-    engines: {node: '>=16'}
-
-  '@prisma/adapter-planetscale@6.0.0':
-    resolution: {integrity: sha512-WY8Qhfrzzqvny3OELyqQlutWQwLLjVBDirjzvj1NNXus0AZKseNfxqLk+OdxDaZhGgFngxJ59tthrl/VtDzIKw==}
-    peerDependencies:
-      '@planetscale/database': ^1.15.0
-
   '@prisma/client@5.22.0':
     resolution: {integrity: sha512-M0SVXfyHnQREBKxCgyo7sffrKttwE6R8PMq330MIUF0pTwjUhLbW84pFDlf06B27XyCR++VtjugEnIHdr07SVA==}
     engines: {node: '>=16.13'}
@@ -378,12 +363,6 @@ packages:
 
   '@prisma/debug@5.22.0':
     resolution: {integrity: sha512-AUt44v3YJeggO2ZU5BkXI7M4hu9BF2zzH2iF2V5pyXT/lRTyWiElZ7It+bRH1EshoMRxHgpYg4VB6rCM+mG5jQ==}
-
-  '@prisma/debug@6.0.0':
-    resolution: {integrity: sha512-eUjoNThlDXdyJ1iQ2d7U6aTVwm59EwvODb5zFVNJEokNoSiQmiYWNzZIwZyDmZ+j51j42/0iTaHIJ4/aZPKFRg==}
-
-  '@prisma/driver-adapter-utils@6.0.0':
-    resolution: {integrity: sha512-WCSWSo5VHjRlsg6mS79abXjTgyZ5UpxhjEZVIy/qoKyNAEwHUf0nbSwQqRd5KbLwwcLIoT/k+VejogWH9nQMig==}
 
   '@prisma/engines-version@5.22.0-44.605197351a3c8bdd595af2d2a9bc3025bca48ea2':
     resolution: {integrity: sha512-2PTmxFR2yHW/eB3uqWtcgRcgAbG1rwG9ZriSvQw+nnb7c4uCr3RAcGMb6/zfE88SKlC1Nj2ziUvc96Z379mHgQ==}
@@ -1887,24 +1866,11 @@ snapshots:
 
   '@pkgr/core@0.1.1': {}
 
-  '@planetscale/database@1.19.0': {}
-
-  '@prisma/adapter-planetscale@6.0.0(@planetscale/database@1.19.0)':
-    dependencies:
-      '@planetscale/database': 1.19.0
-      '@prisma/driver-adapter-utils': 6.0.0
-
   '@prisma/client@5.22.0(prisma@5.22.0)':
     optionalDependencies:
       prisma: 5.22.0
 
   '@prisma/debug@5.22.0': {}
-
-  '@prisma/debug@6.0.0': {}
-
-  '@prisma/driver-adapter-utils@6.0.0':
-    dependencies:
-      '@prisma/debug': 6.0.0
 
   '@prisma/engines-version@5.22.0-44.605197351a3c8bdd595af2d2a9bc3025bca48ea2': {}
 
