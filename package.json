@@ -11,9 +11,6 @@
     "lint": "eslint",
     "prepare": "husky"
   },
-  "prisma": {
-    "schema": "./schema.prisma"
-  },
   "keywords": [],
   "author": "",
   "license": "ISC",
