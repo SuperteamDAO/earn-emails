@@ -1,3 +1,4 @@
+import { PrismaClient } from '@prisma/client';
 import { render } from '@react-email/render';
 import { Worker } from 'bullmq';
 import { createHmac } from 'crypto';
@@ -6,11 +7,11 @@ import { Resend } from 'resend';
 
 import { basePath, kashEmail } from '../constants';
 import { AlertTemplate } from '../email-templates';
-import { prisma } from '../prisma';
 import { redis } from '../utils';
 
 config();
 
+const prisma = new PrismaClient();
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 const generateUnsubscribeURL = (email: string) => {
