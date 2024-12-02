@@ -31,7 +31,7 @@ export async function processApplicationCompleted(id: string, userId: string) {
     return;
   }
 
-  const emailHtml = render(
+  const emailHtml = await render(
     ApplicationCompletedTemplate({
       name: application.user.firstName!,
       sponsorName: application.grant.sponsor.name,

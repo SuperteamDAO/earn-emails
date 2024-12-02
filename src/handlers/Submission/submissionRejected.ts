@@ -18,7 +18,7 @@ export async function processSubmissionRejected(id: string) {
   });
 
   if (submission) {
-    const emailHtml = render(
+    const emailHtml = await render(
       SubmissionRejectedTemplate({
         name: submission.user.firstName!,
         listingName: submission.listing.title,

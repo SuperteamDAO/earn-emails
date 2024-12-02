@@ -102,7 +102,7 @@ export async function processTalentReminder() {
 
     if (checkLogs) continue;
 
-    const emailHtml = render(
+    const emailHtml = await render(
       TalentReminderTemplate({
         name: user.firstName,
         TVE: totalTVEInMillions,

@@ -43,7 +43,7 @@ export async function processCommentTag(
   const link = getCommentSourceURL(basePath, type, listing, id).toString();
 
   if (user) {
-    const emailHtml = render(
+    const emailHtml = await render(
       CommentTagTemplate({
         name: user?.firstName!,
         personName: capitalizeWords(personName),

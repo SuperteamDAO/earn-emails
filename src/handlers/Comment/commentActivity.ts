@@ -110,7 +110,7 @@ export async function processCommentActivity(
 
     const link = getCommentSourceURL(basePath, type, null, id).toString();
     if (userPreference) {
-      const emailHtml = render(
+      const emailHtml = await render(
         CommentActivityTemplate({
           name: firstName || 'Someone',
           personName: capitalizeWords(personName),
