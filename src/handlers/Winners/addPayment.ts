@@ -15,7 +15,7 @@ export async function processAddPayment(id: string) {
 
     const rewardAmount = (submission?.listing?.rewards as any)[winnerPosition!];
 
-    const emailHtml = await render(
+    const emailHtml = render(
       PaymentReceivedTemplate({
         name: submission.user.firstName!,
         tokenName: submission.listing.token,

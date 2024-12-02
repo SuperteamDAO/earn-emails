@@ -49,7 +49,7 @@ export async function processDeadlineExceededWeek() {
 
     if (!pocPreference) continue;
 
-    const emailHtml = await render(
+    const emailHtml = render(
       DeadlineExceededbyWeekTemplate({
         name: listing.poc.firstName!,
         listingName: listing.title,

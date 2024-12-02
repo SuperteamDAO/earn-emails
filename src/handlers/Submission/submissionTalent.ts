@@ -19,7 +19,7 @@ export async function processTalentSubmission(id: string, userId: string) {
         ? 'Submission Received!'
         : 'Application Received';
 
-    const emailHtml = await render(
+    const emailHtml = render(
       SubmissionTemplate({
         name: user.firstName!,
         listingName: listing.title,

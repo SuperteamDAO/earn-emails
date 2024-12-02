@@ -47,7 +47,7 @@ export async function processDeadlineThreeDays() {
     });
 
     for (const sub of listingSubscriptions) {
-      const emailHtml = await render(
+      const emailHtml = render(
         DeadlineThreeDaysTemplate({
           name: sub?.User?.firstName!,
           listingName: listing.title,

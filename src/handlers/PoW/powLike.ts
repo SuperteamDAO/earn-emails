@@ -54,7 +54,7 @@ export async function processPoWLike() {
     console.log('new like count - ', newLikesCount);
     if (newLikesCount === 0) return null;
 
-    const emailHtml = await render(
+    const emailHtml = render(
       PoWLikeTemplate({
         name: proofOfWork.user.firstName!,
         powName: proofOfWork.title,

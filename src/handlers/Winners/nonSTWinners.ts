@@ -75,7 +75,7 @@ export async function processNonSTWinners(id: string) {
           (ranking) => ranking.totalEarnedInUSD <= totalEarnings,
         ) + 1;
 
-      const emailHtml = await render(
+      const emailHtml = render(
         NonSTWinnersTemplate({
           name: winner.user.firstName,
           listingName,

@@ -53,8 +53,12 @@ export async function processDeadlineExtended(id: string) {
   const allUsers = Array.from(emailMap.values());
 
   if (listing) {
-    const emailPromises = allUsers.map(async (user) => {
-      const emailHtml = await render(
+    const emails: {
+      to: string;
+      subject: string;
+      html: string;
+    }[] = allUsers.map((user) => {
+      const emailHtml = render(
         DeadlineExtendedTemplate({
           listingName: listing.title,
           link: `${basePath}/listings/${listing.type}/${listing.slug}/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`,
@@ -68,7 +72,6 @@ export async function processDeadlineExtended(id: string) {
       };
     });
 
-    const emails = await Promise.all(emailPromises);
     return emails;
   }
 

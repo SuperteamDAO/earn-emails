@@ -34,7 +34,7 @@ export async function processScoutInvite(id: string, userId: string) {
       return null;
     }
 
-    const emailHtml = await render(
+    const emailHtml = render(
       ScoutInviteTemplate({
         name: user.firstName!,
         listingName: listing.title,

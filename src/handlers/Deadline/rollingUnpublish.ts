@@ -48,7 +48,7 @@
 //       continue;
 //     }
 
-//     const emailHtml = await render(
+//     const emailHtml = render(
 //       RollingUnpublishTemplate({
 //         name: listing.poc.firstName!,
 //         listingName: listing.title,

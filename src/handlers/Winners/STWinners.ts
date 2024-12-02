@@ -28,8 +28,12 @@ export async function processSTWinners(id: string) {
     const listingType = getListingTypeLabel(listing.type);
     const listingName = listing.title;
 
-    const emailPromises = winners.map(async (winner) => {
-      const emailHtml = await render(
+    const emails: {
+      to: string;
+      subject: string;
+      html: string;
+    }[] = winners.map((winner) => {
+      const emailHtml = render(
         STWinnersTemplate({
           name: winner.user.firstName,
           listingName,
@@ -45,7 +49,6 @@ export async function processSTWinners(id: string) {
       };
     });
 
-    const emails = await Promise.all(emailPromises);
     return emails;
   }
 

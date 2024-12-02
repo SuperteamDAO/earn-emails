@@ -58,7 +58,7 @@ export async function processApplicationLike() {
 
     if (newLikesCount === 0) return null;
 
-    const emailHtml = await render(
+    const emailHtml = render(
       ApplicationLikeTemplate({
         name: application.user.firstName!,
         grantName: application.grant.title,

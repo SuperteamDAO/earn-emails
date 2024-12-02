@@ -60,7 +60,7 @@
 
 //     if (submissionCount === 0) continue;
 
-//     const emailHtml = await render(
+//     const emailHtml = render(
 //       Rolling15DaysTemplate({
 //         name: listing.poc.firstName!,
 //         listingName: listing.title,

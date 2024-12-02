@@ -17,7 +17,7 @@ export async function processApplicationRejection(id: string, userId: string) {
   });
 
   if (grantApplication && user) {
-    const emailHtml = await render(
+    const emailHtml = render(
       ApplicationRejectedTemplate({
         name: user.firstName!,
         applicationTitle: grantApplication.projectTitle,

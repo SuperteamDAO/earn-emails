@@ -37,7 +37,7 @@ export async function processCommentReply(
   const link = getCommentSourceURL(basePath, type, listing, id).toString();
 
   if (user) {
-    const emailHtml = await render(
+    const emailHtml = render(
       CommentReplyTemplate({
         name: user?.firstName!,
         link,

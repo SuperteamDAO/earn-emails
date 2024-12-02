@@ -147,7 +147,7 @@ export async function processWeeklyRoundup() {
 
     if (matchingListings.length === 0) continue;
 
-    const emailHtml = await render(
+    const emailHtml = render(
       WeeklyRoundupTemplate({
         name: user.firstName!,
         listings: matchingListings.map((listing) => ({

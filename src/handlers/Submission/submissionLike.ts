@@ -78,7 +78,7 @@ export async function processSubmissionLike() {
       submission.listing.isWinnersAnnounced,
     );
 
-    const emailHtml = await render(
+    const emailHtml = render(
       SubmissionLikeTemplate({
         name: submission.user.firstName!,
         listingName: submission.listing.title,

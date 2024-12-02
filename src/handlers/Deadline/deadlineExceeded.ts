@@ -48,7 +48,7 @@ export async function processDeadlineExceeded() {
 
     if (!pocPreference) continue;
 
-    const emailHtml = await render(
+    const emailHtml = render(
       DeadlineSponsorTemplate({
         name: listing.poc.firstName!,
         listingName: listing.title,
