@@ -73,7 +73,7 @@ export async function processScoutReminder() {
         0,
       );
 
-      const emailHtml = render(
+      const emailHtml = await render(
         ScoutReminderTemplate({
           name: listing.poc.firstName || '',
           link: `${basePath}/dashboard/listings/${listing.slug}/submissions/?scout=1&utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`,

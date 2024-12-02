@@ -26,5 +26,6 @@ export type EmailActionType =
   | 'STWinners'
   | 'nonSTWinners'
   | 'weeklyListingRoundup'
+  | 'talentReminder'
   | 'verifiedListingStatus';
 // | 'dupe'

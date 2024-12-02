@@ -170,7 +170,7 @@ export async function processCreateListing() {
 
         const listingTypeLabel = getListingTypeLabel(selectedListing.type);
 
-        const emailHtml = render(
+        const emailHtml = await render(
           NewListingTemplate({
             name: user.firstName!,
             link: `${basePath}/listings/${selectedListing.type}/${selectedListing.slug}/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`,

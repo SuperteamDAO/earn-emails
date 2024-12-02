@@ -84,7 +84,7 @@ const emailWorker = new Worker(
         html: html.replace('{{unsubscribeUrl}}', unsubscribeURL),
         ...(bcc && { bcc }),
         ...(cc && { cc }),
-        reply_to: 'support@superteamearn.com',
+        replyTo: 'support@superteamearn.com',
         headers: {
           'List-Unsubscribe': `<${unsubscribeURL}>`,
         },
@@ -105,7 +105,7 @@ const emailWorker = new Worker(
             from: kashEmail,
             to: ['abhwshek@gmail.com', 'pratik.dholani1@gmail.com'],
             subject: 'Email Error',
-            html: render(
+            html: await render(
               AlertTemplate({
                 type,
                 id,

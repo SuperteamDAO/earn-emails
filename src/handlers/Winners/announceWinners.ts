@@ -56,12 +56,8 @@ export async function processAnnounceWinners(id: string) {
 
     const listingTypeLabel = getListingTypeLabel(listing.type);
 
-    const emails: {
-      to: string;
-      subject: string;
-      html: string;
-    }[] = allUsers.map((user) => {
-      const emailHtml = render(
+    const emailPromises = allUsers.map(async (user) => {
+      const emailHtml = await render(
         WinnersAnnouncedTemplate({
           name: user.name,
           listingName: listing?.title || '',
@@ -78,6 +74,7 @@ export async function processAnnounceWinners(id: string) {
       };
     });
 
+    const emails = await Promise.all(emailPromises);
     return emails;
   }
 

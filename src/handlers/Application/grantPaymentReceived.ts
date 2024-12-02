@@ -21,7 +21,7 @@ export async function processGrantPayment(id: string, userId: string) {
   });
 
   if (grantApplication && user) {
-    const emailHtml = render(
+    const emailHtml = await render(
       GrantPaymentReceivedTemplate({
         applicationTitle: grantApplication.projectTitle,
         sponsorName: grantApplication.grant.sponsor.name,

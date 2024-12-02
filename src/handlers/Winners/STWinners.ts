@@ -28,12 +28,8 @@ export async function processSTWinners(id: string) {
     const listingType = getListingTypeLabel(listing.type);
     const listingName = listing.title;
 
-    const emails: {
-      to: string;
-      subject: string;
-      html: string;
-    }[] = winners.map((winner) => {
-      const emailHtml = render(
+    const emailPromises = winners.map(async (winner) => {
+      const emailHtml = await render(
         STWinnersTemplate({
           name: winner.user.firstName,
           listingName,
@@ -43,12 +39,13 @@ export async function processSTWinners(id: string) {
       return {
         from: kashEmail,
         to: winner.user.email,
-        subject: 'Congrats! Submit This Form to Claim Your Reward',
+        subject: '[Important] Submit This Form to Claim Your Reward',
         html: emailHtml,
         checkUnsubscribe: false,
       };
     });
 
+    const emails = await Promise.all(emailPromises);
     return emails;
   }
 

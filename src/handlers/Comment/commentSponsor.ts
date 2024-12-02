@@ -23,7 +23,7 @@ export async function processCommentSponsor(id: string, userId: string) {
   if (listing) {
     const pocUser = listing?.poc;
 
-    const emailHtml = render(
+    const emailHtml = await render(
       CommentSponsorTemplate({
         name: pocUser.firstName!,
         listingName: listing.title,
