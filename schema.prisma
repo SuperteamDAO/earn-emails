@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
 }
 
 datasource db {
@@ -77,6 +78,14 @@ model Bounties {
   @@index([deadline(sort: Desc)], map: "Bounties_deadline_desc_idx")
   @@index([winnersAnnouncedAt(sort: Desc)])
   @@index([isFeatured(sort: Desc)])
+  @@index([isPublished, isActive, isArchived, status])
+  @@index([isPublished, isActive, isArchived, isPrivate, status])
+  @@index([sponsorId, isArchived, isPublished, isActive])
+  @@index([isPublished, isActive, isPrivate, hackathonprize])
+  @@index([compensationType, usdValue])
+  @@index([compensationType, maxRewardAsk])
+  @@index([isWinnersAnnounced, isPublished, status])
+  @@index([region, isPublished, status])
 }
 
 model BountiesTemplates {
@@ -151,6 +160,10 @@ model Comment {
   @@index([authorId])
   @@index([replyToId])
   @@index([refId])
+  @@index([refId, isActive, isArchived, type])
+  @@index([refId, isActive, isArchived, replyToId])
+  @@index([refType, type])
+  @@index([updatedAt(sort: Desc)])
 }
 
 model Grants {
@@ -176,7 +189,7 @@ model Grants {
   updatedAt              DateTime           @updatedAt
   skills                 Json?
   logo                   String?
-  region                 Regions            @default(GLOBAL)
+  region                 String             @default("GLOBAL")
   sponsor                Sponsors           @relation(fields: [sponsorId], references: [id])
   poc                    User               @relation(fields: [pocId], references: [id])
   questions              Json?
@@ -192,6 +205,13 @@ model Grants {
   @@index([id, slug])
   @@index([pocId])
   @@index([sponsorId])
+  @@index([isPublished, isActive, isArchived, isPrivate])
+  @@index([isPublished, isActive, isArchived, status])
+  @@index([region, isPublished, isActive])
+  @@index([slug])
+  @@index([sponsorId, isActive, isArchived, status])
+  @@index([createdAt(sort: Desc)])
+  @@index([totalApproved(sort: Desc)])
 }
 
 model GrantApplication {
@@ -201,14 +221,14 @@ model GrantApplication {
   applicationStatus   GrantApplicationStatus @default(Pending)
   projectTitle        String
   projectOneLiner     String
-  projectDetails      String                 @db.VarChar(3000)
+  projectDetails      String                 @db.Text
   projectTimeline     String
-  proofOfWork         String                 @db.VarChar(3000)
+  proofOfWork         String                 @db.Text
   walletAddress       String
   twitter             String?
-  milestones          String?                @db.VarChar(3000)
-  kpi                 String?                @db.VarChar(3000)
-  answers             Json?
+  milestones          String?                @db.Text
+  kpi                 String?                @db.Text
+  answers             Json?                  @default("[]")
   createdAt           DateTime               @default(now())
   updatedAt           DateTime               @updatedAt
   user                User                   @relation(fields: [userId], references: [id])
@@ -229,6 +249,13 @@ model GrantApplication {
   @@index([userId])
   @@index([grantId])
   @@index([likeCount])
+  @@index([grantId, userId, applicationStatus])
+  @@index([applicationStatus, decidedAt])
+  @@index([applicationStatus, createdAt])
+  @@index([userId, grantId, createdAt])
+  @@index([decidedAt(sort: Desc)])
+  @@index([createdAt(sort: Desc)])
+  @@index([approvedAmountInUSD(sort: Desc)])
 }
 
 model Submission {
@@ -236,7 +263,7 @@ model Submission {
   link               String?          @db.VarChar(500)
   tweet              String?          @db.VarChar(500)
   status             SubmissionStatus @default(Pending)
-  eligibilityAnswers Json?
+  eligibilityAnswers Json?            @default("[]")
   userId             String
   listingId          String
   isWinner           Boolean          @default(false)
@@ -249,7 +276,7 @@ model Submission {
   likeCount          Int              @default(0)
   isPaid             Boolean          @default(false)
   paymentDetails     Json?
-  otherInfo          String?          @db.VarChar(2000)
+  otherInfo          String?          @db.Text
   ask                Int?
   label              SubmissionLabels @default(Unreviewed)
   rewardInUSD        Float            @default(0)
@@ -266,6 +293,12 @@ model Submission {
   @@index([createdAt, isWinner])
   @@index([createdAt, listingId])
   @@index([likeCount])
+  @@index([listingId, isActive, isArchived])
+  @@index([listingId, userId, isActive, isArchived])
+  @@index([listingId, isWinner, isActive, isArchived])
+  @@index([userId, listingId, createdAt])
+  @@index([createdAt(sort: Desc)])
+  @@index([likeCount(sort: Desc), createdAt(sort: Desc)])
 }
 
 model Sponsors {
@@ -294,6 +327,9 @@ model Sponsors {
   UserInvites  UserInvites[]
 
   @@index([id, slug])
+  @@index([isVerified, st])
+  @@index([isCaution, isVerified])
+  @@index([isActive, isArchived])
 }
 
 model Account {
@@ -331,8 +367,8 @@ model User {
   email              String               @unique
   username           String?              @unique
   photo              String?              @db.Text
-  firstName          String?              @db.Text
-  lastName           String?              @db.Text
+  firstName          String?              @db.VarChar(255)
+  lastName           String?              @db.VarChar(255)
   createdAt          DateTime             @default(now())
   updatedAt          DateTime             @updatedAt
   isVerified         Boolean              @default(false)
@@ -384,9 +420,13 @@ model User {
   SubscribeHackathon SubscribeHackathon[]
   isBlocked          Boolean              @default(false)
 
-  @@index([email, publicKey, username])
   @@index([currentSponsorId])
   @@index([hackathonId])
+  @@index([email])
+  @@index([username])
+  @@index([firstName])
+  @@index([lastName])
+  @@index([location])
 }
 
 model Scouts {
@@ -403,6 +443,10 @@ model Scouts {
 
   @@unique([userId, listingId])
   @@index([listingId])
+  @@index([listingId, invited])
+  @@index([listingId, score(sort: Desc)])
+  @@index([userId, listingId, invited])
+  @@index([score(sort: Desc)])
 }
 
 model TalentRankings {
@@ -419,6 +463,10 @@ model TalentRankings {
 
   @@unique([userId, skill, timeframe])
   @@index([skill, timeframe])
+  @@index([skill, timeframe, rank(sort: Asc)])
+  @@index([totalEarnedInUSD(sort: Desc)])
+  @@index([rank(sort: Asc)])
+  @@index([winRate(sort: Desc)])
 }
 
 model PoW {
@@ -440,6 +488,9 @@ model PoW {
   @@index([userId])
   @@index([createdAt])
   @@index([likeCount])
+  @@index([likeCount(sort: Desc), createdAt(sort: Desc)])
+  @@index([userId, createdAt(sort: Desc)])
+  @@index([userId, id])
 }
 
 model EmailSettings {
@@ -449,6 +500,8 @@ model EmailSettings {
   user     User   @relation(fields: [userId], references: [id])
 
   @@index([userId, category])
+  @@index([userId])
+  @@index([category])
 }
 
 model UserSponsors {
@@ -486,8 +539,14 @@ model emailLogs {
   email     String?
   type      EmailType
   bountyId  String?
+  userId    String?
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
+
+  @@index([bountyId, type])
+  @@index([userId, type])
+  @@index([type, createdAt(sort: Desc)])
+  @@index([email, type])
 }
 
 model ResendLogs {
@@ -497,6 +556,11 @@ model ResendLogs {
   status    String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([email, createdAt(sort: Desc)])
+  @@index([createdAt(sort: Desc)])
+  @@index([status])
+  @@index([email, status])
 }
 
 model SubscribeBounty {
@@ -509,8 +573,12 @@ model SubscribeBounty {
   User       User      @relation(fields: [userId], references: [id])
   Bounties   Bounties? @relation(fields: [bountyId], references: [id])
 
+  @@unique([userId, bountyId])
   @@index([bountyId])
   @@index([userId])
+  @@index([userId, bountyId])
+  @@index([bountyId, isArchived])
+  @@index([userId, isArchived])
 }
 
 model SubscribeHackathon {
@@ -586,6 +654,7 @@ enum EmailType {
   ROLLING_30_DAYS
   NEW_LISTING
   ROLLING_UNPUBLISH
+  UNFILLED_PROFILE
 }
 
 enum Role {
@@ -609,7 +678,6 @@ enum status {
   CLOSED
   VERIFYING
   VERIFY_FAIL
-  PREVIEW
 }
 
 enum GrantStatus {

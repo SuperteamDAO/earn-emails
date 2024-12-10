@@ -38,7 +38,7 @@ export async function processVerifiedStatus(
     console.error('VerifiedStatusTemplate did not return valid template');
     return null;
   }
-  const emailHtml = render(verifiedStatusRender);
+  const emailHtml = await render(verifiedStatusRender);
 
   const subject =
     decision === 'approve'
