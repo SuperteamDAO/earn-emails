@@ -52,7 +52,7 @@ const ListingItem = ({ listing }: { listing: Listing }) => {
   );
 };
 
-const link = `https://earn.superteam.fun/new/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`;
+const link = `https://earn.superteam.fun/new/?utm_source=superteamearn&utm_medium=email&utm_campaign=profileconversion`;
 
 export const TalentReminderTemplate = ({
   name,
