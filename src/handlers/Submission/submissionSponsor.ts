@@ -62,7 +62,7 @@ export async function processSponsorSubmissions() {
           : `Your Project received ${submissionCount} applications in the last 24H`;
       const pocUser = listing.poc;
 
-      const emailHtml = render(
+      const emailHtml = await render(
         SubmissionSponsorTemplate({
           name: pocUser.firstName!,
           listingName: listing.title,
