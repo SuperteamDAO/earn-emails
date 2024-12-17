@@ -12,6 +12,7 @@ export async function processTalentReminder() {
       isTalentFilled: false,
       createdAt: {
         lte: dayjs().subtract(3, 'day').toISOString(),
+        gte: dayjs().subtract(10, 'day').toISOString(), //created not sooner than 3 days ago, but not older than a week before that either
       },
     },
     orderBy: {
@@ -90,7 +91,6 @@ export async function processTalentReminder() {
   ).toFixed(1)}M`;
 
   for (const user of users) {
-    if (emails.length >= 3000) break;
     if (!user) continue;
 
     const checkLogs = await prisma.emailLogs.findFirst({
