@@ -1,7 +1,7 @@
 import { CommentRefType } from '@prisma/client';
 import { render } from '@react-email/render';
 
-import { basePath } from '../../constants';
+import { basePath } from '../../constants/basePath';
 import { kashEmail } from '../../constants/emails';
 import { CommentActivityTemplate } from '../../email-templates/Comment/commentActivityTemplate';
 import { prisma } from '../../prisma';

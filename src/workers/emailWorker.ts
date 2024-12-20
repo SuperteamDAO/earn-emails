@@ -5,9 +5,9 @@ import { createHmac } from 'crypto';
 import { config } from 'dotenv';
 import { Resend } from 'resend';
 
-import { basePath } from '../constants';
+import { basePath } from '../constants/basePath';
 import { kashEmail } from '../constants/emails';
-import { AlertTemplate } from '../email-templates/Alert';
+import { AlertTemplate } from '../email-templates/Alert/AlertTemplate';
 import { redis } from '../utils/queue';
 
 config();

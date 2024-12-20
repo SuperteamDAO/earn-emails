@@ -1,6 +1,6 @@
 import { render } from '@react-email/render';
 
-import { basePath } from '../../constants';
+import { basePath } from '../../constants/basePath';
 import { kashEmail } from '../../constants/emails';
 import { CommentSponsorTemplate } from '../../email-templates/Comment/commentSponsorTemplate';
 import { prisma } from '../../prisma';

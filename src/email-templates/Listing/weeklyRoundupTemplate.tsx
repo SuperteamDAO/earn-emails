@@ -2,7 +2,7 @@ import { type CompensationType } from '@prisma/client';
 import React from 'react';
 
 import { UnsubscribeLine } from '../../components/unsubscribeLine';
-import { basePath } from '../../constants';
+import { basePath } from '../../constants/basePath';
 import { getListingTypeLabel } from '../../utils/getListingTypeLabel';
 import { styles } from '../styles';
 

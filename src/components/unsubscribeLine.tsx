@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { basePath } from '../constants';
+import { basePath } from '../constants/basePath';
 
 export const UnsubscribeLine = () => {
   return (

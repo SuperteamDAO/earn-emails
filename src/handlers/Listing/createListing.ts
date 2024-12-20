@@ -2,7 +2,7 @@ import { Regions } from '@prisma/client';
 import { render } from '@react-email/render';
 import dayjs from 'dayjs';
 
-import { basePath } from '../../constants';
+import { basePath } from '../../constants/basePath';
 import { kashEmail } from '../../constants/emails';
 import { Superteams } from '../../constants/Superteam';
 import { NewListingTemplate } from '../../email-templates/Listing/newListingTemplate';

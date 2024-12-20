@@ -1,7 +1,7 @@
 import { render } from '@react-email/render';
 import dayjs from 'dayjs';
 
-import { basePath } from '../../constants';
+import { basePath } from '../../constants/basePath';
 import { kashEmail } from '../../constants/emails';
 import { PoWLikeTemplate } from '../../email-templates/PoW/powLike';
 import { prisma } from '../../prisma';
