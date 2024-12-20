@@ -1,9 +1,10 @@
 import { render } from '@react-email/render';
 
-import { basePath, kashEmail } from '../../constants';
-import { CommentSponsorTemplate } from '../../email-templates';
+import { basePath } from '../../constants/basePath';
+import { kashEmail } from '../../constants/emails';
+import { CommentSponsorTemplate } from '../../email-templates/Comment/commentSponsorTemplate';
 import { prisma } from '../../prisma';
-import { getUserEmailPreference } from '../../utils';
+import { getUserEmailPreference } from '../../utils/getUserEmailPreference';
 
 export async function processCommentSponsor(id: string, userId: string) {
   const userPreference = await getUserEmailPreference(userId, 'commentSponsor');

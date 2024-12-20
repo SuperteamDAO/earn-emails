@@ -1,10 +1,12 @@
 import { CommentRefType } from '@prisma/client';
 import { render } from '@react-email/render';
 
-import { basePath, kashEmail } from '../../constants';
-import { CommentReplyTemplate } from '../../email-templates';
+import { basePath } from '../../constants/basePath';
+import { kashEmail } from '../../constants/emails';
+import { CommentReplyTemplate } from '../../email-templates/Comment/commentReplyTemplate';
 import { prisma } from '../../prisma';
-import { getCommentSourceURL, getUserEmailPreference } from '../../utils';
+import { getCommentSourceURL } from '../../utils/comment';
+import { getUserEmailPreference } from '../../utils/getUserEmailPreference';
 
 export async function processCommentReply(
   id: string,

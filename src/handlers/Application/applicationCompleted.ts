@@ -1,7 +1,8 @@
 import { render } from '@react-email/render';
 
-import { basePath, kashEmail } from '../../constants';
-import { ApplicationCompletedTemplate } from '../../email-templates';
+import { basePath } from '../../constants/basePath';
+import { kashEmail } from '../../constants/emails';
+import { ApplicationCompletedTemplate } from '../../email-templates/Application/applicationCompletedTemplate';
 import { prisma } from '../../prisma';
 
 export async function processApplicationCompleted(id: string, userId: string) {

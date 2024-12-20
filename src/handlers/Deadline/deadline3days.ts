@@ -2,8 +2,9 @@ import { render } from '@react-email/render';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 
-import { basePath, kashEmail } from '../../constants';
-import { DeadlineThreeDaysTemplate } from '../../email-templates';
+import { basePath } from '../../constants/basePath';
+import { kashEmail } from '../../constants/emails';
+import { DeadlineThreeDaysTemplate } from '../../email-templates/Deadline/deadline3dayTemplate';
 import { prisma } from '../../prisma';
 
 export async function processDeadlineThreeDays() {

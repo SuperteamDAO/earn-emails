@@ -1,5 +1,5 @@
-import { emailTypePriority } from '../constants';
-import { type EmailActionType } from '../types';
+import { emailTypePriority } from '../constants/emailConfig';
+import { type EmailActionType } from '../types/EmailActionType';
 
 export const getPriority = (type: EmailActionType): number => {
   const priority = emailTypePriority[type];

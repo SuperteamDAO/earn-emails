@@ -1,7 +1,7 @@
 import { render } from '@react-email/render';
 
-import { kashEmail } from '../../constants';
-import { SubmissionTemplate } from '../../email-templates';
+import { kashEmail } from '../../constants/emails';
+import { SubmissionTemplate } from '../../email-templates/Submission/submissionTemplate';
 import { prisma } from '../../prisma';
 
 export async function processTalentSubmission(id: string, userId: string) {

@@ -1,9 +1,9 @@
 import { render } from '@react-email/render';
 
-import { kashEmail } from '../../constants';
-import { STWinnersTemplate } from '../../email-templates';
+import { kashEmail } from '../../constants/emails';
+import { STWinnersTemplate } from '../../email-templates/Winners/STWinnersTemplate';
 import { prisma } from '../../prisma';
-import { getListingTypeLabel } from '../../utils';
+import { getListingTypeLabel } from '../../utils/getListingTypeLabel';
 
 export async function processSTWinners(id: string) {
   const listing = await prisma.bounties.findUnique({

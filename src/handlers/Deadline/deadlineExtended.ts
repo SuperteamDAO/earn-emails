@@ -1,7 +1,8 @@
 import { render } from '@react-email/render';
 
-import { basePath, kashEmail } from '../../constants';
-import { DeadlineExtendedTemplate } from '../../email-templates';
+import { basePath } from '../../constants/basePath';
+import { kashEmail } from '../../constants/emails';
+import { DeadlineExtendedTemplate } from '../../email-templates/Deadline/deadlineExtendedTemplate';
 import { prisma } from '../../prisma';
 
 export async function processDeadlineExtended(id: string) {

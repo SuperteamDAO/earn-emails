@@ -1,9 +1,10 @@
 import { render } from '@react-email/render';
 
-import { basePath, kashEmail } from '../../constants';
-import { ScoutInviteTemplate } from '../../email-templates';
+import { basePath } from '../../constants/basePath';
+import { kashEmail } from '../../constants/emails';
+import { ScoutInviteTemplate } from '../../email-templates/Listing/scoutInviteTemplate';
 import { prisma } from '../../prisma';
-import { getUserEmailPreference } from '../../utils';
+import { getUserEmailPreference } from '../../utils/getUserEmailPreference';
 
 export async function processScoutInvite(id: string, userId: string) {
   try {

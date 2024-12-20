@@ -1,10 +1,11 @@
 import { render } from '@react-email/render';
 import dayjs from 'dayjs';
 
-import { basePath, kashEmail } from '../../constants';
-import { SubmissionSponsorTemplate } from '../../email-templates';
+import { basePath } from '../../constants/basePath';
+import { kashEmail } from '../../constants/emails';
+import { SubmissionSponsorTemplate } from '../../email-templates/Submission/submissionSponsorTemplate';
 import { prisma } from '../../prisma';
-import { getUserEmailPreference } from '../../utils';
+import { getUserEmailPreference } from '../../utils/getUserEmailPreference';
 
 export async function processSponsorSubmissions() {
   console.log('subspo');

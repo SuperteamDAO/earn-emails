@@ -1,12 +1,11 @@
 import { render } from '@react-email/render';
 
-import { basePath, kashEmail } from '../../constants';
-import {
-  ApplicationSponsorTemplate,
-  ApplicationTemplate,
-} from '../../email-templates';
+import { basePath } from '../../constants/basePath';
+import { kashEmail } from '../../constants/emails';
+import { ApplicationSponsorTemplate } from '../../email-templates/Application/applicationSponsorTemplate';
+import { ApplicationTemplate } from '../../email-templates/Application/applicationTemplate';
 import { prisma } from '../../prisma';
-import { getUserEmailPreference } from '../../utils';
+import { getUserEmailPreference } from '../../utils/getUserEmailPreference';
 
 export async function processApplication(id: string, userId: string) {
   const grantApplication = await prisma.grantApplication.findFirst({

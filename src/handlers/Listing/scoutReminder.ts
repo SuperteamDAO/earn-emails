@@ -1,8 +1,9 @@
 import { render } from '@react-email/render';
 import dayjs from 'dayjs';
 
-import { basePath, kashEmail } from '../../constants';
-import { ScoutReminderTemplate } from '../../email-templates';
+import { basePath } from '../../constants/basePath';
+import { kashEmail } from '../../constants/emails';
+import { ScoutReminderTemplate } from '../../email-templates/Listing/scoutReminderTemplate';
 import { prisma } from '../../prisma';
 
 export async function processScoutReminder() {

@@ -1,8 +1,8 @@
 import { type $Enums, type Prisma } from '@prisma/client';
 import React from 'react';
 
-import { UnsubscribeLine } from '../../components';
-import { getListingTypeLabel } from '../../utils';
+import { UnsubscribeLine } from '../../components/unsubscribeLine';
+import { getListingTypeLabel } from '../../utils/getListingTypeLabel';
 import { styles } from '../styles';
 
 interface NewListingProps {

@@ -2,7 +2,8 @@
 // import dayjs from 'dayjs';
 // import utc from 'dayjs/plugin/utc';
 
-// import { basePath, kashEmail } from '../../constants';
+// import { basePath } from '../../constants';
+// import { kashEmail } from '../../constants/emails';
 // import { Rolling30DaysTemplate } from '../../email-templates';
 // import { prisma } from '../../prisma';
 
