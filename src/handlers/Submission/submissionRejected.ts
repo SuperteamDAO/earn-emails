@@ -1,7 +1,8 @@
 import { render } from '@react-email/render';
 
-import { basePath, kashEmail } from '../../constants';
-import { SubmissionRejectedTemplate } from '../../email-templates';
+import { basePath } from '../../constants';
+import { kashEmail } from '../../constants/emails';
+import { SubmissionRejectedTemplate } from '../../email-templates/Submission/submissionRejectedTemplate';
 import { prisma } from '../../prisma';
 
 export async function processSubmissionRejected(id: string) {

@@ -1,7 +1,7 @@
 import { render } from '@react-email/render';
 
-import { kashEmail } from '../../constants';
-import { ApplicationApprovedTemplate } from '../../email-templates';
+import { kashEmail } from '../../constants/emails';
+import { ApplicationApprovedTemplate } from '../../email-templates/Application/applicationApprovedTemplate';
 import { prisma } from '../../prisma';
 
 export async function processApplicationApproval(id: string, userId: string) {

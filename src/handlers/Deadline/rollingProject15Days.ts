@@ -2,10 +2,11 @@
 // import dayjs from 'dayjs';
 // import utc from 'dayjs/plugin/utc';
 
-// import { basePath, kashEmail } from '../../constants';
+// import { basePath } from '../../constants';
+// import { kashEmail } from '../../constants/emails';
 // import { Rolling15DaysTemplate } from '../../email-templates';
 // import { prisma } from '../../prisma';
-// import { getUserEmailPreference } from '../../utils';
+// import { getUserEmailPreference } from '../../utils/getUserEmailPreference';
 
 // export async function processRollingProject15Days() {
 //   dayjs.extend(utc);

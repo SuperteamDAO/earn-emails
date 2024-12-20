@@ -1,7 +1,7 @@
 import { render } from '@react-email/render';
 
-import { kashEmail } from '../../constants';
-import { PaymentReceivedTemplate } from '../../email-templates';
+import { kashEmail } from '../../constants/emails';
+import { PaymentReceivedTemplate } from '../../email-templates/Winners/paymentReceivedTemplate';
 import { prisma } from '../../prisma';
 
 export async function processAddPayment(id: string) {

@@ -7,13 +7,14 @@ import express, {
 } from 'express';
 import jwt from 'jsonwebtoken';
 
-import { getPriority, logicQueue } from './utils';
-
 config();
 
 import './workers/logicWorker';
 import './workers/emailWorker';
 import './jobs';
+
+import { getPriority } from './utils/getPriority';
+import { logicQueue } from './utils/queue';
 
 const app = express();
 const PORT = process.env.PORT || 4000;

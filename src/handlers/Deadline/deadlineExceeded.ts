@@ -2,10 +2,11 @@ import { render } from '@react-email/render';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 
-import { basePath, kashEmail } from '../../constants';
-import { DeadlineSponsorTemplate } from '../../email-templates';
+import { basePath } from '../../constants';
+import { kashEmail } from '../../constants/emails';
+import { DeadlineSponsorTemplate } from '../../email-templates/Deadline/deadlineSponsorTemplate';
 import { prisma } from '../../prisma';
-import { getUserEmailPreference } from '../../utils';
+import { getUserEmailPreference } from '../../utils/getUserEmailPreference';
 
 export async function processDeadlineExceeded() {
   dayjs.extend(utc);

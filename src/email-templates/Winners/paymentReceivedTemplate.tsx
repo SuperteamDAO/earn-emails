@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { UnsubscribeLine } from '../../components';
+import { UnsubscribeLine } from '../../components/unsubscribeLine';
 import { basePath } from '../../constants';
 import { styles } from '../styles';
 

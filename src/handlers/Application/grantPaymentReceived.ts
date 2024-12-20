@@ -1,7 +1,7 @@
 import { render } from '@react-email/render';
 
-import { kashEmail } from '../../constants';
-import { GrantPaymentReceivedTemplate } from '../../email-templates';
+import { kashEmail } from '../../constants/emails';
+import { GrantPaymentReceivedTemplate } from '../../email-templates/Application/grantPaymentReceivedTemplate';
 import { prisma } from '../../prisma';
 
 export async function processGrantPayment(id: string, userId: string) {

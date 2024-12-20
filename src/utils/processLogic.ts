@@ -1,5 +1,5 @@
-import { emailProcessors } from '../constants';
-import { type EmailActionType } from '../types';
+import { emailProcessors } from '../constants/emailConfig';
+import { type EmailActionType } from '../types/EmailActionType';
 
 interface ProcessLogicParams {
   type: EmailActionType;

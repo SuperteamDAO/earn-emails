@@ -1,14 +1,13 @@
 import { CommentRefType } from '@prisma/client';
 import { render } from '@react-email/render';
 
-import { basePath, kashEmail } from '../../constants';
-import { CommentActivityTemplate } from '../../email-templates';
+import { basePath } from '../../constants';
+import { kashEmail } from '../../constants/emails';
+import { CommentActivityTemplate } from '../../email-templates/Comment/commentActivityTemplate';
 import { prisma } from '../../prisma';
-import {
-  capitalizeWords,
-  getCommentSourceURL,
-  getUserEmailPreference,
-} from '../../utils';
+import { capitalizeWords } from '../../utils/capitalizeWords';
+import { getCommentSourceURL } from '../../utils/comment';
+import { getUserEmailPreference } from '../../utils/getUserEmailPreference';
 
 function typeToLabel(ref: CommentRefType, isProject?: boolean) {
   switch (ref) {

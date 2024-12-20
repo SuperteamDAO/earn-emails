@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { UnsubscribeLine } from '../../components';
+import { UnsubscribeLine } from '../../components/unsubscribeLine';
 import { styles } from '../styles';
 
 interface TemplateProps {
@@ -29,8 +29,10 @@ export const STWinnersTemplate = ({
         to receive your reward.
       </p>
       <p style={styles.textWithMargin}>
-        We verify payment requests on Mondays. If verified, payments should reach you by the following Friday (UTC). Therefore, your rewards might
-        take a week or so to show up in your wallet. Once your payment request is verified, you can track the status of your payment {' '}
+        We verify payment requests on Mondays. If verified, payments should
+        reach you by the following Friday (UTC). Therefore, your rewards might
+        take a week or so to show up in your wallet. Once your payment request
+        is verified, you can track the status of your payment{' '}
         <a
           href={'https://in.superteam.fun/payment-pipeline'}
           style={styles.link}

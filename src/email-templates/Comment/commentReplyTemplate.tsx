@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { UnsubscribeLine } from '../../components';
+import { UnsubscribeLine } from '../../components/unsubscribeLine';
 import { styles } from '../styles';
 
 interface SubmissionProps {
@@ -8,10 +8,7 @@ interface SubmissionProps {
   link: string;
 }
 
-export const CommentReplyTemplate = ({
-  name,
-  link,
-}: SubmissionProps) => {
+export const CommentReplyTemplate = ({ name, link }: SubmissionProps) => {
   return (
     <div style={styles.container}>
       <p style={styles.greetings}>Hello&nbsp;{name},</p>

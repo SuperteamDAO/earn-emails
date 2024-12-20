@@ -1,38 +1,35 @@
+import { type CommentRefType } from '@prisma/client';
 import React from 'react';
 
-import { UnsubscribeLine } from '../../components';
+import { UnsubscribeLine } from '../../components/unsubscribeLine';
 import { styles } from '../styles';
-import { CommentRefType } from '@prisma/client';
 
 interface ActivityProps {
   name: string;
   personName: string;
   link: string;
   type: CommentRefType;
-  isProject?: boolean
+  isProject?: boolean;
 }
 
-function typeCopy(type: CommentRefType, isProject?: boolean): JSX.Element | null {
+function typeCopy(
+  type: CommentRefType,
+  isProject?: boolean,
+): JSX.Element | null {
   switch (type) {
     case 'POW':
-      return (
-        <>
-          just left a new comment on your personal project.
-        </>
-      );
+      return <>just left a new comment on your personal project.</>;
     case 'SUBMISSION':
       return (
         <>
-          just left a new comment on your {isProject ? 'application' : 'submission'}.
+          just left a new comment on your{' '}
+          {isProject ? 'application' : 'submission'}.
         </>
       );
     case 'GRANT_APPLICATION':
-      return (
-        <>
-          just left a new comment on your grant application.
-        </>
-      );
-    default: return <></>
+      return <>just left a new comment on your grant application.</>;
+    default:
+      return <></>;
   }
 }
 
@@ -41,7 +38,7 @@ export const CommentActivityTemplate = ({
   personName,
   link,
   type,
-  isProject
+  isProject,
 }: ActivityProps) => {
   return (
     <div style={styles.container}>

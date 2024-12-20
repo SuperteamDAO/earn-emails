@@ -2,7 +2,8 @@
 // import dayjs from 'dayjs';
 // import utc from 'dayjs/plugin/utc';
 
-// import { basePath, kashEmail } from '../../constants';
+// import { basePath } from '../../constants';
+// import { kashEmail } from '../../constants/emails';
 // import { prisma } from '../../prisma';
 
 // export async function processRollingProjectUnpublish() {

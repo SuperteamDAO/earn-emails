@@ -2,15 +2,17 @@ import { Regions } from '@prisma/client';
 import { render } from '@react-email/render';
 import dayjs from 'dayjs';
 
-import { basePath, kashEmail, Superteams } from '../../constants';
-import { NewListingTemplate } from '../../email-templates';
+import { basePath } from '../../constants';
+import { kashEmail } from '../../constants/emails';
+import { Superteams } from '../../constants/Superteam';
+import { NewListingTemplate } from '../../email-templates/Listing/newListingTemplate';
 import { prisma } from '../../prisma';
 import {
   developmentSkills,
   nonDevelopmentSubSkills,
   type Skills,
-} from '../../types';
-import { getListingTypeLabel } from '../../utils';
+} from '../../types/Skills';
+import { getListingTypeLabel } from '../../utils/getListingTypeLabel';
 
 export async function processCreateListing() {
   try {

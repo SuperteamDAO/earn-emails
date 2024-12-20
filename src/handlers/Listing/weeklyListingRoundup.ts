@@ -2,8 +2,9 @@ import { Regions } from '@prisma/client';
 import { render } from '@react-email/render';
 import dayjs from 'dayjs';
 
-import { kashEmail, Superteams } from '../../constants';
-import { WeeklyRoundupTemplate } from '../../email-templates';
+import { kashEmail } from '../../constants/emails';
+import { Superteams } from '../../constants/Superteam';
+import { WeeklyRoundupTemplate } from '../../email-templates/Listing/weeklyRoundupTemplate';
 import { prisma } from '../../prisma';
 import {
   developmentSkills,
@@ -11,7 +12,7 @@ import {
   nonDevelopmentSubSkills,
   type Skills,
   type SubSkillsType,
-} from '../../types';
+} from '../../types/Skills';
 
 const ALLOWED_USERS = 20250;
 

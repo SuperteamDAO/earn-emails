@@ -1,14 +1,13 @@
 import { CommentRefType } from '@prisma/client';
 import { render } from '@react-email/render';
 
-import { basePath, kashEmail } from '../../constants';
-import { CommentTagTemplate } from '../../email-templates';
+import { basePath } from '../../constants';
+import { kashEmail } from '../../constants/emails';
+import { CommentTagTemplate } from '../../email-templates/Comment/commentTagTemplate';
 import { prisma } from '../../prisma';
-import {
-  capitalizeWords,
-  getCommentSourceURL,
-  getUserEmailPreference,
-} from '../../utils';
+import { capitalizeWords } from '../../utils/capitalizeWords';
+import { getCommentSourceURL } from '../../utils/comment';
+import { getUserEmailPreference } from '../../utils/getUserEmailPreference';
 
 export async function processCommentTag(
   id: string,

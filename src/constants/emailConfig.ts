@@ -1,35 +1,33 @@
-import {
-  processAddPayment,
-  processAnnounceWinners,
-  processApplication,
-  processApplicationApproval,
-  processApplicationCompleted,
-  processApplicationLike,
-  processApplicationRejection,
-  processCommentActivity,
-  processCommentReply,
-  processCommentSponsor,
-  processCommentTag,
-  processCreateListing,
-  processDeadlineExceeded,
-  processDeadlineExceededWeek,
-  processDeadlineExtended,
-  processDeadlineThreeDays,
-  processGrantPayment,
-  processNonSTWinners,
-  processPoWLike,
-  processScoutInvite,
-  processScoutReminder,
-  processSponsorSubmissions,
-  processSTWinners,
-  processSubmissionLike,
-  processSubmissionRejected,
-  processTalentReminder,
-  processTalentSubmission,
-  processVerifiedStatus,
-  processWeeklyRoundup,
-} from '../handlers';
-import { type EmailActionType } from '../types';
+import { processApplication } from '../handlers/Application/application';
+import { processApplicationApproval } from '../handlers/Application/applicationApproved';
+import { processApplicationCompleted } from '../handlers/Application/applicationCompleted';
+import { processApplicationLike } from '../handlers/Application/applicationLike';
+import { processApplicationRejection } from '../handlers/Application/applicationRejected';
+import { processGrantPayment } from '../handlers/Application/grantPaymentReceived';
+import { processCommentActivity } from '../handlers/Comment/commentActivity';
+import { processCommentReply } from '../handlers/Comment/commentReply';
+import { processCommentSponsor } from '../handlers/Comment/commentSponsor';
+import { processCommentTag } from '../handlers/Comment/commentTag';
+import { processDeadlineThreeDays } from '../handlers/Deadline/deadline3days';
+import { processDeadlineExceeded } from '../handlers/Deadline/deadlineExceeded';
+import { processDeadlineExceededWeek } from '../handlers/Deadline/deadlineExceededWeek';
+import { processDeadlineExtended } from '../handlers/Deadline/deadlineExtended';
+import { processCreateListing } from '../handlers/Listing/createListing';
+import { processScoutInvite } from '../handlers/Listing/scoutInvite';
+import { processScoutReminder } from '../handlers/Listing/scoutReminder';
+import { processTalentReminder } from '../handlers/Listing/talentReminder';
+import { processVerifiedStatus } from '../handlers/Listing/verfiedStatus';
+import { processWeeklyRoundup } from '../handlers/Listing/weeklyListingRoundup';
+import { processPoWLike } from '../handlers/PoW/powLike';
+import { processSubmissionLike } from '../handlers/Submission/submissionLike';
+import { processSubmissionRejected } from '../handlers/Submission/submissionRejected';
+import { processSponsorSubmissions } from '../handlers/Submission/submissionSponsor';
+import { processTalentSubmission } from '../handlers/Submission/submissionTalent';
+import { processAddPayment } from '../handlers/Winners/addPayment';
+import { processAnnounceWinners } from '../handlers/Winners/announceWinners';
+import { processNonSTWinners } from '../handlers/Winners/nonSTWinners';
+import { processSTWinners } from '../handlers/Winners/STWinners';
+import { type EmailActionType } from '../types/EmailActionType';
 
 export const emailActionCategoryMapping = {
   // talent emails
