@@ -25,9 +25,7 @@ const logicWorker = new Worker(
       };
 
       if (Array.isArray(emailDatas)) {
-        for (const emailData of emailDatas) {
-          await addToQueue(emailData);
-        }
+        await Promise.all(emailDatas.map(addToQueue));
       } else {
         await addToQueue(emailDatas);
       }

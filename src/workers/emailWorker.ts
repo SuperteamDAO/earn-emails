@@ -56,24 +56,21 @@ const emailWorker = new Worker(
         return;
       }
 
-      const isBlocked = await prisma.blockedEmail.findUnique({
-        where: { email: to },
-      });
+      const [isBlocked, isUnsubscribed] = await Promise.all([
+        prisma.blockedEmail.findUnique({ where: { email: to } }),
+        checkUnsubscribe
+          ? prisma.unsubscribedEmail.findUnique({ where: { email: to } })
+          : Promise.resolve(null),
+      ]);
 
       if (isBlocked) {
         console.log(`Email not sent. ${to} is blocked.`);
         return;
       }
 
-      if (checkUnsubscribe) {
-        const isUnsubscribed = await prisma.unsubscribedEmail.findUnique({
-          where: { email: to },
-        });
-
-        if (isUnsubscribed) {
-          console.log(`Email not sent. ${to} has unsubscribed.`);
-          return;
-        }
+      if (isUnsubscribed) {
+        console.log(`Email not sent. ${to} has unsubscribed.`);
+        return;
       }
 
       const unsubscribeURL = generateUnsubscribeURL(to);
