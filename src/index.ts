@@ -37,21 +37,40 @@ const authenticateToken = (req: Request, res: Response, next: NextFunction) => {
   });
 };
 
-app.post('/email', authenticateToken, async (req: Request, res: Response) => {
-  const { type, id, userId, otherInfo } = req.body;
-  const priority = getPriority(type);
+app.post('/email', authenticateToken, (req: Request, res: Response) => {
+  try {
+    const { type, entityId, userId, otherInfo, logId, batchId } = req.body;
+    const priority = getPriority(type);
 
-  await logicQueue.add(
-    'processLogic',
-    {
-      type,
-      id,
-      userId,
-      otherInfo,
-    },
-    { priority },
-  );
-  res.send('Email processing initiated.');
+    res.status(202).json({ message: 'Email processing initiated' });
+
+    logicQueue
+      .add(
+        'processLogic',
+        {
+          type,
+          entityId,
+          userId,
+          otherInfo,
+          logId,
+          batchId,
+        },
+        { priority },
+      )
+      .catch((error) => {
+        console.error('Failed to add job to logic queue:', {
+          error,
+          type,
+          entityId,
+          userId,
+          logId,
+          batchId,
+        });
+      });
+  } catch (error) {
+    console.error('Error processing email request:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
 });
 
 app.listen(PORT, () => {

@@ -22,7 +22,7 @@ function typeToLabel(ref: CommentRefType, isProject?: boolean) {
 }
 
 export async function processCommentActivity(
-  id: string,
+  entityId: string,
   _: string,
   otherInfo: any,
 ) {
@@ -39,7 +39,7 @@ export async function processCommentActivity(
   let isProject = false;
   if (type === 'SUBMISSION') {
     const submission = await prisma.submission.findUnique({
-      where: { id },
+      where: { id: entityId },
       select: {
         userId: true,
         listing: {
@@ -64,7 +64,7 @@ export async function processCommentActivity(
   }
   if (type === 'POW') {
     const pow = await prisma.poW.findUnique({
-      where: { id },
+      where: { id: entityId },
       select: {
         userId: true,
         user: {
@@ -83,7 +83,7 @@ export async function processCommentActivity(
   }
   if (type === 'GRANT_APPLICATION') {
     const grantApplication = await prisma.grantApplication.findUnique({
-      where: { id },
+      where: { id: entityId },
       select: {
         userId: true,
         user: {
@@ -107,7 +107,7 @@ export async function processCommentActivity(
       'commentActivity',
     );
 
-    const link = getCommentSourceURL(basePath, type, null, id).toString();
+    const link = getCommentSourceURL(basePath, type, null, entityId).toString();
     if (userPreference) {
       const emailHtml = await render(
         CommentActivityTemplate({

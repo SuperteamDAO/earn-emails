@@ -6,7 +6,7 @@ import { VerifiedStatusTemplate } from '../../email-templates/Listing/verifiedSt
 import { prisma } from '../../prisma';
 
 export async function processVerifiedStatus(
-  id: string,
+  entityId: string,
   _: string,
   otherInfo: any,
 ) {
@@ -18,12 +18,12 @@ export async function processVerifiedStatus(
   }
 
   const listing = await prisma.bounties.findFirst({
-    where: { id },
+    where: { id: entityId },
     include: { sponsor: true, poc: true },
   });
 
   if (!listing) {
-    console.error(`No listing found with the provided ID: ${id}`);
+    console.error(`No listing found with the provided ID: ${entityId}`);
     return null;
   }
 

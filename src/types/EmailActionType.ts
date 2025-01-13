@@ -1,31 +1,34 @@
-export type EmailActionType =
+export type EmailActionTypeCron =
+  | 'deadline3days'
+  | 'deadlineExceeded'
+  | 'deadlineExceededWeek'
+  | 'submissionSponsor'
+  | 'submissionLike'
+  | 'applicationLike'
+  | 'powLike'
+  | 'scoutReminder'
+  | 'createListing'
+  | 'weeklyListingRoundup'
+  | 'talentReminder';
+
+export type EmailActionTypeServer =
   | 'addPayment'
-  | 'announceWinners'
-  | 'application'
+  | 'announceWinners' //many
+  | 'application' //2
   | 'commentReply'
   | 'commentSponsor'
   | 'commentActivity'
   | 'commentTag'
-  | 'createListing'
-  | 'deadline3days'
-  | 'deadlineExceeded'
-  | 'deadlineExceededWeek'
-  | 'deadlineExtended'
+  | 'deadlineExtended' //many
   | 'grantApproved'
   | 'grantCompleted'
   | 'grantPaymentReceived'
   | 'grantRejected'
   | 'scoutInvite'
-  | 'scoutReminder'
   | 'submissionRejected'
-  | 'submissionLike'
-  | 'applicationLike'
-  | 'powLike'
-  | 'submissionSponsor'
   | 'submissionTalent'
-  | 'STWinners'
-  | 'nonSTWinners'
-  | 'weeklyListingRoundup'
-  | 'talentReminder'
+  | 'STWinners' //many
+  | 'nonSTWinners' //many
   | 'verifiedListingStatus';
-// | 'dupe'
+
+export type EmailActionType = EmailActionTypeCron | EmailActionTypeServer;

@@ -4,9 +4,12 @@ import { kashEmail } from '../../constants/emails';
 import { SubmissionTemplate } from '../../email-templates/Submission/submissionTemplate';
 import { prisma } from '../../prisma';
 
-export async function processTalentSubmission(id: string, userId: string) {
+export async function processTalentSubmission(
+  entityId: string,
+  userId: string,
+) {
   const listing = await prisma.bounties.findFirst({
-    where: { id },
+    where: { id: entityId },
   });
 
   const user = await prisma.user.findFirst({

@@ -7,9 +7,9 @@ import { ApplicationTemplate } from '../../email-templates/Application/applicati
 import { prisma } from '../../prisma';
 import { getUserEmailPreference } from '../../utils/getUserEmailPreference';
 
-export async function processApplication(id: string, userId: string) {
+export async function processApplication(entityId: string, userId: string) {
   const grantApplication = await prisma.grantApplication.findFirst({
-    where: { id },
+    where: { id: entityId },
     include: {
       grant: {
         include: {

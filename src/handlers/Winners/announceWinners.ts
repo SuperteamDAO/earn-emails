@@ -6,15 +6,15 @@ import { WinnersAnnouncedTemplate } from '../../email-templates/Winners/winnersA
 import { prisma } from '../../prisma';
 import { getListingTypeLabel } from '../../utils/getListingTypeLabel';
 
-export async function processAnnounceWinners(id: string) {
+export async function processAnnounceWinners(entityId: string) {
   const listing = await prisma.bounties.findUnique({
-    where: { id },
+    where: { id: entityId },
   });
 
   if (listing) {
     const submissions = await prisma.submission.findMany({
       where: {
-        listingId: id,
+        listingId: entityId,
         isActive: true,
         isArchived: false,
       },
@@ -26,7 +26,7 @@ export async function processAnnounceWinners(id: string) {
 
     const subscribers = await prisma.subscribeBounty.findMany({
       where: {
-        bountyId: id,
+        bountyId: entityId,
       },
       include: {
         User: true,

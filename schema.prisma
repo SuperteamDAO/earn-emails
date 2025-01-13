@@ -13,7 +13,7 @@ model Bounties {
   id                   String             @id @default(uuid())
   title                String
   slug                 String             @unique
-  description          String?            @db.Text
+  description          String?            @db.LongText
   deadline             DateTime?
   eligibility          Json?
   status               status             @default(OPEN)
@@ -245,6 +245,7 @@ model GrantApplication {
   like                Json?
   likeCount           Int                    @default(0)
   Comments            Comment[]
+  decidedBy           String?
 
   @@index([userId])
   @@index([grantId])
@@ -549,18 +550,35 @@ model emailLogs {
   @@index([email, type])
 }
 
-model ResendLogs {
-  id        String   @id @default(uuid())
-  email     String
-  subject   String
-  status    String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model EmailBatch {
+  id          String   @id @default(uuid())
+  type        String
+  status      String   @default("initiated")
+  triggeredBy String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  emails Emails[]
+}
+
+model Emails {
+  id          String   @id @default(uuid())
+  email       String?
+  subject     String?
+  status      String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  type        String
+  batchId     String?
+  triggeredBy String
+
+  batch EmailBatch? @relation(fields: [batchId], references: [id])
 
   @@index([email, createdAt(sort: Desc)])
   @@index([createdAt(sort: Desc)])
   @@index([status])
   @@index([email, status])
+  @@index([batchId])
 }
 
 model SubscribeBounty {
@@ -737,6 +755,8 @@ enum Regions {
   FRANCE
   CANADA
   SINGAPORE
+  POLAND
+  KOREA
 
   UKRAINE
   ARGENTINA

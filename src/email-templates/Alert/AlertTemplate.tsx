@@ -4,7 +4,7 @@ import { styles } from '../styles';
 
 interface AlertProps {
   type: string;
-  id?: string;
+  entityId?: string;
   userId?: string;
   otherInfo?: string;
   errorMessage: string;
@@ -12,7 +12,7 @@ interface AlertProps {
 
 export const AlertTemplate = ({
   type,
-  id,
+  entityId,
   userId,
   otherInfo,
   errorMessage,
@@ -21,8 +21,8 @@ export const AlertTemplate = ({
     <div style={styles.container}>
       <h4>Error Report</h4>
       <p style={styles.textWithMargin}>
-        Could not send email for type <strong>{type}</strong> to id{' '}
-        <strong>{id}</strong>.
+        Could not send email for type <strong>{type}</strong> with entity id{' '}
+        <strong>{entityId}</strong>.
       </p>
       {userId && (
         <p style={styles.text}>

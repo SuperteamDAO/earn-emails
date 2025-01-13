@@ -3,37 +3,45 @@ import { type EmailActionType } from '../types/EmailActionType';
 
 interface ProcessLogicParams {
   type: EmailActionType;
-  id?: string;
+  entityId?: string;
   userId?: string;
   otherInfo?: any;
+  logId?: string;
+  batchId?: string;
 }
 
 export async function processLogic({
   type,
-  id = '',
+  entityId = '',
   userId = '',
   otherInfo,
+  logId,
+  batchId,
 }: ProcessLogicParams) {
   const processFunction = emailProcessors[type];
   if (!processFunction) throw new Error('Invalid email type');
 
-  const result = await processFunction(id, userId, otherInfo);
+  const result = await processFunction(entityId, userId, otherInfo);
 
   if (Array.isArray(result)) {
     return result.map((emailData) => ({
       ...emailData,
       type,
-      id,
+      entityId,
       userId,
       otherInfo,
+      logId,
+      batchId,
     }));
   } else {
     return {
       ...result,
       type,
-      id,
+      entityId,
       userId,
       otherInfo,
+      logId,
+      batchId,
     };
   }
 }
