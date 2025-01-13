@@ -1,6 +1,6 @@
 import { render } from '@react-email/render';
 
-import { kashEmail } from '../../constants/emails';
+import { pratikEmail } from '../../constants/emails';
 import { STWinnersTemplate } from '../../email-templates/Winners/STWinnersTemplate';
 import { prisma } from '../../prisma';
 import { getListingTypeLabel } from '../../utils/getListingTypeLabel';
@@ -37,7 +37,7 @@ export async function processSTWinners(id: string) {
         }),
       );
       return {
-        from: kashEmail,
+        from: pratikEmail,
         to: winner.user.email,
         subject: '[Important] Submit This Form to Claim Your Reward',
         html: emailHtml,

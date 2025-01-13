@@ -1,7 +1,7 @@
 import { render } from '@react-email/render';
 
 import { basePath } from '../../constants/basePath';
-import { kashEmail } from '../../constants/emails';
+import { pratikEmail } from '../../constants/emails';
 import { DeadlineExtendedTemplate } from '../../email-templates/Deadline/deadlineExtendedTemplate';
 import { prisma } from '../../prisma';
 
@@ -62,7 +62,7 @@ export async function processDeadlineExtended(id: string) {
         }),
       );
       return {
-        from: kashEmail,
+        from: pratikEmail,
         to: user.email,
         subject: 'Listing Deadline Extended!',
         html: emailHtml,

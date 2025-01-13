@@ -2,7 +2,7 @@ import { CommentRefType } from '@prisma/client';
 import { render } from '@react-email/render';
 
 import { basePath } from '../../constants/basePath';
-import { kashEmail } from '../../constants/emails';
+import { pratikEmail } from '../../constants/emails';
 import { CommentTagTemplate } from '../../email-templates/Comment/commentTagTemplate';
 import { prisma } from '../../prisma';
 import { capitalizeWords } from '../../utils/capitalizeWords';
@@ -51,7 +51,7 @@ export async function processCommentTag(
     );
 
     const emailData = {
-      from: kashEmail,
+      from: pratikEmail,
       to: user?.email,
       subject: 'You have been mentioned in a comment on Earn',
       html: emailHtml,

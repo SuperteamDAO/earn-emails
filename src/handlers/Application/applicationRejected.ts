@@ -1,6 +1,6 @@
 import { render } from '@react-email/render';
 
-import { kashEmail } from '../../constants/emails';
+import { pratikEmail } from '../../constants/emails';
 import { ApplicationRejectedTemplate } from '../../email-templates/Application/applicationRejectedTemplate';
 import { prisma } from '../../prisma';
 
@@ -25,7 +25,7 @@ export async function processApplicationRejection(id: string, userId: string) {
     );
 
     const emailData = {
-      from: kashEmail,
+      from: pratikEmail,
       to: user.email,
       subject: 'About your recent grant application',
       html: emailHtml,

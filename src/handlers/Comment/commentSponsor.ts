@@ -1,7 +1,7 @@
 import { render } from '@react-email/render';
 
 import { basePath } from '../../constants/basePath';
-import { kashEmail } from '../../constants/emails';
+import { pratikEmail } from '../../constants/emails';
 import { CommentSponsorTemplate } from '../../email-templates/Comment/commentSponsorTemplate';
 import { prisma } from '../../prisma';
 import { getUserEmailPreference } from '../../utils/getUserEmailPreference';
@@ -33,7 +33,7 @@ export async function processCommentSponsor(id: string, userId: string) {
     );
 
     const emailData = {
-      from: kashEmail,
+      from: pratikEmail,
       to: pocUser.email,
       subject: 'Comment Received on Your Superteam Earn Listing',
       html: emailHtml,

@@ -1,7 +1,7 @@
 import { render } from '@react-email/render';
 
 import { basePath } from '../../constants/basePath';
-import { kashEmail } from '../../constants/emails';
+import { pratikEmail } from '../../constants/emails';
 import { SubmissionRejectedTemplate } from '../../email-templates/Submission/submissionRejectedTemplate';
 import { prisma } from '../../prisma';
 
@@ -27,7 +27,7 @@ export async function processSubmissionRejected(id: string) {
       }),
     );
     const emailData = {
-      from: kashEmail,
+      from: pratikEmail,
       to: submission?.user.email,
       subject: `About your recent application to ${submission.listing.sponsor.name}'s gig`,
       html: emailHtml,

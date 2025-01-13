@@ -3,7 +3,7 @@
 // import utc from 'dayjs/plugin/utc';
 
 // import { basePath } from '../../constants';
-// import { kashEmail } from '../../constants/emails';
+// import { pratikEmail } from '../../constants/emails';
 // import { prisma } from '../../prisma';
 
 // export async function processRollingProjectUnpublish() {
@@ -65,7 +65,7 @@
 //     });
 
 //     emailData.push({
-//       from: kashEmail,
+//       from: pratikEmail,
 //       to: listing.poc.email,
 //       subject: 'Unpublishing Your Listing on Earn',
 //       html: emailHtml,

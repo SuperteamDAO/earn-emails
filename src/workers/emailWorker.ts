@@ -6,7 +6,7 @@ import { config } from 'dotenv';
 import { Resend } from 'resend';
 
 import { basePath } from '../constants/basePath';
-import { kashEmail } from '../constants/emails';
+import { pratikEmail } from '../constants/emails';
 import { AlertTemplate } from '../email-templates/Alert/AlertTemplate';
 import { redis } from '../utils/queue';
 
@@ -100,7 +100,7 @@ const emailWorker = new Worker(
         console.error('Failed to send email:', error);
         if (process.env.SERVER_ENV === 'production') {
           await resend.emails.send({
-            from: kashEmail,
+            from: pratikEmail,
             to: ['abhwshek@gmail.com', 'pratik.dholani1@gmail.com'],
             subject: 'Email Error',
             html: await render(

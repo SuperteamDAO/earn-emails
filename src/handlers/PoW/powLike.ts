@@ -2,7 +2,7 @@ import { render } from '@react-email/render';
 import dayjs from 'dayjs';
 
 import { basePath } from '../../constants/basePath';
-import { kashEmail } from '../../constants/emails';
+import { pratikEmail } from '../../constants/emails';
 import { PoWLikeTemplate } from '../../email-templates/PoW/powLike';
 import { prisma } from '../../prisma';
 import { getUserEmailPreference } from '../../utils/getUserEmailPreference';
@@ -65,7 +65,7 @@ export async function processPoWLike() {
     );
 
     return {
-      from: kashEmail,
+      from: pratikEmail,
       to: proofOfWork.user.email,
       subject: `${newLikesCount} New ${newLikesCount === 1 ? 'Like' : 'Likes'} on Your Personal Project!`,
       html: emailHtml,

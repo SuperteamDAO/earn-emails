@@ -1,7 +1,7 @@
 import { render } from '@react-email/render';
 
 import { basePath } from '../../constants/basePath';
-import { kashEmail } from '../../constants/emails';
+import { pratikEmail } from '../../constants/emails';
 import { ScoutInviteTemplate } from '../../email-templates/Listing/scoutInviteTemplate';
 import { prisma } from '../../prisma';
 import { getUserEmailPreference } from '../../utils/getUserEmailPreference';
@@ -45,7 +45,7 @@ export async function processScoutInvite(id: string, userId: string) {
     );
 
     const emailData = {
-      from: kashEmail,
+      from: pratikEmail,
       to: user.email,
       subject: `${listing.sponsor.name} Wants You to Submit to Their Latest Listing`,
       html: emailHtml,

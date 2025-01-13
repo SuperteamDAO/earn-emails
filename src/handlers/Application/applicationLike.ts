@@ -2,7 +2,7 @@ import { render } from '@react-email/render';
 import dayjs from 'dayjs';
 
 import { basePath } from '../../constants/basePath';
-import { kashEmail } from '../../constants/emails';
+import { pratikEmail } from '../../constants/emails';
 import { ApplicationLikeTemplate } from '../../email-templates/Application/applicationLikeTemplate';
 import { prisma } from '../../prisma';
 import { getUserEmailPreference } from '../../utils/getUserEmailPreference';
@@ -70,7 +70,7 @@ export async function processApplicationLike() {
     );
 
     return {
-      from: kashEmail,
+      from: pratikEmail,
       to: application.user.email,
       subject: `${newLikesCount} New ${newLikesCount === 1 ? 'Like' : 'Likes'} on Your Grant Win!`,
       html: emailHtml,

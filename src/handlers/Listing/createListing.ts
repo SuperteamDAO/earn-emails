@@ -3,7 +3,7 @@ import { render } from '@react-email/render';
 import dayjs from 'dayjs';
 
 import { basePath } from '../../constants/basePath';
-import { kashEmail } from '../../constants/emails';
+import { pratikEmail } from '../../constants/emails';
 import { Superteams } from '../../constants/Superteam';
 import { NewListingTemplate } from '../../email-templates/Listing/newListingTemplate';
 import { prisma } from '../../prisma';
@@ -188,7 +188,7 @@ export async function processCreateListing() {
         }
 
         return {
-          from: kashEmail,
+          from: pratikEmail,
           to: user.email,
           subject,
           html: emailHtml,

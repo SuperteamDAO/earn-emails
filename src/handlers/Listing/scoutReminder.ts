@@ -2,7 +2,7 @@ import { render } from '@react-email/render';
 import dayjs from 'dayjs';
 
 import { basePath } from '../../constants/basePath';
-import { kashEmail } from '../../constants/emails';
+import { pratikEmail } from '../../constants/emails';
 import { ScoutReminderTemplate } from '../../email-templates/Listing/scoutReminderTemplate';
 import { prisma } from '../../prisma';
 
@@ -86,7 +86,7 @@ export async function processScoutReminder() {
       );
 
       return {
-        from: kashEmail,
+        from: pratikEmail,
         to: listing.poc.email,
         subject: `Do you want better ${listing.type === 'project' ? 'applications' : 'submissions'} for your ${listing.type}?`,
         html: emailHtml,
