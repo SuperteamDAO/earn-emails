@@ -5,15 +5,15 @@ import { STWinnersTemplate } from '../../email-templates/Winners/STWinnersTempla
 import { prisma } from '../../prisma';
 import { getListingTypeLabel } from '../../utils/getListingTypeLabel';
 
-export async function processSTWinners(id: string) {
+export async function processSTWinners(entityId: string) {
   const listing = await prisma.bounties.findUnique({
-    where: { id },
+    where: { id: entityId },
     include: { sponsor: true },
   });
 
   const winners = await prisma.submission.findMany({
     where: {
-      listingId: id,
+      listingId: entityId,
       isWinner: true,
       isActive: true,
       isArchived: false,

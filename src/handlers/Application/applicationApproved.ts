@@ -4,9 +4,12 @@ import { kashEmail } from '../../constants/emails';
 import { ApplicationApprovedTemplate } from '../../email-templates/Application/applicationApprovedTemplate';
 import { prisma } from '../../prisma';
 
-export async function processApplicationApproval(id: string, userId: string) {
+export async function processApplicationApproval(
+  entityId: string,
+  userId: string,
+) {
   const grantApplication = await prisma.grantApplication.findFirst({
-    where: { id },
+    where: { id: entityId },
     include: {
       grant: {
         include: {

@@ -39,7 +39,7 @@ const authenticateToken = (req: Request, res: Response, next: NextFunction) => {
 
 app.post('/email', authenticateToken, (req: Request, res: Response) => {
   try {
-    const { type, id, userId, otherInfo } = req.body;
+    const { type, entityId, userId, otherInfo, logId, batchId } = req.body;
     const priority = getPriority(type);
 
     res.status(202).json({ message: 'Email processing initiated' });
@@ -49,9 +49,11 @@ app.post('/email', authenticateToken, (req: Request, res: Response) => {
         'processLogic',
         {
           type,
-          id,
+          entityId,
           userId,
           otherInfo,
+          logId,
+          batchId,
         },
         { priority },
       )
@@ -59,8 +61,10 @@ app.post('/email', authenticateToken, (req: Request, res: Response) => {
         console.error('Failed to add job to logic queue:', {
           error,
           type,
-          id,
+          entityId,
           userId,
+          logId,
+          batchId,
         });
       });
   } catch (error) {

@@ -9,7 +9,7 @@ import { getCommentSourceURL } from '../../utils/comment';
 import { getUserEmailPreference } from '../../utils/getUserEmailPreference';
 
 export async function processCommentReply(
-  id: string,
+  entityId: string,
   userId: string,
   otherInfo: any,
 ) {
@@ -30,13 +30,18 @@ export async function processCommentReply(
   });
 
   const listing = await prisma.bounties.findFirst({
-    where: { id },
+    where: { id: entityId },
     include: {
       poc: true,
     },
   });
 
-  const link = getCommentSourceURL(basePath, type, listing, id).toString();
+  const link = getCommentSourceURL(
+    basePath,
+    type,
+    listing,
+    entityId,
+  ).toString();
 
   if (user) {
     const emailHtml = await render(

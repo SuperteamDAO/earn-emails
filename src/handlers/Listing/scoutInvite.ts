@@ -6,7 +6,7 @@ import { ScoutInviteTemplate } from '../../email-templates/Listing/scoutInviteTe
 import { prisma } from '../../prisma';
 import { getUserEmailPreference } from '../../utils/getUserEmailPreference';
 
-export async function processScoutInvite(id: string, userId: string) {
+export async function processScoutInvite(entityId: string, userId: string) {
   try {
     console.log('scout');
     const userPreference = await getUserEmailPreference(userId, 'scoutInvite');
@@ -17,12 +17,12 @@ export async function processScoutInvite(id: string, userId: string) {
     }
 
     const listing = await prisma.bounties.findFirst({
-      where: { id },
+      where: { id: entityId },
       include: { sponsor: true, poc: true },
     });
 
     if (!listing) {
-      console.error(`No listing found with the provided ID: ${id}`);
+      console.error(`No listing found with the provided ID: ${entityId}`);
       return null;
     }
 

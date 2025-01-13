@@ -4,9 +4,9 @@ import { kashEmail } from '../../constants/emails';
 import { PaymentReceivedTemplate } from '../../email-templates/Winners/paymentReceivedTemplate';
 import { prisma } from '../../prisma';
 
-export async function processAddPayment(id: string) {
+export async function processAddPayment(entityId: string) {
   const submission = await prisma.submission.findUnique({
-    where: { id },
+    where: { id: entityId },
     include: { listing: true, user: true },
   });
 

@@ -6,7 +6,7 @@ import { CommentSponsorTemplate } from '../../email-templates/Comment/commentSpo
 import { prisma } from '../../prisma';
 import { getUserEmailPreference } from '../../utils/getUserEmailPreference';
 
-export async function processCommentSponsor(id: string, userId: string) {
+export async function processCommentSponsor(entityId: string, userId: string) {
   const userPreference = await getUserEmailPreference(userId, 'commentSponsor');
 
   if (!userPreference) {
@@ -15,7 +15,7 @@ export async function processCommentSponsor(id: string, userId: string) {
   }
 
   const listing = await prisma.bounties.findFirst({
-    where: { id },
+    where: { id: entityId },
     include: {
       poc: true,
     },

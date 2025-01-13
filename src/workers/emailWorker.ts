@@ -34,7 +34,7 @@ const emailWorker = new Worker(
       html,
       cc,
       bcc,
-      id,
+      entityId,
       type,
       userId,
       otherInfo,
@@ -106,7 +106,7 @@ const emailWorker = new Worker(
             html: await render(
               AlertTemplate({
                 type,
-                id,
+                entityId,
                 otherInfo,
                 userId,
                 errorMessage: error.message || 'Unknown Error',

@@ -5,9 +5,9 @@ import { kashEmail } from '../../constants/emails';
 import { SubmissionRejectedTemplate } from '../../email-templates/Submission/submissionRejectedTemplate';
 import { prisma } from '../../prisma';
 
-export async function processSubmissionRejected(id: string) {
+export async function processSubmissionRejected(entityId: string) {
   const submission = await prisma.submission.findUnique({
-    where: { id },
+    where: { id: entityId },
     include: {
       user: true,
       listing: {

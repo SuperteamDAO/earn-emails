@@ -5,9 +5,12 @@ import { kashEmail } from '../../constants/emails';
 import { ApplicationCompletedTemplate } from '../../email-templates/Application/applicationCompletedTemplate';
 import { prisma } from '../../prisma';
 
-export async function processApplicationCompleted(id: string, userId: string) {
+export async function processApplicationCompleted(
+  entityId: string,
+  userId: string,
+) {
   const application = await prisma.grantApplication.findFirst({
-    where: { id },
+    where: { id: entityId },
     include: {
       user: true,
       grant: {
@@ -19,7 +22,7 @@ export async function processApplicationCompleted(id: string, userId: string) {
   });
 
   if (!application) {
-    console.log(`Grant application not found with id: ${id}`);
+    console.log(`Grant application not found with id: ${entityId}`);
     return;
   }
 

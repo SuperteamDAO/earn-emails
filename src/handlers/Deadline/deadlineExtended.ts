@@ -5,14 +5,14 @@ import { kashEmail } from '../../constants/emails';
 import { DeadlineExtendedTemplate } from '../../email-templates/Deadline/deadlineExtendedTemplate';
 import { prisma } from '../../prisma';
 
-export async function processDeadlineExtended(id: string) {
+export async function processDeadlineExtended(entityId: string) {
   const listing = await prisma.bounties.findUnique({
-    where: { id },
+    where: { id: entityId },
   });
 
   const submissions = await prisma.submission.findMany({
     where: {
-      listingId: id,
+      listingId: entityId,
       isActive: true,
       isArchived: false,
     },
@@ -24,7 +24,7 @@ export async function processDeadlineExtended(id: string) {
 
   const subscribers = await prisma.subscribeBounty.findMany({
     where: {
-      bountyId: id,
+      bountyId: entityId,
     },
     include: {
       User: true,

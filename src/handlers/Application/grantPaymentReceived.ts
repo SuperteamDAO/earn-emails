@@ -4,9 +4,9 @@ import { kashEmail } from '../../constants/emails';
 import { GrantPaymentReceivedTemplate } from '../../email-templates/Application/grantPaymentReceivedTemplate';
 import { prisma } from '../../prisma';
 
-export async function processGrantPayment(id: string, userId: string) {
+export async function processGrantPayment(entityId: string, userId: string) {
   const grantApplication = await prisma.grantApplication.findFirst({
-    where: { id },
+    where: { id: entityId },
     include: {
       grant: {
         include: {
