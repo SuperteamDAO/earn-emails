@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 
 import { basePath } from '../../constants/basePath';
-import { kashEmail } from '../../constants/emails';
+import { pratikEmail } from '../../constants/emails';
 import { DeadlineThreeDaysTemplate } from '../../email-templates/Deadline/deadline3dayTemplate';
 import { prisma } from '../../prisma';
 
@@ -57,7 +57,7 @@ export async function processDeadlineThreeDays() {
       );
 
       emails.push({
-        from: kashEmail,
+        from: pratikEmail,
         to: sub?.User?.email,
         subject: 'This Listing Is Expiring Soon!',
         html: emailHtml,

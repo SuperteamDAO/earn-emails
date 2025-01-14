@@ -2,7 +2,7 @@ import { CommentRefType } from '@prisma/client';
 import { render } from '@react-email/render';
 
 import { basePath } from '../../constants/basePath';
-import { kashEmail } from '../../constants/emails';
+import { pratikEmail } from '../../constants/emails';
 import { CommentActivityTemplate } from '../../email-templates/Comment/commentActivityTemplate';
 import { prisma } from '../../prisma';
 import { capitalizeWords } from '../../utils/capitalizeWords';
@@ -119,7 +119,7 @@ export async function processCommentActivity(
       );
 
       const emailData = {
-        from: kashEmail,
+        from: pratikEmail,
         to: userEmail,
         subject: `Comment Received on Your Superteam Earn ${typeToLabel(type, isProject)}`,
         html: emailHtml,

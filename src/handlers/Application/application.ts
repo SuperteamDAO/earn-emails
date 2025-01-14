@@ -1,7 +1,7 @@
 import { render } from '@react-email/render';
 
 import { basePath } from '../../constants/basePath';
-import { kashEmail } from '../../constants/emails';
+import { pratikEmail } from '../../constants/emails';
 import { ApplicationSponsorTemplate } from '../../email-templates/Application/applicationSponsorTemplate';
 import { ApplicationTemplate } from '../../email-templates/Application/applicationTemplate';
 import { prisma } from '../../prisma';
@@ -55,7 +55,7 @@ export async function processApplication(id: string, userId: string) {
     );
 
     emailData.push({
-      from: kashEmail,
+      from: pratikEmail,
       to: grantApplication?.grant?.poc?.email,
       subject: 'New Grant Application Received',
       html: sponsorEmailHtml,
@@ -74,7 +74,7 @@ export async function processApplication(id: string, userId: string) {
   );
 
   emailData.push({
-    from: kashEmail,
+    from: pratikEmail,
     to: user.email,
     subject: `${sponsorName} Has Received Your Grant Application`,
     html: talentEmailHtml,

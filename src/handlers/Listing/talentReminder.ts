@@ -2,7 +2,7 @@ import { Regions } from '@prisma/client';
 import { render } from '@react-email/render';
 import dayjs from 'dayjs';
 
-import { kashEmail } from '../../constants/emails';
+import { pratikEmail } from '../../constants/emails';
 import { TalentReminderTemplate } from '../../email-templates/Listing/talentReminderTemplate';
 import { prisma } from '../../prisma';
 
@@ -130,7 +130,7 @@ export async function processTalentReminder() {
     });
 
     emails.push({
-      from: kashEmail,
+      from: pratikEmail,
       to: user.email,
       subject: "Here's how you can earn in global standards:",
       html: emailHtml,

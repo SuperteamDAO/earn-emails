@@ -3,7 +3,7 @@
 // import utc from 'dayjs/plugin/utc';
 
 // import { basePath } from '../../constants';
-// import { kashEmail } from '../../constants/emails';
+// import { pratikEmail } from '../../constants/emails';
 // import { Rolling30DaysTemplate } from '../../email-templates';
 // import { prisma } from '../../prisma';
 
@@ -71,7 +71,7 @@
 //     });
 
 //     emailData.push({
-//       from: kashEmail,
+//       from: pratikEmail,
 //       to: listing.poc.email,
 //       subject: 'Good Time to Announce the Winner?',
 //       html: emailHtml,

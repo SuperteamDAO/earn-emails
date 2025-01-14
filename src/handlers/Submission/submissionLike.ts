@@ -3,7 +3,7 @@ import { render } from '@react-email/render';
 import dayjs from 'dayjs';
 
 import { basePath } from '../../constants/basePath';
-import { kashEmail } from '../../constants/emails';
+import { pratikEmail } from '../../constants/emails';
 import { SubmissionLikeTemplate } from '../../email-templates/Submission/submissionLikeTemplate';
 import { prisma } from '../../prisma';
 import { getUserEmailPreference } from '../../utils/getUserEmailPreference';
@@ -91,7 +91,7 @@ export async function processSubmissionLike() {
     );
 
     return {
-      from: kashEmail,
+      from: pratikEmail,
       to: submission.user.email,
       subject: `${newLikesCount} New ${newLikesCount === 1 ? 'Like' : 'Likes'} on Your ${type}`,
       html: emailHtml,

@@ -1,7 +1,7 @@
 import { render } from '@react-email/render';
 
 import { basePath } from '../../constants/basePath';
-import { kashEmail } from '../../constants/emails';
+import { pratikEmail } from '../../constants/emails';
 import { WinnersAnnouncedTemplate } from '../../email-templates/Winners/winnersAnnouncedTemplate';
 import { prisma } from '../../prisma';
 import { getListingTypeLabel } from '../../utils/getListingTypeLabel';
@@ -68,7 +68,7 @@ export async function processAnnounceWinners(id: string) {
         }),
       );
       return {
-        from: kashEmail,
+        from: pratikEmail,
         to: user.email,
         subject: `${listingTypeLabel} Winners Announced!`,
         html: emailHtml,

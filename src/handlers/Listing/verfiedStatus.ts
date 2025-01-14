@@ -1,7 +1,7 @@
 import { render } from '@react-email/render';
 
 import { basePath } from '../../constants/basePath';
-import { kashEmail } from '../../constants/emails';
+import { pratikEmail } from '../../constants/emails';
 import { VerifiedStatusTemplate } from '../../email-templates/Listing/verifiedStatusTemplate';
 import { prisma } from '../../prisma';
 
@@ -46,7 +46,7 @@ export async function processVerifiedStatus(
       ? 'Your Earn listing has been verified and published'
       : 'Your Earn listing could not be published';
   const emailData = {
-    from: kashEmail,
+    from: pratikEmail,
     to: listing.poc.email,
     subject,
     html: emailHtml,

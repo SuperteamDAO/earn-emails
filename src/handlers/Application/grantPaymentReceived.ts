@@ -1,6 +1,6 @@
 import { render } from '@react-email/render';
 
-import { kashEmail } from '../../constants/emails';
+import { pratikEmail } from '../../constants/emails';
 import { GrantPaymentReceivedTemplate } from '../../email-templates/Application/grantPaymentReceivedTemplate';
 import { prisma } from '../../prisma';
 
@@ -30,7 +30,7 @@ export async function processGrantPayment(id: string, userId: string) {
     );
 
     const emailData = {
-      from: kashEmail,
+      from: pratikEmail,
       to: user.email,
       subject: 'Ka-ching! You have received a grant payment',
       html: emailHtml,

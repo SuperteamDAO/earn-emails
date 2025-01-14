@@ -2,7 +2,7 @@ import { render } from '@react-email/render';
 import dayjs from 'dayjs';
 
 import { basePath } from '../../constants/basePath';
-import { kashEmail } from '../../constants/emails';
+import { pratikEmail } from '../../constants/emails';
 import { SubmissionSponsorTemplate } from '../../email-templates/Submission/submissionSponsorTemplate';
 import { prisma } from '../../prisma';
 import { getUserEmailPreference } from '../../utils/getUserEmailPreference';
@@ -75,7 +75,7 @@ export async function processSponsorSubmissions() {
       );
 
       const emailData = {
-        from: kashEmail,
+        from: pratikEmail,
         to: pocUser.email,
         subject,
         html: emailHtml,

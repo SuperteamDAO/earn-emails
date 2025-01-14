@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 
 import { basePath } from '../../constants/basePath';
-import { kashEmail } from '../../constants/emails';
+import { pratikEmail } from '../../constants/emails';
 import { DeadlineExceededbyWeekTemplate } from '../../email-templates/Deadline/deadlineExceededbyWeekTemplate';
 import { prisma } from '../../prisma';
 import { getUserEmailPreference } from '../../utils/getUserEmailPreference';
@@ -66,7 +66,7 @@ export async function processDeadlineExceededWeek() {
     });
 
     emailData.push({
-      from: kashEmail,
+      from: pratikEmail,
       to: listing.poc.email,
       bcc: ['pratikd.earnings@gmail.com'],
       subject: 'Winner Announcement for Your Earn Bounty Is Due!',

@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 
 import { basePath } from '../../constants/basePath';
-import { kashEmail } from '../../constants/emails';
+import { pratikEmail } from '../../constants/emails';
 import { DeadlineSponsorTemplate } from '../../email-templates/Deadline/deadlineSponsorTemplate';
 import { prisma } from '../../prisma';
 import { getUserEmailPreference } from '../../utils/getUserEmailPreference';
@@ -65,7 +65,7 @@ export async function processDeadlineExceeded() {
     });
 
     emailData.push({
-      from: kashEmail,
+      from: pratikEmail,
       to: listing.poc.email,
       bcc: ['pratikd.earnings@gmail.com'],
       subject: 'Your Earn Listing Is Ready to Be Reviewed',

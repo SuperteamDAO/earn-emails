@@ -2,7 +2,7 @@ import { Regions } from '@prisma/client';
 import { render } from '@react-email/render';
 import dayjs from 'dayjs';
 
-import { kashEmail } from '../../constants/emails';
+import { pratikEmail } from '../../constants/emails';
 import { Superteams } from '../../constants/Superteam';
 import { WeeklyRoundupTemplate } from '../../email-templates/Listing/weeklyRoundupTemplate';
 import { prisma } from '../../prisma';
@@ -170,7 +170,7 @@ export async function processWeeklyRoundup() {
     );
 
     emails.push({
-      from: kashEmail,
+      from: pratikEmail,
       to: user.email,
       subject: 'Your Weekly Listing Roundup Is Here!',
       html: emailHtml,
