@@ -23,7 +23,7 @@ export async function processSubmissionRejected(id: string) {
       SubmissionRejectedTemplate({
         name: submission.user.firstName!,
         listingName: submission.listing.title,
-        link: `${basePath}/listings/${submission.listing.type}/${submission.listing.slug}/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`,
+        link: `${basePath}/listing/${submission.listing.slug}/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`,
       }),
     );
     const emailData = {

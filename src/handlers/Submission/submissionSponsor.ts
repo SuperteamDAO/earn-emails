@@ -69,7 +69,7 @@ export async function processSponsorSubmissions() {
           listingName: listing.title,
           link: `${basePath}/dashboard/listings/${listing.slug}/submissions/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`,
           submissionCount: submissionCount,
-          listingLink: `${basePath}/listings/${listing.type}/${listing.slug}`,
+          listingLink: `${basePath}/listing/${listing.slug}`,
           listingType: listing.type,
         }),
       );

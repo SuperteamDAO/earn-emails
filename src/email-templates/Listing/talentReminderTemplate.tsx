@@ -39,7 +39,7 @@ const ListingItem = ({ listing }: { listing: Listing }) => {
     <li style={styles.text}>
       <div>
         <a
-          href={`${basePath}/listings/${listing.type}/${
+          href={`${basePath}/listing/${
             listing.slug || ''
           }/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`}
           style={styles.link}

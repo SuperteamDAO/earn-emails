@@ -175,7 +175,7 @@ export async function processCreateListing() {
         const emailHtml = await render(
           NewListingTemplate({
             name: user.firstName!,
-            link: `${basePath}/listings/${selectedListing.type}/${selectedListing.slug}/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`,
+            link: `${basePath}/listing/${selectedListing.slug}/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`,
             listing: selectedListing,
           }),
         );

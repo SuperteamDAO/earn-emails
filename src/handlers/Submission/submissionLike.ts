@@ -85,7 +85,7 @@ export async function processSubmissionLike() {
         listingName: submission.listing.title,
         newLikesCount,
         type,
-        listingLink: `${basePath}/listings/${submission.listing.type}/${submission.listing.slug}/submission/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`,
+        listingLink: `${basePath}/listing/${submission.listing.slug}/submission/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`,
         feedLink: `${basePath}/feed?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`,
       }),
     );
