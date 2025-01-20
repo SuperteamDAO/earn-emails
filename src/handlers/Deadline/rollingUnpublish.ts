@@ -53,7 +53,7 @@
 //       RollingUnpublishTemplate({
 //         name: listing.poc.firstName!,
 //         listingName: listing.title,
-//         link: `${basePath}/listings/${listing?.type}/${listing?.slug}/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`,
+//         link: `${basePath}/listing/${listing?.slug}/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`,
 //       }),
 //     );
 

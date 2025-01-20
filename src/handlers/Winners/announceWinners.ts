@@ -62,7 +62,7 @@ export async function processAnnounceWinners(id: string) {
         WinnersAnnouncedTemplate({
           name: user.name,
           listingName: listing?.title || '',
-          link: `${basePath}/listings/${listing?.type}/${
+          link: `${basePath}/listing/${
             listing?.slug || ''
           }/?utm_source=superteamearn&utm_medium=email&utm_campaign=winnerannouncement`,
         }),
