@@ -23,6 +23,7 @@ import { processSubmissionLike } from '../handlers/Submission/submissionLike';
 import { processSubmissionRejected } from '../handlers/Submission/submissionRejected';
 import { processSponsorSubmissions } from '../handlers/Submission/submissionSponsor';
 import { processTalentSubmission } from '../handlers/Submission/submissionTalent';
+import { processWalletAnnouncement } from '../handlers/WalletAnnouncement';
 import { processAddPayment } from '../handlers/Winners/addPayment';
 import { processAnnounceWinners } from '../handlers/Winners/announceWinners';
 import { processNonSTWinners } from '../handlers/Winners/nonSTWinners';
@@ -79,6 +80,7 @@ export const emailTypePriority: Record<EmailActionType, number> = {
   weeklyListingRoundup: 5,
   talentReminder: 6,
   powLike: 2,
+  walletAnnouncement: 2,
   // dupe: 1,
 };
 
@@ -112,5 +114,6 @@ export const emailProcessors: Record<EmailActionType, any> = {
   talentReminder: processTalentReminder,
   verifiedListingStatus: processVerifiedStatus,
   powLike: processPoWLike,
+  walletAnnouncement: processWalletAnnouncement,
   // dupe: processDupe,
 };

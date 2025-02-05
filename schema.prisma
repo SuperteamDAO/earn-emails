@@ -1,6 +1,5 @@
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["driverAdapters"]
 }
 
 datasource db {
@@ -137,7 +136,7 @@ model BountiesTemplates {
 
 model Comment {
   id               String            @id @default(uuid())
-  message          String            @db.VarChar(1000)
+  message          String            @db.VarChar(5000)
   authorId         String
   refType          CommentRefType    @default(BOUNTY)
   refId            String
@@ -224,7 +223,7 @@ model GrantApplication {
   projectDetails      String                 @db.Text
   projectTimeline     String
   proofOfWork         String                 @db.Text
-  walletAddress       String
+  walletAddress       String?
   twitter             String?
   milestones          String?                @db.Text
   kpi                 String?                @db.Text
@@ -365,6 +364,7 @@ model Session {
 model User {
   id                 String               @id @default(uuid())
   publicKey          String?
+  walletAddress      String?
   email              String               @unique
   username           String?              @unique
   photo              String?              @db.Text
@@ -420,6 +420,7 @@ model User {
   GrantApplication   GrantApplication[]
   SubscribeHackathon SubscribeHackathon[]
   isBlocked          Boolean              @default(false)
+  privyDid           String               @unique
 
   @@index([currentSponsorId])
   @@index([hackathonId])
@@ -656,6 +657,7 @@ enum EmailType {
   NEW_LISTING
   ROLLING_UNPUBLISH
   UNFILLED_PROFILE
+  WALLET_ANNOUNCEMENT
 }
 
 enum Role {
@@ -738,6 +740,8 @@ enum Regions {
   FRANCE
   CANADA
   SINGAPORE
+  POLAND
+  KOREA
 
   UKRAINE
   ARGENTINA
