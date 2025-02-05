@@ -19,7 +19,6 @@ export async function processAddPayment(id: string) {
       PaymentReceivedTemplate({
         name: submission.user.firstName!,
         tokenName: submission.listing.token,
-        walletAddress: submission.user.publicKey,
         username: submission.user.username,
         amount: rewardAmount,
       }),

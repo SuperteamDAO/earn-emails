@@ -8,7 +8,6 @@ interface TemplateProps {
   name: string | null;
   amount: number;
   tokenName: string | null;
-  walletAddress: string | null;
   username: string | null;
 }
 
@@ -16,7 +15,6 @@ export const PaymentReceivedTemplate = ({
   name,
   amount,
   tokenName,
-  walletAddress,
   username,
 }: TemplateProps) => {
   return (
@@ -27,9 +25,10 @@ export const PaymentReceivedTemplate = ({
         into some glorious crypto.
       </p>
       <p style={styles.textWithMargin}>
-        Check your wallet — you should&apos;ve received {amount} {tokenName} in
-        your wallet address {walletAddress}. This isn&apos;t just a win;
-        it&apos;s a testament to your talent and hard work.
+        <a href={`${basePath}/#wallet`} style={styles.link}>
+          Check your wallet on Earn
+        </a>{' '}
+        — you should&apos;ve received {amount} {tokenName}.
       </p>
       <p style={styles.textWithMargin}>
         Also, we bet your network would love to hear about your success. Why not
