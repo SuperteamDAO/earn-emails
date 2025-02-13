@@ -81,7 +81,6 @@ export async function processNonSTWinners(id: string) {
           listingName,
           listingType,
           sponsorName,
-          walletAddress: winner.user.publicKey,
           totalEarnings,
           position,
           pocSocials: listing.pocSocials,
