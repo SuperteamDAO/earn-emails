@@ -36,7 +36,10 @@ export const NewListingTemplate = ({
       <p style={styles.textWithMargin}>
         {listing.sponsor.name} just posted a new {listingType} called{' '}
         <a href={link} style={styles.link}>
-          {listing.title} ({listing.rewardAmount?.toLocaleString()}{' '}
+          {listing.title} (
+          {!!listing.rewardAmount
+            ? listing.rewardAmount?.toLocaleString().trim() + ' '
+            : ''}
           {listing.token})
         </a>{' '}
         that looks like a great match for your skills! Have a quick look at the
