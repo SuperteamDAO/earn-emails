@@ -13,11 +13,6 @@ export async function processApplication(id: string, userId: string) {
     include: {
       grant: {
         include: {
-          sponsor: {
-            select: {
-              name: true,
-            },
-          },
           poc: {
             select: {
               email: true,
@@ -64,19 +59,18 @@ export async function processApplication(id: string, userId: string) {
     console.log(`User ${userId} has opted out of sponsor type email.`);
   }
 
-  const sponsorName = grantApplication.grant.sponsor.name;
   const talentEmailHtml = await render(
     ApplicationTemplate({
       name: user.firstName!,
       applicationTitle: grantApplication.projectTitle,
-      sponsorName,
+      grant: grantApplication.grant,
     }),
   );
 
   emailData.push({
     from: pratikEmail,
     to: user.email,
-    subject: `${sponsorName} Has Received Your Grant Application`,
+    subject: `Grant Application Received`,
     html: talentEmailHtml,
   });
 

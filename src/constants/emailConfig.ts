@@ -4,6 +4,8 @@ import { processApplicationCompleted } from '../handlers/Application/application
 import { processApplicationLike } from '../handlers/Application/applicationLike';
 import { processApplicationRejection } from '../handlers/Application/applicationRejected';
 import { processGrantPayment } from '../handlers/Application/grantPaymentReceived';
+import { processTrancheApproved } from '../handlers/Application/trancheApproved';
+import { processTrancheRejection } from '../handlers/Application/trancheRejected';
 import { processCommentActivity } from '../handlers/Comment/commentActivity';
 import { processCommentReply } from '../handlers/Comment/commentReply';
 import { processCommentSponsor } from '../handlers/Comment/commentSponsor';
@@ -73,6 +75,8 @@ export const emailTypePriority: Record<EmailActionType, number> = {
   deadlineExtended: 2,
   grantCompleted: 2,
   grantApproved: 2,
+  trancheApproved: 2,
+  trancheRejected: 2,
   grantRejected: 2,
   deadline3days: 3,
   createListing: 4,
@@ -99,6 +103,8 @@ export const emailProcessors: Record<EmailActionType, any> = {
   grantCompleted: processApplicationCompleted,
   grantPaymentReceived: processGrantPayment,
   grantRejected: processApplicationRejection,
+  trancheApproved: processTrancheApproved,
+  trancheRejected: processTrancheRejection,
   scoutInvite: processScoutInvite,
   scoutReminder: processScoutReminder,
   submissionLike: processSubmissionLike,

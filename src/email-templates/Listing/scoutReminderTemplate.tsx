@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { UnsubscribeLine } from '../../components/unsubscribeLine';
+import { formatNumber } from '../../utils/formatNumber';
 import { styles } from '../styles';
 
 interface ScoutReminderProps {
@@ -20,8 +21,6 @@ export const ScoutReminderTemplate = ({
   totalMatchedUSD,
   type,
 }: ScoutReminderProps) => {
-  const formatNumber = (number: number) =>
-    new Intl.NumberFormat('en-US').format(number);
   return (
     <div style={styles.container}>
       <p style={styles.greetings}>Hey {name},</p>
