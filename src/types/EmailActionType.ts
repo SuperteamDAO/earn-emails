@@ -7,6 +7,7 @@ export type EmailActionType =
   | 'commentActivity'
   | 'commentTag'
   | 'createListing'
+  | 'createHackathon'
   | 'deadline3days'
   | 'deadlineExceeded'
   | 'deadlineExceededWeek'

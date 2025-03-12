@@ -12,6 +12,7 @@ import { processDeadlineThreeDays } from '../handlers/Deadline/deadline3days';
 import { processDeadlineExceeded } from '../handlers/Deadline/deadlineExceeded';
 import { processDeadlineExceededWeek } from '../handlers/Deadline/deadlineExceededWeek';
 import { processDeadlineExtended } from '../handlers/Deadline/deadlineExtended';
+import { processCreateHackathon } from '../handlers/Listing/createHackathon';
 import { processCreateListing } from '../handlers/Listing/createListing';
 import { processScoutInvite } from '../handlers/Listing/scoutInvite';
 import { processScoutReminder } from '../handlers/Listing/scoutReminder';
@@ -76,6 +77,7 @@ export const emailTypePriority: Record<EmailActionType, number> = {
   grantRejected: 2,
   deadline3days: 3,
   createListing: 4,
+  createHackathon: 1,
   weeklyListingRoundup: 5,
   talentReminder: 6,
   powLike: 2,
@@ -91,6 +93,7 @@ export const emailProcessors: Record<EmailActionType, any> = {
   commentActivity: processCommentActivity,
   commentTag: processCommentTag,
   createListing: processCreateListing,
+  createHackathon: processCreateHackathon,
   deadline3days: processDeadlineThreeDays,
   deadlineExceeded: processDeadlineExceeded,
   deadlineExceededWeek: processDeadlineExceededWeek,
