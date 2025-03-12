@@ -10,7 +10,7 @@ interface HackathonProps {
 
 export const MobiusHackathonTemplate = ({
   name,
-  link = 'https://earn.superteam.fun/hackathon/mobius/',
+  link = 'https://earn.superteam.fun/hackathon/mobius/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications',
 }: HackathonProps) => {
   return (
     <div style={styles.container}>
@@ -24,8 +24,8 @@ export const MobiusHackathonTemplate = ({
       </p>
       <p style={styles.textWithMargin}>
         Submit your projects before March 17 and showcase what you’ve built in
-        the Mobius Hackathon. Categories include Internet Capital Markets, DeFi,
-        AI, and Gaming.
+        the Mobius Hackathon. Categories include Attention Capital Markets,
+        DeFi, AI, and Gaming.
       </p>
       <p style={styles.textWithMargin}>
         <a href={link} style={styles.link}>

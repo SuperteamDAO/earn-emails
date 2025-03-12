@@ -38,9 +38,7 @@ export async function processCreateHackathon() {
             category: 'createListing',
           },
         },
-        email: {
-          in: ['jayeshpotlabattini@gmail.com'],
-        },
+        email: 'jayeshpotlabattini@gmail.com',
       },
       select: {
         id: true,
