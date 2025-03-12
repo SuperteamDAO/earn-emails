@@ -38,7 +38,6 @@ export async function processCreateHackathon() {
             category: 'createListing',
           },
         },
-        email: 'jayeshpotlabattini@gmail.com',
       },
       select: {
         id: true,
@@ -70,7 +69,6 @@ export async function processCreateHackathon() {
       }),
     );
 
-    console.log(emailData);
     return emailData.filter((data) => data !== null);
   } catch (error) {
     console.error('Error in processHackathon:', error);
