@@ -4,8 +4,8 @@ import { pratikEmail } from '../../constants/emails';
 import { TrancheRejectedTemplate } from '../../email-templates/Application/trancheRejectedTemplate';
 import { prisma } from '../../prisma';
 
-export async function processTrancheRejection(id: string, userId: string) {
-  const grantApplication = await prisma.grantApplication.findFirst({
+export async function processTrancheRejection(id: string) {
+  const grantApplication = await prisma.grantApplication.findFirstOrThrow({
     where: { id },
     include: {
       grant: {
@@ -17,7 +17,7 @@ export async function processTrancheRejection(id: string, userId: string) {
   });
 
   const user = await prisma.user.findFirst({
-    where: { id: userId as string },
+    where: { id: grantApplication.userId },
   });
 
   if (grantApplication && user) {

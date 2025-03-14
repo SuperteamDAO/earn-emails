@@ -4,7 +4,7 @@ import { pratikEmail } from '../../constants/emails';
 import { TrancheApprovedTemplate } from '../../email-templates/Application/trancheApprovedTemplate';
 import { prisma } from '../../prisma';
 
-export async function processTrancheApproved(id: string, userId: string) {
+export async function processTrancheApproved(id: string) {
   const tranche = await prisma.grantTranche.findFirstOrThrow({
     where: { id },
     include: {
@@ -18,7 +18,7 @@ export async function processTrancheApproved(id: string, userId: string) {
   });
 
   const user = await prisma.user.findFirst({
-    where: { id: userId as string },
+    where: { id: tranche.GrantApplication.userId },
   });
 
   const sponsorName = tranche.Grant.sponsor.name;
