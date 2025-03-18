@@ -5,27 +5,30 @@ import { TrancheRejectedTemplate } from '../../email-templates/Application/tranc
 import { prisma } from '../../prisma';
 
 export async function processTrancheRejection(id: string) {
-  const grantApplication = await prisma.grantApplication.findFirstOrThrow({
+  const tranche = await prisma.grantTranche.findFirstOrThrow({
     where: { id },
     include: {
-      grant: {
+      Grant: {
         include: {
           sponsor: true,
         },
       },
+      GrantApplication: true,
     },
   });
 
   const user = await prisma.user.findFirst({
-    where: { id: grantApplication.userId },
+    where: { id: tranche.GrantApplication.userId },
   });
 
-  if (grantApplication && user) {
+  const sponsorName = tranche.Grant.sponsor.name;
+
+  if (tranche && user) {
     const emailHtml = await render(
       TrancheRejectedTemplate({
         name: user.firstName!,
-        projectTitle: grantApplication.projectTitle,
-        sponsorName: grantApplication.grant.sponsor.name,
+        projectTitle: tranche.GrantApplication.projectTitle,
+        sponsorName,
       }),
     );
 
