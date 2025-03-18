@@ -21,10 +21,10 @@ export const ApplicationTemplate = ({
       <p style={styles.greetings}>Hi {name},</p>
 
       <p style={styles.textWithMargin}>
-        Thanks for sending in your <strong>{applicationTitle}</strong>{' '}
-        application for <strong>{title}</strong>. The sponsor will try their
-        best to get back to you within <strong>{avgResponseTime}</strong>.
-        Appreciate your patience!
+        Thanks for sending in your <strong>{title}</strong> application for{' '}
+        <strong>{applicationTitle}</strong>. The sponsor will try their best to
+        get back to you within <strong>{avgResponseTime}</strong>. Appreciate
+        your patience!
       </p>
 
       <p style={styles.salutation}>
