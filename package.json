@@ -52,5 +52,13 @@
     "node-cron": "^3.0.3",
     "react": "^18.2.0",
     "resend": "^4.1.2"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@prisma/client",
+      "@prisma/engines",
+      "esbuild",
+      "prisma"
+    ]
   }
 }
