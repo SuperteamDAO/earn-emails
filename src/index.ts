@@ -40,6 +40,7 @@ const authenticateToken = (req: Request, res: Response, next: NextFunction) => {
 app.post('/email', authenticateToken, async (req: Request, res: Response) => {
   try {
     const { type, id, userId, otherInfo } = req.body;
+    console.log(type, id, userId, otherInfo);
     const priority = getPriority(type);
 
     res.status(202).json({ message: 'Email processing initiated' });
