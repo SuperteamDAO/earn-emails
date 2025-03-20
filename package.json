@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "tsx watch src",
     "build": "prisma generate && npx tsc",
-    "postinstall": "pnpm approve-builds && prisma generate",
+    "postinstall": "prisma generate --schema=./schema.prisma",
     "check-types": "tsc --noEmit --pretty",
     "lint": "eslint",
     "prepare": "husky"
