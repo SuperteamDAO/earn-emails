@@ -22,7 +22,9 @@ export async function processApplicationApproval(id: string, userId: string) {
   });
 
   const isNativeGrant =
-    grantApplication.grant.isNative && !!grantApplication.grant.airtableId;
+    grantApplication.grant.isNative &&
+    !!grantApplication.grant.airtableId &&
+    !grantApplication.grant.title?.toLowerCase().includes('coindcx');
 
   const sponsorName = grantApplication.grant.sponsor.name;
 
