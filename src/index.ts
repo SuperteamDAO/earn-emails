@@ -2,6 +2,8 @@ import cors from 'cors';
 import { config } from 'dotenv';
 import express from 'express';
 
+import { logError, logInfo } from './utils/logger';
+
 config();
 
 import './workers/logicWorker';
@@ -11,9 +13,60 @@ import './jobs';
 const app = express();
 const PORT = process.env.PORT || 4000;
 
+const errorHandler = (
+  err: Error,
+  req: express.Request,
+  res: express.Response,
+  _next: express.NextFunction,
+) => {
+  logError(err, {
+    path: req.path,
+    method: req.method,
+    query: req.query,
+    body: req.body,
+  }).catch(console.error);
+
+  res.status(500).json({ error: 'Internal Server Error' });
+};
+
 app.use(cors());
 app.use(express.json());
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+app.use(errorHandler);
+
+const startServer = async () => {
+  try {
+    await logInfo('Starting email service', {
+      port: PORT,
+      environment: process.env.SERVER_ENV || 'development',
+      nodeVersion: process.version,
+    });
+
+    app.listen(PORT, () => {
+      logInfo('Email service started successfully', {
+        port: PORT,
+        pid: process.pid,
+      }).catch(console.error);
+    });
+  } catch (error) {
+    await logError(error as Error, {
+      stage: 'server_startup',
+    });
+    process.exit(1);
+  }
+};
+
+process.on('uncaughtException', (error) => {
+  logError(error, {
+    type: 'uncaught_exception',
+  }).catch(console.error);
+  process.exit(1);
 });
+
+process.on('unhandledRejection', (reason) => {
+  logError(reason as Error, {
+    type: 'unhandled_rejection',
+  }).catch(console.error);
+});
+
+startServer();

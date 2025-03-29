@@ -15,7 +15,7 @@ interface ActivityProps {
 function typeCopy(
   type: CommentRefType,
   isProject?: boolean,
-): JSX.Element | null {
+): React.JSX.Element | null {
   switch (type) {
     case 'POW':
       return <>just left a new comment on your personal project.</>;

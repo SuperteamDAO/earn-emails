@@ -2,14 +2,28 @@ import cron from 'node-cron';
 
 import { type EmailActionType } from '../types/EmailActionType';
 import { getPriority } from '../utils/getPriority';
+import { logError, logInfo } from '../utils/logger';
 import { logicQueue } from '../utils/queue';
 
 const scheduleJob = (time: string, type: EmailActionType) => {
   const priority = getPriority(type);
 
-  cron.schedule(time, () => {
-    console.log(`Triggering ${type} email job`);
-    logicQueue.add('processLogic', { type }, { priority });
+  cron.schedule(time, async () => {
+    try {
+      await logInfo(`Triggering email job`, {
+        type,
+        priority,
+        scheduledTime: time,
+      });
+
+      await logicQueue.add('processLogic', { type }, { priority });
+    } catch (error) {
+      await logError(error as Error, {
+        type,
+        priority,
+        scheduledTime: time,
+      });
+    }
   });
 };
 
@@ -32,3 +46,5 @@ if (process.env.SERVER_ENV === 'development') {
 
 scheduleJob('0 12 * * 4', 'weeklyListingRoundup');
 scheduleJob('0 11 * * *', 'talentReminder');
+
+logInfo('Cron jobs scheduled').catch(console.error);
