@@ -62,6 +62,7 @@ model Bounties {
   winnersAnnouncedAt DateTime?
   Scouts             Scouts[]
   Comments           Comment[]
+  discordMessageIds  Json?
 
   @@index([id, slug])
   @@index([sponsorId])
@@ -200,6 +201,8 @@ model Grants {
   isPrivate              Boolean            @default(false)
   references             Json?
   ai                     Json?
+  GrantTranche           GrantTranche[]
+  approverRecordId       String?
 
   @@index([id, slug])
   @@index([pocId])
@@ -232,7 +235,7 @@ model GrantApplication {
   updatedAt           DateTime               @updatedAt
   user                User                   @relation(fields: [userId], references: [id])
   grant               Grants                 @relation(fields: [grantId], references: [id])
-  label               SubmissionLabels       @default(Unreviewed)
+  label               SubmissionLabels       @default(Pending)
   ask                 Float                  @default(0)
   approvedAmount      Float                  @default(0)
   approvedAmountInUSD Float                  @default(0)
@@ -247,6 +250,7 @@ model GrantApplication {
   decidedBy           String?
   notes               String?                @db.VarChar(1000)
   ai                  Json?
+  GrantTranche        GrantTranche[]
 
   @@index([userId])
   @@index([grantId])
@@ -258,6 +262,26 @@ model GrantApplication {
   @@index([decidedAt(sort: Desc)])
   @@index([createdAt(sort: Desc)])
   @@index([approvedAmountInUSD(sort: Desc)])
+}
+
+model GrantTranche {
+  id               String             @id @default(uuid())
+  applicationId    String
+  grantId          String
+  ask              Float
+  update           String?            @db.Text
+  helpWanted       String?            @db.Text
+  status           GrantTrancheStatus @default(Pending)
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  GrantApplication GrantApplication   @relation(fields: [applicationId], references: [id])
+  Grant            Grants             @relation(fields: [grantId], references: [id])
+  approvedAmount   Float?
+  decidedAt        DateTime?
+  trancheNumber    Int
+
+  @@index([applicationId])
+  @@index([grantId])
 }
 
 model Submission {
@@ -424,6 +448,13 @@ model User {
   SubscribeHackathon SubscribeHackathon[]
   isBlocked          Boolean              @default(false)
   privyDid           String               @unique
+  isKYCVerified      Boolean              @default(false)
+  kycName            String?
+  kycCountry         String?
+  kycAddress         String?
+  kycDOB             String?
+  kycIDNumber        String?
+  kycIDType          String?
 
   @@index([currentSponsorId])
   @@index([hackathonId])
@@ -480,7 +511,7 @@ model PoW {
   title       String
   description String    @db.Text
   skills      Json?
-  link        String
+  link        String    @db.Text
   createdAt   DateTime  @default(now())
   subSkills   Json?
   updatedAt   DateTime  @updatedAt
@@ -764,6 +795,9 @@ enum SubmissionLabels {
   Shortlisted
   Spam
   Low_Quality
+  Mid_Quality
+  High_Quality
+  Pending
 }
 
 enum TalentRankingTimeframe {
@@ -777,4 +811,11 @@ enum SubmissionStatus {
   Pending
   Approved
   Rejected
+}
+
+enum GrantTrancheStatus {
+  Pending
+  Approved
+  Rejected
+  Paid
 }

@@ -16,6 +16,8 @@ export type EmailActionType =
   | 'grantCompleted'
   | 'grantPaymentReceived'
   | 'grantRejected'
+  | 'trancheApproved'
+  | 'trancheRejected'
   | 'scoutInvite'
   | 'scoutReminder'
   | 'submissionRejected'

@@ -1,3 +1,4 @@
+import { type Grants } from '@prisma/client';
 import React from 'react';
 
 import { UnsubscribeLine } from '../../components/unsubscribeLine';
@@ -6,22 +7,24 @@ import { styles } from '../styles';
 interface ApplicationProps {
   name: string;
   applicationTitle: string;
-  sponsorName: string;
+  grant: Grants;
 }
 
 export const ApplicationTemplate = ({
   name,
   applicationTitle,
-  sponsorName,
+  grant,
 }: ApplicationProps) => {
+  const { avgResponseTime, title } = grant;
   return (
     <div style={styles.container}>
-      <p style={styles.greetings}>Hey {name},</p>
+      <p style={styles.greetings}>Hi {name},</p>
 
       <p style={styles.textWithMargin}>
-        You have successfully submitted your grant application for{' '}
-        <strong>{applicationTitle}</strong>. The team at {sponsorName} will
-        review your application and get back to you if it is accepted.
+        Thanks for sending in your <strong>{title}</strong> application for{' '}
+        <strong>{applicationTitle}</strong>. The sponsor will try their best to
+        get back to you within <strong>{avgResponseTime}</strong>. Appreciate
+        your patience!
       </p>
 
       <p style={styles.salutation}>

@@ -3,6 +3,7 @@ import React from 'react';
 
 import { UnsubscribeLine } from '../../components/unsubscribeLine';
 import { basePath } from '../../constants/basePath';
+import { formatNumber } from '../../utils/formatNumber';
 import { getListingTypeLabel } from '../../utils/getListingTypeLabel';
 import { styles } from '../styles';
 
@@ -33,11 +34,6 @@ interface TemplateProps {
 }
 
 const getReward = (listing: Listing) => {
-  const formatNumber = (number: number) =>
-    new Intl.NumberFormat('en-US', { maximumSignificantDigits: 3 }).format(
-      number,
-    );
-
   switch (listing.compensationType) {
     case 'fixed':
       return listing.rewardAmount !== null
