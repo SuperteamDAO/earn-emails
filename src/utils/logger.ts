@@ -4,7 +4,7 @@ const axiom = new Axiom({
   token: process.env.AXIOM_TOKEN || '',
 });
 
-const DATASET_NAME = 'earn-emails-logs';
+const DATASET_NAME = 'earn-emails';
 
 export const logError = async (
   error: Error,
