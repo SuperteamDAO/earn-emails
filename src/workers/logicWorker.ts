@@ -2,6 +2,7 @@ import { Worker } from 'bullmq';
 import { config } from 'dotenv';
 
 import { getPriority } from '../utils/getPriority';
+import { logError, logInfo } from '../utils/logger';
 import { processLogic } from '../utils/processLogic';
 import { emailQueue, redis } from '../utils/queue';
 
@@ -30,9 +31,21 @@ const logicWorker = new Worker(
         await addToQueue(emailDatas);
       }
 
-      console.log(`Logic processed for type ${type}, email queued.`);
+      await logInfo(`Logic processed for type ${type}`, {
+        jobId: job.id,
+        type,
+        id,
+        userId,
+        otherInfo,
+      });
     } catch (error) {
-      console.error(`Failed to process logic for job ${job.id}:`, error);
+      await logError(error as Error, {
+        jobId: job.id,
+        type: job.data.type,
+        id: job.data.id,
+        userId: job.data.userId,
+        otherInfo: job.data.otherInfo,
+      });
     }
   },
   {

@@ -8,6 +8,7 @@ import { Resend } from 'resend';
 import { basePath } from '../constants/basePath';
 import { pratikEmail } from '../constants/emails';
 import { AlertTemplate } from '../email-templates/Alert/AlertTemplate';
+import { logError, logInfo, logWarn } from '../utils/logger';
 import { redis } from '../utils/queue';
 
 config();
@@ -48,11 +49,13 @@ const emailWorker = new Worker(
         if (!subject) missingProperties.push('subject');
         if (!html) missingProperties.push('html');
 
-        console.log(
-          `Skipping job ${
-            job.id
-          } due to missing properties: ${missingProperties.join(', ')}.`,
-        );
+        await logWarn(`Skipping email job due to missing properties`, {
+          jobId: job.id,
+          missingProperties,
+          type,
+          id,
+          userId,
+        });
         return;
       }
 
@@ -64,12 +67,24 @@ const emailWorker = new Worker(
       ]);
 
       if (isBlocked) {
-        console.log(`Email not sent. ${to} is blocked.`);
+        await logInfo(`Email not sent - recipient is blocked`, {
+          jobId: job.id,
+          email: to,
+          type,
+          id,
+          userId,
+        });
         return;
       }
 
       if (isUnsubscribed) {
-        console.log(`Email not sent. ${to} has unsubscribed.`);
+        await logInfo(`Email not sent - recipient has unsubscribed`, {
+          jobId: job.id,
+          email: to,
+          type,
+          id,
+          userId,
+        });
         return;
       }
 
@@ -87,17 +102,40 @@ const emailWorker = new Worker(
           'List-Unsubscribe': `<${unsubscribeURL}>`,
         },
       });
-      console.log(`Email sent successfully to ${to}:`, response);
+
+      await logInfo(`Email sent successfully`, {
+        jobId: job.id,
+        email: to,
+        type,
+        id,
+        userId,
+        response,
+      });
     } catch (error: any) {
       if (error.response?.status === 429) {
         const retryAfter = parseInt(
           error.response.headers['retry-after'] || '60',
           10,
         );
+        await logWarn(`Rate limit hit for email sending`, {
+          jobId: job.id,
+          retryAfter,
+          type,
+          id,
+          userId,
+        });
         await emailWorker.rateLimit(retryAfter * 1000);
         throw Worker.RateLimitError();
       } else {
-        console.error('Failed to send email:', error);
+        await logError(error as Error, {
+          jobId: job.id,
+          email: to,
+          type,
+          id,
+          userId,
+          subject,
+        });
+
         if (process.env.SERVER_ENV === 'production') {
           await resend.emails.send({
             from: pratikEmail,
@@ -121,6 +159,6 @@ const emailWorker = new Worker(
   { connection: redis, limiter: { max: 10, duration: 1000 } },
 );
 
-console.log('Email worker started');
+logInfo('Email worker started').catch(console.error);
 
 export { emailWorker };
