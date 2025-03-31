@@ -1,9 +1,12 @@
+import { config } from 'dotenv';
 import cron from 'node-cron';
 
 import { type EmailActionType } from '../types/EmailActionType';
 import { getPriority } from '../utils/getPriority';
 import { logError, logInfo } from '../utils/logger';
 import { logicQueue } from '../utils/queue';
+
+config();
 
 const scheduleJob = (time: string, type: EmailActionType) => {
   const priority = getPriority(type);
