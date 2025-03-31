@@ -156,9 +156,23 @@ const emailWorker = new Worker(
       }
     }
   },
-  { connection: redis, limiter: { max: 10, duration: 1000 } },
+  {
+    connection: redis,
+    concurrency: 10,
+    limiter: { max: 10, duration: 1000 },
+    lockDuration: 60000,
+    stalledInterval: 30000,
+  },
 );
 
 logInfo('Email worker started').catch(console.error);
+
+process.on('SIGTERM', async () => {
+  await emailWorker.close();
+});
+
+process.on('SIGINT', async () => {
+  await emailWorker.close();
+});
 
 export { emailWorker };

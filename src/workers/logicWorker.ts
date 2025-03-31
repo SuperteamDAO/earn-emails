@@ -22,6 +22,7 @@ const logicWorker = new Worker(
           backoff: { type: 'exponential', delay: 1000 },
           attempts: 3,
           priority,
+          removeOnComplete: true,
         });
       };
 
@@ -50,9 +51,13 @@ const logicWorker = new Worker(
   },
   {
     connection: redis,
+    concurrency: 5,
+    limiter: { max: 100, duration: 10000 },
+    stalledInterval: 30000,
+    lockDuration: 60000,
   },
 );
 
-console.log('Logic worker started');
+logInfo('Logic worker started').catch(console.error);
 
 export { logicWorker };
