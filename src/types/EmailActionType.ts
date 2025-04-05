@@ -30,5 +30,5 @@ export type EmailActionType =
   | 'nonSTWinners'
   | 'weeklyListingRoundup'
   | 'talentReminder'
-  | 'verifiedListingStatus';
-// | 'dupe'
+  | 'verifiedListingStatus'
+  | 'spamCredit';
