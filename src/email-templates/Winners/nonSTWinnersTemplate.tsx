@@ -59,11 +59,11 @@ export const NonSTWinnersTemplate = ({
       <p style={styles.textWithMargin}>
         With this win:
         <ul>
-          <li>
+          <li style={styles.text}>
             Your total earnings have climbed to{' '}
             <strong>{formattedEarnings}</strong>
           </li>
-          <li>
+          <li style={styles.text}>
             You've jumped up to{' '}
             <strong>
               {position}
@@ -71,12 +71,14 @@ export const NonSTWinnersTemplate = ({
             </strong>{' '}
             on the leaderboard
           </li>
-          <li>
+          <li style={styles.text}>
             And you'll receive <strong>1 extra credit next month</strong>,
             giving you access to more opportunities on Earn
           </li>
         </ul>
-        Congratulations again — we hope you continue winning!
+        <p style={styles.text}>
+          Congratulations again — we hope you continue winning!
+        </p>
       </p>
       <p style={styles.salutation}>
         Best,
