@@ -19,7 +19,7 @@ export const SpamCreditTemplate = ({
     <div style={styles.container}>
       <p style={styles.greetings}>Hey {name},</p>
       <p style={styles.textWithMargin}>
-        Your submission for
+        Your submission for{' '}
         <a
           href={`${basePath}/listing/${
             listingSlug || ''
@@ -27,12 +27,26 @@ export const SpamCreditTemplate = ({
           style={styles.link}
         >
           <strong>{listingName}</strong>
-        </a>
-        has been marked as Spam by the sponsor.
+        </a>{' '}
+        was reported as spam by the sponsor/reviewer. As a result, 1 submission
+        credit will be deducted from your credit balance next month.
       </p>
       <p style={styles.textWithMargin}>
-        We discourage spam submissions and for that reason, we will be deducting
-        a credit from your account for the upcoming month.
+        We strive to improve the overall quality of submissions on the platform.
+        We hope you can take this feedback constructively and make some winning
+        submissions soon.
+      </p>
+      <p style={styles.textWithMargin}>
+        The winners of the listing have been announced as well —{' '}
+        <a
+          href={`${basePath}/listing/${
+            listingSlug || ''
+          }/?utm_source=superteamearn&utm_medium=email&utm_campaign=winnerannouncement`}
+          style={styles.link}
+        >
+          click here
+        </a>{' '}
+        to see who won.
       </p>
       <p style={styles.salutation}>
         Best,

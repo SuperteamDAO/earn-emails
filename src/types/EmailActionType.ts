@@ -31,4 +31,5 @@ export type EmailActionType =
   | 'weeklyListingRoundup'
   | 'talentReminder'
   | 'verifiedListingStatus'
-  | 'spamCredit';
+  | 'spamCredit'
+  | 'featureAnnouncement';

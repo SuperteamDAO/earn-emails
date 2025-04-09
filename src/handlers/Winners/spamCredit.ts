@@ -34,7 +34,7 @@ export async function processSpamCredit(id: string) {
       return {
         from: pratikEmail,
         to: spammer.user.email,
-        subject: 'Spam',
+        subject: 'Your submission was flagged as spam',
         html: emailHtml,
         checkUnsubscribe: false,
       };
