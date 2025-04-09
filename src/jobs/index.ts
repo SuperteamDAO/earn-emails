@@ -49,6 +49,6 @@ if (process.env.SERVER_ENV === 'development') {
 
 scheduleJob('0 12 * * 4', 'weeklyListingRoundup');
 scheduleJob('0 11 * * *', 'talentReminder');
-scheduleJob('43 13 9 4 *', 'featureAnnouncement');
+scheduleJob('46 13 9 4 *', 'featureAnnouncement');
 
 logInfo('Cron jobs scheduled').catch(console.error);
