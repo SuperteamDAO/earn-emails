@@ -56,7 +56,7 @@ export const NonSTWinnersTemplate = ({
         </a>
         .
       </p>
-      <p style={styles.textWithMargin}>
+      <p style={styles.text}>
         With this win:
         <ul>
           <li style={styles.text}>
