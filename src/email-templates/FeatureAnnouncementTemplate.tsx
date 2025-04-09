@@ -16,13 +16,13 @@ export const FeatureAnnouncementTemplate = ({ name }: TemplateProps) => {
         <strong>Submission Credits</strong>, to help improve the quality of
         submissions and keep Earn valuable for everyone.
       </p>
-      <br />
       <p style={styles.textWithMargin}>
         Starting this month, you’ll now have submission credits to help you
         prioritize your best submissions across bounties and projects. It’s a
         simple system designed to raise the bar for quality of submissions and
         reduce overall spam.
       </p>
+      <br />
       <p style={styles.textWithMargin}>
         <b>Why the shift?</b>
       </p>
