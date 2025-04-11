@@ -18,7 +18,6 @@ export async function processSTWinners(id: string) {
       isActive: true,
       isArchived: false,
     },
-    take: 100,
     include: {
       user: true,
     },
