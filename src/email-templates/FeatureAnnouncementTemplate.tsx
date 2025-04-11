@@ -48,7 +48,14 @@ export const FeatureAnnouncementTemplate = ({ name }: TemplateProps) => {
             submission credits each month.
           </li>
           <li style={styles.text}>
-            <strong>Using credits:</strong> Each submission uses up 1 credit.
+            <strong>Using credits:</strong> Every user starts with 3 submission
+            credits each month.
+            <ul>
+              <li style={styles.text}>
+                Note: As of right now, grant applications and hackathon tracks
+                do not cost any credits to submit.
+              </li>
+            </ul>
           </li>
           <li style={styles.text}>
             <strong>Bonuses and deductions:</strong>
@@ -75,7 +82,7 @@ export const FeatureAnnouncementTemplate = ({ name }: TemplateProps) => {
       <p style={styles.textWithMargin}>
         If you’d like to learn more,{' '}
         <a
-          href="https://superteamdao.notion.site/Submission-Credits-User-Guide-17b794d3ba33804392f9e1c613eff9a0?pvs=4"
+          href="https://superteamdao.notion.site/submission-credits"
           style={styles.link}
         >
           here’s a detailed guide

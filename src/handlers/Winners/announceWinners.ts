@@ -22,7 +22,6 @@ export async function processAnnounceWinners(id: string) {
           label: 'Spam',
         },
       },
-      take: 500,
       include: {
         user: true,
       },
