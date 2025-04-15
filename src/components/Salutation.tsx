@@ -13,8 +13,6 @@ export const Salutation = ({
     <p
       dangerouslySetInnerHTML={{ __html: salutation }}
       style={styles.salutation}
-    >
-      {text}
-    </p>
+    />
   );
 };

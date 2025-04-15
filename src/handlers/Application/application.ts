@@ -68,9 +68,9 @@ export async function processApplication(id: string, userId: string) {
     ? grantApplication.grant.emailSalutation
     : 'Best, Superteam Earn';
 
-  const language = grantApplication.projectTitle.includes('france')
+  const language = grantApplication.grant.title.toLowerCase().includes('france')
     ? 'fr'
-    : grantApplication.projectTitle.includes('vietnam')
+    : grantApplication.grant.title.toLowerCase().includes('vietnam')
       ? 'vi'
       : 'en';
 

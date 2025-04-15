@@ -26,9 +26,11 @@ export async function processApplicationRejection(id: string, userId: string) {
   });
 
   if (grantApplication && user) {
-    const language = grantApplication.projectTitle.includes('france')
+    const language = grantApplication.grant.title
+      .toLowerCase()
+      .includes('france')
       ? 'fr'
-      : grantApplication.projectTitle.includes('vietnam')
+      : grantApplication.grant.title.toLowerCase().includes('vietnam')
         ? 'vi'
         : 'en';
 

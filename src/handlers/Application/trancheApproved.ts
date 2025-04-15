@@ -24,9 +24,9 @@ export async function processTrancheApproved(id: string) {
   const sponsorName = tranche.Grant.sponsor.name;
 
   if (tranche && user) {
-    const language = tranche.GrantApplication.projectTitle.includes('france')
+    const language = tranche.Grant.title.toLowerCase().includes('france')
       ? 'fr'
-      : tranche.GrantApplication.projectTitle.includes('vietnam')
+      : tranche.Grant.title.toLowerCase().includes('vietnam')
         ? 'vi'
         : 'en';
 
