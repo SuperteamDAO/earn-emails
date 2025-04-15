@@ -14,6 +14,7 @@ import { processDeadlineThreeDays } from '../handlers/Deadline/deadline3days';
 import { processDeadlineExceeded } from '../handlers/Deadline/deadlineExceeded';
 import { processDeadlineExceededWeek } from '../handlers/Deadline/deadlineExceededWeek';
 import { processDeadlineExtended } from '../handlers/Deadline/deadlineExtended';
+import { processFeatureAnnouncement } from '../handlers/featureAnnouncement';
 import { processCreateHackathon } from '../handlers/Listing/createHackathon';
 import { processCreateListing } from '../handlers/Listing/createListing';
 import { processScoutInvite } from '../handlers/Listing/scoutInvite';
@@ -29,6 +30,7 @@ import { processTalentSubmission } from '../handlers/Submission/submissionTalent
 import { processAddPayment } from '../handlers/Winners/addPayment';
 import { processAnnounceWinners } from '../handlers/Winners/announceWinners';
 import { processNonSTWinners } from '../handlers/Winners/nonSTWinners';
+import { processSpamCredit } from '../handlers/Winners/spamCredit';
 import { processSTWinners } from '../handlers/Winners/STWinners';
 import { type EmailActionType } from '../types/EmailActionType';
 
@@ -43,6 +45,7 @@ export const emailActionCategoryMapping = {
   powLike: 'commentOrLikeSubmission',
   weeklyListingRoundup: 'weeklyListingRoundup',
   scoutInvite: 'scoutInvite',
+  featureAnnouncement: 'productAndNewsletter',
 
   // sponsor emails
   commentSponsor: 'commentSponsor',
@@ -85,6 +88,8 @@ export const emailTypePriority: Record<EmailActionType, number> = {
   weeklyListingRoundup: 5,
   talentReminder: 6,
   powLike: 2,
+  spamCredit: 2,
+  featureAnnouncement: 6,
   // dupe: 1,
 };
 
@@ -121,5 +126,7 @@ export const emailProcessors: Record<EmailActionType, any> = {
   talentReminder: processTalentReminder,
   verifiedListingStatus: processVerifiedStatus,
   powLike: processPoWLike,
+  spamCredit: processSpamCredit,
+  featureAnnouncement: processFeatureAnnouncement,
   // dupe: processDupe,
 };

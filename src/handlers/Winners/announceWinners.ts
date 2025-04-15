@@ -17,8 +17,11 @@ export async function processAnnounceWinners(id: string) {
         listingId: id,
         isActive: true,
         isArchived: false,
+        isWinner: false,
+        NOT: {
+          label: 'Spam',
+        },
       },
-      take: 500,
       include: {
         user: true,
       },
