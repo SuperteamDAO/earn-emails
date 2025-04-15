@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { Salutation } from '../../components/Salutation';
 import { UnsubscribeLine } from '../../components/unsubscribeLine';
 import { styles } from '../styles';
 
@@ -7,12 +8,14 @@ interface TrancheRejectedProps {
   name: string;
   projectTitle: string;
   sponsorName: string;
+  salutation: string | null;
 }
 
 export const TrancheRejectedTemplate = ({
   name,
   projectTitle,
   sponsorName,
+  salutation,
 }: TrancheRejectedProps) => {
   return (
     <div style={styles.container}>
@@ -22,11 +25,7 @@ export const TrancheRejectedTemplate = ({
         has been rejected by {sponsorName}. Please get in touch with the sponsor
         directly to discuss further.
       </p>
-      <p style={styles.salutation}>
-        Best,
-        <br />
-        Superteam Earn
-      </p>
+      <Salutation text={salutation ?? 'Best, Superteam Earn'} />
       <UnsubscribeLine />
     </div>
   );

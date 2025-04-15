@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { Salutation } from '../../components/Salutation';
 import { UnsubscribeLine } from '../../components/unsubscribeLine';
 import { styles } from '../styles';
 
@@ -20,11 +21,7 @@ export const GrantPaymentReceivedTemplate = ({
         {sponsorName} has just transferred a grant payment for your project{' '}
         {applicationTitle} to your wallet {walletAddress}.
       </p>
-      <p style={styles.salutation}>
-        Best,
-        <br />
-        Superteam Earn
-      </p>
+      <Salutation />
       <UnsubscribeLine />
     </div>
   );

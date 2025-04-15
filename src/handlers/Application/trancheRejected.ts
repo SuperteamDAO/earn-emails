@@ -1,6 +1,6 @@
 import { render } from '@react-email/render';
 
-import { pratikEmail } from '../../constants/emails';
+import { helloEmail } from '../../constants/emails';
 import { TrancheRejectedTemplate } from '../../email-templates/Application/trancheRejectedTemplate';
 import { prisma } from '../../prisma';
 
@@ -29,14 +29,16 @@ export async function processTrancheRejection(id: string) {
         name: user.firstName!,
         projectTitle: tranche.GrantApplication.projectTitle,
         sponsorName,
+        salutation: tranche.Grant.emailSalutation,
       }),
     );
 
     const emailData = {
-      from: pratikEmail,
+      from: tranche.Grant.emailSender + helloEmail,
       to: user.email,
       subject: 'Tranche Request Rejected',
       html: emailHtml,
+      replyTo: tranche.Grant.replyToEmail,
     };
     return emailData;
   }

@@ -1,16 +1,19 @@
 import React from 'react';
 
+import { Salutation } from '../../components/Salutation';
 import { UnsubscribeLine } from '../../components/unsubscribeLine';
 import { styles } from '../styles';
 
 interface ApplicationRejectedProps {
   name: string;
   applicationTitle: string;
+  salutation: string | null;
 }
 
 export const ApplicationRejectedTemplate = ({
   name,
   applicationTitle,
+  salutation,
 }: ApplicationRejectedProps) => {
   return (
     <div style={styles.container}>
@@ -26,12 +29,7 @@ export const ApplicationRejectedTemplate = ({
         We hope you continue adding to your proof of work by submitting to
         bounties and projects, and winning some along the way. All the best!
       </p>
-
-      <p style={styles.salutation}>
-        Best,
-        <br />
-        Superteam Earn
-      </p>
+      <Salutation text={salutation ?? 'Best, Superteam Earn'} />
       <UnsubscribeLine />
     </div>
   );

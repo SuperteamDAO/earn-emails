@@ -1,6 +1,7 @@
 import { type GrantApplication, type Grants } from '@prisma/client';
 import React from 'react';
 
+import { Salutation } from '../../components/Salutation';
 import { UnsubscribeLine } from '../../components/unsubscribeLine';
 import { basePath } from '../../constants/basePath';
 import { formatNumber } from '../../utils/formatNumber';
@@ -10,12 +11,14 @@ interface ApplicationApprovedProps {
   name: string;
   application: GrantApplication;
   grant: Grants;
+  salutation: string | null;
 }
 
 export const NativeApplicationApprovedTemplate = ({
   name,
   application,
   grant,
+  salutation,
 }: ApplicationApprovedProps) => {
   const { title, token, slug } = grant;
   const { projectTitle, approvedAmount, approvedAmountInUSD } = application;
@@ -49,11 +52,7 @@ export const NativeApplicationApprovedTemplate = ({
         <a href={grantPageLink}>grant listing page</a>.
       </p>
 
-      <p style={styles.salutation}>
-        Best,
-        <br />
-        Superteam Earn
-      </p>
+      <Salutation text={salutation ?? 'Best, Superteam Earn'} />
       <UnsubscribeLine />
     </div>
   );

@@ -1,7 +1,7 @@
 import { render } from '@react-email/render';
 
 import { basePath } from '../../constants/basePath';
-import { pratikEmail } from '../../constants/emails';
+import { helloEmail, pratikEmail } from '../../constants/emails';
 import { ApplicationSponsorTemplate } from '../../email-templates/Application/applicationSponsorTemplate';
 import { ApplicationTemplate } from '../../email-templates/Application/applicationTemplate';
 import { prisma } from '../../prisma';
@@ -39,6 +39,11 @@ export async function processApplication(id: string, userId: string) {
     'application',
   );
 
+  const isNativeGrant =
+    grantApplication.grant.isNative &&
+    !!grantApplication.grant.airtableId &&
+    !grantApplication.grant.title?.toLowerCase().includes('coindcx');
+
   if (userPreferenceSponsor) {
     const sponsorEmailHtml = await render(
       ApplicationSponsorTemplate({
@@ -59,19 +64,29 @@ export async function processApplication(id: string, userId: string) {
     console.log(`User ${userId} has opted out of sponsor type email.`);
   }
 
+  const salutation = isNativeGrant
+    ? grantApplication.grant.emailSalutation
+    : 'Best, Superteam Earn';
+
   const talentEmailHtml = await render(
     ApplicationTemplate({
       name: user.firstName!,
       applicationTitle: grantApplication.projectTitle,
       grant: grantApplication.grant,
+      salutation,
     }),
   );
 
   emailData.push({
-    from: pratikEmail,
+    from: isNativeGrant
+      ? grantApplication.grant.emailSender + helloEmail
+      : pratikEmail,
     to: user.email,
     subject: `Grant Application Received`,
     html: talentEmailHtml,
+    replyTo: isNativeGrant
+      ? grantApplication.grant.replyToEmail
+      : 'support@superteamearn.com',
   });
 
   return emailData;

@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { Salutation } from '../../components/Salutation';
 import { UnsubscribeLine } from '../../components/unsubscribeLine';
 import { formatNumber } from '../../utils/formatNumber';
 import { styles } from '../styles';
@@ -10,6 +11,7 @@ interface TrancheApprovedProps {
   sponsorName: string;
   approvedTrancheAmount: number | null;
   token: string;
+  salutation: string | null;
 }
 
 export const TrancheApprovedTemplate = ({
@@ -18,6 +20,7 @@ export const TrancheApprovedTemplate = ({
   sponsorName,
   approvedTrancheAmount,
   token,
+  salutation,
 }: TrancheApprovedProps) => {
   const formattedAmount = formatNumber(approvedTrancheAmount ?? 0);
 
@@ -34,11 +37,7 @@ export const TrancheApprovedTemplate = ({
         . Congratulations! You should receive your payment in a few days.
       </p>
 
-      <p style={styles.salutation}>
-        Best,
-        <br />
-        Superteam Earn
-      </p>
+      <Salutation text={salutation ?? 'Best, Superteam Earn'} />
       <UnsubscribeLine />
     </div>
   );

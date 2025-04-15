@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { Salutation } from '../../components/Salutation';
 import { UnsubscribeLine } from '../../components/unsubscribeLine';
 import { styles } from '../styles';
 
@@ -33,11 +34,7 @@ export const MobiusHackathonTemplate = ({
         </a>{' '}
         to view the tracks and submit.
       </p>
-      <p style={styles.salutation}>
-        Best,
-        <br />
-        Superteam Earn
-      </p>
+      <Salutation />
       <p style={styles.text}>&nbsp;</p>
       <UnsubscribeLine />
     </div>

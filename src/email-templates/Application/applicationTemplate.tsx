@@ -1,6 +1,7 @@
 import { type Grants } from '@prisma/client';
 import React from 'react';
 
+import { Salutation } from '../../components/Salutation';
 import { UnsubscribeLine } from '../../components/unsubscribeLine';
 import { styles } from '../styles';
 
@@ -8,14 +9,17 @@ interface ApplicationProps {
   name: string;
   applicationTitle: string;
   grant: Grants;
+  salutation: string | null;
 }
 
 export const ApplicationTemplate = ({
   name,
   applicationTitle,
   grant,
+  salutation,
 }: ApplicationProps) => {
   const { avgResponseTime, title } = grant;
+
   return (
     <div style={styles.container}>
       <p style={styles.greetings}>Hi {name},</p>
@@ -27,11 +31,7 @@ export const ApplicationTemplate = ({
         your patience!
       </p>
 
-      <p style={styles.salutation}>
-        Best,
-        <br />
-        Superteam Earn
-      </p>
+      <Salutation text={salutation ?? 'Best, Superteam Earn'} />
       <UnsubscribeLine />
     </div>
   );

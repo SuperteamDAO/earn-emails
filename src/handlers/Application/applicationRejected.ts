@@ -1,16 +1,25 @@
 import { render } from '@react-email/render';
 
-import { pratikEmail } from '../../constants/emails';
+import { helloEmail, pratikEmail } from '../../constants/emails';
 import { ApplicationRejectedTemplate } from '../../email-templates/Application/applicationRejectedTemplate';
 import { prisma } from '../../prisma';
 
 export async function processApplicationRejection(id: string, userId: string) {
-  const grantApplication = await prisma.grantApplication.findFirst({
+  const grantApplication = await prisma.grantApplication.findFirstOrThrow({
     where: { id },
     include: {
       grant: true,
     },
   });
+
+  const isNativeGrant =
+    grantApplication.grant.isNative &&
+    !!grantApplication.grant.airtableId &&
+    !grantApplication.grant.title?.toLowerCase().includes('coindcx');
+
+  const salutation = isNativeGrant
+    ? grantApplication.grant.emailSalutation
+    : 'Best, Superteam Earn';
 
   const user = await prisma.user.findFirst({
     where: { id: userId as string },
@@ -21,14 +30,20 @@ export async function processApplicationRejection(id: string, userId: string) {
       ApplicationRejectedTemplate({
         name: user.firstName!,
         applicationTitle: grantApplication.projectTitle,
+        salutation,
       }),
     );
 
     const emailData = {
-      from: pratikEmail,
+      from: isNativeGrant
+        ? grantApplication.grant.emailSender + helloEmail
+        : pratikEmail,
       to: user.email,
       subject: 'About your recent grant application',
       html: emailHtml,
+      replyTo: isNativeGrant
+        ? grantApplication.grant.replyToEmail
+        : 'support@superteamearn.com',
     };
     return emailData;
   }

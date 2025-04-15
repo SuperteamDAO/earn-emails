@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { Salutation } from '../../components/Salutation';
 import { UnsubscribeLine } from '../../components/unsubscribeLine';
 import { styles } from '../styles';
 
@@ -31,11 +32,7 @@ export const VerifiedStatusTemplate = ({
         </p>
         <p style={styles.text}>Thanks for your patience!</p>
 
-        <p style={styles.salutation}>
-          Best,
-          <br />
-          Superteam Earn
-        </p>
+        <Salutation />
         <p style={styles.text}>&nbsp;</p>
         <UnsubscribeLine />
       </div>
@@ -61,11 +58,7 @@ export const VerifiedStatusTemplate = ({
           . We’re here to help.
         </p>
 
-        <p style={styles.salutation}>
-          Best,
-          <br />
-          Superteam Earn
-        </p>
+        <Salutation />
         <p style={styles.text}>&nbsp;</p>
         <UnsubscribeLine />
       </div>

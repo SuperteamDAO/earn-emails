@@ -1,6 +1,6 @@
 import { render } from '@react-email/render';
 
-import { pratikEmail } from '../../constants/emails';
+import { helloEmail, pratikEmail } from '../../constants/emails';
 import { ApplicationApprovedTemplate } from '../../email-templates/Application/applicationApprovedTemplate';
 import { NativeApplicationApprovedTemplate } from '../../email-templates/Application/nativeApplicationApprovedTemplate';
 import { prisma } from '../../prisma';
@@ -36,14 +36,16 @@ export async function processApplicationApproval(id: string, userId: string) {
           name: user.firstName!,
           application: grantApplication,
           grant: grantApplication.grant,
+          salutation: grantApplication.grant.emailSalutation,
         }),
       );
 
       emailData = {
-        from: pratikEmail,
+        from: grantApplication.grant.emailSender + helloEmail,
         to: user.email,
         subject: `[KYC needed] ${sponsorName} has approved your grant!`,
         html: emailHtml,
+        replyTo: grantApplication.grant.replyToEmail,
       };
     } else {
       const emailHtml = await render(
