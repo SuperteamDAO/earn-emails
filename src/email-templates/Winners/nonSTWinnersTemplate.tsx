@@ -49,7 +49,11 @@ export const NonSTWinnersTemplate = ({
         wallet. No action is needed from your end. If you need to contact the
         sponsor, you can do so from{' '}
         <a
-          href={`${pocSocials}/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`}
+          href={
+            pocSocials?.includes('@')
+              ? `mailto:${pocSocials}`
+              : `${pocSocials}/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`
+          }
           style={styles.link}
         >
           here
