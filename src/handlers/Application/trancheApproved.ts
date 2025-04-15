@@ -24,6 +24,12 @@ export async function processTrancheApproved(id: string) {
   const sponsorName = tranche.Grant.sponsor.name;
 
   if (tranche && user) {
+    const language = tranche.GrantApplication.projectTitle.includes('france')
+      ? 'fr'
+      : tranche.GrantApplication.projectTitle.includes('vietnam')
+        ? 'vi'
+        : 'en';
+
     const emailHtml = await render(
       TrancheApprovedTemplate({
         name: user.firstName!,
@@ -32,13 +38,21 @@ export async function processTrancheApproved(id: string) {
         approvedTrancheAmount: tranche.approvedAmount ?? 0,
         token: tranche.Grant.token ?? '',
         salutation: tranche.Grant.emailSalutation,
+        language,
       }),
     );
+
+    const subject =
+      language === 'fr'
+        ? 'Demande de tranche acceptée'
+        : language === 'vi'
+          ? 'Yêu cầu giải ngân đã được chấp thuận'
+          : 'Tranche Request Accepted';
 
     const emailData = {
       from: tranche.Grant.emailSender + helloEmail,
       to: user.email,
-      subject: 'Tranche Request Accepted',
+      subject,
       html: emailHtml,
     };
 

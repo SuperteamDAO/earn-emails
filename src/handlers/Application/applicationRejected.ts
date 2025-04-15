@@ -26,20 +26,34 @@ export async function processApplicationRejection(id: string, userId: string) {
   });
 
   if (grantApplication && user) {
+    const language = grantApplication.projectTitle.includes('france')
+      ? 'fr'
+      : grantApplication.projectTitle.includes('vietnam')
+        ? 'vi'
+        : 'en';
+
     const emailHtml = await render(
       ApplicationRejectedTemplate({
         name: user.firstName!,
         applicationTitle: grantApplication.projectTitle,
         salutation,
+        language,
       }),
     );
+
+    const subject =
+      language === 'fr'
+        ? 'À propos de votre récente candidature de subvention'
+        : language === 'vi'
+          ? 'Về đơn xin tài trợ gần đây của bạn'
+          : 'About your recent grant application';
 
     const emailData = {
       from: isNativeGrant
         ? grantApplication.grant.emailSender + helloEmail
         : pratikEmail,
       to: user.email,
-      subject: 'About your recent grant application',
+      subject,
       html: emailHtml,
       replyTo: isNativeGrant
         ? grantApplication.grant.replyToEmail

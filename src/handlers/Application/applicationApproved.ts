@@ -31,19 +31,33 @@ export async function processApplicationApproval(id: string, userId: string) {
   if (grantApplication && user) {
     let emailData;
     if (isNativeGrant) {
+      const language = grantApplication.projectTitle.includes('france')
+        ? 'fr'
+        : grantApplication.projectTitle.includes('vietnam')
+          ? 'vi'
+          : 'en';
+
       const emailHtml = await render(
         NativeApplicationApprovedTemplate({
           name: user.firstName!,
           application: grantApplication,
           grant: grantApplication.grant,
           salutation: grantApplication.grant.emailSalutation,
+          language,
         }),
       );
+
+      const subject =
+        language === 'fr'
+          ? `[KYC requis] ${sponsorName} a approuvé votre subvention !`
+          : language === 'vi'
+            ? `[Cần KYC] ${sponsorName} đã phê duyệt khoản tài trợ của bạn!`
+            : `[KYC needed] ${sponsorName} has approved your grant!`;
 
       emailData = {
         from: grantApplication.grant.emailSender + helloEmail,
         to: user.email,
-        subject: `[KYC needed] ${sponsorName} has approved your grant!`,
+        subject,
         html: emailHtml,
         replyTo: grantApplication.grant.replyToEmail,
       };

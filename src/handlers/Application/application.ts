@@ -68,21 +68,35 @@ export async function processApplication(id: string, userId: string) {
     ? grantApplication.grant.emailSalutation
     : 'Best, Superteam Earn';
 
+  const language = grantApplication.projectTitle.includes('france')
+    ? 'fr'
+    : grantApplication.projectTitle.includes('vietnam')
+      ? 'vi'
+      : 'en';
+
   const talentEmailHtml = await render(
     ApplicationTemplate({
       name: user.firstName!,
       applicationTitle: grantApplication.projectTitle,
       grant: grantApplication.grant,
       salutation,
+      language,
     }),
   );
+
+  const subject =
+    language === 'fr'
+      ? 'Candidature de subvention reçue'
+      : language === 'vi'
+        ? 'Đã nhận được đơn xin tài trợ của bạn'
+        : 'Grant Application Received';
 
   emailData.push({
     from: isNativeGrant
       ? grantApplication.grant.emailSender + helloEmail
       : pratikEmail,
     to: user.email,
-    subject: `Grant Application Received`,
+    subject,
     html: talentEmailHtml,
     replyTo: isNativeGrant
       ? grantApplication.grant.replyToEmail

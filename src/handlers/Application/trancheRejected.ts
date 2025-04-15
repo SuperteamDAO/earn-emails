@@ -23,6 +23,19 @@ export async function processTrancheRejection(id: string) {
 
   const sponsorName = tranche.Grant.sponsor.name;
 
+  const language = tranche.GrantApplication.projectTitle.includes('france')
+    ? 'fr'
+    : tranche.GrantApplication.projectTitle.includes('vietnam')
+      ? 'vi'
+      : 'en';
+
+  const subject =
+    language === 'fr'
+      ? 'Demande de tranche rejetée'
+      : language === 'vi'
+        ? 'Yêu cầu giải ngân bị từ chối'
+        : 'Tranche Request Rejected';
+
   if (tranche && user) {
     const emailHtml = await render(
       TrancheRejectedTemplate({
@@ -30,13 +43,14 @@ export async function processTrancheRejection(id: string) {
         projectTitle: tranche.GrantApplication.projectTitle,
         sponsorName,
         salutation: tranche.Grant.emailSalutation,
+        language,
       }),
     );
 
     const emailData = {
       from: tranche.Grant.emailSender + helloEmail,
       to: user.email,
-      subject: 'Tranche Request Rejected',
+      subject,
       html: emailHtml,
       replyTo: tranche.Grant.replyToEmail,
     };
