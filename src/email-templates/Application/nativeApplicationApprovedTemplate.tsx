@@ -22,7 +22,7 @@ export const NativeApplicationApprovedTemplate = ({
   salutation,
   language,
 }: ApplicationApprovedProps) => {
-  const { title, token, slug } = grant;
+  const { title, token, slug, communityLink } = grant;
   const { projectTitle, approvedAmount, approvedAmountInUSD } = application;
   const amount = formatNumber(approvedAmount);
 
@@ -42,17 +42,37 @@ export const NativeApplicationApprovedTemplate = ({
           Your application to {title} for <strong>{projectTitle}</strong> has
           been approved for {amount} {token}. Congratulations!
         </p>
-        <p style={styles.textWithMargin}>
-          To receive your first tranche ({trancheAmountFormatted} {token}),
-          please complete KYC verification from the{' '}
-          <a href={grantPageLink}>grant listing page</a>. Please ignore this if
-          you have already completed KYC verification on Earn before.
-        </p>
-        <p style={styles.textWithMargin}>
-          Once you receive your first tranche and make significant progress on
-          your project, share an update to claim your next tranche from the{' '}
-          <a href={grantPageLink}>grant listing page</a>.
-        </p>
+        <br />
+        Here are the next steps:
+        <ul>
+          <li style={styles.text}>
+            To receive your first tranche ({trancheAmountFormatted} {token}),
+            please complete KYC verification from the{' '}
+            <a href={grantPageLink}>grant listing page</a>. Please ignore this
+            if you have already completed KYC verification on Earn before.
+          </li>
+          {communityLink && (
+            <li style={styles.text}>
+              In case you're not part of our community already,{' '}
+              <a href={communityLink} style={styles.link}>
+                click here to join
+              </a>
+              and fill this{' '}
+              <a href={'https://new-mem.superteam.fun/'} style={styles.link}>
+                onboarding form
+              </a>
+              .
+            </li>
+          )}
+          <li style={styles.text}>
+            Once you receive your first tranche and make significant progress on
+            your project, share an update to claim your next tranche from the{' '}
+            <a href={grantPageLink} style={styles.link}>
+              grant listing page
+            </a>
+            .
+          </li>
+        </ul>
       </>
     ),
     fr: (
@@ -63,18 +83,40 @@ export const NativeApplicationApprovedTemplate = ({
           <strong>{projectTitle}</strong> a été approuvée pour un montant de{' '}
           {amount} {token}. Félicitations !
         </p>
-        <p style={styles.textWithMargin}>
-          Pour recevoir votre première tranche ({trancheAmountFormatted} {token}
-          ), veuillez compléter la vérification KYC depuis la{' '}
-          <a href={grantPageLink}>page de la subvention</a>. Veuillez ignorer ce
-          message si vous avez déjà complété votre vérification KYC sur Earn.
-        </p>
-        <p style={styles.textWithMargin}>
-          Une fois que vous aurez reçu votre première tranche et réalisé des
-          progrès significatifs sur votre projet, partagez une mise à jour pour
-          réclamer la prochaine tranche depuis la{' '}
-          <a href={grantPageLink}>page de la subvention</a>.
-        </p>
+        <br />
+        Voici les prochaines étapes :
+        <ul>
+          <li style={styles.text}>
+            Pour recevoir votre première tranche ({trancheAmountFormatted}{' '}
+            {token}
+            ), veuillez compléter la vérification KYC depuis la{' '}
+            <a href={grantPageLink}>page de la subvention</a>. Veuillez ignorer
+            ceci si vous avez déjà effectué la vérification KYC sur Earn
+            auparavant.
+          </li>
+          {communityLink && (
+            <li style={styles.text}>
+              Si vous ne faites pas encore partie de notre communauté,{' '}
+              <a href={communityLink} style={styles.link}>
+                cliquez ici pour rejoindre
+              </a>{' '}
+              et remplissez ce{' '}
+              <a href={'https://new-mem.superteam.fun/'} style={styles.link}>
+                formulaire d'intégration
+              </a>
+              .
+            </li>
+          )}
+          <li style={styles.text}>
+            Une fois que vous recevez votre première tranche et faites des
+            progrès significatifs sur votre projet, partagez une mise à jour
+            pour réclamer votre prochaine tranche depuis la{' '}
+            <a href={grantPageLink} style={styles.link}>
+              page de la subvention
+            </a>
+            .
+          </li>
+        </ul>
       </>
     ),
     vi: (
@@ -85,17 +127,37 @@ export const NativeApplicationApprovedTemplate = ({
           <strong>{projectTitle}</strong> đã được chấp thuận với số tiền{' '}
           {amount} {token}. Chúc mừng bạn!
         </p>
-        <p style={styles.textWithMargin}>
-          Để nhận khoản giải ngân đầu tiên ({trancheAmountFormatted} {token}),
-          vui lòng hoàn tất xác minh KYC từ{' '}
-          <a href={grantPageLink}>trang thông tin tài trợ</a>. Vui lòng bỏ qua
-          nếu bạn đã hoàn thành KYC trên Earn trước đó.
-        </p>
-        <p style={styles.textWithMargin}>
-          Khi bạn nhận được khoản giải ngân đầu tiên và đạt được tiến độ đáng kể
-          trong dự án, hãy chia sẻ cập nhật để yêu cầu khoản tiếp theo từ{' '}
-          <a href={grantPageLink}>trang thông tin tài trợ</a>.
-        </p>
+        <br />
+        Đây là các bước tiếp theo:
+        <ul>
+          <li style={styles.text}>
+            Để nhận khoản giải ngân đầu tiên ({trancheAmountFormatted} {token}),
+            vui lòng hoàn tất xác minh KYC từ{' '}
+            <a href={grantPageLink}>trang thông tin tài trợ</a>. Vui lòng bỏ qua
+            nếu bạn đã hoàn thành KYC trên Earn trước đó.
+          </li>
+          {communityLink && (
+            <li style={styles.text}>
+              Trong trường hợp bạn chưa tham gia cộng đồng của chúng tôi,{' '}
+              <a href={communityLink} style={styles.link}>
+                nhấp vào đây để tham gia
+              </a>{' '}
+              và điền vào{' '}
+              <a href={'https://new-mem.superteam.fun/'} style={styles.link}>
+                biểu mẫu giới thiệu này
+              </a>
+              .
+            </li>
+          )}
+          <li style={styles.text}>
+            Khi bạn nhận được khoản giải ngân đầu tiên và đạt được tiến độ đáng
+            kể trong dự án, hãy chia sẻ cập nhật để yêu cầu khoản tiếp theo từ{' '}
+            <a href={grantPageLink} style={styles.link}>
+              trang thông tin tài trợ
+            </a>
+            .
+          </li>
+        </ul>
       </>
     ),
   };
