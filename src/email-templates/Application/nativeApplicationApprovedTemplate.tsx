@@ -42,22 +42,24 @@ export const NativeApplicationApprovedTemplate = ({
           Your application to {title} for <strong>{projectTitle}</strong> has
           been approved for {amount} {token}. Congratulations!
         </p>
-        <br />
-        Here are the next steps:
+        <p style={styles.text}>Here are the next steps:</p>
         <ul>
           <li style={styles.text}>
             To receive your first tranche ({trancheAmountFormatted} {token}),
             please complete KYC verification from the{' '}
-            <a href={grantPageLink}>grant listing page</a>. Please ignore this
-            if you have already completed KYC verification on Earn before.
+            <a href={grantPageLink} style={styles.link}>
+              grant listing page
+            </a>
+            . Please ignore this if you have already completed KYC verification
+            on Earn before.
           </li>
           {communityLink && (
             <li style={styles.text}>
               In case you're not part of our community already,{' '}
               <a href={communityLink} style={styles.link}>
-                click here to join
-              </a>
-              and fill this{' '}
+                click here
+              </a>{' '}
+              to join and fill this{' '}
               <a href={'https://new-mem.superteam.fun/'} style={styles.link}>
                 onboarding form
               </a>
@@ -83,24 +85,25 @@ export const NativeApplicationApprovedTemplate = ({
           <strong>{projectTitle}</strong> a été approuvée pour un montant de{' '}
           {amount} {token}. Félicitations !
         </p>
-        <br />
-        Voici les prochaines étapes :
+        <p style={styles.text}>Voici les prochaines étapes :</p>
         <ul>
           <li style={styles.text}>
             Pour recevoir votre première tranche ({trancheAmountFormatted}{' '}
             {token}
             ), veuillez compléter la vérification KYC depuis la{' '}
-            <a href={grantPageLink}>page de la subvention</a>. Veuillez ignorer
-            ceci si vous avez déjà effectué la vérification KYC sur Earn
-            auparavant.
+            <a href={grantPageLink} style={styles.link}>
+              page de la subvention
+            </a>
+            . Veuillez ignorer ceci si vous avez déjà effectué la vérification
+            KYC sur Earn auparavant.
           </li>
           {communityLink && (
             <li style={styles.text}>
               Si vous ne faites pas encore partie de notre communauté,{' '}
               <a href={communityLink} style={styles.link}>
-                cliquez ici pour rejoindre
+                cliquez ici
               </a>{' '}
-              et remplissez ce{' '}
+              pour rejoindre et remplissez ce{' '}
               <a href={'https://new-mem.superteam.fun/'} style={styles.link}>
                 formulaire d'intégration
               </a>
@@ -127,22 +130,23 @@ export const NativeApplicationApprovedTemplate = ({
           <strong>{projectTitle}</strong> đã được chấp thuận với số tiền{' '}
           {amount} {token}. Chúc mừng bạn!
         </p>
-        <br />
-        Đây là các bước tiếp theo:
+        <p style={styles.text}>Đây là các bước tiếp theo:</p>
         <ul>
           <li style={styles.text}>
             Để nhận khoản giải ngân đầu tiên ({trancheAmountFormatted} {token}),
             vui lòng hoàn tất xác minh KYC từ{' '}
-            <a href={grantPageLink}>trang thông tin tài trợ</a>. Vui lòng bỏ qua
-            nếu bạn đã hoàn thành KYC trên Earn trước đó.
+            <a href={grantPageLink} style={styles.link}>
+              trang thông tin tài trợ
+            </a>
+            . Vui lòng bỏ qua nếu bạn đã hoàn thành KYC trên Earn trước đó.
           </li>
           {communityLink && (
             <li style={styles.text}>
               Trong trường hợp bạn chưa tham gia cộng đồng của chúng tôi,{' '}
               <a href={communityLink} style={styles.link}>
-                nhấp vào đây để tham gia
+                nhấp vào đây
               </a>{' '}
-              và điền vào{' '}
+              để tham gia và điền vào{' '}
               <a href={'https://new-mem.superteam.fun/'} style={styles.link}>
                 biểu mẫu giới thiệu này
               </a>
