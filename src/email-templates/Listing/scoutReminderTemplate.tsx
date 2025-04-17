@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { Salutation } from '../../components/Salutation';
 import { UnsubscribeLine } from '../../components/unsubscribeLine';
 import { formatNumber } from '../../utils/formatNumber';
 import { styles } from '../styles';
@@ -38,11 +39,7 @@ export const ScoutReminderTemplate = ({
         invites left!
       </p>
 
-      <p style={styles.salutation}>
-        Best,
-        <br />
-        Superteam Earn
-      </p>
+      <Salutation />
       <p style={styles.text}>&nbsp;</p>
       <UnsubscribeLine />
     </div>

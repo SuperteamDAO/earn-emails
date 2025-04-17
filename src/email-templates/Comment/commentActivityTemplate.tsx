@@ -1,6 +1,7 @@
 import { type CommentRefType } from '@prisma/client';
 import React from 'react';
 
+import { Salutation } from '../../components/Salutation';
 import { UnsubscribeLine } from '../../components/unsubscribeLine';
 import { styles } from '../styles';
 
@@ -49,11 +50,7 @@ export const CommentActivityTemplate = ({
           Click here to see what they said!
         </a>{' '}
       </p>
-      <p style={styles.salutation}>
-        Best,
-        <br />
-        Superteam Earn
-      </p>
+      <Salutation />
       <UnsubscribeLine />
     </div>
   );

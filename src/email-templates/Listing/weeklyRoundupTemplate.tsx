@@ -1,6 +1,7 @@
 import { type CompensationType } from '@prisma/client';
 import React from 'react';
 
+import { Salutation } from '../../components/Salutation';
 import { UnsubscribeLine } from '../../components/unsubscribeLine';
 import { basePath } from '../../constants/basePath';
 import { formatNumber } from '../../utils/formatNumber';
@@ -125,11 +126,7 @@ export const WeeklyRoundupTemplate = ({
       <p style={styles.text}>
         Hope to see you participate in (and hopefully win!) some of these :)
       </p>
-      <p style={styles.salutation}>
-        Best,
-        <br />
-        Superteam Earn
-      </p>
+      <Salutation />
       <UnsubscribeLine />
     </div>
   );

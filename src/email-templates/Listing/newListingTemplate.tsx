@@ -1,6 +1,7 @@
 import { type $Enums, type Prisma } from '@prisma/client';
 import React from 'react';
 
+import { Salutation } from '../../components/Salutation';
 import { UnsubscribeLine } from '../../components/unsubscribeLine';
 import { getListingTypeLabel } from '../../utils/getListingTypeLabel';
 import { styles } from '../styles';
@@ -52,11 +53,7 @@ export const NewListingTemplate = ({
       <p style={styles.textWithMargin}>
         Looking forward to seeing your submission!
       </p>
-      <p style={styles.salutation}>
-        Best,
-        <br />
-        Superteam Earn
-      </p>
+      <Salutation />
       <p style={styles.text}>&nbsp;</p>
       <UnsubscribeLine />
     </div>

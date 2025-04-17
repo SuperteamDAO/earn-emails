@@ -1,6 +1,6 @@
 import { render } from '@react-email/render';
 
-import { pratikEmail } from '../../constants/emails';
+import { helloEmail, pratikEmail } from '../../constants/emails';
 import { ApplicationApprovedTemplate } from '../../email-templates/Application/applicationApprovedTemplate';
 import { NativeApplicationApprovedTemplate } from '../../email-templates/Application/nativeApplicationApprovedTemplate';
 import { prisma } from '../../prisma';
@@ -31,19 +31,37 @@ export async function processApplicationApproval(id: string, userId: string) {
   if (grantApplication && user) {
     let emailData;
     if (isNativeGrant) {
+      const language = grantApplication.grant.title
+        .toLowerCase()
+        .includes('france')
+        ? 'fr'
+        : grantApplication.grant.title.toLowerCase().includes('vietnam')
+          ? 'vi'
+          : 'en';
+
       const emailHtml = await render(
         NativeApplicationApprovedTemplate({
           name: user.firstName!,
           application: grantApplication,
           grant: grantApplication.grant,
+          salutation: grantApplication.grant.emailSalutation,
+          language,
         }),
       );
 
+      const subject =
+        language === 'fr'
+          ? `[KYC requis] ${sponsorName} a approuvé votre subvention !`
+          : language === 'vi'
+            ? `[Cần KYC] ${sponsorName} đã phê duyệt khoản tài trợ của bạn!`
+            : `[KYC needed] ${sponsorName} has approved your grant!`;
+
       emailData = {
-        from: pratikEmail,
+        from: grantApplication.grant.emailSender + helloEmail,
         to: user.email,
-        subject: `[KYC needed] ${sponsorName} has approved your grant!`,
+        subject,
         html: emailHtml,
+        replyTo: grantApplication.grant.replyToEmail,
       };
     } else {
       const emailHtml = await render(

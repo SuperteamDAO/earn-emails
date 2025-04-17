@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { Salutation } from '../../components/Salutation';
 import { UnsubscribeLine } from '../../components/unsubscribeLine';
 import { styles } from '../styles';
 
@@ -28,11 +29,7 @@ export const ScoutInviteTemplate = ({
         . Interested? Submit now and stand a higher chance of winning!
       </p>
 
-      <p style={styles.salutation}>
-        Best,
-        <br />
-        Superteam Earn
-      </p>
+      <Salutation />
       <p style={styles.text}>&nbsp;</p>
       <UnsubscribeLine />
     </div>

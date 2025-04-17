@@ -1,6 +1,7 @@
 import { type CompensationType } from '@prisma/client';
 import React from 'react';
 
+import { Salutation } from '../../components/Salutation';
 import { UnsubscribeLine } from '../../components/unsubscribeLine';
 import { basePath } from '../../constants/basePath';
 import { styles } from '../styles';
@@ -116,11 +117,7 @@ export const TalentReminderTemplate = ({
       >
         Complete Profile
       </a>
-      <p style={styles.salutation}>
-        Best,
-        <br />
-        Superteam Earn
-      </p>
+      <Salutation />
       <UnsubscribeLine />
     </div>
   );

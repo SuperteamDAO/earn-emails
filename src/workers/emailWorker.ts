@@ -39,6 +39,7 @@ const emailWorker = new Worker(
       type,
       userId,
       otherInfo,
+      replyTo,
       checkUnsubscribe = true,
     } = job.data;
 
@@ -97,7 +98,7 @@ const emailWorker = new Worker(
         html: html.replace('{{unsubscribeUrl}}', unsubscribeURL),
         ...(bcc && { bcc }),
         ...(cc && { cc }),
-        replyTo: 'support@superteamearn.com',
+        ...(replyTo ? { replyTo } : { replyTo: 'support@superteamearn.com' }),
         headers: {
           'List-Unsubscribe': `<${unsubscribeURL}>`,
         },

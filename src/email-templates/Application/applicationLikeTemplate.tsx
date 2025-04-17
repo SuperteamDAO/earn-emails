@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { Salutation } from '../../components/Salutation';
 import { UnsubscribeLine } from '../../components/unsubscribeLine';
 import { styles } from '../styles';
 
@@ -37,11 +38,7 @@ export const ApplicationLikeTemplate = ({
         </a>{' '}
         and spread some love to the other contributors :)
       </p>
-      <p style={styles.salutation}>
-        Best,
-        <br />
-        Superteam Earn
-      </p>
+      <Salutation />
       <UnsubscribeLine />
     </div>
   );
