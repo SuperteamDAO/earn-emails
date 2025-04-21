@@ -6,6 +6,7 @@ import { prisma } from '../prisma';
 import { getUserEmailPreference } from '../utils/getUserEmailPreference';
 
 export async function processFeatureAnnouncement() {
+  console.log('Processing feature announcement');
   const users = await prisma.user.findMany({
     where: {
       isTalentFilled: true,
