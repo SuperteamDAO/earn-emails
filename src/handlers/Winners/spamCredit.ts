@@ -1,20 +1,19 @@
 import { render } from '@react-email/render';
 
 import { pratikEmail } from '../../constants/emails';
-import { STWinnersTemplate } from '../../email-templates/Winners/STWinnersTemplate';
+import { SpamCreditTemplate } from '../../email-templates/Winners/SpamCreditTemplate';
 import { prisma } from '../../prisma';
-import { getListingTypeLabel } from '../../utils/getListingTypeLabel';
 
-export async function processSTWinners(id: string) {
+export async function processSpamCredit(id: string) {
   const listing = await prisma.bounties.findUnique({
     where: { id },
     include: { sponsor: true },
   });
 
-  const winners = await prisma.submission.findMany({
+  const spammers = await prisma.submission.findMany({
     where: {
       listingId: id,
-      isWinner: true,
+      label: 'Spam',
       isActive: true,
       isArchived: false,
     },
@@ -24,21 +23,18 @@ export async function processSTWinners(id: string) {
   });
 
   if (listing) {
-    const listingType = getListingTypeLabel(listing.type);
-    const listingName = listing.title;
-
-    const emailPromises = winners.map(async (winner) => {
+    const emailPromises = spammers.map(async (spammer) => {
       const emailHtml = await render(
-        STWinnersTemplate({
-          name: winner.user.firstName,
-          listingName,
-          listingType,
+        SpamCreditTemplate({
+          name: spammer.user.firstName,
+          listingName: listing.title,
+          listingSlug: listing.slug,
         }),
       );
       return {
         from: pratikEmail,
-        to: winner.user.email,
-        subject: '[Important] Submit This Form to Claim Your Reward',
+        to: spammer.user.email,
+        subject: 'Your submission was flagged as spam',
         html: emailHtml,
         checkUnsubscribe: false,
       };
