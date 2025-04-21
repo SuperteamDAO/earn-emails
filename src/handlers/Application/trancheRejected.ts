@@ -1,6 +1,6 @@
 import { render } from '@react-email/render';
 
-import { pratikEmail } from '../../constants/emails';
+import { helloEmail } from '../../constants/emails';
 import { TrancheRejectedTemplate } from '../../email-templates/Application/trancheRejectedTemplate';
 import { prisma } from '../../prisma';
 
@@ -23,20 +23,36 @@ export async function processTrancheRejection(id: string) {
 
   const sponsorName = tranche.Grant.sponsor.name;
 
+  const language = tranche.Grant.title.toLowerCase().includes('france')
+    ? 'fr'
+    : tranche.Grant.title.toLowerCase().includes('vietnam')
+      ? 'vi'
+      : 'en';
+
+  const subject =
+    language === 'fr'
+      ? 'Demande de tranche rejetée'
+      : language === 'vi'
+        ? 'Yêu cầu giải ngân bị từ chối'
+        : 'Tranche Request Rejected';
+
   if (tranche && user) {
     const emailHtml = await render(
       TrancheRejectedTemplate({
         name: user.firstName!,
         projectTitle: tranche.GrantApplication.projectTitle,
         sponsorName,
+        salutation: tranche.Grant.emailSalutation,
+        language,
       }),
     );
 
     const emailData = {
-      from: pratikEmail,
+      from: tranche.Grant.emailSender + helloEmail,
       to: user.email,
-      subject: 'Tranche Request Rejected',
+      subject,
       html: emailHtml,
+      replyTo: tranche.Grant.replyToEmail,
     };
     return emailData;
   }

@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { Salutation } from '../../components/Salutation';
 import { UnsubscribeLine } from '../../components/unsubscribeLine';
 import { styles } from '../styles';
 
@@ -84,11 +85,7 @@ export const NonSTWinnersTemplate = ({
           Congratulations again — we hope you continue winning!
         </p>
       </p>
-      <p style={styles.salutation}>
-        Best,
-        <br />
-        Superteam Earn
-      </p>
+      <Salutation />
       <UnsubscribeLine />
     </div>
   );

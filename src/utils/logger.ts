@@ -1,4 +1,7 @@
 import { Axiom } from '@axiomhq/js';
+import { config } from 'dotenv';
+
+config();
 
 const axiom = new Axiom({
   token: process.env.AXIOM_TOKEN || '',

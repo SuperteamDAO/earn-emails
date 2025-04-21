@@ -177,6 +177,7 @@ model Grants {
   totalPaid              Float              @default(0)
   totalApproved          Float              @default(0)
   historicalApplications Int                @default(0)
+  historicalPaid         Float              @default(0)
   link                   String?
   sponsorId              String
   pocId                  String
@@ -203,6 +204,10 @@ model Grants {
   ai                     Json?
   GrantTranche           GrantTranche[]
   approverRecordId       String?
+  emailSender            String?
+  replyToEmail           String?
+  emailSalutation        String?
+  communityLink          String?
 
   @@index([id, slug])
   @@index([pocId])
@@ -802,6 +807,7 @@ enum Regions {
   SINGAPORE
   POLAND
   KOREA
+  IRELAND
 
   UKRAINE
   ARGENTINA
