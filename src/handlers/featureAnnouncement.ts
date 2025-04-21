@@ -9,6 +9,11 @@ export async function processFeatureAnnouncement() {
   const users = await prisma.user.findMany({
     where: {
       isTalentFilled: true,
+      emailSettings: {
+        some: {
+          category: 'productAndNewsletter',
+        },
+      },
     },
   });
 
