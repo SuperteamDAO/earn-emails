@@ -3,7 +3,6 @@ import { render } from '@react-email/render';
 import { pratikEmail } from '../constants/emails';
 import { FeatureAnnouncementTemplate } from '../email-templates/FeatureAnnouncementTemplate';
 import { prisma } from '../prisma';
-import { getUserEmailPreference } from '../utils/getUserEmailPreference';
 
 export async function processFeatureAnnouncement() {
   console.log('-------------------------------------');
@@ -34,24 +33,6 @@ export async function processFeatureAnnouncement() {
     for (const user of users) {
       console.log(
         `[FeatureAnnouncement] Processing user: ${user.id} (${user.email})`,
-      );
-
-      console.log(
-        `[FeatureAnnouncement] Checking email preferences for user: ${user.id}`,
-      );
-      const userPreference = await getUserEmailPreference(
-        user.id,
-        'featureAnnouncement',
-      );
-
-      if (!userPreference) {
-        console.log(
-          `[FeatureAnnouncement] User ${user.id} has opted out of this type of email`,
-        );
-        continue;
-      }
-      console.log(
-        `[FeatureAnnouncement] User ${user.id} has opted in for feature announcements`,
       );
 
       console.log(
