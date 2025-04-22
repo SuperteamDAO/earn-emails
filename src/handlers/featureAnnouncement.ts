@@ -20,8 +20,8 @@ export async function processFeatureAnnouncement() {
           },
         },
       },
-      take: 20000,
-      skip: 2000,
+      take: 30000,
+      skip: 22000,
     });
     console.log(`[FeatureAnnouncement] Found ${users.length} eligible users`);
 
