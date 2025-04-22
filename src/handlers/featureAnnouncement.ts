@@ -21,7 +21,8 @@ export async function processFeatureAnnouncement() {
           },
         },
       },
-      take: 20,
+      take: 1980,
+      skip: 20,
     });
     console.log(`[FeatureAnnouncement] Found ${users.length} eligible users`);
 
