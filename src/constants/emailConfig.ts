@@ -89,7 +89,7 @@ export const emailTypePriority: Record<EmailActionType, number> = {
   talentReminder: 6,
   powLike: 2,
   spamCredit: 2,
-  featureAnnouncement: 6,
+  featureAnnouncement: 3,
   // dupe: 1,
 };
 

@@ -6,63 +6,121 @@ import { prisma } from '../prisma';
 import { getUserEmailPreference } from '../utils/getUserEmailPreference';
 
 export async function processFeatureAnnouncement() {
-  console.log('Processing feature announcement');
-  const users = await prisma.user.findMany({
-    where: {
-      isTalentFilled: true,
-      emailSettings: {
-        some: {
-          category: 'productAndNewsletter',
+  console.log('-------------------------------------');
+  console.log('[FeatureAnnouncement] Starting process');
+  console.log('-------------------------------------');
+
+  try {
+    console.log('[FeatureAnnouncement] Querying eligible users');
+    const users = await prisma.user.findMany({
+      where: {
+        isTalentFilled: true,
+        emailSettings: {
+          some: {
+            category: 'productAndNewsletter',
+          },
         },
       },
-    },
-  });
+      take: 20,
+    });
+    console.log(`[FeatureAnnouncement] Found ${users.length} eligible users`);
 
-  const emails = [];
+    const emails = [];
+    const emailType = 'CREDITS_ANNOUNCEMENT';
+    console.log(`[FeatureAnnouncement] Email type: ${emailType}`);
 
-  const emailType = 'CREDITS_ANNOUNCEMENT';
+    console.log('[FeatureAnnouncement] Starting user processing loop');
+    for (const user of users) {
+      console.log(
+        `[FeatureAnnouncement] Processing user: ${user.id} (${user.email})`,
+      );
 
-  for (const user of users) {
-    const userPreference = await getUserEmailPreference(
-      user.id,
-      'featureAnnouncement',
-    );
+      console.log(
+        `[FeatureAnnouncement] Checking email preferences for user: ${user.id}`,
+      );
+      const userPreference = await getUserEmailPreference(
+        user.id,
+        'featureAnnouncement',
+      );
 
-    if (!userPreference) {
-      console.log(`User ${user.id} has opted out of this type of email.`);
-      continue;
+      if (!userPreference) {
+        console.log(
+          `[FeatureAnnouncement] User ${user.id} has opted out of this type of email`,
+        );
+        continue;
+      }
+      console.log(
+        `[FeatureAnnouncement] User ${user.id} has opted in for feature announcements`,
+      );
+
+      console.log(
+        `[FeatureAnnouncement] Checking if user ${user.id} already received this email`,
+      );
+      const checkLogs = await prisma.emailLogs.findFirst({
+        where: {
+          userId: user.id,
+          type: emailType,
+        },
+      });
+
+      if (checkLogs) {
+        console.log(
+          `[FeatureAnnouncement] User ${user.id} already received this email, skipping`,
+        );
+        continue;
+      }
+      console.log(
+        `[FeatureAnnouncement] User ${user.id} has not received this email yet, proceeding`,
+      );
+
+      console.log(
+        `[FeatureAnnouncement] Rendering email template for user: ${user.id}`,
+      );
+      const emailHtml = await render(
+        FeatureAnnouncementTemplate({
+          name: user.firstName,
+        }),
+      );
+      console.log(
+        `[FeatureAnnouncement] Email template rendered successfully for user: ${user.id}`,
+      );
+
+      console.log(
+        `[FeatureAnnouncement] Adding email to queue for user: ${user.id}`,
+      );
+      emails.push({
+        from: pratikEmail,
+        to: user.email,
+        subject: 'Introducing: Submission Credits',
+        html: emailHtml,
+      });
+
+      console.log(
+        `[FeatureAnnouncement] Creating email log record for user: ${user.id}`,
+      );
+      await prisma.emailLogs.create({
+        data: {
+          type: emailType,
+          userId: user.id,
+        },
+      });
+      console.log(
+        `[FeatureAnnouncement] Email log record created successfully for user: ${user.id}`,
+      );
     }
-    const checkLogs = await prisma.emailLogs.findFirst({
-      where: {
-        userId: user.id,
-        type: emailType,
-      },
-    });
 
-    if (checkLogs) continue;
-
-    const emailHtml = await render(
-      FeatureAnnouncementTemplate({
-        name: user.firstName,
-      }),
+    console.log(
+      `[FeatureAnnouncement] Processing complete. ${emails.length} emails prepared for sending`,
     );
+    console.log('-------------------------------------');
 
-    emails.push({
-      from: pratikEmail,
-      to: user.email,
-      subject: 'Introducing: Submission Credits',
-      html: emailHtml,
-    });
-
-    console.log(emails);
-
-    await prisma.emailLogs.create({
-      data: {
-        type: emailType,
-        userId: user.id,
-      },
-    });
+    return emails;
+  } catch (error) {
+    console.error(
+      '[FeatureAnnouncement] Error processing feature announcement:',
+    );
+    console.error(error);
+    console.log('-------------------------------------');
+    throw error;
   }
-
-  return emails;
 }
