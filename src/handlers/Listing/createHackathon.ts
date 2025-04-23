@@ -52,22 +52,20 @@ export async function processCreateHackathon() {
     );
 
     const emailData = await Promise.all(
-      users
-        .filter((s) => s.email === 'jayeshpotlabattini@gmail.com')
-        .map(async (user) => {
-          const emailHtml = await render(
-            RedactedHackathonTemplate({
-              name: user.firstName || 'there',
-            }),
-          );
+      users.map(async (user) => {
+        const emailHtml = await render(
+          RedactedHackathonTemplate({
+            name: user.firstName || 'there',
+          }),
+        );
 
-          return {
-            from: `Pratik from Earn <${process.env.PRATIK_EMAIL}>`,
-            to: user.email,
-            subject: `You're 7 days away from missing out on $170K from [REDACTED]`,
-            html: emailHtml,
-          };
-        }),
+        return {
+          from: `Pratik from Earn <${process.env.PRATIK_EMAIL}>`,
+          to: user.email,
+          subject: `You're 7 days away from missing out on $170K from [REDACTED]`,
+          html: emailHtml,
+        };
+      }),
     );
 
     return emailData.filter((data) => data !== null);
