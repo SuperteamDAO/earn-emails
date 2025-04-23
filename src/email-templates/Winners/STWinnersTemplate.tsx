@@ -15,6 +15,7 @@ export const STWinnersTemplate = ({
   listingName,
   listingType,
 }: TemplateProps) => {
+  const isHackathon = listingType === 'Hackathon';
   return (
     <div style={styles.container}>
       <p style={styles.greetings}>Hey {name},</p>
@@ -42,11 +43,13 @@ export const STWinnersTemplate = ({
         </a>
         .
       </p>
-      <p style={styles.textWithMargin}>
-        More good news: because of this win, you’ll be earning one extra credit
-        next month! This means you’ll be able to apply to more opportunities on
-        Earn next month and keep stacking wins.
-      </p>
+      {!isHackathon && (
+        <p style={styles.textWithMargin}>
+          More good news: because of this win, you’ll be earning one extra
+          credit next month! This means you’ll be able to apply to more
+          opportunities on Earn next month and keep stacking wins.
+        </p>
+      )}
 
       <Salutation />
       <UnsubscribeLine />

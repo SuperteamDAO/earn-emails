@@ -39,6 +39,8 @@ export const NonSTWinnersTemplate = ({
     maximumFractionDigits: 0,
   }).format(totalEarnings);
 
+  const isHackathon = listingType === 'Hackathon';
+
   return (
     <div style={styles.container}>
       <p style={styles.greetings}>Hey {name},</p>
@@ -76,10 +78,12 @@ export const NonSTWinnersTemplate = ({
             </strong>{' '}
             on the leaderboard
           </li>
-          <li style={styles.text}>
-            And you'll receive <strong>1 extra credit next month</strong>,
-            giving you access to more opportunities on Earn
-          </li>
+          {!isHackathon && (
+            <li style={styles.text}>
+              And you'll receive <strong>1 extra credit next month</strong>,
+              giving you access to more opportunities on Earn
+            </li>
+          )}
         </ul>
         <p style={styles.text}>
           Congratulations again — we hope you continue winning!
