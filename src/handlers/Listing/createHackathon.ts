@@ -1,21 +1,21 @@
 import { render } from '@react-email/render';
 
-import { MobiusHackathonTemplate } from '../../email-templates/Listing/newHackathonTemplate';
+import { RedactedHackathonTemplate } from '../../email-templates/Listing/newHackathonTemplate';
 import { prisma } from '../../prisma';
 
-// Product-oriented skills to target
 const productOrientedSkills = [
-  'Blockchain',
-  'Frontend',
-  'Backend',
-  'Mobile',
-  'UI/UX Design',
-  'Product Manager',
+  'Python',
+  'Postgres',
+  'MongoDB',
+  'MySQL',
+  'Rust',
+  'Data Analytics',
+  'Research',
+  'Writing',
 ];
 
 export async function processCreateHackathon() {
   try {
-    // Find users with product-oriented skills who haven't unsubscribed
     const users = await prisma.user.findMany({
       where: {
         isTalentFilled: true,
@@ -51,22 +51,23 @@ export async function processCreateHackathon() {
       `Found ${users.length} eligible users for hackathon notification`,
     );
 
-    // Prepare email data for each user
     const emailData = await Promise.all(
-      users.map(async (user) => {
-        const emailHtml = await render(
-          MobiusHackathonTemplate({
-            name: user.firstName || 'there',
-          }),
-        );
+      users
+        .filter((s) => s.email === 'jayeshpotlabattini@gmail.com')
+        .map(async (user) => {
+          const emailHtml = await render(
+            RedactedHackathonTemplate({
+              name: user.firstName || 'there',
+            }),
+          );
 
-        return {
-          from: `Pratik from Earn <${process.env.PRATIK_EMAIL}>`,
-          to: user.email,
-          subject: 'Mobius Hackathon Submissions Are LIVE!',
-          html: emailHtml,
-        };
-      }),
+          return {
+            from: `Pratik from Earn <${process.env.PRATIK_EMAIL}>`,
+            to: user.email,
+            subject: `You're 7 days away from missing out on $170K from [REDACTED]`,
+            html: emailHtml,
+          };
+        }),
     );
 
     return emailData.filter((data) => data !== null);
