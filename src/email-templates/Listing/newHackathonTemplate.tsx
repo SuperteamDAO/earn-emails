@@ -3,14 +3,14 @@ import React from 'react';
 import { UnsubscribeLine } from '../../components/unsubscribeLine';
 import { styles } from '../styles';
 
-interface RedactedHackathonProps {
+interface BreakoutSidetracksProps {
   name: string;
 }
 
 const buttonStyle: React.CSSProperties = {
   display: 'inline-block',
   padding: '12px 24px',
-  margin: '20px 0',
+  margin: '20px auto',
   backgroundColor: '#6466F1',
   color: '#ffffff',
   textDecoration: 'none',
@@ -31,80 +31,92 @@ const buttonTextStyle: React.CSSProperties = {
   display: 'inline-block',
 };
 
-export const RedactedHackathonTemplate = ({ name }: RedactedHackathonProps) => {
+const imageStyle: React.CSSProperties = {
+  display: 'block',
+  marginLeft: 'auto',
+  marginRight: 'auto',
+  marginBottom: '25px',
+  maxWidth: '600px',
+  height: 'auto',
+};
+
+export const BreakoutSidetracksTemplate = ({
+  name,
+}: BreakoutSidetracksProps) => {
   const ctaLink =
-    'https://earn.superteam.fun/hackathon/redacted/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications';
+    'https://earn.superteam.fun/hackathon/breakout/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications';
+  const imageUrl =
+    'https://res.cloudinary.com/dgvnuwspr/image/upload/v1745912361/assets/hackathon/breakout/og-image.png';
 
   return (
-    <div style={styles.container}>
+    <div
+      style={{
+        ...styles.container,
+        margin: '0 auto',
+      }}
+    >
+      <img
+        src={imageUrl}
+        alt="Solana Breakout Hackathon Banner"
+        style={imageStyle}
+      />
       <p style={styles.greetings}>Hi {name},</p>
 
       <p style={styles.textWithMargin}>
-        The countdown is getting intense — just 7 days left to submit to the
-        $170K+ [REDACTED] hackathon. [REDACTED] is a virtual competition by{' '}
-        <strong>Helius</strong>, bringing together analysts, security
-        researchers, and on-chain sleuths from across crypto.
+        Are you already building for the global Solana Breakout hackathon? Then
+        don’t leave money on the table!
+      </p>
+
+      <p style={styles.textWithMargin}>
+        Superteam Earn is hosting 30+ sidetracks with extra rewards worth
+        $300k+, <strong>on top of the official prize pool</strong> of the
+        Breakout hackathon.
+      </p>
+      <p style={styles.textWithMargin}>
+        Think of them as mini‑tracks you can enter potentially with the same
+        project for a second shot at glory (and earnings). Each track has its
+        own eligibility requirements — be sure to follow them.
       </p>
 
       <h3 style={{ ...styles.textWithMargin, marginTop: '25px' }}>
-        Who It’s For
+        Why bother with sidetracks?
       </h3>
       <ul style={{ ...styles.text, paddingLeft: '20px', marginTop: '10px' }}>
         <li style={{ marginBottom: '8px' }}>
-          <strong>On‑chain sleuths</strong> hunting fraud and fake activity
+          <strong>Double‑dip rewards:</strong> the same repo can win both
+          Breakout and a sidetrack pot.
         </li>
         <li style={{ marginBottom: '8px' }}>
-          <strong>Data & security engineers</strong> who specialise in making
-          analytics and monitoring dashboards
+          <strong>Better odds:</strong> each Sidetrack has its own jury and
+          smaller playing field.
         </li>
         <li style={{ marginBottom: '8px' }}>
-          <strong>Curious data analysts from web2</strong> looking to break into
-          crypto
-        </li>
-      </ul>
-
-      <h3 style={{ ...styles.textWithMargin, marginTop: '25px' }}>
-        Why You Should Participate
-      </h3>
-      <ul style={{ ...styles.text, paddingLeft: '20px', marginTop: '10px' }}>
-        <li style={{ marginBottom: '8px' }}>
-          <strong>Massive upside</strong> – over $170K in prizes across 38
-          tracks
-        </li>
-        <li style={{ marginBottom: '8px' }}>
-          <strong>Proof of work</strong> – catch the eye of sponsors actively
-          scouting for future gigs/jobs
-        </li>
-        <li style={{ marginBottom: '8px' }}>
-          <strong>Real impact</strong> – your work strengthens trust and
-          transparency across the Solana ecosystem.
+          <strong>Recruiter magnet:</strong> sponsors are always scouting
+          sidetrack winners for full‑time roles.
         </li>
       </ul>
 
       <p style={styles.textWithMargin}>
-        The Solana ecosystem has grown in size tremendously in the last year –
-        which has caught the attention of good and bad actors alike. Help us
-        make the ecosystem more secure and transparent by exposing fraudulent
-        and fake activity.
+        Submission deadline is <strong>16 May 2025, 23:59 PST</strong> (same as
+        the official Breakout hackathon).
       </p>
 
-      <p style={styles.textWithMargin}>
-        And of course, to get yourself a good chunk of those big rewards!
-      </p>
-
-      <a href={ctaLink} target="_blank">
+      <a
+        href={ctaLink}
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{ marginLeft: 'auto', marginRight: 'auto', display: 'flex' }}
+      >
         <div style={buttonStyle}>
           <p style={buttonTextStyle}>Submit Now</p>
         </div>
       </a>
 
       <p style={styles.textWithMargin}>
-        See you on the leaderboard,
+        Wishing you all the best,
         <br />
         Superteam Earn
       </p>
-
-      <p style={styles.text}>&nbsp;</p>
 
       <UnsubscribeLine />
     </div>

@@ -1,18 +1,9 @@
 import { render } from '@react-email/render';
 
-import { RedactedHackathonTemplate } from '../../email-templates/Listing/newHackathonTemplate';
+import { BreakoutSidetracksTemplate } from '../../email-templates/Listing/newHackathonTemplate';
 import { prisma } from '../../prisma';
 
-const productOrientedSkills = [
-  'Python',
-  'Postgres',
-  'MongoDB',
-  'MySQL',
-  'Rust',
-  'Data Analytics',
-  'Research',
-  'Writing',
-];
+const productOrientedSkills = ['Frontend', 'Backend', 'Blockchain', 'Mobile'];
 
 export async function processCreateHackathon() {
   try {
@@ -52,20 +43,22 @@ export async function processCreateHackathon() {
     );
 
     const emailData = await Promise.all(
-      users.map(async (user) => {
-        const emailHtml = await render(
-          RedactedHackathonTemplate({
-            name: user.firstName || 'there',
-          }),
-        );
+      users
+        .filter((s) => s.email === 'jayeshpotlabattini@gmail.com')
+        .map(async (user) => {
+          const emailHtml = await render(
+            BreakoutSidetracksTemplate({
+              name: user.firstName || 'there',
+            }),
+          );
 
-        return {
-          from: `Pratik from Earn <${process.env.PRATIK_EMAIL}>`,
-          to: user.email,
-          subject: `You're 7 days away from missing out on $170K from [REDACTED]`,
-          html: emailHtml,
-        };
-      }),
+          return {
+            from: `Pratik from Earn <${process.env.PRATIK_EMAIL}>`,
+            to: user.email,
+            subject: `Earn has $300K+ in exclusive sidetracks for Solana Breakout`,
+            html: emailHtml,
+          };
+        }),
     );
 
     return emailData.filter((data) => data !== null);

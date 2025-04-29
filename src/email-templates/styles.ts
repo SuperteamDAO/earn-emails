@@ -2,8 +2,9 @@ export const styles = {
   container: {
     fontFamily: 'Arial, sans-serif',
     color: '#333',
-    margin: '0 auto',
+    margin: '0 0',
     padding: '20px',
+    maxWidth: '600px',
   },
   text: {
     fontSize: '14px',
