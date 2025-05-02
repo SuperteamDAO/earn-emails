@@ -43,22 +43,20 @@ export async function processCreateHackathon() {
     );
 
     const emailData = await Promise.all(
-      users
-        .filter((s) => s.email === 'jayeshpotlabattini@gmail.com')
-        .map(async (user) => {
-          const emailHtml = await render(
-            BreakoutSidetracksTemplate({
-              name: user.firstName || 'there',
-            }),
-          );
+      users.map(async (user) => {
+        const emailHtml = await render(
+          BreakoutSidetracksTemplate({
+            name: user.firstName || 'there',
+          }),
+        );
 
-          return {
-            from: `Pratik from Earn <${process.env.PRATIK_EMAIL}>`,
-            to: user.email,
-            subject: `Earn has $300K+ in exclusive sidetracks for Solana Breakout`,
-            html: emailHtml,
-          };
-        }),
+        return {
+          from: `Pratik from Earn <${process.env.PRATIK_EMAIL}>`,
+          to: user.email,
+          subject: `Earn has $300K+ in exclusive sidetracks for Solana Breakout`,
+          html: emailHtml,
+        };
+      }),
     );
 
     return emailData.filter((data) => data !== null);
