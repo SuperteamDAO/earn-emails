@@ -21,7 +21,6 @@ export async function processFeatureAnnouncement() {
         currentSponsorId: {
           not: null,
         },
-        email: 'jayeshpotlabattini@gmail.com',
       },
     });
     console.log(`[FeatureAnnouncement] Found ${users.length} eligible users`);
