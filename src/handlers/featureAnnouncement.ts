@@ -13,20 +13,21 @@ export async function processFeatureAnnouncement() {
     console.log('[FeatureAnnouncement] Querying eligible users');
     const users = await prisma.user.findMany({
       where: {
-        isTalentFilled: true,
         emailSettings: {
           some: {
             category: 'productAndNewsletter',
           },
         },
+        currentSponsorId: {
+          not: null,
+        },
+        email: 'jayeshpotlabattini@gmail.com',
       },
-      take: 30000,
-      skip: 22000,
     });
     console.log(`[FeatureAnnouncement] Found ${users.length} eligible users`);
 
     const emails = [];
-    const emailType = 'CREDITS_ANNOUNCEMENT';
+    const emailType = 'AUTO_GENERATE_ANNOUNCEMENT';
     console.log(`[FeatureAnnouncement] Email type: ${emailType}`);
 
     console.log('[FeatureAnnouncement] Starting user processing loop');
@@ -73,7 +74,7 @@ export async function processFeatureAnnouncement() {
       emails.push({
         from: pratikEmail,
         to: user.email,
-        subject: 'Introducing: Submission Credits',
+        subject: 'Introducing "Auto Generate" Feature to Create New Listings',
         html: emailHtml,
       });
 

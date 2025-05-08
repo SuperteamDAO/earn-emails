@@ -7,90 +7,76 @@ interface TemplateProps {
   name: string | null;
 }
 
+const buttonStyle: React.CSSProperties = {
+  display: 'inline-block',
+  padding: '12px 24px',
+  margin: '20px 0',
+  backgroundColor: '#6466F1',
+  color: '#ffffff',
+  textDecoration: 'none',
+  borderRadius: '5px',
+  fontWeight: 'medium',
+  textAlign: 'center',
+};
+
+const buttonTextStyle: React.CSSProperties = {
+  color: '#ffffff',
+  textDecoration: 'none',
+  fontWeight: 'medium',
+  textAlign: 'center',
+  marginBlockStart: '0',
+  marginBlockEnd: '0',
+  margin: '0',
+  padding: '0',
+  display: 'inline-block',
+};
+
 export const FeatureAnnouncementTemplate = ({ name }: TemplateProps) => {
+  const ctaLink =
+    'https://earn.superteam.fun/dashboard/new/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications';
   return (
     <div style={styles.container}>
       <p style={styles.greetings}>Hey {name},</p>
       <p style={styles.textWithMargin}>
-        We're introducing a new feature called{' '}
-        <strong>Submission Credits</strong>, to help improve the quality of
-        submissions and keep Earn valuable for everyone.
-      </p>
-      <p style={styles.textWithMargin}>
-        Starting this month, you’ll now have submission credits to help you
-        prioritize your best submissions across bounties and projects. It’s a
-        simple system designed to raise the bar for quality of submissions and
-        reduce overall spam.
+        We’re excited to roll out a new feature on your sponsor dashboard - the{' '}
+        <strong>Auto Generate</strong> button, designed to create listings
+        faster and easier than ever.
       </p>
       <br />
       <p style={styles.textWithMargin}>
-        <b>Why the shift?</b>
+        <b>What is "Auto Generate"?</b>
       </p>
       <p style={styles.textWithMargin}>
-        We’ve been seeing an incredible surge in submissions lately and we love
-        the energy! But with volume comes variance: not every submission brings
-        real value to the table, and that can slow things down for sponsors and
-        hinder other participants.
-      </p>
-      <p style={styles.textWithMargin}>
-        Submission Credits are our way of encouraging quality, rewarding
-        thoughtful contributors and making sure Earn stays valuable for everyone
-        involved.
+        Just pop in a few key details for your listing, hit the button, and boom
+        – a complete listing is ready in <strong>under a minute!</strong> We
+        handle the rest, crafting everything for you.
       </p>
       <br />
       <p style={styles.textWithMargin}>
-        <b>How does it work?</b>
+        <b>Why does this matter?</b>
       </p>
       <p style={styles.textWithMargin}>
-        <ol type="1">
-          <li style={styles.text}>
-            <strong>Monthly credits:</strong> Every user starts with 3
-            submission credits each month.
-          </li>
-          <li style={styles.text}>
-            <strong>Using credits:</strong> Every user starts with 3 submission
-            credits each month.
-            <ul>
-              <li style={styles.text}>
-                Note: As of right now, grant applications and hackathon tracks
-                do not cost any credits to submit.
-              </li>
-            </ul>
-          </li>
-          <li style={styles.text}>
-            <strong>Bonuses and deductions:</strong>
-            <ul>
-              <li style={styles.text}>
-                For every winning submission in a month, you will earn 1 extra
-                credit the following month
-              </li>
-              <li style={styles.text}>
-                If your submission is marked as spam by the sponsor/reviewer, 1
-                credit will be deducted the following month
-              </li>
-            </ul>
-          </li>
-        </ol>
+        Way less manual typing and thinking for you! Intelligently generates all
+        key components of a listing, tailored to your needs and the chosen
+        listing type. It helps you launch faster while maintaining quality and
+        consistency.
       </p>
-      <p style={styles.text}>
-        Note: Your credits refresh automatically on the 1st of every month.
-      </p>
+      <br />
       <p style={styles.textWithMargin}>
-        You can check your available credits and credit history from the credits
-        icon on the top right of your screen (next to the wallet icon).
+        Reach <strong>95,000+ talented folks</strong> in less than a minute.
+        Create a new listing and check out Auto Generate in your Sponsor
+        Dashboard today.
       </p>
-      <p style={styles.textWithMargin}>
-        If you’d like to learn more,{' '}
-        <a
-          href="https://superteamdao.notion.site/submission-credits"
-          style={styles.link}
-        >
-          here’s a detailed guide
-        </a>
-        . If you’ve still got questions, we’re here to help — please reach out
-        to support@superteamearn.com with your questions.
-      </p>
-      <p style={styles.text}>Keep stacking wins!</p>
+      <a
+        href={ctaLink}
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{ display: 'flex' }}
+      >
+        <div style={buttonStyle}>
+          <p style={buttonTextStyle}>Try Now</p>
+        </div>
+      </a>
       <p style={styles.salutation}>
         Cheers,
         <br />
