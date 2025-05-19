@@ -36,6 +36,8 @@ export async function processLeadWeeklyReminder() {
     },
   });
 
+  console.log(grantsWithFilteredApplications);
+
   const emailsToSend = [];
 
   for (const grant of grantsWithFilteredApplications) {
