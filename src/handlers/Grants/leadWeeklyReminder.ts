@@ -14,8 +14,6 @@ export async function processLeadWeeklyReminder() {
 
   const grantsWithFilteredApplications = await prisma.grants.findMany({
     where: {
-      airtableId: { not: null },
-      isNative: true,
       isPublished: true,
       GrantApplication: {
         some: {
