@@ -24,18 +24,18 @@ export const LeadWeeklyReminderTemplate = ({
         {pendingApplicationCount > 0 && pendingTrancheCount > 0 ? (
           <>
             You have <strong>{pendingApplicationCount}</strong> pending grant
-            applications and <strong>{pendingTrancheCount}</strong> pending
-            tranche requests for <strong>{grantName}</strong>.
+            application(s) and <strong>{pendingTrancheCount}</strong> pending
+            tranche request(s) for <strong>{grantName}</strong>.
           </>
         ) : pendingApplicationCount > 0 ? (
           <>
             You have <strong>{pendingApplicationCount}</strong> pending grant
-            applications for <strong>{grantName}</strong>.
+            application(s) for <strong>{grantName}</strong>.
           </>
         ) : (
           <>
             You have <strong>{pendingTrancheCount}</strong> pending tranche
-            requests for <strong>{grantName}</strong>.
+            request(s) for <strong>{grantName}</strong>.
           </>
         )}
       </p>
