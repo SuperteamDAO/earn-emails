@@ -1,37 +1,16 @@
 import { render } from '@react-email/render';
-import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';
 
 import { pratikEmail } from '../../constants/emails';
 import { LeadWeeklyReminderTemplate } from '../../email-templates/Grants/LeadWeeklyReminderTemplate';
 import { prisma } from '../../prisma';
 
 export async function processLeadWeeklyReminder() {
-  dayjs.extend(utc);
-
-  const sevenDaysAgo = dayjs.utc().subtract(7, 'day');
-  const now = dayjs.utc();
-
   const grantsWithPendingItems = await prisma.grants.findMany({
     where: {
       isPublished: true,
       OR: [
-        {
-          GrantApplication: {
-            some: {
-              applicationStatus: 'Pending',
-              createdAt: { gte: sevenDaysAgo.toDate(), lte: now.toDate() },
-            },
-          },
-        },
-        {
-          GrantTranche: {
-            some: {
-              status: 'Pending',
-              createdAt: { gte: sevenDaysAgo.toDate(), lte: now.toDate() },
-            },
-          },
-        },
+        { GrantApplication: { some: { applicationStatus: 'Pending' } } },
+        { GrantTranche: { some: { status: 'Pending' } } },
       ],
     },
     include: {
@@ -39,21 +18,17 @@ export async function processLeadWeeklyReminder() {
       GrantApplication: {
         where: {
           applicationStatus: 'Pending',
-          createdAt: { gte: sevenDaysAgo.toDate(), lte: now.toDate() },
         },
         select: { id: true },
       },
       GrantTranche: {
         where: {
           status: 'Pending',
-          createdAt: { gte: sevenDaysAgo.toDate(), lte: now.toDate() },
         },
         select: { id: true },
       },
     },
   });
-
-  console.log(grantsWithPendingItems);
 
   const emailsToSend = [];
 
@@ -72,8 +47,15 @@ export async function processLeadWeeklyReminder() {
     } else if (pendingApplicationCount > 0) {
       subject = `Reminder: You have ${pendingApplicationCount} pending grant application(s)`;
     } else {
-      subject = `Reminder: You have ${pendingTrancheCount} pending tranche requests`;
+      subject = `Reminder: You have ${pendingTrancheCount} pending tranche request(s)`;
     }
+
+    console.log({
+      leadName: grant.poc.firstName || 'Team',
+      pendingApplicationCount,
+      pendingTrancheCount,
+      grantName: grant.title,
+    });
 
     const emailHtml = await render(
       LeadWeeklyReminderTemplate({
