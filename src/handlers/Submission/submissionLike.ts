@@ -8,12 +8,17 @@ import { SubmissionLikeTemplate } from '../../email-templates/Submission/submiss
 import { prisma } from '../../prisma';
 import { getUserEmailPreference } from '../../utils/getUserEmailPreference';
 
-function createFeedCardCopy(type: BountyType, isWinnersAnnounced: boolean) {
-  const status = isWinnersAnnounced
-    ? 'Win'
-    : type === 'project'
-      ? 'Application'
-      : 'Submission';
+function createFeedCardCopy(
+  type: BountyType,
+  isWinnersAnnounced: boolean,
+  isWinner: boolean,
+) {
+  const status =
+    isWinnersAnnounced && isWinner
+      ? 'Win'
+      : type === 'project'
+        ? 'Application'
+        : 'Submission';
   const prefix =
     type === 'project' ? 'Project' : type === 'bounty' ? 'Bounty' : 'Hackathon';
   return `${prefix} ${status}`;
@@ -77,6 +82,7 @@ export async function processSubmissionLike() {
     const type = createFeedCardCopy(
       submission.listing.type,
       submission.listing.isWinnersAnnounced,
+      submission.isWinner,
     );
 
     const emailHtml = await render(
