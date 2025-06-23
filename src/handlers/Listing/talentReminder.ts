@@ -1,4 +1,3 @@
-import { Regions } from '@prisma/client';
 import { render } from '@react-email/render';
 import dayjs from 'dayjs';
 
@@ -32,7 +31,7 @@ export async function processTalentReminder() {
       isArchived: false,
       status: 'OPEN',
       isWinnersAnnounced: false,
-      region: Regions.GLOBAL,
+      region: 'Global',
       deadline: {
         gte: dayjs().add(3, 'day').toISOString(),
       },

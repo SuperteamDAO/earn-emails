@@ -1,4 +1,3 @@
-import { Regions } from '@prisma/client';
 import { render } from '@react-email/render';
 import dayjs from 'dayjs';
 
@@ -22,7 +21,7 @@ type UserSkills = {
 };
 
 function userRegionEligibility(region: string, user: any) {
-  if (region === Regions.GLOBAL) {
+  if (region === 'Global') {
     return true;
   }
 

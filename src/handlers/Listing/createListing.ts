@@ -1,4 +1,3 @@
-import { Regions } from '@prisma/client';
 import { render } from '@react-email/render';
 import dayjs from 'dayjs';
 
@@ -132,7 +131,7 @@ export async function processCreateListing() {
     const users = await prisma.user.findMany({
       where: {
         isTalentFilled: true,
-        ...(selectedListing.region !== Regions.GLOBAL && {
+        ...(selectedListing.region !== 'Global' && {
           location: { in: countries },
         }),
         OR: [
