@@ -38,6 +38,7 @@ export async function processApplicationRejection(id: string, userId: string) {
       ApplicationRejectedTemplate({
         name: user.firstName!,
         applicationTitle: grantApplication.projectTitle,
+        grantName: grantApplication.grant.title,
         salutation,
         language,
       }),
