@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { Salutation } from '../../components/Salutation';
 import { UnsubscribeLine } from '../../components/unsubscribeLine';
 import { basePath } from '../../constants/basePath';
 import { styles } from '../styles';
@@ -36,23 +37,7 @@ export const SpamCreditTemplate = ({
         We hope you can take this feedback constructively and make some winning
         submissions soon.
       </p>
-      <p style={styles.textWithMargin}>
-        The winners of the listing have been announced as well —{' '}
-        <a
-          href={`${basePath}/listing/${
-            listingSlug || ''
-          }/?utm_source=superteamearn&utm_medium=email&utm_campaign=winnerannouncement`}
-          style={styles.link}
-        >
-          click here
-        </a>{' '}
-        to see who won.
-      </p>
-      <p style={styles.salutation}>
-        Best,
-        <br />
-        Superteam Earn
-      </p>
+      <Salutation />
       <UnsubscribeLine />
     </div>
   );
