@@ -61,6 +61,7 @@ export async function processApplicationRejection(id: string, userId: string) {
       replyTo: isNativeGrant
         ? grantApplication.grant.replyToEmail
         : 'support@superteamearn.com',
+      checkUnsubscribe: false,
     };
     return emailData;
   }

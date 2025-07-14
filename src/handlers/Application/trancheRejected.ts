@@ -53,6 +53,7 @@ export async function processTrancheRejection(id: string) {
       subject,
       html: emailHtml,
       replyTo: tranche.Grant.replyToEmail,
+      checkUnsubscribe: false,
     };
     return emailData;
   }

@@ -77,6 +77,7 @@ export async function processApplicationApproval(id: string, userId: string) {
         to: user.email,
         subject: 'Your grant application has been approved!',
         html: emailHtml,
+        checkUnsubscribe: false,
       };
     }
 

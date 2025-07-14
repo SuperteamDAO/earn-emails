@@ -54,6 +54,7 @@ export async function processTrancheApproved(id: string) {
       to: user.email,
       subject,
       html: emailHtml,
+      checkUnsubscribe: false,
     };
 
     return emailData;

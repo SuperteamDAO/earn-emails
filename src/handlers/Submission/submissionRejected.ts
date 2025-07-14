@@ -31,6 +31,7 @@ export async function processSubmissionRejected(id: string) {
       to: submission?.user.email,
       subject: `About your recent application to ${submission.listing.sponsor.name}'s gig`,
       html: emailHtml,
+      checkUnsubscribe: false,
     };
     return emailData;
   }
