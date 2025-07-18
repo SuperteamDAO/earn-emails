@@ -10,7 +10,7 @@ export async function processSpamDecision(
   id: string,
   otherInfo?: {
     listingType: 'listing' | 'grant';
-    decision: 'approved' | 'rejected';
+    decision: 'Approved' | 'Rejected';
   },
 ) {
   let submission;
@@ -56,7 +56,7 @@ export async function processSpamDecision(
     return;
   }
 
-  if (otherInfo?.decision === 'approved') {
+  if (otherInfo?.decision === 'Approved') {
     const emailHtml = await render(
       SpamAppealApprovedTemplate({
         name: submission.user.firstName || 'there',
@@ -73,7 +73,7 @@ export async function processSpamDecision(
       html: emailHtml,
       checkUnsubscribe: false,
     };
-  } else if (otherInfo?.decision === 'rejected') {
+  } else if (otherInfo?.decision === 'Rejected') {
     const emailHtml = await render(
       SpamAppealRejectedTemplate({
         name: submission.user.firstName || 'there',
