@@ -102,7 +102,7 @@ export async function processSpamDecision(
     return {
       from: pratikEmail,
       to: submission.user.email,
-      subject: 'About your recentSpam Dispute',
+      subject: 'About your recent Spam Dispute',
       html: emailHtml,
       checkUnsubscribe: false,
     };
