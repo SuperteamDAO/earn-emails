@@ -92,8 +92,8 @@ export const emailTypePriority: Record<EmailActionType, number> = {
   leadWeeklyReminder: 3,
   powLike: 2,
   spamCredit: 2,
-  featureAnnouncement: 3,
   spamDecision: 2,
+  featureAnnouncement: 3,
   // dupe: 1,
 };
 
@@ -120,6 +120,7 @@ export const emailProcessors: Record<EmailActionType, any> = {
   trancheRejected: processTrancheRejection,
   scoutInvite: processScoutInvite,
   scoutReminder: processScoutReminder,
+  spamDecision: processSpamDecision,
   submissionLike: processSubmissionLike,
   submissionRejected: processSubmissionRejected,
   applicationLike: processApplicationLike,
@@ -133,6 +134,5 @@ export const emailProcessors: Record<EmailActionType, any> = {
   powLike: processPoWLike,
   spamCredit: processSpamCredit,
   featureAnnouncement: processFeatureAnnouncement,
-  spamDecision: processSpamDecision,
   // dupe: processDupe,
 };
