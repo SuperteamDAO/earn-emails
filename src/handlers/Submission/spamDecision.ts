@@ -19,7 +19,8 @@ export async function processSpamDecision(
   let submissionType;
 
   console.log('id', id);
-  console.log('otherInfo', otherInfo);
+  console.log('otherInfo', otherInfo?.listingType);
+  console.log('otherInfo', otherInfo?.decision);
 
   if (otherInfo?.listingType === 'listing') {
     submission = await prisma.submission.findUnique({
