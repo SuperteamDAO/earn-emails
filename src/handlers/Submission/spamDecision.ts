@@ -8,6 +8,7 @@ import { prisma } from '../../prisma';
 
 export async function processSpamDecision(
   id: string,
+  _: string,
   otherInfo?: {
     listingType: 'listing' | 'grant';
     decision: 'Approved' | 'Rejected';
@@ -18,11 +19,16 @@ export async function processSpamDecision(
   let listingName;
   let submissionType;
 
-  console.log('id', id);
-  console.log('otherInfo', otherInfo?.listingType);
-  console.log('otherInfo', otherInfo?.decision);
+  const { listingType, decision } = otherInfo as {
+    listingType: 'listing' | 'grant';
+    decision: 'Approved' | 'Rejected';
+  };
 
-  if (otherInfo?.listingType === 'listing') {
+  console.log('id', id);
+  console.log('listingType', listingType);
+  console.log('decision', decision);
+
+  if (listingType === 'listing') {
     submission = await prisma.submission.findUnique({
       where: { id },
       include: { user: true, listing: true },
@@ -46,7 +52,7 @@ export async function processSpamDecision(
     } else {
       submissionType = 'submission';
     }
-  } else if (otherInfo?.listingType === 'grant') {
+  } else if (listingType === 'grant') {
     submission = await prisma.grantApplication.findUnique({
       where: { id },
       include: { user: true, grant: true },
@@ -66,7 +72,7 @@ export async function processSpamDecision(
     return;
   }
 
-  if (otherInfo?.decision === 'Approved') {
+  if (decision === 'Approved') {
     const emailHtml = await render(
       SpamAppealApprovedTemplate({
         name: submission.user.firstName || 'there',
@@ -83,7 +89,7 @@ export async function processSpamDecision(
       html: emailHtml,
       checkUnsubscribe: false,
     };
-  } else if (otherInfo?.decision === 'Rejected') {
+  } else if (decision === 'Rejected') {
     const emailHtml = await render(
       SpamAppealRejectedTemplate({
         name: submission.user.firstName || 'there',
