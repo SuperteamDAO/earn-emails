@@ -33,4 +33,5 @@ export type EmailActionType =
   | 'talentReminder'
   | 'verifiedListingStatus'
   | 'spamCredit'
+  | 'spamDecision'
   | 'featureAnnouncement';

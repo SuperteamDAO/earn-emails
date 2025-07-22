@@ -9,12 +9,14 @@ interface TemplateProps {
   name: string | null;
   listingName: string;
   listingSlug: string;
+  disputeUrl: string;
 }
 
 export const SpamCreditTemplate = ({
   name,
   listingName,
   listingSlug,
+  disputeUrl,
 }: TemplateProps) => {
   return (
     <div style={styles.container}>
@@ -33,9 +35,14 @@ export const SpamCreditTemplate = ({
         credit will be deducted from your credit balance next month.
       </p>
       <p style={styles.textWithMargin}>
-        We strive to improve the overall quality of submissions on the platform.
-        We hope you can take this feedback constructively and make some winning
-        submissions soon.
+        We hope you can take this feedback constructively and submit some
+        winning submissions soon. If you strongly believe that this submission
+        has been marked as spam unreasonably or there has been a mistake, please
+        click{' '}
+        <a href={disputeUrl} style={styles.link}>
+          here
+        </a>{' '}
+        to dispute it, and our team will have a look at your concern.
       </p>
       <Salutation />
       <UnsubscribeLine />
