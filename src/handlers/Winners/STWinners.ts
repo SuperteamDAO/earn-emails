@@ -1,5 +1,6 @@
 import { render } from '@react-email/render';
 
+import { basePath } from '../../constants/basePath';
 import { pratikEmail } from '../../constants/emails';
 import { STWinnersTemplate } from '../../email-templates/Winners/STWinnersTemplate';
 import { prisma } from '../../prisma';
@@ -26,6 +27,7 @@ export async function processSTWinners(id: string) {
   if (listing) {
     const listingType = getListingTypeLabel(listing.type);
     const listingName = listing.title;
+    const listingUrl = `${basePath}/listing/${listing.slug}`;
 
     const emailPromises = winners.map(async (winner) => {
       const emailHtml = await render(
@@ -33,6 +35,7 @@ export async function processSTWinners(id: string) {
           name: winner.user.firstName,
           listingName,
           listingType,
+          listingUrl,
         }),
       );
       return {
