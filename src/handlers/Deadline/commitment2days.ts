@@ -50,7 +50,6 @@ export async function processCommitmentTwoDays() {
 
     if (!pocPreference) continue;
 
-    // Get listing type for subject line
     const listingType = listing.type || 'bounty';
 
     const emailHtml = await render(

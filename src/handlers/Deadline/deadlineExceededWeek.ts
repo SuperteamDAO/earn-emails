@@ -43,18 +43,17 @@ export async function processDeadlineExceededWeek() {
 
     if (checkLogs || !listing.poc?.email) continue;
 
-    if (listing.commitmentDate) {
-      const deadline = dayjs.utc(listing.deadline);
-      const commitmentDate = dayjs.utc(listing.commitmentDate);
-      const tenDaysAfterDeadline = deadline.add(10, 'day');
+    const commitmentEmailToday = await prisma.emailLogs.findFirst({
+      where: {
+        bountyId: listing.id,
+        type: 'BOUNTY_COMMITMENT_2DAYS',
+        createdAt: {
+          gte: dayjs.utc().startOf('day').toISOString(),
+        },
+      },
+    });
 
-      if (
-        commitmentDate.isAfter(deadline) &&
-        commitmentDate.isBefore(tenDaysAfterDeadline)
-      ) {
-        continue;
-      }
-    }
+    if (commitmentEmailToday) continue;
 
     const pocPreference = await getUserEmailPreference(
       listing.pocId,

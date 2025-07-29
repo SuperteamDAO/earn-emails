@@ -23,8 +23,8 @@ export const CommitmentTwoDaysTemplate = ({
       <p style={styles.textWithMargin}>
         Just a quick heads-up — the deadline to announce winners for your
         listing &quot;
-        <span style={{ fontWeight: 500 }}>{listingName}&quot;</span> is in{' '}
-        <span style={{ fontWeight: 500 }}>2 days</span>.
+        <span style={{ fontWeight: 700 }}>{listingName}&quot;</span> is in{' '}
+        <span style={{ fontWeight: 700 }}>2 days</span>.
       </p>
       <p style={styles.textWithMargin}>
         If you haven&apos;t reviewed the submissions yet, now&apos;s a great
