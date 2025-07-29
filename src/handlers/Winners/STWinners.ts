@@ -41,7 +41,7 @@ export async function processSTWinners(id: string) {
       return {
         from: pratikEmail,
         to: winner.user.email,
-        subject: '[Important] Submit This Form to Claim Your Reward',
+        subject: '[Important] Submit KYC to Claim Your Reward',
         html: emailHtml,
         checkUnsubscribe: false,
       };

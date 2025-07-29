@@ -34,10 +34,11 @@ export const STWinnersTemplate = ({
         the following Friday to your Earn embedded wallet.
       </p>
       <p style={styles.textWithMargin}>
-        <strong>Already completed KYC on Earn recently?</strong>
+        <strong>Already completed KYC on Earn in the last 6 months?</strong>
         <br />
         No action needed — your rewards will be sent your Earn embedded wallet
-        automatically.
+        automatically. If you're unsure, just click on the link to check if you
+        need to KYC again.
       </p>
       <p style={styles.textWithMargin}>
         You can track your payment status{' '}
