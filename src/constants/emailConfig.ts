@@ -10,6 +10,7 @@ import { processCommentActivity } from '../handlers/Comment/commentActivity';
 import { processCommentReply } from '../handlers/Comment/commentReply';
 import { processCommentSponsor } from '../handlers/Comment/commentSponsor';
 import { processCommentTag } from '../handlers/Comment/commentTag';
+import { processCommitmentTwoDays } from '../handlers/Deadline/commitment2days';
 import { processDeadlineThreeDays } from '../handlers/Deadline/deadline3days';
 import { processDeadlineExceeded } from '../handlers/Deadline/deadlineExceeded';
 import { processDeadlineExceededWeek } from '../handlers/Deadline/deadlineExceededWeek';
@@ -52,6 +53,7 @@ export const emailActionCategoryMapping = {
   commentSponsor: 'commentSponsor',
   submissionSponsor: 'submissionSponsor',
   application: 'submissionSponsor',
+  commitment2days: 'deadlineSponsor',
   deadlineExceeded: 'deadlineSponsor',
   deadlineExceededWeek: 'deadlineSponsor',
 } as const;
@@ -75,6 +77,7 @@ export const emailTypePriority: Record<EmailActionType, number> = {
   submissionLike: 2,
   submissionRejected: 2,
   applicationLike: 2,
+  commitment2days: 2,
   deadlineExceededWeek: 2,
   deadlineExceeded: 2,
   deadlineExtended: 2,
@@ -103,6 +106,7 @@ export const emailProcessors: Record<EmailActionType, any> = {
   commentSponsor: processCommentSponsor,
   commentActivity: processCommentActivity,
   commentTag: processCommentTag,
+  commitment2days: processCommitmentTwoDays,
   createListing: processCreateListing,
   createHackathon: processCreateHackathon,
   deadline3days: processDeadlineThreeDays,

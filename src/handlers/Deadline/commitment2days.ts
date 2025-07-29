@@ -4,15 +4,15 @@ import utc from 'dayjs/plugin/utc';
 
 import { basePath } from '../../constants/basePath';
 import { pratikEmail } from '../../constants/emails';
-import { DeadlineExceededbyWeekTemplate } from '../../email-templates/Deadline/deadlineExceededbyWeekTemplate';
+import { CommitmentTwoDaysTemplate } from '../../email-templates/Deadline/commitment2daysTemplate';
 import { prisma } from '../../prisma';
 import { getUserEmailPreference } from '../../utils/getUserEmailPreference';
 
-export async function processDeadlineExceededWeek() {
+export async function processCommitmentTwoDays() {
   dayjs.extend(utc);
 
-  const sevenDaysAgo = dayjs.utc().subtract(7, 'day').toISOString();
-  const nineDaysAgo = dayjs.utc().subtract(9, 'day').toISOString();
+  const twoDaysFromNowStart = dayjs.utc().add(2, 'day').startOf('day');
+  const twoDaysFromNowEnd = dayjs.utc().add(2, 'day').endOf('day');
 
   const listings = await prisma.bounties.findMany({
     where: {
@@ -20,9 +20,9 @@ export async function processDeadlineExceededWeek() {
       isActive: true,
       isArchived: false,
       status: 'OPEN',
-      deadline: {
-        lt: sevenDaysAgo,
-        gte: nineDaysAgo,
+      commitmentDate: {
+        gte: twoDaysFromNowStart.toISOString(),
+        lt: twoDaysFromNowEnd.toISOString(),
       },
       isWinnersAnnounced: false,
     },
@@ -37,43 +37,34 @@ export async function processDeadlineExceededWeek() {
     const checkLogs = await prisma.emailLogs.findFirst({
       where: {
         bountyId: listing.id,
-        type: 'BOUNTY_DEADLINE_WEEK',
+        type: 'BOUNTY_COMMITMENT_2DAYS',
       },
     });
 
     if (checkLogs || !listing.poc?.email) continue;
 
-    if (listing.commitmentDate) {
-      const deadline = dayjs.utc(listing.deadline);
-      const commitmentDate = dayjs.utc(listing.commitmentDate);
-      const tenDaysAfterDeadline = deadline.add(10, 'day');
-
-      if (
-        commitmentDate.isAfter(deadline) &&
-        commitmentDate.isBefore(tenDaysAfterDeadline)
-      ) {
-        continue;
-      }
-    }
-
     const pocPreference = await getUserEmailPreference(
       listing.pocId,
-      'deadlineExceededWeek',
+      'commitment2days',
     );
 
     if (!pocPreference) continue;
 
+    // Get listing type for subject line
+    const listingType = listing.type || 'bounty';
+
     const emailHtml = await render(
-      DeadlineExceededbyWeekTemplate({
+      CommitmentTwoDaysTemplate({
         name: listing.poc.firstName!,
         listingName: listing.title,
+        telegramLink: 'https://t.me/pratikdholani/',
         link: `${basePath}/dashboard/listings/${listing?.slug}/submissions/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`,
       }),
     );
 
     await prisma.emailLogs.create({
       data: {
-        type: 'BOUNTY_DEADLINE_WEEK',
+        type: 'BOUNTY_COMMITMENT_2DAYS',
         bountyId: listing.id,
       },
     });
@@ -82,7 +73,7 @@ export async function processDeadlineExceededWeek() {
       from: pratikEmail,
       to: listing.poc.email,
       bcc: ['pratikd.earnings@gmail.com'],
-      subject: 'Winner Announcement for Your Earn Bounty Is Due!',
+      subject: `Reminder: 2 Days Left to Announce ${listingType.charAt(0).toUpperCase() + listingType.slice(1)} Winners`,
       html: emailHtml,
     });
   }
