@@ -6,6 +6,7 @@ export type EmailActionType =
   | 'commentSponsor'
   | 'commentActivity'
   | 'commentTag'
+  | 'commitment2days'
   | 'createListing'
   | 'createHackathon'
   | 'deadline3days'

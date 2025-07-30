@@ -32,6 +32,7 @@ const scheduleJob = (time: string, type: EmailActionType) => {
 
 if (process.env.SERVER_ENV !== 'preview') {
   scheduleJob('30 * * * *', 'deadline3days');
+  scheduleJob('35 * * * *', 'commitment2days');
   scheduleJob('45 * * * *', 'deadlineExceeded');
   scheduleJob('50 * * * *', 'deadlineExceededWeek');
   scheduleJob('0 12 * * *', 'submissionSponsor');
