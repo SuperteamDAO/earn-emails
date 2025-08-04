@@ -27,7 +27,7 @@ export async function processSTWinners(id: string) {
   if (listing) {
     const listingType = getListingTypeLabel(listing.type);
     const listingName = listing.title;
-    const listingUrl = `${basePath}/listing/${listing.slug}?login=true`;
+    const listingUrl = `${basePath}/listing/${listing.slug}?login=true&utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`;
 
     const emailPromises = winners.map(async (winner) => {
       const emailHtml = await render(

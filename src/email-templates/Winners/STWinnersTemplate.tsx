@@ -21,17 +21,16 @@ export const STWinnersTemplate = ({
     <div style={styles.container}>
       <p style={styles.greetings}>Hey {name},</p>
       <p style={styles.textWithMargin}>
-        Congrats on winning the{' '}
-        <a href={listingUrl} style={styles.link}>
-          <strong>{listingName}</strong>
-        </a>{' '}
-        {listingType}!
+        Congrats on winning the {listingName} {listingType}!
       </p>
       <p style={styles.textWithMargin}>
-        To receive your reward, please complete KYC by clicking{' '}
-        <a href={listingUrl}>here</a> (make sure you're logged in with your
-        winning Earn account). If KYC is successful, your payment will be sent
-        the following Friday to your Earn embedded wallet.
+        To receive your reward,{' '}
+        <strong>
+          please complete KYC by <a href={listingUrl}>clicking here</a>
+        </strong>{' '}
+        (make sure you're logged in with your winning Earn account). If KYC is
+        successful, your payment will be sent the following Friday to your Earn
+        embedded wallet.
       </p>
       <p style={styles.textWithMargin}>
         <strong>Already completed KYC on Earn in the last 6 months?</strong>
