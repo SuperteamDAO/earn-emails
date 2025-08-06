@@ -8,44 +8,46 @@ interface TemplateProps {
   name: string | null;
   listingName: string;
   listingType: string;
+  listingUrl: string;
 }
 
 export const STWinnersTemplate = ({
   name,
   listingName,
   listingType,
+  listingUrl,
 }: TemplateProps) => {
   return (
     <div style={styles.container}>
       <p style={styles.greetings}>Hey {name},</p>
       <p style={styles.textWithMargin}>
-        Congrats on winning the <strong>{listingName}</strong> {listingType}!
-        You must fill out{' '}
-        <a
-          href={'https://airtable.com/appmgNmQgJWJeo3x4/shr8fxYLAc3ZY18cQ'}
-          style={styles.link}
-        >
-          this form
-        </a>{' '}
-        to receive your reward.
+        Congrats on winning the {listingName} {listingType}!
       </p>
       <p style={styles.textWithMargin}>
-        We verify payment requests on Mondays. If verified, payments should
-        reach you by the following Friday (UTC). Therefore, your rewards might
-        take a week or so to show up in your wallet. Once your payment request
-        is verified, you can track the status of your payment{' '}
+        To receive your reward,{' '}
+        <strong>
+          please complete KYC by <a href={listingUrl}>clicking here</a>
+        </strong>{' '}
+        (make sure you're logged in with your winning Earn account). If KYC is
+        successful, your payment will be sent the following Friday to your Earn
+        embedded wallet.
+      </p>
+      <p style={styles.textWithMargin}>
+        <strong>Already completed KYC on Earn in the last 6 months?</strong>
+        <br />
+        No action needed — your rewards will be sent your Earn embedded wallet
+        automatically. If you're unsure, just click on the link to check if you
+        need to KYC again.
+      </p>
+      <p style={styles.textWithMargin}>
+        You can track your payment status{' '}
         <a
           href={'https://in.superteam.fun/payment-pipeline'}
           style={styles.link}
         >
           here
-        </a>
-        .
-      </p>
-      <p style={styles.textWithMargin}>
-        More good news: because of this win, you’ll be earning one extra credit
-        next month! This means you’ll be able to apply to more opportunities on
-        Earn next month and keep stacking wins.
+        </a>{' '}
+        or on the listing page once KYC is complete.
       </p>
 
       <Salutation />

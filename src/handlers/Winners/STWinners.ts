@@ -1,5 +1,6 @@
 import { render } from '@react-email/render';
 
+import { basePath } from '../../constants/basePath';
 import { pratikEmail } from '../../constants/emails';
 import { STWinnersTemplate } from '../../email-templates/Winners/STWinnersTemplate';
 import { prisma } from '../../prisma';
@@ -26,6 +27,7 @@ export async function processSTWinners(id: string) {
   if (listing) {
     const listingType = getListingTypeLabel(listing.type);
     const listingName = listing.title;
+    const listingUrl = `${basePath}/listing/${listing.slug}?login=true&utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`;
 
     const emailPromises = winners.map(async (winner) => {
       const emailHtml = await render(
@@ -33,12 +35,13 @@ export async function processSTWinners(id: string) {
           name: winner.user.firstName,
           listingName,
           listingType,
+          listingUrl,
         }),
       );
       return {
         from: pratikEmail,
         to: winner.user.email,
-        subject: '[Important] Submit This Form to Claim Your Reward',
+        subject: '[Important] Submit KYC to Claim Your Reward',
         html: emailHtml,
         checkUnsubscribe: false,
       };
