@@ -122,6 +122,8 @@ export async function processTelegramNewListings() {
         isPublished: true,
         isActive: true,
         isArchived: false,
+        isPrivate: false,
+        isWinnersAnnounced: false,
         status: 'OPEN',
       },
       include: {
