@@ -35,4 +35,5 @@ export type EmailActionType =
   | 'verifiedListingStatus'
   | 'spamCredit'
   | 'spamDecision'
-  | 'featureAnnouncement';
+  | 'featureAnnouncement'
+  | 'telegramNewListings';

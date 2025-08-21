@@ -30,6 +30,7 @@ import { processSubmissionLike } from '../handlers/Submission/submissionLike';
 import { processSubmissionRejected } from '../handlers/Submission/submissionRejected';
 import { processSponsorSubmissions } from '../handlers/Submission/submissionSponsor';
 import { processTalentSubmission } from '../handlers/Submission/submissionTalent';
+import { processTelegramNewListings } from '../handlers/Telegram/newListing';
 import { processAddPayment } from '../handlers/Winners/addPayment';
 import { processAnnounceWinners } from '../handlers/Winners/announceWinners';
 import { processNonSTWinners } from '../handlers/Winners/nonSTWinners';
@@ -97,6 +98,7 @@ export const emailTypePriority: Record<EmailActionType, number> = {
   spamCredit: 2,
   spamDecision: 2,
   featureAnnouncement: 3,
+  telegramNewListings: 4,
   // dupe: 1,
 };
 
@@ -138,5 +140,6 @@ export const emailProcessors: Record<EmailActionType, any> = {
   powLike: processPoWLike,
   spamCredit: processSpamCredit,
   featureAnnouncement: processFeatureAnnouncement,
+  telegramNewListings: processTelegramNewListings,
   // dupe: processDupe,
 };
