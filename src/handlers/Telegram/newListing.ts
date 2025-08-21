@@ -27,8 +27,7 @@ function generateListingUrl(
   listingSlug: string,
   source: string = 'telegram-notification',
 ): string {
-  const baseUrl =
-    process.env.NEXT_PUBLIC_APP_URL || 'https://earn.superteam.fun';
+  const baseUrl = process.env.BASE_URL || 'https://earn.superteam.fun';
   const utm = new URLSearchParams({
     utm_source: source,
     utm_medium: 'telegram',

@@ -111,6 +111,8 @@ function isListingEligible(listing: Bounties): boolean {
   return (
     listing.isPublished &&
     listing.isActive &&
+    !listing.isPrivate &&
+    !listing.isWinnersAnnounced &&
     !listing.isArchived &&
     listing.status === 'OPEN'
   );
