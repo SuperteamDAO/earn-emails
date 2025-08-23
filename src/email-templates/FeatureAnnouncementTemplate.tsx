@@ -22,7 +22,7 @@ export const FeatureAnnouncementTemplate = ({
       </p>
       <br />
       <p style={styles.textWithMargin}>
-        <b>Here's how Superteam Earn's referral system works:</b>
+        Here's how Superteam Earn's referral system works:
       </p>
       <ul style={styles.textWithMargin}>
         <li style={{ marginBottom: '8px' }}>
