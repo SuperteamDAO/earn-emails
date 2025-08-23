@@ -5,78 +5,50 @@ import { styles } from './styles';
 
 interface TemplateProps {
   name: string | null;
+  referralCode: string;
 }
 
-const buttonStyle: React.CSSProperties = {
-  display: 'inline-block',
-  padding: '12px 24px',
-  margin: '20px 0',
-  backgroundColor: '#6466F1',
-  color: '#ffffff',
-  textDecoration: 'none',
-  borderRadius: '5px',
-  fontWeight: 'medium',
-  textAlign: 'center',
-};
-
-const buttonTextStyle: React.CSSProperties = {
-  color: '#ffffff',
-  textDecoration: 'none',
-  fontWeight: 'medium',
-  textAlign: 'center',
-  marginBlockStart: '0',
-  marginBlockEnd: '0',
-  margin: '0',
-  padding: '0',
-  display: 'inline-block',
-};
-
-export const FeatureAnnouncementTemplate = ({ name }: TemplateProps) => {
-  const ctaLink =
-    'https://earn.superteam.fun/dashboard/new/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications';
+export const FeatureAnnouncementTemplate = ({
+  name,
+  referralCode,
+}: TemplateProps) => {
+  const ctaLink = `https://earn.superteam.fun/r/${referralCode}/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`;
   return (
     <div style={styles.container}>
       <p style={styles.greetings}>Hey {name},</p>
       <p style={styles.textWithMargin}>
-        We’re excited to roll out a new feature on your sponsor dashboard - the{' '}
-        <strong>Auto Generate</strong> button, designed to create listings
-        faster and easier than ever.
+        Starting today, you can invite your friends to Superteam Earn — and get
+        extra credits for it.
       </p>
       <br />
       <p style={styles.textWithMargin}>
-        <b>What is "Auto Generate"?</b>
+        <b>Here's how Superteam Earn's referral system works:</b>
       </p>
+      <ul style={styles.textWithMargin}>
+        <li style={{ marginBottom: '8px' }}>
+          Get your referral link from the "Get Free Credits" button on the top
+          navigation bar. Share it with your friends.
+        </li>
+        <li style={{ marginBottom: '8px' }}>
+          Earn free credits when your friend signs up and makes their first
+          valid submission.
+        </li>
+        <li style={{ marginBottom: '8px' }}>
+          Keep earning credits every time your referred friend wins a bounty,
+          project, or grant — forever.
+        </li>
+        <li style={{ marginBottom: '8px' }}>Invite up to 10 friends.</li>
+      </ul>
+      <br />
       <p style={styles.textWithMargin}>
-        Just pop in a few key details for your listing, hit the button, and boom
-        – a complete listing is ready in <strong>under a minute!</strong> We
-        handle the rest, crafting everything for you.
+        Here's your unique referral link:{' '}
+        <a href={ctaLink}>{'https://earn.superteam.fun/r/' + referralCode}</a>
       </p>
       <br />
       <p style={styles.textWithMargin}>
-        <b>Why does this matter?</b>
+        Start building your crew on Earn, stack up credits while your friends
+        earn their crypto.
       </p>
-      <p style={styles.textWithMargin}>
-        Way less manual typing and thinking for you! Intelligently generates all
-        key components of a listing, tailored to your needs and the chosen
-        listing type. It helps you launch faster while maintaining quality and
-        consistency.
-      </p>
-      <br />
-      <p style={styles.textWithMargin}>
-        Reach <strong>95,000+ talented folks</strong> in less than a minute.
-        Create a new listing and check out Auto Generate in your Sponsor
-        Dashboard today.
-      </p>
-      <a
-        href={ctaLink}
-        target="_blank"
-        rel="noopener noreferrer"
-        style={{ display: 'flex' }}
-      >
-        <div style={buttonStyle}>
-          <p style={buttonTextStyle}>Try Now</p>
-        </div>
-      </a>
       <p style={styles.salutation}>
         Cheers,
         <br />
