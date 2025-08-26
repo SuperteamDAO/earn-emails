@@ -3,7 +3,7 @@ import { type Bounties } from '@prisma/client';
 import { type MainSkills, type Skills } from '../types/Skills';
 import {
   type ListingType,
-  type PriceRange,
+  type RewardRange,
   type Skill,
   type UserPreferences,
 } from '../types/telegramUserBot';
@@ -31,17 +31,17 @@ export const PREFERENCE_TO_LISTING_SKILL_MAP: Record<Skill, MainSkills[]> = {
 export interface MatchResult {
   matches: boolean;
   reasons: {
-    priceMatch: boolean;
+    rewardMatch: boolean;
     listingTypeMatch: boolean;
     skillMatch: boolean;
   };
 }
 
-function matchesPrice(
-  userPriceRange: PriceRange | '',
+function matchesReward(
+  userRewardRange: RewardRange | '',
   listingUsdValue?: number | null,
 ): boolean {
-  if (!userPriceRange || userPriceRange === 'any') {
+  if (!userRewardRange || userRewardRange === 'any') {
     return true;
   }
 
@@ -49,14 +49,14 @@ function matchesPrice(
     return false;
   }
 
-  const priceThresholds: Record<PriceRange, number> = {
+  const rewardThresholds: Record<RewardRange, number> = {
     '500+': 500,
     '1000+': 1000,
     '2500+': 2500,
     any: 0,
   };
 
-  const threshold = priceThresholds[userPriceRange];
+  const threshold = rewardThresholds[userRewardRange];
   return listingUsdValue >= threshold;
 }
 
@@ -126,14 +126,17 @@ export function matchesUserPreferences(
     return {
       matches: false,
       reasons: {
-        priceMatch: false,
+        rewardMatch: false,
         listingTypeMatch: false,
         skillMatch: false,
       },
     };
   }
 
-  const priceMatch = matchesPrice(userPreferences.priceRange, listing.usdValue);
+  const rewardMatch = matchesReward(
+    userPreferences.rewardRange,
+    listing.usdValue,
+  );
   const listingTypeMatch = matchesListingType(
     userPreferences.listingTypes,
     listing.type,
@@ -143,12 +146,12 @@ export function matchesUserPreferences(
     listing.skills as unknown as Skills,
   );
 
-  const matches = priceMatch && listingTypeMatch && skillMatch;
+  const matches = rewardMatch && listingTypeMatch && skillMatch;
 
   return {
     matches,
     reasons: {
-      priceMatch,
+      rewardMatch,
       listingTypeMatch,
       skillMatch,
     },

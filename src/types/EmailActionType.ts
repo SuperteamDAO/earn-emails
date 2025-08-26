@@ -36,4 +36,4 @@ export type EmailActionType =
   | 'spamCredit'
   | 'spamDecision'
   | 'featureAnnouncement'
-  | 'telegramNewListings';
+  | 'telegramNewListing';

@@ -8,13 +8,13 @@ export const SKILLS = [
 
 export const LISTING_TYPES = ['BOUNTIES', 'PROJECTS', 'HACKATHONS'] as const;
 
-export const PRICE_RANGES = ['500+', '1000+', '2500+', 'any'] as const;
+export const REWARD_RANGES = ['500+', '1000+', '2500+', 'any'] as const;
 
 export const ONBOARDING_STEPS = [
   'name',
   'skills',
   'types',
-  'price',
+  'rewards',
   'complete',
 ] as const;
 
@@ -24,18 +24,18 @@ export interface OnboardingState {
   name?: string;
   skills: Skill[];
   listingTypes: ListingType[];
-  priceRange: PriceRange | '';
+  rewardRange: RewardRange | '';
   step: OnboardingStep;
 }
 
 export type Skill = (typeof SKILLS)[number];
 export type ListingType = (typeof LISTING_TYPES)[number];
-export type PriceRange = (typeof PRICE_RANGES)[number];
+export type RewardRange = (typeof REWARD_RANGES)[number];
 
 export interface UserPreferences {
   skills: Skill[];
   listingTypes: ListingType[];
-  priceRange: PriceRange | '';
+  rewardRange: RewardRange | '';
   onboardingState?: OnboardingState;
 }
 
