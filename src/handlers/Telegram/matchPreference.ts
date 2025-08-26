@@ -1,12 +1,12 @@
 import { type Bounties } from '@prisma/client';
 
-import { type MainSkills, type Skills } from '../types/Skills';
+import { type MainSkills, type Skills } from '../../types/Skills';
 import {
   type ListingType,
   type RewardRange,
   type Skill,
   type UserPreferences,
-} from '../types/telegramUserBot';
+} from '../../types/telegramUserBot';
 
 export const LISTING_TO_PREFERENCE_SKILL_MAP: Record<MainSkills, Skill[]> = {
   Frontend: ['DEV'],

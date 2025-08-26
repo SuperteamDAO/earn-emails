@@ -4,7 +4,8 @@ import utc from 'dayjs/plugin/utc';
 import { prisma } from '../../prisma';
 import { type UserPreferences } from '../../types/telegramUserBot';
 import { logError, logInfo, logWarn } from '../../utils/logger';
-import { matchesUserPreferences } from '../../utils/matchTelegramUserPreference';
+import { matchesUserPreferences } from './matchPreference';
+import { matchesRegion } from './matchRegion';
 import { sendNotification } from './sendTelegramListingNotification';
 
 const BATCH_SIZE = 1000;
@@ -137,6 +138,12 @@ export async function processTelegramNewListingsAll() {
           chatId: true,
           preferences: true,
           username: true,
+          userId: true,
+          user: {
+            select: {
+              location: true,
+            },
+          },
         },
         skip,
         take: BATCH_SIZE,
@@ -165,7 +172,12 @@ export async function processTelegramNewListingsAll() {
               listing,
             );
 
-            if (matchResult.matches) {
+            const regionMatch = matchesRegion(
+              listing.region,
+              user.user?.location,
+            );
+
+            if (matchResult.matches && regionMatch) {
               console.log(
                 `✅ Sending notification to ${user.username || user.chatId} for listing: ${listing.title}`,
               );

@@ -1,7 +1,8 @@
 import { prisma } from '../../prisma';
 import { type UserPreferences } from '../../types/telegramUserBot';
 import { logError, logInfo, logWarn } from '../../utils/logger';
-import { matchesUserPreferences } from '../../utils/matchTelegramUserPreference';
+import { matchesUserPreferences } from './matchPreference';
+import { matchesRegion } from './matchRegion';
 import { sendNotification } from './sendTelegramListingNotification';
 
 interface NotificationResult {
@@ -94,6 +95,12 @@ export async function processTelegramNewListing(listingId: string) {
         chatId: true,
         preferences: true,
         username: true,
+        userId: true,
+        user: {
+          select: {
+            location: true,
+          },
+        },
       },
     });
 
@@ -120,7 +127,14 @@ export async function processTelegramNewListing(listingId: string) {
         const matchResult = matchesUserPreferences(userPreferences, listing);
         console.log(matchResult.reasons);
 
-        if (matchResult.matches) {
+        const regionMatch = matchesRegion(listing.region, user.user?.location);
+        console.log(
+          `Regional match for user ${user.chatId}: ${regionMatch} (listing region: ${listing.region}, user location: ${
+            user.user?.location || 'none'
+          })`,
+        );
+
+        if (matchResult.matches && regionMatch) {
           console.log(
             `✅ Sending notification to ${user.username || user.chatId} for listing: ${listing.title}`,
           );
