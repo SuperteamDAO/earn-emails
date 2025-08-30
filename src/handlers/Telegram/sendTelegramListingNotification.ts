@@ -22,13 +22,39 @@ function generateListingUrl(
     utm_campaign: 'listing_notification',
   });
 
-  return `${baseUrl}/listings/${listingSlug}?${utm.toString()}`;
+  return `${baseUrl}/listing/${listingSlug}?${utm.toString()}`;
 }
 
 function formatNotificationMessage(listing: ListingWithSponsor): string {
-  const priceText = listing.usdValue
-    ? `Reward: $${listing.usdValue.toLocaleString()}`
-    : 'Compensation available';
+  let priceText: string;
+
+  if (listing.type !== 'project') {
+    priceText = listing.usdValue
+      ? `Reward: $${listing.usdValue.toLocaleString()}`
+      : 'Reward available';
+  } else {
+    if (listing.compensationType === 'fixed') {
+      priceText = listing.usdValue
+        ? `Compensation: $${listing.usdValue.toLocaleString()}`
+        : 'Compensation available';
+    } else if (listing.compensationType === 'range') {
+      if (listing.minRewardAsk && listing.maxRewardAsk) {
+        priceText = `Compensation: $${listing.minRewardAsk.toLocaleString()} - $${listing.maxRewardAsk.toLocaleString()}`;
+      } else if (listing.minRewardAsk) {
+        priceText = `Compensation: From $${listing.minRewardAsk.toLocaleString()}`;
+      } else if (listing.maxRewardAsk) {
+        priceText = `Compensation: Up to $${listing.maxRewardAsk.toLocaleString()}`;
+      } else {
+        priceText = 'Compensation available';
+      }
+    } else if (listing.compensationType === 'variable') {
+      priceText = 'Compensation: Variable';
+    } else {
+      priceText = listing.usdValue
+        ? `Compensation: $${listing.usdValue.toLocaleString()}`
+        : 'Compensation available';
+    }
+  }
 
   const formatDeadline = (deadline: Date) => {
     return dayjs.utc(deadline).format('h:mm A on MMM D, YYYY (UTC)');
