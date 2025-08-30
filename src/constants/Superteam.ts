@@ -1,3 +1,5 @@
+import { ASSET_URL } from './ASSET_URL';
+
 interface People {
   name: string;
   pfp: string;
@@ -26,6 +28,8 @@ export const REGIONS = [
   'Poland',
   'South Korea',
   'Ireland',
+  'Kazakhstan',
+  'Indonesia',
   'Ukraine',
   'Argentina',
   'USA',
@@ -48,9 +52,13 @@ export interface Superteam {
   slug: string;
 }
 
+const basePath = ASSET_URL + '/superteams/';
+
 export const Superteams = [
   {
     name: 'Superteam India',
+    icons: basePath + 'logos/india.jpg',
+    banner: basePath + 'banners/India.png',
     region: 'India' as Region,
     displayValue: 'India',
     country: ['India'],
@@ -71,6 +79,8 @@ export const Superteams = [
   },
   {
     name: 'Superteam Germany',
+    icons: basePath + 'logos/germany.jpg',
+    banner: basePath + 'banners/Germany.png',
     region: 'Germany' as Region,
     displayValue: 'Germany',
     country: ['Germany'],
@@ -91,6 +101,8 @@ export const Superteams = [
   },
   {
     name: 'Superteam UK',
+    icons: basePath + 'logos/uk.png',
+    banner: basePath + 'banners/UK.png',
     region: 'United Kingdom' as Region,
     displayValue: 'UK',
     country: ['United Kingdom'],
@@ -107,6 +119,8 @@ export const Superteams = [
   },
   {
     name: 'Superteam Turkey',
+    icons: basePath + 'logos/turkey.jpg',
+    banner: basePath + 'banners/Turkey.png',
     region: 'Turkey' as Region,
     displayValue: 'Turkey',
     country: ['Turkey'],
@@ -123,6 +137,8 @@ export const Superteams = [
   },
   {
     name: 'Superteam Vietnam',
+    icons: basePath + 'logos/vietnam.png',
+    banner: basePath + 'banners/Vietnam.png',
     region: 'Vietnam' as Region,
     displayValue: 'Vietnam',
     country: ['Vietnam'],
@@ -147,6 +163,8 @@ export const Superteams = [
   },
   {
     name: 'Superteam UAE',
+    icons: basePath + 'logos/uae.png',
+    banner: basePath + 'banners/UAE.png',
     region: 'UAE' as Region,
     displayValue: 'UAE',
     country: ['United Arab Emirates'],
@@ -163,6 +181,8 @@ export const Superteams = [
   },
   {
     name: 'Superteam Nigeria',
+    icons: basePath + 'logos/nigeria.png',
+    banner: basePath + 'banners/Nigeria.png',
     region: 'Nigeria' as Region,
     displayValue: 'Nigeria',
     country: ['Nigeria'],
@@ -183,6 +203,8 @@ export const Superteams = [
   },
   {
     name: 'Superteam Brazil',
+    icons: basePath + 'logos/brazil.png',
+    banner: basePath + 'banners/Brazil.png',
     region: 'Brazil' as Region,
     displayValue: 'Brazil',
     country: ['Brazil'],
@@ -199,6 +221,8 @@ export const Superteams = [
   },
   {
     name: 'Superteam Malaysia',
+    icons: basePath + 'logos/malaysia.jpg',
+    banner: basePath + 'banners/Malaysia.png',
     region: 'Malaysia' as Region,
     displayValue: 'Malaysia',
     country: ['Malaysia'],
@@ -215,6 +239,8 @@ export const Superteams = [
   },
   {
     name: 'Superteam Balkan',
+    icons: basePath + 'logos/balkan.png',
+    banner: basePath + 'banners/Balkan.png',
     region: 'Balkan' as Region,
     displayValue: 'Balkan',
     country: [
@@ -247,6 +273,8 @@ export const Superteams = [
   },
   {
     name: 'Superteam Philippines',
+    icons: basePath + 'logos/philippines.png',
+    banner: basePath + 'banners/Philippines.png',
     region: 'Philippines' as Region,
     displayValue: 'Philippines',
     country: ['Philippines'],
@@ -267,6 +295,8 @@ export const Superteams = [
   },
   {
     name: 'Superteam Japan',
+    icons: basePath + 'logos/japan.png',
+    banner: basePath + 'banners/Japan.png',
     region: 'Japan' as Region,
     displayValue: 'Japan',
     country: ['Japan'],
@@ -283,6 +313,8 @@ export const Superteams = [
   },
   {
     name: 'Superteam France',
+    icons: basePath + 'logos/france.png',
+    banner: basePath + 'banners/France.png',
     region: 'France' as Region,
     displayValue: 'France',
     country: ['France'],
@@ -299,6 +331,8 @@ export const Superteams = [
   },
   {
     name: 'Superteam Mexico',
+    icons: basePath + 'logos/mexico.jpg',
+    banner: basePath + 'banners/Mexico.png',
     region: 'Mexico' as Region,
     displayValue: 'Mexico',
     country: ['Mexico'],
@@ -309,6 +343,8 @@ export const Superteams = [
   },
   {
     name: 'Superteam Canada',
+    icons: basePath + 'logos/canada.png',
+    banner: basePath + 'banners/Canada.png',
     region: 'Canada' as Region,
     displayValue: 'Canada',
     country: ['Canada'],
@@ -325,6 +361,8 @@ export const Superteams = [
   },
   {
     name: 'Superteam Singapore',
+    icons: basePath + 'logos/singapore.png',
+    banner: basePath + 'banners/Singapore.png',
     region: 'Singapore' as Region,
     displayValue: 'Singapore',
     country: ['Singapore'],
@@ -341,6 +379,8 @@ export const Superteams = [
   },
   {
     name: 'Superteam Poland',
+    icons: basePath + 'logos/poland.png',
+    banner: basePath + 'banners/poland.png',
     region: 'Poland' as Region,
     displayValue: 'Poland',
     country: ['Poland'],
@@ -351,6 +391,8 @@ export const Superteams = [
   },
   {
     name: 'Superteam Korea',
+    icons: basePath + 'logos/korea.png',
+    banner: basePath + 'banners/korea.png',
     region: 'South Korea' as Region,
     displayValue: 'South Korea',
     country: ['South Korea'],
@@ -361,12 +403,86 @@ export const Superteams = [
   },
   {
     name: 'Superteam Ireland',
+    icons: basePath + 'logos/ireland.jpg',
+    banner: basePath + 'banners/Ireland.png',
     region: 'Ireland' as Region,
     displayValue: 'Ireland',
-    country: ['Ireland'],
+    country: ['Ireland (NI and ROI)'],
     code: 'IE',
     hello: 'Dia duit',
     nationality: 'Irish',
     slug: 'ireland',
   },
+  {
+    name: 'Superteam Kazakhstan',
+    icons: basePath + 'logos/kazakhstan',
+    banner: basePath + 'banners/kazakhstan',
+    region: 'Kazakhstan' as Region,
+    displayValue: 'Kazakhstan',
+    country: ['Kazakhstan'],
+    code: 'KZ',
+    hello: 'Sälem',
+    nationality: 'Kazakhstans',
+    slug: 'kazakhstan',
+  },
+  {
+    name: 'Superteam Indonesia',
+    icons: basePath + 'logos/indonesia',
+    banner: basePath + 'banners/indonesia',
+    region: 'Indonesia' as Region,
+    displayValue: 'Indonesia',
+    country: ['Indonesia'],
+    code: 'ID',
+    hello: 'Halo',
+    nationality: 'Indonesians',
+    slug: 'indonesia',
+  },
 ];
+
+const NonSTRegions = [
+  {
+    region: 'Ukraine' as Region,
+    displayValue: 'Ukraine',
+    country: ['Ukraine'],
+    code: 'UA',
+  },
+  {
+    region: 'Argentina' as Region,
+    displayValue: 'Argentina',
+    country: ['Argentina'],
+    code: 'AR',
+  },
+  {
+    region: 'USA' as Region,
+    displayValue: 'USA',
+    country: ['United States'],
+    code: 'US',
+  },
+  {
+    region: 'Spain' as Region,
+    displayValue: 'Spain',
+    country: ['Spain'],
+    code: 'ES',
+  },
+];
+
+export const unofficialSuperteams = [
+  {
+    name: 'Superteam Pakistan',
+    displayValue: 'Pakistan',
+    region: 'PAKISTAN',
+    country: ['Pakistan'],
+    code: 'PK',
+    icons: basePath + 'logos/pakistan',
+  },
+  {
+    name: 'Superteam Nepal',
+    displayValue: 'Nepal',
+    region: 'NEPAL',
+    country: ['Nepal'],
+    code: 'NP',
+    icons: basePath + 'logos/nepal',
+  },
+];
+
+export const CombinedRegions = [...Superteams, ...NonSTRegions];
