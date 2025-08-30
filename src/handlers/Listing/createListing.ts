@@ -3,7 +3,6 @@ import dayjs from 'dayjs';
 
 import { basePath } from '../../constants/basePath';
 import { pratikEmail } from '../../constants/emails';
-import { Superteams } from '../../constants/Superteam';
 import { NewListingTemplate } from '../../email-templates/Listing/newListingTemplate';
 import { prisma } from '../../prisma';
 import {
@@ -12,6 +11,7 @@ import {
   type Skills,
 } from '../../types/Skills';
 import { getListingTypeLabel } from '../../utils/getListingTypeLabel';
+import { getCombinedRegion } from '../../utils/region';
 
 export async function processCreateListing() {
   try {
@@ -94,10 +94,8 @@ export async function processCreateListing() {
       return;
     }
 
-    const superteam = Superteams.find(
-      (team) => team.region === selectedListing.region,
-    );
-    const countries = superteam ? superteam.country : [];
+    const regionObject = getCombinedRegion(selectedListing.region);
+    const countries = regionObject?.country || [];
 
     const listingSkills = selectedListing.skills as Skills;
     const listingMainSkills = listingSkills.map((skill) => skill.skills);
