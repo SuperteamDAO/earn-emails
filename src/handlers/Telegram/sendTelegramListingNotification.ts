@@ -25,33 +25,48 @@ function generateListingUrl(
   return `${baseUrl}/listing/${listingSlug}?${utm.toString()}`;
 }
 
+export const BONUS_REWARD_POSITION = 99;
+export const calculateTotalRewardsForPodium = (
+  currentRewards: Record<string, number>,
+  maxBonusSpots?: number,
+) => {
+  return Object.entries(currentRewards).reduce((sum, [pos, value]) => {
+    if (isNaN(value)) return sum;
+
+    if (Number(pos) === BONUS_REWARD_POSITION) {
+      return sum + value * (maxBonusSpots || 0);
+    }
+    return sum + value;
+  }, 0);
+};
+
 function formatNotificationMessage(listing: ListingWithSponsor): string {
   let priceText: string;
 
   if (listing.type !== 'project') {
-    priceText = listing.usdValue
-      ? `Reward: $${listing.usdValue.toLocaleString()}`
+    priceText = listing.rewards
+      ? `Reward: ${calculateTotalRewardsForPodium(listing.rewards as Record<string, number>, listing.maxBonusSpots).toLocaleString()} ${listing.token}`
       : 'Reward available';
   } else {
     if (listing.compensationType === 'fixed') {
-      priceText = listing.usdValue
-        ? `Compensation: $${listing.usdValue.toLocaleString()}`
+      priceText = listing.rewards
+        ? `Compensation: ${calculateTotalRewardsForPodium(listing.rewards as Record<string, number>).toLocaleString()} ${listing.token}`
         : 'Compensation available';
     } else if (listing.compensationType === 'range') {
       if (listing.minRewardAsk && listing.maxRewardAsk) {
-        priceText = `Compensation: $${listing.minRewardAsk.toLocaleString()} - $${listing.maxRewardAsk.toLocaleString()}`;
+        priceText = `Compensation: ${listing.minRewardAsk.toLocaleString()} ${listing.token} - ${listing.maxRewardAsk.toLocaleString()} ${listing.token}`;
       } else if (listing.minRewardAsk) {
-        priceText = `Compensation: From $${listing.minRewardAsk.toLocaleString()}`;
+        priceText = `Compensation: From ${listing.minRewardAsk.toLocaleString()} ${listing.token}`;
       } else if (listing.maxRewardAsk) {
-        priceText = `Compensation: Up to $${listing.maxRewardAsk.toLocaleString()}`;
+        priceText = `Compensation: Up to ${listing.maxRewardAsk.toLocaleString()} ${listing.token}`;
       } else {
         priceText = 'Compensation available';
       }
     } else if (listing.compensationType === 'variable') {
       priceText = 'Compensation: Variable';
     } else {
-      priceText = listing.usdValue
-        ? `Compensation: $${listing.usdValue.toLocaleString()}`
+      priceText = listing.rewards
+        ? `Compensation: ${calculateTotalRewardsForPodium(listing.rewards as Record<string, number>).toLocaleString()} ${listing.token}`
         : 'Compensation available';
     }
   }
