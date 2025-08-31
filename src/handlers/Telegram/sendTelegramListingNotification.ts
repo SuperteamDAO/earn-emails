@@ -54,7 +54,7 @@ function formatNotificationMessage(listing: ListingWithSponsor): string {
         : 'Compensation available';
     } else if (listing.compensationType === 'range') {
       if (listing.minRewardAsk && listing.maxRewardAsk) {
-        priceText = `Compensation: ${listing.minRewardAsk.toLocaleString()} ${listing.token} - ${listing.maxRewardAsk.toLocaleString()} ${listing.token}`;
+        priceText = `Compensation: ${listing.minRewardAsk.toLocaleString()} - ${listing.maxRewardAsk.toLocaleString()} ${listing.token}`;
       } else if (listing.minRewardAsk) {
         priceText = `Compensation: From ${listing.minRewardAsk.toLocaleString()} ${listing.token}`;
       } else if (listing.maxRewardAsk) {
