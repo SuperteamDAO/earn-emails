@@ -66,6 +66,7 @@ model Bounties {
   Comments           Comment[]
   discordMessageIds  Json?
   ai                 Json?
+  publishedBy        String?
 
   @@index([id, slug])
   @@index([sponsorId])
@@ -797,6 +798,7 @@ enum EmailType {
   CREDITS_ANNOUNCEMENT
   AUTO_GENERATE_ANNOUNCEMENT
   NEW_LISTING_TELEGRAM
+  REFERRAL_ANNOUNCEMENT
 }
 
 enum Role {

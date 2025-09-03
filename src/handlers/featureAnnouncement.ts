@@ -26,7 +26,7 @@ export async function processFeatureAnnouncement() {
     console.log(`[FeatureAnnouncement] Found ${users.length} eligible users`);
 
     const emails = [];
-    const emailType = 'AUTO_GENERATE_ANNOUNCEMENT';
+    const emailType = 'REFERRAL_ANNOUNCEMENT';
     console.log(`[FeatureAnnouncement] Email type: ${emailType}`);
 
     console.log('[FeatureAnnouncement] Starting user processing loop');
@@ -61,6 +61,7 @@ export async function processFeatureAnnouncement() {
       const emailHtml = await render(
         FeatureAnnouncementTemplate({
           name: user.firstName,
+          referralCode: user.referralCode || '',
         }),
       );
       console.log(
@@ -73,7 +74,7 @@ export async function processFeatureAnnouncement() {
       emails.push({
         from: pratikEmail,
         to: user.email,
-        subject: 'Introducing "Auto Generate" Feature to Create New Listings',
+        subject: 'Want more credits without winning?',
         html: emailHtml,
       });
 
