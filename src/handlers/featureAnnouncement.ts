@@ -22,6 +22,7 @@ export async function processFeatureAnnouncement() {
           not: null,
         },
       },
+      take: 10,
     });
     console.log(`[FeatureAnnouncement] Found ${users.length} eligible users`);
 
