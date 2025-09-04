@@ -18,11 +18,11 @@ export async function processFeatureAnnouncement() {
             category: 'productAndNewsletter',
           },
         },
-        currentSponsorId: {
-          not: null,
-        },
+        isTalentFilled: true,
+        currentSponsorId: null,
+        isBlocked: false,
       },
-      take: 10,
+      take: 5,
     });
     console.log(`[FeatureAnnouncement] Found ${users.length} eligible users`);
 
