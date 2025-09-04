@@ -44,11 +44,11 @@ export const FeatureAnnouncementTemplate = ({
         Here's your unique referral link:{' '}
         <a href={ctaLink}>{'https://earn.superteam.fun/r/' + referralCode}</a>
       </p>
-      <br />
       <p style={styles.textWithMargin}>
         Start building your crew on Earn, stack up credits while your friends
         earn their crypto.
       </p>
+      <br />
       <p style={styles.salutation}>
         Cheers,
         <br />

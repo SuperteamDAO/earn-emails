@@ -22,7 +22,6 @@ export async function processFeatureAnnouncement() {
         currentSponsorId: null,
         isBlocked: false,
       },
-      take: 5,
     });
     console.log(`[FeatureAnnouncement] Found ${users.length} eligible users`);
 
