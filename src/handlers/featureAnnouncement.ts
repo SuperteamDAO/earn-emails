@@ -14,14 +14,13 @@ export async function processFeatureAnnouncement() {
     const users = await prisma.user.findMany({
       where: {
         emailSettings: {
-          some: {
-            category: 'productAndNewsletter',
-          },
+          some: { category: 'productAndNewsletter' },
         },
         isTalentFilled: true,
         currentSponsorId: null,
         isBlocked: false,
       },
+      take: 20000,
     });
     console.log(`[FeatureAnnouncement] Found ${users.length} eligible users`);
 
