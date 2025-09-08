@@ -13,14 +13,22 @@ export async function processFeatureAnnouncement() {
     console.log('[FeatureAnnouncement] Querying eligible users');
     const users = await prisma.user.findMany({
       where: {
-        emailSettings: {
-          some: { category: 'productAndNewsletter' },
-        },
+        emailSettings: { some: { category: 'productAndNewsletter' } },
         isTalentFilled: true,
         currentSponsorId: null,
         isBlocked: false,
+        emailLogs: {
+          none: {
+            type: 'REFERRAL_ANNOUNCEMENT',
+          },
+        },
       },
-      take: 20000,
+      select: {
+        id: true,
+        firstName: true,
+        email: true,
+        referralCode: true,
+      },
     });
     console.log(`[FeatureAnnouncement] Found ${users.length} eligible users`);
 
@@ -32,26 +40,6 @@ export async function processFeatureAnnouncement() {
     for (const user of users) {
       console.log(
         `[FeatureAnnouncement] Processing user: ${user.id} (${user.email})`,
-      );
-
-      console.log(
-        `[FeatureAnnouncement] Checking if user ${user.id} already received this email`,
-      );
-      const checkLogs = await prisma.emailLogs.findFirst({
-        where: {
-          userId: user.id,
-          type: emailType,
-        },
-      });
-
-      if (checkLogs) {
-        console.log(
-          `[FeatureAnnouncement] User ${user.id} already received this email, skipping`,
-        );
-        continue;
-      }
-      console.log(
-        `[FeatureAnnouncement] User ${user.id} has not received this email yet, proceeding`,
       );
 
       console.log(
@@ -81,10 +69,7 @@ export async function processFeatureAnnouncement() {
         `[FeatureAnnouncement] Creating email log record for user: ${user.id}`,
       );
       await prisma.emailLogs.create({
-        data: {
-          type: emailType,
-          userId: user.id,
-        },
+        data: { type: emailType, userId: user.id },
       });
       console.log(
         `[FeatureAnnouncement] Email log record created successfully for user: ${user.id}`,
