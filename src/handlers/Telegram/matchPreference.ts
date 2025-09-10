@@ -1,5 +1,4 @@
-import { type BountiesModel } from '@/prisma/models';
-
+import { type BountiesModel } from '../../generated/prisma/models';
 import { type MainSkills, type Skills } from '../../types/Skills';
 import {
   type ListingType,

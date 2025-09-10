@@ -1,8 +1,10 @@
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 
-import { type BountiesModel, type SponsorsModel } from '@/prisma/models';
-
+import {
+  type BountiesModel,
+  type SponsorsModel,
+} from '../../generated/prisma/models';
 import { logWarn } from '../../utils/logger';
 import { telegramUserBot } from '../../utils/telegramUserBot';
 

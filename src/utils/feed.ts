@@ -1,4 +1,4 @@
-import { type CommentRefType } from '@/prisma/enums';
+import { type CommentRefType } from '../generated/prisma/enums';
 
 export function getFeedURLType(refType: CommentRefType) {
   switch (refType) {

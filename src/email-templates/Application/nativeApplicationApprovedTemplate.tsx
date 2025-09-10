@@ -1,10 +1,12 @@
 import React from 'react';
 
-import { type GrantApplicationModel, type GrantsModel } from '@/prisma/models';
-
 import { Salutation } from '../../components/Salutation';
 import { UnsubscribeLine } from '../../components/unsubscribeLine';
 import { basePath } from '../../constants/basePath';
+import {
+  type GrantApplicationModel,
+  type GrantsModel,
+} from '../../generated/prisma/models';
 import { formatNumber } from '../../utils/formatNumber';
 import { styles } from '../styles';
 

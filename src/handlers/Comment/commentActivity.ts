@@ -1,10 +1,9 @@
 import { render } from '@react-email/render';
 
-import { CommentRefType } from '@/prisma/enums';
-
 import { basePath } from '../../constants/basePath';
 import { pratikEmail } from '../../constants/emails';
 import { CommentActivityTemplate } from '../../email-templates/Comment/commentActivityTemplate';
+import { CommentRefType } from '../../generated/prisma/enums';
 import { prisma } from '../../prisma';
 import { capitalizeWords } from '../../utils/capitalizeWords';
 import { getCommentSourceURL } from '../../utils/comment';

@@ -1,10 +1,9 @@
 import React from 'react';
 
-import { type CompensationType } from '@/prisma/enums';
-
 import { Salutation } from '../../components/Salutation';
 import { UnsubscribeLine } from '../../components/unsubscribeLine';
 import { basePath } from '../../constants/basePath';
+import { type CompensationType } from '../../generated/prisma/enums';
 import { styles } from '../styles';
 
 interface Listing {

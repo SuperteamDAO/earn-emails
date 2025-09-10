@@ -14,4 +14,4 @@ COPY . .
 
 RUN pnpm run build || (echo "Build failed, reviewing available files:" && ls -la && false)
 
-CMD [ "node", "-r", "tsconfig-paths/register", "dist/index.js" ]
+CMD [ "node", "dist/index.js" ]

@@ -1,11 +1,10 @@
 import { render } from '@react-email/render';
 import dayjs from 'dayjs';
 
-import { type BountyType } from '@/prisma/enums';
-
 import { basePath } from '../../constants/basePath';
 import { pratikEmail } from '../../constants/emails';
 import { SubmissionLikeTemplate } from '../../email-templates/Submission/submissionLikeTemplate';
+import { type BountyType } from '../../generated/prisma/enums';
 import { prisma } from '../../prisma';
 import { getUserEmailPreference } from '../../utils/getUserEmailPreference';
 

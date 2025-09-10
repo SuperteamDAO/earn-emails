@@ -1,10 +1,9 @@
 import React from 'react';
 
-import { type BountyType } from '@/prisma/enums';
-import { type JsonValue } from '@/prisma/internal/prismaNamespace';
-
 import { Salutation } from '../../components/Salutation';
 import { UnsubscribeLine } from '../../components/unsubscribeLine';
+import { type BountyType } from '../../generated/prisma/enums';
+import { type JsonValue } from '../../generated/prisma/internal/prismaNamespace';
 import { getListingTypeLabel } from '../../utils/getListingTypeLabel';
 import { styles } from '../styles';
 

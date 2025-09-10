@@ -1,6 +1,5 @@
-import { type CommentRefType } from '@/prisma/enums';
-import { type BountiesModel } from '@/prisma/models';
-
+import { type CommentRefType } from '../generated/prisma/enums';
+import { type BountiesModel } from '../generated/prisma/models';
 import { getFeedURLType } from './feed';
 
 export function getCommentSourceURL(

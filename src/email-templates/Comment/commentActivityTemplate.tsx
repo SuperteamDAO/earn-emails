@@ -1,9 +1,8 @@
 import React from 'react';
 
-import { type CommentRefType } from '@/prisma/enums';
-
 import { Salutation } from '../../components/Salutation';
 import { UnsubscribeLine } from '../../components/unsubscribeLine';
+import { type CommentRefType } from '../../generated/prisma/enums';
 import { styles } from '../styles';
 
 interface ActivityProps {

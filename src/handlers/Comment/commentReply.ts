@@ -1,10 +1,9 @@
 import { render } from '@react-email/render';
 
-import { CommentRefType } from '@/prisma/enums';
-
 import { basePath } from '../../constants/basePath';
 import { pratikEmail } from '../../constants/emails';
 import { CommentReplyTemplate } from '../../email-templates/Comment/commentReplyTemplate';
+import { CommentRefType } from '../../generated/prisma/enums';
 import { prisma } from '../../prisma';
 import { getCommentSourceURL } from '../../utils/comment';
 import { getUserEmailPreference } from '../../utils/getUserEmailPreference';

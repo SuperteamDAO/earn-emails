@@ -1,9 +1,8 @@
 import React from 'react';
 
-import { type GrantsModel } from '@/prisma/models';
-
 import { Salutation } from '../../components/Salutation';
 import { UnsubscribeLine } from '../../components/unsubscribeLine';
+import { type GrantsModel } from '../../generated/prisma/models';
 import { styles } from '../styles';
 
 interface ApplicationProps {
