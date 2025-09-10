@@ -4,7 +4,7 @@ generator client {
   engineType             = "client"
   moduleFormat           = "cjs"
   generatedFileExtension = "ts"
-  importFileExtension    = "js"
+  importFileExtension    = "ts"
   runtime                = "nodejs"
 }
 

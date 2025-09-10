@@ -5,7 +5,8 @@
   "main": "src/index.ts",
   "scripts": {
     "dev": "tsx watch src",
-    "build": "prisma generate --schema=./prisma/schema.prisma && npx tsc",
+    "start": "tsx src/index.ts",
+    "build": "prisma generate --schema=./prisma/schema.prisma",
     "postinstall": "prisma generate --schema=./prisma/schema.prisma",
     "check-types": "tsc --noEmit --pretty",
     "lint": "eslint",
