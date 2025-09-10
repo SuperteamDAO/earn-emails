@@ -4,7 +4,7 @@ WORKDIR /earn-emails
 
 RUN npm install -g pnpm
 
-COPY package.json pnpm-lock.yaml* schema.prisma ./
+COPY package.json pnpm-lock.yaml* prisma/schema.prisma ./
 
 RUN pnpm install
 
