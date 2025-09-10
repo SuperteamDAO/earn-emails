@@ -1,17 +1,14 @@
-FROM node:20 as builder
+FROM node:22
 
 WORKDIR /earn-emails
 
 RUN npm install -g pnpm
 
 COPY package.json pnpm-lock.yaml* ./
-
 COPY prisma ./prisma
 
 RUN pnpm install --frozen-lockfile
 
 COPY . .
 
-RUN pnpm run build || (echo "Build failed, reviewing available files:" && ls -la && false)
-
-CMD [ "node", "dist/index.js" ]
+CMD [ "pnpm", "exec", "tsx", "src/index.ts" ]

@@ -3,17 +3,16 @@ import { Worker } from 'bullmq';
 import { createHmac } from 'crypto';
 import { config } from 'dotenv';
 import { Resend } from 'resend';
+import { prisma } from 'src/prisma';
 
 import { basePath } from '../constants/basePath';
 import { pratikEmail } from '../constants/emails';
 import { AlertTemplate } from '../email-templates/Alert/AlertTemplate';
-import { PrismaClient } from '../generated/prisma/client';
 import { logError, logInfo, logWarn } from '../utils/logger';
 import { redis } from '../utils/queue';
 
 config();
 
-const prisma = new PrismaClient();
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 const generateUnsubscribeURL = (email: string) => {
