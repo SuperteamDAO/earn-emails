@@ -1,9 +1,10 @@
-import { PrismaClient } from '@prisma/client';
 import { render } from '@react-email/render';
 import { Worker } from 'bullmq';
 import { createHmac } from 'crypto';
 import { config } from 'dotenv';
 import { Resend } from 'resend';
+
+import { PrismaClient } from '@/prisma/client';
 
 import { basePath } from '../constants/basePath';
 import { pratikEmail } from '../constants/emails';

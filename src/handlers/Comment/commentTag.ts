@@ -1,5 +1,6 @@
-import { CommentRefType } from '@prisma/client';
 import { render } from '@react-email/render';
+
+import { CommentRefType } from '@/prisma/enums';
 
 import { basePath } from '../../constants/basePath';
 import { pratikEmail } from '../../constants/emails';

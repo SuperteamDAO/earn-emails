@@ -1,32 +1,29 @@
 import { PrismaPlanetScale } from '@prisma/adapter-planetscale';
-import { PrismaClient } from '@prisma/client';
 
-const prismaClient = () => {
-  return process.env.DATABASE_URL
-    ? new PrismaClient({
-        adapter: new PrismaPlanetScale({
-          url: process.env.DATABASE_URL,
-        }),
-        omit: {
-          user: {
-            kycCountry: true,
-            kycAddress: true,
-            kycDOB: true,
-            kycIDNumber: true,
-            kycIDType: true,
-            kycName: true,
-          },
-        },
-      })
-    : new PrismaClient({
-        datasourceUrl: process.env.LOCAL_DATABASE_URL,
-      });
+import { PrismaClient } from '@/prisma/client';
+
+const omitConfig = {
+  user: {
+    kycCountry: true,
+    kycAddress: true,
+    kycDOB: true,
+    kycIDNumber: true,
+    kycIDType: true,
+    kycName: true,
+  },
 };
 
-declare const globalThis: {
-  prismaGlobal: ReturnType<typeof prismaClient>;
-} & typeof global;
+// if using planetscale db, use this. if not, comment out and uncomment the local db setup below
 
-export const prisma = globalThis.prismaGlobal ?? prismaClient();
+const adapter = new PrismaPlanetScale({ url: process.env.DATABASE_URL, fetch });
+const prismaClient = new PrismaClient({ adapter, omit: omitConfig });
+
+// if using local db, uncomment this and comment out the above
+// const datasourceUrl = process.env.LOCAL_DATABASE_URL;
+// const prismaClient = new PrismaClient({ datasourceUrl, omit: omitConfig });
+
+declare const globalThis: { prismaGlobal: typeof prismaClient } & typeof global;
+
+export const prisma = globalThis.prismaGlobal ?? prismaClient;
 
 if (process.env.NODE_ENV !== 'production') globalThis.prismaGlobal = prisma;

@@ -5,3 +5,5 @@ ping
 dist
 src/script.ts
 src/blocked.csv
+
+src/generated/

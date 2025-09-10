@@ -1,5 +1,7 @@
-import { type $Enums, type Prisma } from '@prisma/client';
 import React from 'react';
+
+import { type BountyType } from '@/prisma/enums';
+import { type JsonValue } from '@/prisma/internal/prismaNamespace';
 
 import { Salutation } from '../../components/Salutation';
 import { UnsubscribeLine } from '../../components/unsubscribeLine';
@@ -13,8 +15,8 @@ interface NewListingProps {
     id: string;
     title: string;
     region: string;
-    skills: Prisma.JsonValue;
-    type: $Enums.BountyType;
+    skills: JsonValue;
+    type: BountyType;
     slug: string;
     token: string | null;
     rewardAmount: number | null;

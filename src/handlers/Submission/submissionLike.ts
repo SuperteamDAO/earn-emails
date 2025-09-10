@@ -1,6 +1,7 @@
-import { type BountyType } from '@prisma/client';
 import { render } from '@react-email/render';
 import dayjs from 'dayjs';
+
+import { type BountyType } from '@/prisma/enums';
 
 import { basePath } from '../../constants/basePath';
 import { pratikEmail } from '../../constants/emails';

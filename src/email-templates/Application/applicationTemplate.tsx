@@ -1,5 +1,6 @@
-import { type Grants } from '@prisma/client';
 import React from 'react';
+
+import { type GrantsModel } from '@/prisma/models';
 
 import { Salutation } from '../../components/Salutation';
 import { UnsubscribeLine } from '../../components/unsubscribeLine';
@@ -8,7 +9,7 @@ import { styles } from '../styles';
 interface ApplicationProps {
   name: string;
   applicationTitle: string;
-  grant: Grants;
+  grant: GrantsModel;
   salutation: string | null;
   language: string;
 }

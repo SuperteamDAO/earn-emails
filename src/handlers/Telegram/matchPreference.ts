@@ -1,4 +1,4 @@
-import { type Bounties } from '@prisma/client';
+import { type BountiesModel } from '@/prisma/models';
 
 import { type MainSkills, type Skills } from '../../types/Skills';
 import {
@@ -62,13 +62,13 @@ function matchesReward(
 
 function matchesListingType(
   userListingTypes: ListingType[],
-  listingType: Bounties['type'],
+  listingType: BountiesModel['type'],
 ): boolean {
   if (userListingTypes.length === 0) {
     return false;
   }
 
-  const typeMapping: Record<Bounties['type'], ListingType> = {
+  const typeMapping: Record<BountiesModel['type'], ListingType> = {
     bounty: 'BOUNTIES',
     project: 'PROJECTS',
     hackathon: 'HACKATHONS',
@@ -107,7 +107,7 @@ function matchesSkills(
   return false;
 }
 
-function isListingEligible(listing: Bounties): boolean {
+function isListingEligible(listing: BountiesModel): boolean {
   return (
     listing.isPublished &&
     listing.isActive &&
@@ -120,7 +120,7 @@ function isListingEligible(listing: Bounties): boolean {
 
 export function matchesUserPreferences(
   userPreferences: UserPreferences,
-  listing: Bounties,
+  listing: BountiesModel,
 ): MatchResult {
   if (!isListingEligible(listing)) {
     return {

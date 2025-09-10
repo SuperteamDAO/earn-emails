@@ -1,11 +1,12 @@
-import { type Bounties, type CommentRefType } from '@prisma/client';
+import { type CommentRefType } from '@/prisma/enums';
+import { type BountiesModel } from '@/prisma/models';
 
 import { getFeedURLType } from './feed';
 
 export function getCommentSourceURL(
   baseUrl: string | undefined,
   type: CommentRefType,
-  listing: Bounties | null,
+  listing: BountiesModel | null,
   id: string,
 ): URL {
   const url = new URL(`${baseUrl}`);

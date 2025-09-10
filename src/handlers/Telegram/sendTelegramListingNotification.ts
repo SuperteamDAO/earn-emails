@@ -1,14 +1,15 @@
-import { type Bounties, type Sponsors } from '@prisma/client';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
+
+import { type BountiesModel, type SponsorsModel } from '@/prisma/models';
 
 import { logWarn } from '../../utils/logger';
 import { telegramUserBot } from '../../utils/telegramUserBot';
 
 dayjs.extend(utc);
 
-type ListingWithSponsor = Bounties & {
-  sponsor: Sponsors;
+type ListingWithSponsor = BountiesModel & {
+  sponsor: SponsorsModel;
 };
 
 function generateListingUrl(
