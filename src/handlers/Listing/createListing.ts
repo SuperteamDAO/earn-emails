@@ -43,7 +43,7 @@ export async function processCreateListing() {
           },
           {
             usdValue: {
-              gte: 1000,
+              gte: 2000,
             },
           },
         ],
