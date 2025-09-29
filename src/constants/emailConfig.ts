@@ -3,6 +3,7 @@ import { processApplicationApproval } from '../handlers/Application/applicationA
 import { processApplicationCompleted } from '../handlers/Application/applicationCompleted';
 import { processApplicationLike } from '../handlers/Application/applicationLike';
 import { processApplicationRejection } from '../handlers/Application/applicationRejected';
+import { processGranteeActivation } from '../handlers/Application/granteeActivation';
 import { processGrantPayment } from '../handlers/Application/grantPaymentReceived';
 import { processTrancheApproved } from '../handlers/Application/trancheApproved';
 import { processTrancheRejection } from '../handlers/Application/trancheRejected';
@@ -99,6 +100,7 @@ export const emailTypePriority: Record<EmailActionType, number> = {
   spamDecision: 2,
   featureAnnouncement: 3,
   telegramNewListing: 4,
+  granteeActivation: 4,
   // dupe: 1,
 };
 
@@ -141,5 +143,6 @@ export const emailProcessors: Record<EmailActionType, any> = {
   spamCredit: processSpamCredit,
   featureAnnouncement: processFeatureAnnouncement,
   telegramNewListing: processTelegramNewListing,
+  granteeActivation: processGranteeActivation,
   // dupe: processDupe,
 };
