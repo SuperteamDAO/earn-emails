@@ -58,7 +58,7 @@ export const CypherpunkSidetracksTemplate = ({
       <a href={ctaLink} target="_blank" rel="noopener noreferrer">
         <img
           src={imageUrl}
-          alt="Solana Breakout Hackathon Banner"
+          alt="Solana Cypherpunk Hackathon is here!"
           style={imageStyle}
         />
       </a>
