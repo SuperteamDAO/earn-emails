@@ -65,9 +65,9 @@ export const CypherpunkSidetracksTemplate = ({
       <p style={styles.greetings}>Hey {name},</p>
 
       <p style={styles.textWithMargin}>
-        Arcium is offering $20,000 in rewards — as one of the biggest sidetracks
-        on Earn — for Solana devs to integrate Arcium's encrypted compute into a
-        new or existing Solana project.
+        Arcium is <strong>offering $20,000 in rewards</strong> — as one of the
+        biggest sidetracks on Earn — for Solana devs to integrate Arcium's
+        encrypted compute into a new or existing Solana project.
       </p>
 
       <p style={styles.textWithMargin}>
