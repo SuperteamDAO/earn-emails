@@ -3,40 +3,40 @@ import { render } from '@react-email/render';
 import { CypherpunkSidetracksTemplate } from '../../email-templates/Listing/newHackathonTemplate';
 import { prisma } from '../../prisma';
 
-const productOrientedSkills = ['Frontend', 'Backend', 'Blockchain', 'Mobile'];
+// const productOrientedSkills = ['Frontend', 'Backend', 'Blockchain', 'Mobile'];
 
-// const testEmails = [
-//   'jayeshpotlabattini@gmail.com',
-//   'pratik.dholani1@gmail.com',
-// ];
+const testEmails = [
+  'jayeshpotlabattini@gmail.com',
+  'pratik.dholani1@gmail.com',
+];
 
 export async function processCreateHackathon() {
   try {
     const users = await prisma.user.findMany({
       where: {
-        isTalentFilled: true,
-        OR: [
-          ...productOrientedSkills.map((skill) => ({
-            skills: {
-              path: '$[*].skills',
-              array_contains: skill,
-            },
-          })),
-          ...productOrientedSkills.map((skill) => ({
-            skills: {
-              path: '$[*].subskills',
-              array_contains: skill,
-            },
-          })),
-        ],
-        emailSettings: {
-          some: {
-            category: 'createListing',
-          },
-        },
-        // email: {
-        //   in: testEmails,
+        // isTalentFilled: true,
+        // OR: [
+        //   ...productOrientedSkills.map((skill) => ({
+        //     skills: {
+        //       path: '$[*].skills',
+        //       array_contains: skill,
+        //     },
+        //   })),
+        //   ...productOrientedSkills.map((skill) => ({
+        //     skills: {
+        //       path: '$[*].subskills',
+        //       array_contains: skill,
+        //     },
+        //   })),
+        // ],
+        // emailSettings: {
+        //   some: {
+        //     category: 'createListing',
+        //   },
         // },
+        email: {
+          in: testEmails,
+        },
       },
       select: {
         id: true,
@@ -61,7 +61,7 @@ export async function processCreateHackathon() {
         return {
           from: `Pratik from Earn <${process.env.PRATIK_EMAIL}>`,
           to: user.email,
-          subject: `${user.firstName ? user.firstName.charAt(0).toUpperCase() + user.firstName.slice(1) : ''}, you're eligible for $300k of rewards (expiring in two weeks)`,
+          subject: `$20,000 to build privacy infrastructure on Solana`,
           html: emailHtml,
         };
       }),

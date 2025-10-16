@@ -44,9 +44,9 @@ export const CypherpunkSidetracksTemplate = ({
   name,
 }: CypherpunkSidetracksProps) => {
   const ctaLink =
-    'https://earn.superteam.fun/hackathon/cypherpunk/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications';
+    'https://earn.superteam.fun/listing/arciums-encrypted-side-track/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications';
   const imageUrl =
-    'https://res.cloudinary.com/dgvnuwspr/image/upload/v1745912361/assets/hackathon/cypherpunk/email';
+    'https://res.cloudinary.com/dgvnuwspr/image/upload/v1759759179/listing-description/qu9zg1u4j3kvvpk0igvk.png';
 
   return (
     <div
@@ -58,59 +58,29 @@ export const CypherpunkSidetracksTemplate = ({
       <a href={ctaLink} target="_blank" rel="noopener noreferrer">
         <img
           src={imageUrl}
-          alt="Solana Cypherpunk Hackathon is here!"
+          alt="Arcium's Encrypted Side Track!"
           style={imageStyle}
         />
       </a>
       <p style={styles.greetings}>Hey {name},</p>
 
       <p style={styles.textWithMargin}>
-        We're looking for builders like you to submit to{' '}
-        <a
-          href={ctaLink}
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{ color: '#6466F1', textDecoration: 'underline' }}
-        >
-          Cypherpunk Sidetracks
-        </a>{' '}
-        on Earn — with over <strong>$300,000 in prizes</strong> up for grabs.
+        Arcium is offering $20,000 in rewards — as one of the biggest sidetracks
+        on Earn — for Solana devs to integrate Arcium's encrypted compute into a
+        new or existing Solana project.
       </p>
 
       <p style={styles.textWithMargin}>
-        Sidetracks are bounties that run parallel to the main Cypherpunk
-        hackathon. They're sponsor-backed challenges built around specific
-        protocols and real-world use cases. It's your chance to build something
-        meaningful, get noticed by top ecosystem teams, and get rewarded for it.
-      </p>
-
-      <h3 style={{ ...styles.textWithMargin, marginTop: '25px' }}>
-        Highlights include:
-      </h3>
-      <ul style={{ ...styles.text, paddingLeft: '20px', marginTop: '10px' }}>
-        <li style={{ marginBottom: '8px' }}>
-          $20,000 from Arcium for building encrypted privacy infrastructure
-        </li>
-        <li style={{ marginBottom: '8px' }}>
-          $20,000 from ASI for Solana-native autonomous agents
-        </li>
-        <li style={{ marginBottom: '8px' }}>
-          $50,000 in security credits from Adevar Labs
-        </li>
-      </ul>
-
-      <p style={styles.textWithMargin}>
-        ..and many more tracks. Each track has its own rewards, scope, and
-        judging panel.
+        This is your chance to work on cutting-edge on-chain privacy, showcase
+        your skills, and boost your Solana career building core infrastructure.
       </p>
 
       <p style={styles.textWithMargin}>
-        <strong>All submissions close on October 31, 7 AM UTC.</strong>
+        <strong>Deadline</strong>: October 31, 7 AM UTC.
       </p>
 
       <p style={styles.textWithMargin}>
-        This is your moment to build, ship, and stand out in the Cypherpunk era
-        of Solana.
+        Build for privacy. Use Arcium. Earn thousands of dollars in rewards.
       </p>
 
       <a
@@ -120,7 +90,7 @@ export const CypherpunkSidetracksTemplate = ({
         style={{ marginLeft: 'auto', marginRight: 'auto', display: 'flex' }}
       >
         <div style={buttonStyle}>
-          <p style={buttonTextStyle}>Browse Sidetracks</p>
+          <p style={buttonTextStyle}>Learn More</p>
         </div>
       </a>
 
