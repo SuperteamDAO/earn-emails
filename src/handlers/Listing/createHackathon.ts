@@ -61,7 +61,7 @@ export async function processCreateHackathon() {
         return {
           from: `Pratik from Earn <${process.env.PRATIK_EMAIL}>`,
           to: user.email,
-          subject: `$20,000 to build privacy infrastructure on Solana`,
+          subject: `$20,000 to build autonomous agents on Solana`,
           html: emailHtml,
         };
       }),

@@ -44,9 +44,9 @@ export const CypherpunkSidetracksTemplate = ({
   name,
 }: CypherpunkSidetracksProps) => {
   const ctaLink =
-    'https://earn.superteam.fun/listing/arciums-encrypted-side-track/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications';
+    'https://earn.superteam.fun/listing/asi-agents-track/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications';
   const imageUrl =
-    'https://res.cloudinary.com/dgvnuwspr/image/upload/v1759759179/listing-description/qu9zg1u4j3kvvpk0igvk.png';
+    'https://res.cloudinary.com/dgvnuwspr/image/upload/v1760789795/assets/hackathon/cypherpunk/asi-sidetrack.png';
 
   return (
     <div
@@ -56,23 +56,26 @@ export const CypherpunkSidetracksTemplate = ({
       }}
     >
       <a href={ctaLink} target="_blank" rel="noopener noreferrer">
-        <img
-          src={imageUrl}
-          alt="Arcium's Encrypted Side Track!"
-          style={imageStyle}
-        />
+        <img src={imageUrl} alt="ASI Agents Track!" style={imageStyle} />
       </a>
       <p style={styles.greetings}>Hey {name},</p>
 
       <p style={styles.textWithMargin}>
-        Arcium is <strong>offering $20,000 in rewards</strong> — as one of the
-        biggest sidetracks on Earn — for Solana devs to integrate Arcium's
-        encrypted compute into a new or existing Solana project.
+        The ASI Agents Track is live! It has a{' '}
+        <strong>$20,000 prize pool</strong> for builders pushing the limits of
+        on-chain autonomy.
       </p>
 
       <p style={styles.textWithMargin}>
-        This is your chance to work on cutting-edge on-chain privacy, showcase
-        your skills, and boost your Solana career building core infrastructure.
+        Your mission: design and deploy <strong>Solana-native agents</strong>{' '}
+        that can observe, decide, and act without human input. Think
+        coordination, intelligence, and automation — all running trustlessly
+        on-chain.
+      </p>
+
+      <p style={styles.textWithMargin}>
+        If you've been looking to build in the AI x Crypto space (and get a
+        serious reward for it), this is it.
       </p>
 
       <p style={styles.textWithMargin}>
@@ -80,7 +83,7 @@ export const CypherpunkSidetracksTemplate = ({
       </p>
 
       <p style={styles.textWithMargin}>
-        Build for privacy. Use Arcium. Earn thousands of dollars in rewards.
+        Build something that thinks for itself.
       </p>
 
       <a
