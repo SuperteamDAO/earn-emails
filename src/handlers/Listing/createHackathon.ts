@@ -7,7 +7,7 @@ const productOrientedSkills = ['Frontend', 'Backend', 'Blockchain', 'Mobile'];
 
 // const testEmails = [
 //   'jayeshpotlabattini@gmail.com',
-//   'pratik.dholani1@gmail.com',
+//   // 'pratik.dholani1@gmail.com',
 // ];
 
 export async function processCreateHackathon() {
@@ -61,7 +61,7 @@ export async function processCreateHackathon() {
         return {
           from: `Pratik from Earn <${process.env.PRATIK_EMAIL}>`,
           to: user.email,
-          subject: `$20,000 to build autonomous agents on Solana`,
+          subject: `$50,000 in Security Audit Credits for Cypherpunk Builders`,
           html: emailHtml,
         };
       }),

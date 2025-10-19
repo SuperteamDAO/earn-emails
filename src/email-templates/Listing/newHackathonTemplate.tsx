@@ -44,9 +44,9 @@ export const CypherpunkSidetracksTemplate = ({
   name,
 }: CypherpunkSidetracksProps) => {
   const ctaLink =
-    'https://earn.superteam.fun/listing/asi-agents-track/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications';
+    'https://earn.superteam.fun/listing/dollar50000-in-security-audit-credits-for-solana-colosseum-hackathon/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications';
   const imageUrl =
-    'https://res.cloudinary.com/dgvnuwspr/image/upload/v1760789795/assets/hackathon/cypherpunk/asi-sidetrack.png';
+    'https://res.cloudinary.com/dgvnuwspr/image/upload/v1760860835/assets/hackathon/cypherpunk/adevar-sidetrack.png';
 
   return (
     <div
@@ -56,34 +56,30 @@ export const CypherpunkSidetracksTemplate = ({
       }}
     >
       <a href={ctaLink} target="_blank" rel="noopener noreferrer">
-        <img src={imageUrl} alt="ASI Agents Track!" style={imageStyle} />
+        <img src={imageUrl} alt="Adevar Labs Track!" style={imageStyle} />
       </a>
       <p style={styles.greetings}>Hey {name},</p>
 
       <p style={styles.textWithMargin}>
-        The ASI Agents Track is live! It has a{' '}
-        <strong>$20,000 prize pool</strong> for builders pushing the limits of
-        on-chain autonomy.
+        Adevar Labs is offering{' '}
+        <strong>$50,000 in security audit credits</strong> to projects that
+        submit to the official Cypherpunk Hackathon.
       </p>
 
       <p style={styles.textWithMargin}>
-        Your mission: design and deploy <strong>Solana-native agents</strong>{' '}
-        that can observe, decide, and act without human input. Think
-        coordination, intelligence, and automation — all running trustlessly
-        on-chain.
+        If you're building something serious on Solana and submitting to the
+        official Cypherpunk hackathon — a protocol, DeFi app, or infrastructure
+        project — this is your chance to <strong>get audited and secure</strong>{' '}
+        for a fraction of the cost.
       </p>
 
       <p style={styles.textWithMargin}>
-        If you've been looking to build in the AI x Crypto space (and get a
-        serious reward for it), this is it.
+        These credits can cover professional audits for winning projects,
+        helping you ship production-ready code with confidence.
       </p>
 
       <p style={styles.textWithMargin}>
-        <strong>Deadline</strong>: October 31, 7 AM UTC.
-      </p>
-
-      <p style={styles.textWithMargin}>
-        Build something that thinks for itself.
+        <strong>Deadline:</strong> October 31, 7 AM UTC.
       </p>
 
       <a
