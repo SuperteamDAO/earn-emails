@@ -1,5 +1,7 @@
 import { render } from '@react-email/render';
 
+import { type User } from '@/prisma/client';
+
 import { pratikEmail } from '../constants/emails';
 import { FeatureAnnouncementTemplate } from '../email-templates/FeatureAnnouncementTemplate';
 import { prisma } from '../prisma';
@@ -11,25 +13,42 @@ export async function processFeatureAnnouncement() {
 
   try {
     console.log('[FeatureAnnouncement] Querying eligible users');
-    const users = await prisma.user.findMany({
-      where: {
-        emailSettings: { some: { category: 'productAndNewsletter' } },
-        isTalentFilled: true,
-        currentSponsorId: null,
-        isBlocked: false,
-        emailLogs: {
-          none: {
-            type: 'REFERRAL_ANNOUNCEMENT',
+    const batchSize = 10000;
+    type UserSelect = Pick<User, 'id' | 'firstName' | 'email' | 'referralCode'>;
+    const users: UserSelect[] = [];
+    let cursor: string | undefined = undefined;
+
+    while (true) {
+      const batch: UserSelect[] = await prisma.user.findMany({
+        take: batchSize,
+        ...(cursor && { skip: 1, cursor: { id: cursor } }),
+        where: {
+          emailSettings: { some: { category: 'productAndNewsletter' } },
+          isTalentFilled: true,
+          currentSponsorId: null,
+          isBlocked: false,
+          emailLogs: {
+            none: {
+              type: 'REFERRAL_ANNOUNCEMENT',
+            },
           },
         },
-      },
-      select: {
-        id: true,
-        firstName: true,
-        email: true,
-        referralCode: true,
-      },
-    });
+        select: {
+          id: true,
+          firstName: true,
+          email: true,
+          referralCode: true,
+        },
+      });
+
+      users.push(...batch);
+
+      if (batch.length < batchSize) {
+        break;
+      }
+
+      cursor = batch[batch.length - 1].id;
+    }
     console.log(`[FeatureAnnouncement] Found ${users.length} eligible users`);
 
     const emails = [];

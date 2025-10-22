@@ -1,6 +1,8 @@
 import { render } from '@react-email/render';
 import dayjs from 'dayjs';
 
+import { type User } from '@/prisma/client';
+
 import { pratikEmail } from '../../constants/emails';
 import { Superteams } from '../../constants/Superteam';
 import { WeeklyRoundupTemplate } from '../../email-templates/Listing/weeklyRoundupTemplate';
@@ -31,30 +33,51 @@ function userRegionEligibility(region: string, user: any) {
 }
 
 export async function processWeeklyRoundup() {
-  const users = await prisma.user.findMany({
-    where: {
-      emailSettings: {
-        some: {
-          category: 'weeklyListingRoundup',
+  const batchSize = 10000;
+  type UserSelect = Pick<
+    User,
+    'id' | 'skills' | 'email' | 'firstName' | 'lastName' | 'location'
+  >;
+  const users: UserSelect[] = [];
+  let cursor: string | undefined = undefined;
+  let totalFetched = 0;
+
+  while (totalFetched < ALLOWED_USERS) {
+    const batch: UserSelect[] = await prisma.user.findMany({
+      take: Math.min(batchSize, ALLOWED_USERS - totalFetched),
+      ...(cursor && { skip: 1, cursor: { id: cursor } }),
+      where: {
+        emailSettings: {
+          some: {
+            category: 'weeklyListingRoundup',
+          },
+        },
+        isTalentFilled: true,
+      },
+      select: {
+        id: true,
+        skills: true,
+        email: true,
+        firstName: true,
+        lastName: true,
+        location: true,
+      },
+      orderBy: {
+        Submission: {
+          _count: 'desc',
         },
       },
-      isTalentFilled: true,
-    },
-    select: {
-      id: true,
-      skills: true,
-      email: true,
-      firstName: true,
-      lastName: true,
-      location: true,
-    },
-    orderBy: {
-      Submission: {
-        _count: 'desc',
-      },
-    },
-    take: ALLOWED_USERS,
-  });
+    });
+
+    users.push(...batch);
+    totalFetched += batch.length;
+
+    if (batch.length < batchSize || totalFetched >= ALLOWED_USERS) {
+      break;
+    }
+
+    cursor = batch[batch.length - 1].id;
+  }
 
   const listings = await prisma.bounties.findMany({
     where: {

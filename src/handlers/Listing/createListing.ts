@@ -1,10 +1,12 @@
 import { render } from '@react-email/render';
 import dayjs from 'dayjs';
+import { prisma } from 'src/prisma';
+
+import { type User } from '@/prisma/client';
 
 import { basePath } from '../../constants/basePath';
 import { pratikEmail } from '../../constants/emails';
 import { NewListingTemplate } from '../../email-templates/Listing/newListingTemplate';
-import { prisma } from '../../prisma';
 import {
   developmentSkills,
   nonDevelopmentSubSkills,
@@ -126,29 +128,46 @@ export async function processCreateListing() {
       }),
     );
 
-    const users = await prisma.user.findMany({
-      where: {
-        isTalentFilled: true,
-        ...(selectedListing.region !== 'Global' && {
-          location: { in: countries },
-        }),
-        OR: [
-          ...developmentSkillConditions,
-          ...nonDevelopmentSubSkillConditions,
-        ],
-        emailSettings: {
-          some: {
-            category: 'createListing',
+    const batchSize = 10000;
+    type UserSelect = Pick<User, 'id' | 'firstName' | 'email' | 'skills'>;
+    const users: UserSelect[] = [];
+    let cursor: string | undefined = undefined;
+
+    while (true) {
+      const batch: UserSelect[] = await prisma.user.findMany({
+        take: batchSize,
+        ...(cursor && { skip: 1, cursor: { id: cursor } }),
+        where: {
+          isTalentFilled: true,
+          ...(selectedListing.region !== 'Global' && {
+            location: { in: countries },
+          }),
+          OR: [
+            ...developmentSkillConditions,
+            ...nonDevelopmentSubSkillConditions,
+          ],
+          emailSettings: {
+            some: {
+              category: 'createListing',
+            },
           },
         },
-      },
-      select: {
-        id: true,
-        firstName: true,
-        email: true,
-        skills: true,
-      },
-    });
+        select: {
+          id: true,
+          firstName: true,
+          email: true,
+          skills: true,
+        },
+      });
+
+      users.push(...batch);
+
+      if (batch.length < batchSize) {
+        break;
+      }
+
+      cursor = batch[batch.length - 1].id;
+    }
 
     const emailData = await Promise.all(
       users.map(async (user) => {
