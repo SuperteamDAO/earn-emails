@@ -54,6 +54,6 @@ scheduleJob('0 12 * * 4', 'weeklyListingRoundup');
 scheduleJob('0 11 * * *', 'talentReminder');
 scheduleJob('0 12 * * 1', 'leadWeeklyReminder');
 scheduleJob('0 12 * * *', 'granteeActivation');
-scheduleJob('30 8 8 9 *', 'featureAnnouncement');
+scheduleJob('40 16 1 12 *', 'featureAnnouncement');
 
 logInfo('Cron jobs scheduled').catch(console.error);
