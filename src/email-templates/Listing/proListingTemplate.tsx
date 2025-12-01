@@ -60,11 +60,30 @@ export const ProListingTemplate = ({
       <p style={styles.textWithMargin}>
         You're in the top tier. Make the most of it.
       </p>
-      <p style={styles.textWithMargin}>
-        <a href={link} style={styles.link}>
+      <div style={{ margin: '20px 0' }}>
+        <a
+          href={link}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            backgroundColor: '#000000',
+            color: 'white',
+            padding: '12px 24px',
+            borderRadius: '6px',
+            border: 'none',
+            fontWeight: 500,
+            fontSize: '14px',
+            cursor: 'pointer',
+            textDecoration: 'none',
+            display: 'inline-block',
+            textAlign: 'center',
+          }}
+          onMouseOver={(e) => (e.currentTarget.style.opacity = '0.9')}
+          onMouseOut={(e) => (e.currentTarget.style.opacity = '1')}
+        >
           Submit Now
         </a>
-      </p>
+      </div>
       <Salutation />
       <p style={styles.text}>&nbsp;</p>
       <UnsubscribeLine />

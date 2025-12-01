@@ -9,16 +9,16 @@ interface TemplateProps {
 }
 
 export const NonProFeatureAnnouncementTemplate = ({ name }: TemplateProps) => {
-  const ctaLink = `https://earn.superteam.fun/pro/eligibility?utm_source=superteamearn&utm_medium=email&utm_campaign=pro_announcement`;
+  const ctaLink = `https://earn.superteam.fun/pro/?utm_source=superteamearn&utm_medium=email&utm_campaign=pro_announcement`;
 
   return (
     <div style={styles.container}>
       <p style={styles.greetings}>Hi {name || 'there'},</p>
       <p style={styles.textWithMargin}>
-        Today we're launching <strong>Earn Pro</strong> — a new tier of
+        Today we're launching <strong>Earn Pro</strong> — a new tier of{' '}
         <strong>high-value bounties and exclusive perks</strong> reserved for
         our most accomplished contributors. At launch, Earn Pro already includes
-        $10k+ in live bounties and perks worth thousands of dollars.
+        ~$20k in live bounties and perks worth thousands of dollars.
       </p>
       <p style={styles.textWithMargin}>
         Earn Pro offers higher payouts and far less competition, and is

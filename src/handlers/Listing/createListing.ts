@@ -40,7 +40,6 @@ export async function processCreateListing() {
           lt: eighteenHoursAgo,
         },
         shouldSendEmail: true,
-        isPro: false,
         OR: [
           {
             compensationType: 'variable',
