@@ -37,4 +37,5 @@ export type EmailActionType =
   | 'spamDecision'
   | 'featureAnnouncement'
   | 'telegramNewListing'
-  | 'granteeActivation';
+  | 'granteeActivation'
+  | 'createProListing';

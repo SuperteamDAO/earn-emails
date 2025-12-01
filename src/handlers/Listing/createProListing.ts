@@ -6,16 +6,15 @@ import { type User } from '@/prisma/client';
 
 import { basePath } from '../../constants/basePath';
 import { pratikEmail } from '../../constants/emails';
-import { NewListingTemplate } from '../../email-templates/Listing/newListingTemplate';
+import { ProListingTemplate } from '../../email-templates/Listing/proListingTemplate';
 import {
   developmentSkills,
   nonDevelopmentSubSkills,
   type Skills,
 } from '../../types/Skills';
-import { getListingTypeLabel } from '../../utils/getListingTypeLabel';
 import { getCombinedRegion } from '../../utils/region';
 
-export async function processCreateListing() {
+export async function processCreateProListing() {
   try {
     const eighteenHoursAgo = dayjs().subtract(18, 'hours').toISOString();
     const lastWeek = dayjs().subtract(7, 'days').toISOString();
@@ -28,10 +27,10 @@ export async function processCreateListing() {
         isPublished: true,
         isPrivate: false,
         isWinnersAnnounced: false,
+        isPro: true,
         deadline: {
           gt: now,
         },
-        isPro: false,
         type: {
           not: 'hackathon',
         },
@@ -40,16 +39,6 @@ export async function processCreateListing() {
           lt: eighteenHoursAgo,
         },
         shouldSendEmail: true,
-        OR: [
-          {
-            compensationType: 'variable',
-          },
-          {
-            usdValue: {
-              gte: 2000,
-            },
-          },
-        ],
       },
       select: {
         id: true,
@@ -60,6 +49,8 @@ export async function processCreateListing() {
         slug: true,
         rewardAmount: true,
         token: true,
+        isPro: true,
+        usdValue: true,
         sponsor: {
           select: {
             name: true,
@@ -72,7 +63,7 @@ export async function processCreateListing() {
     });
 
     if (listings.length === 0) {
-      console.error('No listing found');
+      console.error('No Pro listing found');
       return;
     }
 
@@ -93,7 +84,7 @@ export async function processCreateListing() {
     }
 
     if (!selectedListing) {
-      console.error('All listings already have email logs');
+      console.error('All Pro listings already have email logs');
       return;
     }
 
@@ -103,6 +94,56 @@ export async function processCreateListing() {
     const listingSkills = selectedListing.skills as Skills;
     const listingMainSkills = listingSkills.map((skill) => skill.skills);
     const listingSubSkills = listingSkills.flatMap((skill) => skill.subskills);
+
+    const eligibleUsersResult = await prisma.$queryRaw<
+      Array<{
+        userId: string;
+      }>
+    >`
+      SELECT DISTINCT u.id as userId
+      FROM User u
+      LEFT JOIN (
+        SELECT 
+          s.userId,
+          COALESCE(
+            SUM(CASE 
+              WHEN s.isWinner = true AND l.isWinnersAnnounced = true 
+              THEN s.rewardInUSD 
+              ELSE 0 
+            END),
+            0
+          ) as listing_winnings
+        FROM Submission s
+        INNER JOIN Bounties l ON s.listingId = l.id
+        GROUP BY s.userId
+      ) submission_stats ON u.id = submission_stats.userId
+      LEFT JOIN (
+        SELECT 
+          ga.userId,
+          COALESCE(
+            SUM(CASE 
+              WHEN ga.applicationStatus IN ('Approved', 'Completed') 
+              THEN ga.approvedAmountInUSD 
+              ELSE 0 
+            END),
+            0
+          ) as grant_winnings
+        FROM GrantApplication ga
+        GROUP BY ga.userId
+      ) grant_stats ON u.id = grant_stats.userId
+      WHERE (
+        u.isPro = true
+        OR u.superteamLevel LIKE '%Superteam%'
+        OR (COALESCE(submission_stats.listing_winnings, 0) + COALESCE(grant_stats.grant_winnings, 0)) > 1000
+      )
+    `;
+
+    const eligibleUserIds = eligibleUsersResult.map((r) => r.userId);
+
+    if (eligibleUserIds.length === 0) {
+      console.error('No eligible Pro users found');
+      return;
+    }
 
     const listingDevelopmentSkills = listingMainSkills.filter((skill) =>
       developmentSkills.includes(skill),
@@ -129,46 +170,31 @@ export async function processCreateListing() {
       }),
     );
 
-    const batchSize = 10000;
     type UserSelect = Pick<User, 'id' | 'firstName' | 'email' | 'skills'>;
-    const users: UserSelect[] = [];
-    let cursor: string | undefined = undefined;
-
-    while (true) {
-      const batch: UserSelect[] = await prisma.user.findMany({
-        take: batchSize,
-        ...(cursor && { skip: 1, cursor: { id: cursor } }),
-        where: {
-          isTalentFilled: true,
-          ...(selectedListing.region !== 'Global' && {
-            location: { in: countries },
-          }),
-          OR: [
-            ...developmentSkillConditions,
-            ...nonDevelopmentSubSkillConditions,
-          ],
-          emailSettings: {
-            some: {
-              category: 'createListing',
-            },
+    const users: UserSelect[] = await prisma.user.findMany({
+      where: {
+        id: { in: eligibleUserIds },
+        isTalentFilled: true,
+        ...(selectedListing.region !== 'Global' && {
+          location: { in: countries },
+        }),
+        OR: [
+          ...developmentSkillConditions,
+          ...nonDevelopmentSubSkillConditions,
+        ],
+        emailSettings: {
+          some: {
+            category: 'createListing',
           },
         },
-        select: {
-          id: true,
-          firstName: true,
-          email: true,
-          skills: true,
-        },
-      });
-
-      users.push(...batch);
-
-      if (batch.length < batchSize) {
-        break;
-      }
-
-      cursor = batch[batch.length - 1].id;
-    }
+      },
+      select: {
+        id: true,
+        firstName: true,
+        email: true,
+        skills: true,
+      },
+    });
 
     const emailData = await Promise.all(
       users.map(async (user) => {
@@ -187,22 +213,21 @@ export async function processCreateListing() {
 
         if (!userSkills) return null;
 
-        const listingTypeLabel = getListingTypeLabel(selectedListing.type);
+        const listingLink = `${basePath}/listing/${selectedListing.slug}/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`;
+
+        const roundedAmount =
+          Math.round((selectedListing.usdValue ?? 0) / 10) * 10;
 
         const emailHtml = await render(
-          NewListingTemplate({
+          ProListingTemplate({
             name: user.firstName!,
-            link: `${basePath}/listing/${selectedListing.slug}/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`,
+            link: listingLink,
             listing: selectedListing,
+            roundedAmount,
           }),
         );
 
-        let subject = '';
-        if (listingMainSkills.length === 1) {
-          subject = `Check out ${selectedListing.sponsor.name}'s Latest ${listingMainSkills[0]} ${listingTypeLabel}!`;
-        } else {
-          subject = `${selectedListing.sponsor.name} Has a New ${listingTypeLabel} Just for You!`;
-        }
+        const subject = `New Pro-only Opportunity by ${selectedListing.sponsor.name}`;
 
         return {
           from: pratikEmail,
@@ -222,7 +247,7 @@ export async function processCreateListing() {
 
     return emailData.filter((data) => data !== null);
   } catch (error) {
-    console.error('Error in processCreateListing:', error);
+    console.error('Error in processCreateProListing:', error);
     throw error;
   }
 }
