@@ -713,6 +713,15 @@ model TelegramUser {
   @@index([isSubscribed])
 }
 
+model ProPerks {
+  id          String @id @default(uuid())
+  header      String
+  description String
+  cta         String
+  ctaLink     String
+  logo        String
+}
+
 enum CreditEventType {
   SUBMISSION
   SPAM_PENALTY
@@ -756,6 +765,7 @@ enum EmailType {
   AUTO_GENERATE_ANNOUNCEMENT
   NEW_LISTING_TELEGRAM
   REFERRAL_ANNOUNCEMENT
+  PRO_FEATURE_ANNOUNCEMENT
   GRANTEE_ACTIVATION
 }
 

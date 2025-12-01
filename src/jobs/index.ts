@@ -44,8 +44,10 @@ if (process.env.SERVER_ENV !== 'preview') {
 
 if (process.env.SERVER_ENV === 'development') {
   scheduleJob('*/5 * * * *', 'createListing');
+  scheduleJob('*/5 * * * *', 'createProListing');
 } else {
   scheduleJob('0 */6 * * *', 'createListing');
+  scheduleJob('0 */6 * * *', 'createProListing');
 }
 
 scheduleJob('0 12 * * 4', 'weeklyListingRoundup');

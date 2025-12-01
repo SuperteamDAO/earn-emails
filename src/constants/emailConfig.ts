@@ -20,6 +20,7 @@ import { processFeatureAnnouncement } from '../handlers/featureAnnouncement';
 import { processLeadWeeklyReminder } from '../handlers/Grants/leadWeeklyReminder';
 import { processCreateHackathon } from '../handlers/Listing/createHackathon';
 import { processCreateListing } from '../handlers/Listing/createListing';
+import { processCreateProListing } from '../handlers/Listing/createProListing';
 import { processScoutInvite } from '../handlers/Listing/scoutInvite';
 import { processScoutReminder } from '../handlers/Listing/scoutReminder';
 import { processTalentReminder } from '../handlers/Listing/talentReminder';
@@ -91,6 +92,7 @@ export const emailTypePriority: Record<EmailActionType, number> = {
   grantRejected: 2,
   deadline3days: 3,
   createListing: 4,
+  createProListing: 4,
   createHackathon: 1,
   weeklyListingRoundup: 5,
   talentReminder: 6,
@@ -114,6 +116,7 @@ export const emailProcessors: Record<EmailActionType, any> = {
   commentTag: processCommentTag,
   commitment2days: processCommitmentTwoDays,
   createListing: processCreateListing,
+  createProListing: processCreateProListing,
   createHackathon: processCreateHackathon,
   deadline3days: processDeadlineThreeDays,
   deadlineExceeded: processDeadlineExceeded,
