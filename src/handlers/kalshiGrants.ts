@@ -4,12 +4,15 @@ import { type User } from '@/prisma/client';
 
 import { pratikEmail } from '../constants/emails';
 import { KalshiGrantsTemplate } from '../email-templates/KalshiGrantsTemplate';
+import { EmailType } from '../generated/prisma/enums';
 import { prisma } from '../prisma';
 
 export async function processKalshiGrants() {
   console.log('-------------------------------------');
   console.log('[KalshiGrants] Starting process');
   console.log('-------------------------------------');
+
+  const emailType = EmailType.KALSHI_GRANTS;
 
   try {
     console.log('[KalshiGrants] Querying eligible users');
@@ -27,7 +30,7 @@ export async function processKalshiGrants() {
           isBlocked: false,
           emailLogs: {
             none: {
-              type: 'KALSHI_GRANTS',
+              type: emailType,
             },
           },
         },
@@ -105,7 +108,6 @@ export async function processKalshiGrants() {
     );
 
     const emails = [];
-    const emailType = 'KALSHI_GRANTS';
     console.log(`[KalshiGrants] Email type: ${emailType}`);
 
     console.log('[KalshiGrants] Processing pro-eligible and pro users');

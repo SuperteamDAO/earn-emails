@@ -4,12 +4,15 @@ import { type User } from '@/prisma/client';
 
 import { pratikEmail } from '../constants/emails';
 import { SponsorFeatureAnnouncementTemplate } from '../email-templates/SponsorFeatureAnnouncementTemplate';
+import { EmailType } from '../generated/prisma/enums';
 import { prisma } from '../prisma';
 
 export async function processSponsorFeatureAnnouncement() {
   console.log('-------------------------------------');
   console.log('[SponsorFeatureAnnouncement] Starting process');
   console.log('-------------------------------------');
+
+  const emailType = EmailType.SPONSOR_FEATURE_ANNOUNCEMENT;
 
   try {
     console.log('[SponsorFeatureAnnouncement] Querying eligible sponsor users');
@@ -31,7 +34,7 @@ export async function processSponsorFeatureAnnouncement() {
           isBlocked: false,
           emailLogs: {
             none: {
-              type: 'SPONSOR_FEATURE_ANNOUNCEMENT',
+              type: emailType,
             },
           },
         },
@@ -55,7 +58,6 @@ export async function processSponsorFeatureAnnouncement() {
     );
 
     const emails = [];
-    const emailType = 'SPONSOR_FEATURE_ANNOUNCEMENT';
     console.log(`[SponsorFeatureAnnouncement] Email type: ${emailType}`);
 
     console.log('[SponsorFeatureAnnouncement] Processing sponsor users');
