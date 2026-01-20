@@ -1,3 +1,5 @@
+import { processSponsorFeatureAnnouncement } from 'src/handlers/sponsorFeatureAnnouncement';
+
 import { processApplication } from '../handlers/Application/application';
 import { processApplicationApproval } from '../handlers/Application/applicationApproved';
 import { processApplicationCompleted } from '../handlers/Application/applicationCompleted';
@@ -103,6 +105,7 @@ export const emailTypePriority: Record<EmailActionType, number> = {
   featureAnnouncement: 3,
   telegramNewListing: 4,
   granteeActivation: 4,
+  sponsorFeatureAnnouncement: 4,
   // dupe: 1,
 };
 
@@ -147,5 +150,6 @@ export const emailProcessors: Record<EmailActionType, any> = {
   featureAnnouncement: processFeatureAnnouncement,
   telegramNewListing: processTelegramNewListing,
   granteeActivation: processGranteeActivation,
+  sponsorFeatureAnnouncement: processSponsorFeatureAnnouncement,
   // dupe: processDupe,
 };

@@ -55,8 +55,8 @@ model Bounties {
   isPrivate          Boolean            @default(false)
   hackathonId        String?
   compensationType   CompensationType   @default(fixed)
-  maxRewardAsk       Int?
-  minRewardAsk       Int?
+  maxRewardAsk       Float?
+  minRewardAsk       Float?
   template           BountiesTemplates? @relation(fields: [templateId], references: [id])
   sponsor            Sponsors           @relation(fields: [sponsorId], references: [id])
   poc                User               @relation("poc", fields: [pocId], references: [id])
@@ -70,6 +70,7 @@ model Bounties {
   Scouts             Scouts[]
   Comments           Comment[]
   discordMessageIds  Json?
+  telegramMessageIds Json?
   ai                 Json?
   publishedBy        String?
   XWeeklyThread      String?
@@ -135,8 +136,8 @@ model BountiesTemplates {
   referredBy       String?
   publishedAt      DateTime?
   compensationType CompensationType @default(fixed)
-  maxRewardAsk     Int?
-  minRewardAsk     Int?
+  maxRewardAsk     Float?
+  minRewardAsk     Float?
   language         String?
   rewardAmount     Float?
   rewards          Json?
@@ -232,6 +233,7 @@ model Grants {
   replyToEmail           String?
   emailSalutation        String?
   communityLink          String?
+  isPro                  Boolean            @default(false)
 
   @@index([id, slug])
   @@index([pocId])
@@ -340,7 +342,7 @@ model Submission {
   isPaid             Boolean          @default(false)
   paymentDetails     Json?
   otherInfo          String?          @db.Text
-  ask                Int?
+  ask                Float?
   label              SubmissionLabels @default(Unreviewed)
   rewardInUSD        Float            @default(0)
   listing            Bounties         @relation(fields: [listingId], references: [id])
@@ -722,6 +724,16 @@ model ProPerks {
   logo        String
 }
 
+model Superteam {
+  id           String   @id @default(uuid())
+  name         String   @unique
+  tgChatId     String
+  tgThreadId   String?
+  registeredBy String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
 enum CreditEventType {
   SUBMISSION
   SPAM_PENALTY
@@ -767,6 +779,8 @@ enum EmailType {
   REFERRAL_ANNOUNCEMENT
   PRO_FEATURE_ANNOUNCEMENT
   GRANTEE_ACTIVATION
+  SPONSOR_FEATURE_ANNOUNCEMENT
+  KALSHI_GRANTS
 }
 
 enum Role {

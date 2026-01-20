@@ -38,4 +38,5 @@ export type EmailActionType =
   | 'featureAnnouncement'
   | 'telegramNewListing'
   | 'granteeActivation'
-  | 'createProListing';
+  | 'createProListing'
+  | 'sponsorFeatureAnnouncement';
