@@ -12,7 +12,7 @@ export async function processSponsorFeatureAnnouncement() {
   console.log('[SponsorFeatureAnnouncement] Starting process');
   console.log('-------------------------------------');
 
-  const emailType = EmailType.SPONSOR_FEATURE_ANNOUNCEMENT;
+  const emailType = EmailType.SPONSOR_ANNOUNCEMENT_150K;
 
   try {
     console.log('[SponsorFeatureAnnouncement] Querying eligible sponsor users');
