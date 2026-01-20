@@ -1,7 +1,9 @@
+import { render } from '@react-email/render';
 import cors from 'cors';
 import { config } from 'dotenv';
 import express from 'express';
 
+import { KalshiGrantsTemplate } from './email-templates/KalshiGrantsTemplate';
 import { logError, logInfo } from './utils/logger';
 
 config();
@@ -31,6 +33,12 @@ const errorHandler = (
 
 app.use(cors());
 app.use(express.json());
+
+app.get('/preview/kalshi-grants', async (_req, res) => {
+  const html = await render(KalshiGrantsTemplate({ name: 'John' }));
+  res.setHeader('Content-Type', 'text/html');
+  res.send(html);
+});
 
 app.use(errorHandler);
 

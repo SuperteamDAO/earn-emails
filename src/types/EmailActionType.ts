@@ -39,4 +39,5 @@ export type EmailActionType =
   | 'telegramNewListing'
   | 'granteeActivation'
   | 'createProListing'
-  | 'sponsorFeatureAnnouncement';
+  | 'sponsorFeatureAnnouncement'
+  | 'kalshiGrants';

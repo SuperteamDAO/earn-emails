@@ -1,3 +1,4 @@
+import { processKalshiGrants } from 'src/handlers/kalshiGrants';
 import { processSponsorFeatureAnnouncement } from 'src/handlers/sponsorFeatureAnnouncement';
 
 import { processApplication } from '../handlers/Application/application';
@@ -106,6 +107,7 @@ export const emailTypePriority: Record<EmailActionType, number> = {
   telegramNewListing: 4,
   granteeActivation: 4,
   sponsorFeatureAnnouncement: 4,
+  kalshiGrants: 4,
   // dupe: 1,
 };
 
@@ -151,5 +153,5 @@ export const emailProcessors: Record<EmailActionType, any> = {
   telegramNewListing: processTelegramNewListing,
   granteeActivation: processGranteeActivation,
   sponsorFeatureAnnouncement: processSponsorFeatureAnnouncement,
-  // dupe: processDupe,
+  kalshiGrants: processKalshiGrants,
 };
