@@ -234,6 +234,7 @@ model Grants {
   emailSalutation        String?
   communityLink          String?
   isPro                  Boolean            @default(false)
+  isST                   Boolean            @default(false)
 
   @@index([id, slug])
   @@index([pocId])
@@ -291,6 +292,8 @@ model GrantApplication {
   ai                  Json?
   GrantTranche        GrantTranche[]
   CreditLedger        CreditLedger[]
+  lumaLink            String?
+  expenseBreakdown    String?                @db.Text
 
   @@index([likeCount])
   @@index([grantId, userId, applicationStatus])
@@ -318,6 +321,10 @@ model GrantTranche {
   approvedAmount   Float?
   decidedAt        DateTime?
   trancheNumber    Int
+  eventPictures    Json?
+  eventReceipts    Json?
+  attendeeCount    Int?
+  socialPost       String?
 
   @@index([applicationId])
   @@index([grantId])
@@ -363,6 +370,7 @@ model Submission {
   @@index([listingId, userId, isActive, isArchived])
   @@index([listingId, isWinner, isActive, isArchived])
   @@index([userId, listingId, createdAt])
+  @@index([userId, isWinner])
   @@index([createdAt(sort: Desc)])
   @@index([likeCount(sort: Desc), createdAt(sort: Desc)])
 }
