@@ -1,6 +1,7 @@
 import { render } from '@react-email/render';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
+import { basePath } from 'src/constants/basePath';
 
 import { pratikEmail } from '../../constants/emails';
 import { GranteeActivationTemplate } from '../../email-templates/Application/granteeActivationTemplate';
@@ -54,8 +55,7 @@ export async function processGranteeActivation() {
         name: application.user.firstName || 'there',
         projectTitle: application.projectTitle,
         userCount: roundedUserCount,
-        ctaLink:
-          'https://earn.superteam.fun/sponsor?utm_source=superteamearn&utm_medium=email&utm_campaign=granteesponsor',
+        ctaLink: `${basePath}/sponsor?utm_source=superteamearn&utm_medium=email&utm_campaign=granteesponsor`,
       }),
     );
 

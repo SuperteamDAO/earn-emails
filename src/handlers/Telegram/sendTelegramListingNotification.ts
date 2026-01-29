@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
+import { basePath } from 'src/constants/basePath';
 
 import {
   type BountiesModel,
@@ -18,7 +19,7 @@ function generateListingUrl(
   listingSlug: string,
   source: string = 'telegram-notification',
 ): string {
-  const baseUrl = process.env.BASE_URL || 'https://earn.superteam.fun';
+  const baseUrl = basePath;
   const utm = new URLSearchParams({
     utm_source: source,
     utm_medium: 'telegram',

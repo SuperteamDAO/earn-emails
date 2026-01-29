@@ -44,7 +44,7 @@ export const CypherpunkSidetracksTemplate = ({
   name,
 }: CypherpunkSidetracksProps) => {
   const ctaLink =
-    'https://earn.superteam.fun/listing/dollar50000-in-security-audit-credits-for-solana-colosseum-hackathon/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications';
+    'https://superteam.fun/earn/listing/dollar50000-in-security-audit-credits-for-solana-colosseum-hackathon/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications';
   const imageUrl =
     'https://res.cloudinary.com/dgvnuwspr/image/upload/v1760860835/assets/hackathon/cypherpunk/adevar-sidetrack.png';
 

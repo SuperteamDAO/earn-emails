@@ -12,7 +12,7 @@ export const FeatureAnnouncementTemplate = ({
   name,
   referralCode,
 }: TemplateProps) => {
-  const ctaLink = `https://earn.superteam.fun/r/${referralCode}/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`;
+  const ctaLink = `https://superteam.fun/earn/r/${referralCode}/?utm_source=superteamearn&utm_medium=email&utm_campaign=notifications`;
   return (
     <div style={styles.container}>
       <p style={styles.greetings}>Hey {name},</p>
@@ -42,7 +42,7 @@ export const FeatureAnnouncementTemplate = ({
       <br />
       <p style={styles.textWithMargin}>
         Here's your unique referral link:{' '}
-        <a href={ctaLink}>{'https://earn.superteam.fun/r/' + referralCode}</a>
+        <a href={ctaLink}>{'https://superteam.fun/earn/r/' + referralCode}</a>
       </p>
       <p style={styles.textWithMargin}>
         Start building your crew on Earn, stack up credits while your friends

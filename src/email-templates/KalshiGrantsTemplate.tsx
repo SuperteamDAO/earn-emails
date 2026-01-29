@@ -9,7 +9,7 @@ interface TemplateProps {
 }
 
 export const KalshiGrantsTemplate = ({ name }: TemplateProps) => {
-  const ctaLink = `https://earn.superteam.fun/grants/kalshi-grants?utm_source=Email&utm_medium=Kalshi%20Grant&utm_campaign=Email`;
+  const ctaLink = `https://superteam.fun/earn/grants/kalshi-grants?utm_source=Email&utm_medium=Kalshi%20Grant&utm_campaign=Email`;
 
   return (
     <div style={styles.container}>

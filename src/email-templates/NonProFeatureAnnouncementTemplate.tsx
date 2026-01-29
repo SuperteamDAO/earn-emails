@@ -9,7 +9,7 @@ interface TemplateProps {
 }
 
 export const NonProFeatureAnnouncementTemplate = ({ name }: TemplateProps) => {
-  const ctaLink = `https://earn.superteam.fun/pro/?utm_source=superteamearn&utm_medium=email&utm_campaign=pro_announcement`;
+  const ctaLink = `https://superteam.fun/earn/pro/?utm_source=superteamearn&utm_medium=email&utm_campaign=pro_announcement`;
 
   return (
     <div style={styles.container}>
