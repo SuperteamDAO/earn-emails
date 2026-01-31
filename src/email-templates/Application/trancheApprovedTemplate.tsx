@@ -38,6 +38,18 @@ export const TrancheApprovedTemplate = ({
           </strong>
           . Congratulations! You should receive your payment in a few days.
         </p>
+        <p style={styles.textWithMargin}>
+          <strong>Note:</strong> Payments for this grant will be made in{' '}
+          <a
+            href="https://solscan.io/token/2u1tszSeqZ3qBWF3uNGPFc8TzMk2tdiwknnRMWGWjGWH"
+            style={styles.link}
+          >
+            USDG
+          </a>
+          . If your wallet is not compatible with USDG, please reach out to us
+          immediately. Once payments are sent for processing (on Monday noon
+          UTC), we won't be able to update your wallet address.
+        </p>
       </>
     ),
     fr: (
@@ -52,6 +64,20 @@ export const TrancheApprovedTemplate = ({
           . Félicitations ! Vous devriez recevoir le paiement dans quelques
           jours.
         </p>
+        <p style={styles.textWithMargin}>
+          <strong>Note :</strong> Les paiements pour cette subvention seront
+          effectués en{' '}
+          <a
+            href="https://solscan.io/token/2u1tszSeqZ3qBWF3uNGPFc8TzMk2tdiwknnRMWGWjGWH"
+            style={styles.link}
+          >
+            USDG
+          </a>
+          . Si votre portefeuille n'est pas compatible avec l'USDG, veuillez
+          nous contacter immédiatement. Une fois les paiements envoyés pour
+          traitement (lundi à midi UTC), nous ne pourrons plus mettre à jour
+          l'adresse de votre portefeuille.
+        </p>
       </>
     ),
     vi: (
@@ -64,6 +90,20 @@ export const TrancheApprovedTemplate = ({
             {formattedAmount} {token}
           </strong>
           . Xin chúc mừng! Bạn sẽ nhận được khoản thanh toán trong vài ngày tới.
+        </p>
+        <p style={styles.textWithMargin}>
+          <strong>Lưu ý:</strong> Các khoản thanh toán cho tài trợ này sẽ được
+          thực hiện bằng{' '}
+          <a
+            href="https://solscan.io/token/2u1tszSeqZ3qBWF3uNGPFc8TzMk2tdiwknnRMWGWjGWH"
+            style={styles.link}
+          >
+            USDG
+          </a>
+          . Nếu ví của bạn không tương thích với USDG, vui lòng liên hệ với
+          chúng tôi ngay lập tức. Sau khi các khoản thanh toán được gửi đi xử lý
+          (vào trưa thứ Hai theo giờ UTC), chúng tôi sẽ không thể cập nhật địa
+          chỉ ví của bạn.
         </p>
       </>
     ),
